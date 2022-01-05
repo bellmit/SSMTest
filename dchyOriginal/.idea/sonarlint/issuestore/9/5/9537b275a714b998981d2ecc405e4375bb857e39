@@ -1,0 +1,23 @@
+
+g
+java:S2095+"QUse try-with-resources or close this "CloseableHttpClient" in a "finally" clause.(ıê”Ê
+P
+java:S1191"5Use classes from the Java API instead of Sun classes.(•âƒöşÿÿÿÿ
+c
+java:S1192©"LDefine a constant instead of duplicating this literal "filename=\"" 4 times.(´ ¤Ú
+P
+java:S1118"":Add a private constructor to hide the implicit public one.(„Ğ¿Î
+m
+java:S3776b"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(«—»úÿÿÿÿ
+m
+java:S3776y"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(’ô—úÿÿÿÿ
+F
+java:S2093…"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+e
+java:S4719¸"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".( û¿ï
+o
+java:S4719¹"XReplace "com.google.common.base.Charsets.ISO_8859_1" with "StandardCharsets.ISO_8859_1".(âÖÜ
+F
+java:S1068%"0Remove this unused "platformUtil" private field.(áöıˆ
+P
+java:S1068&"5Remove this unused "fileUploadService" private field.(ú£åÒøÿÿÿÿ

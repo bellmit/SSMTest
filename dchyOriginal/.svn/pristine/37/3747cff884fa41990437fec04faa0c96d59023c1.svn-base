@@ -1,0 +1,31 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import cn.gtmap.msurveyplat.promanage.core.BaseUnitTest;
+import cn.gtmap.msurveyplat.serviceol.service.ShxxcxService;
+import com.alibaba.fastjson.JSONObject;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+
+public class ShxxcxServiceTest  extends BaseUnitTest
+{
+    @Autowired
+    private ShxxcxService shxxcxService;
+
+    @Test
+    public void getShxxlbListBySqxxid() {
+        List<Map<String, Object>> list = shxxcxService.getShxxlbListBySqxxid("4CBG063238X2P03F");
+        System.out.println(JSONObject.toJSONString(list));
+        System.out.println("*********************junit ok**************************");
+    }
+}

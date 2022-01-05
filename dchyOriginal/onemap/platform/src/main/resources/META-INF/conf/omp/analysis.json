@@ -1,0 +1,48 @@
+{
+    "analysis-fields-mapping": {
+        "XMMC|PRONAME": "项目名称",
+        "XMBH|BH": "项目编号",
+        "BPZT|ZT": "报批状态",
+        "PZWH": "批准文号",
+        "SHAPE_AREA": "面积",
+        "YG_SHAPE_AREA": "压盖面积",
+        "KCTYPE": "矿产类型",
+        "DKNAME|DKMC": "地块名称",
+        "BYGDKNAME|BYGDKMC": "被压盖地块名称",
+        "PCMC": "批次名称",
+        "BYGPCMC": "被压盖批次名称",
+
+        "TYBH": "统一编号",
+        "MC": "名称",
+
+        "ZDH": "宗地号",
+        "QLRMC": "权利人名称",
+
+        "BZDMC": "标志点名称",
+        "BZDLX": "标志点类型",
+        "DJ": "等级",
+
+        "DEVICE_NAM": "压盖的视频控制点名称",
+
+        "TDYTQBH": "土地用途区编号",
+        "TDYTQLXDM": "土地用途区类型代码"
+    },
+    "analysis-alias-mapping": {
+        "bp": "报批分析",
+        "gd": "供地分析",
+        "xz": "现状分析",
+        "gh": "规划分析",
+        "cb": "储备分析",
+        "dj": "登记分析",
+        "nt": "基本农田分析",
+        "sp": "视频控制点分析",
+        "dz": "地灾分析",
+        "zd": "宗地分析",
+        "zhd": "征地分析",
+        "cl": "测量标志点分析",
+        "kc": "矿产分析",
+        "sgbwm":"四个百万亩分析",
+        "jctb":"监测图斑分析",
+        "gyjsydfx":"国有建设用地分析"
+    }
+}

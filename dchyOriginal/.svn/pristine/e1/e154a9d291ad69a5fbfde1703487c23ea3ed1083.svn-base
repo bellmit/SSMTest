@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.portalol.core.platmapper.PlatFormMapper">
+    <select id="queryUserByUsernameByPage" resultType="map" parameterType="map">
+
+        <choose>
+            <when test="roleid != null and roleid != ''">
+                SELECT s.userid,
+                pf.USER_NAME AS lxr,
+                pf.LOGIN_NAME AS username,
+                pf.MOBILE_PHONE AS lxdh,
+                s.js,
+                s.roles,
+                pf.IS_VALID AS sfqy
+                FROM (select t.user_id AS userid, wm_concat(r.role_name) AS js,wm_concat(r.role_id) AS roles
+                FROM pf_user t
+                LEFT JOIN PF_USER_ROLE_REL rel
+                ON rel.USER_ID = t.USER_ID
+                LEFT JOIN PF_ROLE r
+                ON r.ROLE_ID = rel.ROLE_ID
+                LEFT JOIN dchy_xmgl_yhdw yh
+                ON yh.yhid = t.user_id
+                WHERE t.user_id NOT IN
+                (SELECT user_id
+                FROM PF_USER_ROLE_REL
+                WHERE ROLE_ID = #{roleid})
+                <choose>
+                    <when test="dwbh != null and dwbh != ''">
+                        and yh.DWBH = #{dwbh}
+                    </when>
+                    <otherwise>
+                        and yh.DWBH ='emptyParamValue'
+                    </otherwise>
+                </choose>
+                GROUP BY t.user_id) s
+                LEFT JOIN pf_user pf
+                ON pf.user_id = s.userid
+                <where>
+                    <if test="username != null and username != ''">
+                        and pf.LOGIN_NAME like '%'||#{username}||'%'
+                    </if>
+                    <if test="lxr != null and lxr != ''">
+                        and pf.USER_NAME like '%'||#{lxr}||'%'
+                    </if>
+                </where>
+            </when>
+            <otherwise>
+                SELECT s.userid,
+                pf.USER_NAME AS lxr,
+                pf.LOGIN_NAME AS username,
+                pf.MOBILE_PHONE AS lxdh,
+                s.js,
+                s.roles,
+                pf.IS_VALID AS sfqy
+                FROM (select t.user_id AS userid, wm_concat(r.role_name) AS js,wm_concat(r.role_id) AS roles
+                FROM pf_user t
+                LEFT JOIN PF_USER_ROLE_REL rel
+                ON rel.USER_ID = t.USER_ID
+                LEFT JOIN PF_ROLE r
+                ON r.ROLE_ID = rel.ROLE_ID
+                LEFT JOIN dchy_xmgl_yhdw yh
+                ON yh.yhid = t.user_id
+                WHERE t.user_id NOT IN
+                (SELECT user_id
+                FROM PF_USER_ROLE_REL
+                WHERE ROLE_ID = #{roleid})
+                <choose>
+                    <when test="dwbh != null and dwbh != ''">
+                        and yh.DWBH = #{dwbh}
+                    </when>
+                    <otherwise>
+                        and yh.DWBH ='emptyParamValue'
+                    </otherwise>
+                </choose>
+                GROUP BY t.user_id) s
+                LEFT JOIN pf_user pf
+                ON pf.user_id = s.userid
+                WHERE pf.LOGIN_NAME ='emptyParamValue'
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

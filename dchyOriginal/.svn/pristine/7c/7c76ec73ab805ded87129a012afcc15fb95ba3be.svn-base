@@ -1,0 +1,27 @@
+<div class="widget-panel-title">建设用地管制区分析</div>
+<div id="jsydgzCzAnalysisPanel" class="panel-body" style="padding: 1px;">
+    <div id="hideGhDiv">
+        <label class="text-info-o">数据来源：</label>
+        <div id="LOC_QUERY_GH" class="div-dataSource-gh" style="z-index:99;">
+            <div class="div-dataSourceTop-gh"><span code="">数据来源</span>
+                <em><img src="/omp/static/thirdparty/multi-select/multiple-select-diy.png"></em>
+            </div>
+            <ul class="ul-dataSource-gh" id="dataGhTypeUl">
+                <li code="SK_LOC"> 定位信息</li>
+                <li code="SK_QUERY"> 查询属性</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+       default-autowire="byName">
+
+    <context:property-placeholder/>
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="cn.gtmap.onemap.platform.controller"/>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="useSuffixPatternMatch" value="false"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="resolveLazily" value="true"/>
+        <property name="defaultEncoding" value="UFT-8"/>
+        <property name="maxUploadSize" value="1073741824"/>
+        <property name="maxInMemorySize" value="10485760"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="jsonMessageConverter"/>
+            </list>
+        </property>
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="validator" ref="validator"/>
+            </bean>
+        </property>
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <property name="messageConverters" ref="jsonMessageConverter"/>
+    </bean>
+
+    <bean id="jsonMessageConverter" class="cn.gtmap.onemap.core.support.fastjson.FastjsonHttpMessageConverter"/>
+
+    <mvc:view-controller path="/" view-name="redirect:/portal2"/>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="auto_import">
+                    common/common.ftl as com,
+                    common/core.ftl as core,
+                    portal2/base.ftl as base,
+                    analysis/base.ftl as aBase,
+                    common/h/h-master.ftl as master,
+                    //ftl/sec.ftl as sec
+                </prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="template_update_delay">0</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="ctx">
+                    <bean class="cn.gtmap.onemap.web.FreeMarkerContext"></bean>
+                </entry>
+                <entry key="env">
+                    <bean class="cn.gtmap.onemap.platform.support.fm.EnvContext"/>
+                </entry>
+                <entry key="path_oms" value="${oms.url}"/>
+                <entry key="path_omp" value="${omp.url}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+        <property name="order" value="2"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="cn.gtmap.onemap.security.web.SecContextInterceptor">
+            <property name="sessionProvider" ref="sessionProvider"/>
+            <property name="redirectUrl" value="${login.url}"/>
+            <!--<property name="needLogins" value="/**"/>-->
+            <property name="excludes" value="/geometryService/**,/mobile/login,/geoService/**,/file/**,
+            /transitService/**,/video/cache/**,/video/log/opt/**,/video/capture/receive/**,
+            /video/panorama/receive/**,/project/external/list,/config/app/property,/config/reloadProp"/>
+        </bean>
+        <mvc:interceptor>
+            <mvc:mapping path="/geometryService/analysis/**"/>
+            <bean class="cn.gtmap.onemap.platform.support.spring.AnalysisHubInterceptor">
+                <property name="includes"
+                          value="/geometryService/analysis/tdlyxz,
+                          /geometryService/analysis/multiAnalysis,
+                          /geometryService/analysis/jctb,
+                          /geometryService/analysis/tdghsc"/>
+                <property name="redirectUrl" value="/omp/geometryService/analysis/hub"/>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/api/**"/>
+            <bean class="cn.gtmap.onemap.platform.support.spring.GatewayApiInterceptor">
+                <property name="excludes" value="/api/generateToken"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <aop:aspectj-autoproxy/>
+
+    <import resource="spring-config-export.xml"/>
+    <import resource="spring-config-profile.xml"/>
+
+</beans>

@@ -1,0 +1,18 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import java.io.IOException;
+
+public interface ExportPdfService {
+
+    byte[] exportPdf(String chxmid) throws IOException;
+
+    byte[] tyjfdPdf(String chxmid);
+
+    /**
+     * @param chxmid
+     * @return
+     * @description 2021/6/8 通过chxmid受理材料明细
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    String generateClmx(String chxmid);
+}

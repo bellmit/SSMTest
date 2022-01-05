@@ -1,0 +1,73 @@
+<template>
+    <div>
+        <div class="content-user-header">
+            <a href="javascript:void(0)" @click="toLogin" class="user-name">
+                <img src="static/images/personal_notLoggedIn.png" alt="">
+                <br>
+                <span class="userName" v-if="username">{{username}}</span>
+                <span class="userName" v-else>请登录</span>
+            </a>
+        </div>
+        <div>
+            <van-cell-group>
+                <van-cell value="">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/message-tip.png" alt="">消息提醒</span>
+                    </template>
+                </van-cell>
+                <van-cell class="cell-item" :is-link="true" value="">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/mine-yd.png" alt="">已读消息</span>
+                    </template>
+                </van-cell>
+                <van-cell class="cell-item" :is-link="true" value="">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/mine-wd.png" alt="">未读消息</span>
+                    </template>
+                </van-cell>
+            </van-cell-group>
+            <div class="margin-top-20"></div>
+            <van-cell-group class="margin-bottom-20">
+                <van-cell value="">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/message-ly.png" alt="">咨询留言</span>
+                    </template>
+                </van-cell>
+                <van-cell class="cell-item" :is-link="true">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/msg-list.png" alt="">留言列表</span>
+                    </template>
+                </van-cell>
+                <van-cell class="cell-item" :is-link="true">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/myadvice.png" alt="">我要咨询</span>
+                    </template>
+                </van-cell>
+                <van-cell class="cell-item" :is-link="true">
+                    <template #title>
+                        <span class="custom-title"><img class="cell-item-img" src="static/images/adviced-my.png" alt="">我的留言</span>
+                    </template>
+                </van-cell>
+            </van-cell-group>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    data() {
+        return {
+            username: ""
+        }
+    },
+    methods: {
+        toLogin(){
+            if(!this.username){
+                this.$router.push("/login")
+            }
+        }
+    },
+}
+</script>
+<style scoped lang="less">
+    @import url(./mine.less);
+</style>

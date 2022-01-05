@@ -1,0 +1,35 @@
+server.port=${msurveyplat-server.port}
+server.context-path=/msurveyplat-server
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@192.168.0.55:1521/orcl
+spring.datasource.username=dchygl
+spring.datasource.password=gtis
+spring.datasource.publickey:MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+#其他错误材料名称
+qtcwclmc=其他错误
+# 数据类型
+server.sjlx=[{"dm":"0001","mc":"规划竣工测绘"},{"dm":"0002","mc":"地籍测绘"},{"dm":"0003","mc":"房产测绘"}]
+# 质检导出文件名
+server.zjbg.filename=多测合一成果质检报告
+# 质检导出word文件名
+server.zjbg.word.filename=多测合一成果质检报告
+#单点登录地址及参数
+single.login.url=/calogin?username=Admin
+#一张图项目详情查看项目地址
+onemap.xmxq.ckxm.url=/view/service-page.html?taskid=
+#cas登录地址前缀
+cas.server.url.prefix=${base.url}/cas
+#cas登录地址
+cas.server.login.url=${base.url}/cas/login
+#客户端主机地址
+cas.client.host.url=${base.url}
+#附件信息真实地址
+attachment.host=${base.url}
+#共享申请流程创建用户id
+jcsjsq.userId=2777C00711C842F9A9DD6676B96849BC
+#共享申请流程gzldyid
+jcsjsq.gzldyid=42EB47F0D35042C2B7FC6DBB30284AFA
+#共享申请流程gzldyid
+gxywsq.sqsh=true
+#共享申请流程gzldyid
+gxywsq.gzldyid=42EB47F0D35042C2B7FC6DBB30284AFA

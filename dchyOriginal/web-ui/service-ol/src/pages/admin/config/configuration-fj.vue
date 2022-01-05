@@ -1,0 +1,284 @@
+<template>
+    <div class="review-check">
+        <Tabs value="name1">
+            <TabPane label="附件材料配置" name="name1"></TabPane>
+            <Button type="primary" slot="extra" class="btn-h-32 bdc-major-btn" @click="handlerNew()">新增材料模块</Button>
+        </Tabs>
+        <div v-for="(item,index) in fileConfigList" :key="item.ssmkid">
+            <div class="form-title">
+                <div class="list-title">{{item.ssmk}}</div>
+                <div class="collapse-icon"  style="margin-top: -4px">
+                    <Icon type="ios-arrow-dropup" class="dropup" title="收起" @click="handlerClick(item,index)" v-show="item.collapse"/>
+                    <Icon type="ios-arrow-dropdown" class="dropdown" title="展开" @click="handlerClick(item,index)" v-show="!item.collapse"/>
+                </div>
+            </div>
+            <div v-show="item.collapse" class="collapse-item margin-bottom-10">
+                <uploadConfigFile 
+                    :ref="'upload-file'+index" 
+                    :uploadList="item.list"
+                    :ssmkid="item.ssmkid"
+                    :index="index"
+                    :SSCLSXList="SSCLSXList"
+                    @update="setUploadList"
+                    :type="item.ssmkid=='18'?'wt':''"
+                    :deleteColumns="item.deleteColumns"
+                ></uploadConfigFile>
+            </div>
+            <div class="line-dashed margin-top-10"></div>
+        </div>
+        <div></div>
+        <Modal
+            class="modal-base form-file" 
+            v-model="visible" 
+            :title="'材料模块'"
+            width="500"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable
+        >
+            <Form class="form-edit" ref="form-file" @on-validate="validateChecked" :model="fileForm" :rules="fileRule" :label-width="114">
+                <FormItem label="新增材料模块" prop="clmk">
+                    <Select filterable clearable v-model="fileForm.clmk">
+                        <Option v-for="(item) in ssmkList" :key='item.ID' :value="item.ID">{{item.MC}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="材料名称" prop="clmc">
+                    <Input v-model="fileForm.clmc" />
+                </FormItem>
+                <FormItem label="所属测量事项" v-if="fileForm.clmk=='140' || fileForm.clmk=='223'" prop="ssclsxList">
+                    <Select filterable clearable multiple v-model="fileForm.ssclsxList">
+                        <Option v-for="(item) in SSCLSXList" :key='item.ID' :value="item.DM">{{item.MC}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="材料类型" prop="cllx">
+                    <Select filterable clearable v-model="fileForm.cllx">
+                        <Option v-for="(item) in cllxList" :key='item.value' :value="item.value">{{item.label}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="材料份数" prop="mrfs">
+                    <Input v-model="fileForm.mrfs" />
+                </FormItem>
+                <FormItem label="是否必传">
+                    <i-switch v-model="fileForm.sfbt" />
+                </FormItem>
+            </Form>
+            <div class="save-btn">
+                <Button type="primary" class="btn-h-34 bdc-major-btn" @click="handlerSubmit">确认</Button>
+                <Button class="margin-left-10 btn-h-34 btn-cancel" @click="handlerCancel">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import uploadConfigFile from "../../../components/admin/upload-config";
+import { queryConfigFj, queryClsxList, querySsmkList, editConfig } from "../../../service/config"
+import _ from "loadsh";
+import util from "../../../service/util"
+export default {
+     components: {
+        uploadConfigFile,
+    },
+    data() {
+        return {
+            SSCLSXList: [],
+            fileForm: {
+                clmk: "",
+                clmc: "",
+                ssclsxList: [],
+                cllx: "2",
+                mrfs: "1",
+                sfbt: false
+            },
+            fileRule: {
+                clmk: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                clmc: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                ssclsxList: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                cllx: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                mrfs: {
+                    required: true,
+                    validator: (rule,value,callback) => {
+                        if(!value){
+                            callback("必填项不能为空")
+                        } else if(!/^\d*$/.test(value)){
+                            callback("材料份数必须为数字")
+                        }
+                        callback()
+                    }
+                }
+            },
+            visible: false,
+            fileConfigList: [],
+            newFileList: [],
+            ssmkList: [],
+            cllxList: [
+                {
+                    value: "1",
+                    label: "原件正本"
+                },
+                {
+                    value: "2",
+                    label: "正本复印件"
+                },
+                {
+                    value: "3",
+                    label: "原件副本"
+                },
+                {
+                    value: "4",
+                    label: "副本复印件"
+                },
+                {
+                    value: "5",
+                    label: "其它"
+                }
+            ],
+            unLastSubmit: true,
+            deleteColumns: ["所属测量事项"],
+            deleteBaColumns: ["所属测量事项"],
+        }
+    },
+    mounted() {
+        this.queryConfigFj();
+        this.queryClsxList();  
+        this.querySsmkList();
+    },
+    methods: {
+        // 展开收起点击事件
+        handlerClick(item,index){
+            if(item.collapse){
+                $(".collapse-item:eq("+index+")").slideUp(200);
+                $(".collapse-icon:eq("+index+") .dropdown").show()
+                $(".collapse-icon:eq("+index+") .dropup").hide()
+            } else {
+                $(".collapse-item:eq("+index+")").slideDown(200);
+                $(".collapse-icon:eq("+index+") .dropdown").hide()
+                $(".collapse-icon:eq("+index+") .dropup").show()
+            }
+            item.collapse= !item.collapse
+        },
+        querySsmkList(){
+            querySsmkList().then(res => {
+                this.ssmkList = res.data.data || [];
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+        queryConfigFj(){
+            this.$loading.show("加载中...")
+            queryConfigFj().then(res => {
+                this.$loading.close();
+                res.data.dataList.forEach(list => {
+                    list.collapse = true;
+                    list.list.forEach(l => {
+                        l.clid = util.createUUID();
+                        l.SSCLSXID = l.SSCLSX.map(clsx => clsx.SSCLSXID)
+                        if(l.NEED == 0){
+                            l.SFBT = false;
+                        } else {
+                            l.SFBT = true;
+                        }
+                    })
+                    if(list.ssmkid == '18' || list.ssmkid == '23'){
+                        list.deleteColumns = []
+                    } else {
+                        list.deleteColumns = this.deleteColumns
+                    }
+                })
+                this.fileConfigList = res.data.dataList || [];
+            })
+        },
+        setUploadList(data){
+            if(data){
+                this.fileConfigList[data.index].list = [...data.uploadList]
+            } else {
+                this.queryConfigFj();
+            }
+        },
+        queryClsxList(){
+            queryClsxList().then(res => {
+                res.data.data.forEach(list => {
+                    if(list.FDM && list.ZDLX == "CLSX"){
+                        this.SSCLSXList.push(list)
+                    }
+                })
+            })
+        },
+        // 确认新增
+        handlerSubmit(){
+            this.unLastSubmit = false;
+            this.$refs["form-file"].validate(valid => {
+                this.$nextTick(() => {
+                    this.unLastSubmit = true;
+                })
+                if(valid){
+                    let find = this.ssmkList.find(ssmk => ssmk.ID === this.fileForm.clmk);
+                    if(find){
+                        this.fileForm.need = this.fileForm.sfbt ? 1 : 0;
+                        this.fileForm.ssmkid = find.DM;
+                        this.fileForm.xh = 1;
+                        this.fileForm.ssmk = find.MC;
+                        let params = {
+                            ...this.fileForm
+                        }
+                        this.$loading.show("加载中...")
+                        editConfig([params]).then(res => {
+                            this.$loading.close();
+                            this.resetFile();
+                            this.setUploadList();
+                            this.visible = false;
+                        })
+                    }
+                }
+            })
+        },
+        resetFile(){
+            this.$refs["form-file"].resetFields();
+        },
+        // 取消
+        handlerCancel(){
+            this.resetFile();
+            this.visible = false;
+        },
+        // 新增附件材料
+        handlerNew(){
+            this.visible = true;
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+        line-height: 32px;
+    }
+    .review-check {
+        background-color: #fff;
+        min-height: 100%;
+        padding: 0 10px;
+    }
+    .form-file >>> .form-edit {
+        padding: 0 10px!important;
+    }
+    .collapse-icon {
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    }
+</style>

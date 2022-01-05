@@ -1,0 +1,146 @@
+.widget-Statistics {
+    width: 100%;
+    padding: 40px 0px 0px 55px;
+    box-sizing: border-box;
+    /* overflow: hidden; */
+}
+.widget-Statistics .bdc-table-box{
+   float: left;
+   width: 33%;
+   height: 100%;
+   padding: 10px;
+   box-sizing: border-box;
+}
+.widget-Statistics .statistics-table{
+    width: 100%;
+    height:48%;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow:0px 0px 20px #ccc;
+    border-radius: 4px;
+    padding: 20px 20px 10px 20px;
+    box-sizing: border-box;
+}
+.widget-Statistics .statistics-count{
+    width: 100%;
+    height:100px;
+    background: #fff;
+    box-shadow:0px 0px 20px #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.widget-Statistics .statistics-table .title{
+    font-size: 16px;
+    font-family: '微软雅黑';
+    margin-top: 0;
+    color: #333;
+}
+/* 总览 */
+.left .overview-content .top{
+   width: 100%;
+   overflow: hidden;
+   margin: 30px 0 40px 0;
+}
+.left .overview-content .top>div{
+   width: 47%;
+   height: 70px;
+   float: left;
+   color: #fff;
+   padding: 10px;
+}
+.left .overview-content .top .applied-item{
+   background: #438afe;
+   margin-right: 15px;
+}
+.left .overview-content .top .finished-item{
+   background: #de56f6;
+}
+.left .overview-content .top .top-item-title{
+   font-size: 14px;
+}
+.left .overview-content .top .top-item-info{
+    position: relative;
+}
+.left .overview-content .top .top-item-info span,
+.left .overview-content .bottom ul li .item-num,
+.center .statistics-count li .item-num{
+   font-size: 20px;
+   font-weight: bold;
+}
+.left .overview-content .top .top-item-info i{
+   font-size: 18px;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+}
+.left .overview-content .bottom{
+    width: 100%;
+}
+.left .overview-content .bottom ul{
+   width: 100%;
+   overflow: hidden;
+}
+.left .overview-content .bottom ul li{
+   width: 25%;
+   height: 60px;
+   float: left;
+   border-right: 1px solid #ccc;
+   text-align: center;
+}
+.left .overview-content .bottom ul .inputing-info{
+    border: none;
+}
+.left .overview-content .bottom ul .applying-info .item-num,
+.left .ssdtgxtj-content li .ssdtgxtj-item-sfyd,
+.center .statistics-count .ghjgrk-num .item-num{
+   color: #1d87d1;
+}
+.left .overview-content .bottom ul .testing-info .item-num,
+.left .ssdtgxtj-content li .ssdtgxtj-item-zzyd{
+   color: #de56f6;
+}
+.left .overview-content .bottom ul .reviewing-info .item-num,
+.left .ssdtgxtj-content li .ssdtgxtj-item-gkccyd,
+.center .statistics-count .djclrk-num .item-num{
+   color: #6ccfd9;
+}
+.left .overview-content .bottom ul .inputing-info .item-num,
+.left .ssdtgxtj-content li .ssdtgxtj-item-ggfwyd,
+.center .statistics-count .fcclrk-num .item-num{
+   color: #fca40c;
+}
+/* 实时动态更新统计 */
+.left .ssdtgxtj-content li{
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+.left .ssdtgxtj-content li:last-child,
+.center .statistics-count .fcclrk-num{
+    border: none;
+}
+.left .ssdtgxtj-content li span{
+    display: inline-block;
+    width: 32%;
+    font-size: 14px;
+    
+}
+/* 中间 */
+.center .statistics-count{
+    overflow: hidden;
+    padding-top: 20px;
+}
+.center .statistics-count li{
+   width: 33%;
+   height: 60px;
+   float: left;
+   border-right: 1px solid #ccc;
+   text-align: center;
+}
+/* 右侧 */
+.right .bdc-eahcrts{
+    width: 100%;
+    height: calc(100% - 28px);
+    /* margin-top: 30px; */
+}

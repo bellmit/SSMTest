@@ -1,0 +1,14 @@
+<div class="panel panel-primary panel-widget pull-right" id="panel{{id}}" data-widget="{{url}}">
+    <div class="panel-heading">
+        <a class="panel-toggle" role="button" data-toggle="collapse" href="#{{url}}PanelBody">
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+            <span class="panel-label">{{label}}</span>
+        </a>
+        <a class="panel-close" role="button">
+            <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="panel-body collapse in" id="{{url}}PanelBody">
+        {{{content}}}
+    </div>
+</div>

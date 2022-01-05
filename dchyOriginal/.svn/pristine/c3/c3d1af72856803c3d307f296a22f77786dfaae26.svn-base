@@ -1,0 +1,146 @@
+package cn.gtmap.msurveyplat.promanage.core.service.mq.receive;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglXxtxDto;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.promanage.core.mapper.MqMsgMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.service.PushDataToMqService;
+import cn.gtmap.msurveyplat.promanage.service.ContractRegistrationFileService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.web.main.FileUploadController;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.gtis.common.util.UUIDGenerator;
+import com.rabbitmq.client.Channel;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+/**
+ * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+ * @description 接收来自办事大厅的成果检查请求
+ * @time 2021/3/13 17:04
+ */
+@Service
+public class ReceiveXxtxFromBsdtServiceImpl implements ChannelAwareMessageListener {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Resource(name = "entityMapper")
+    private EntityMapper entityMapper;
+    @Autowired
+    MqMsgMapper mqMsgMapper;
+    @Autowired
+    private ContractRegistrationFileService contractService;
+    @Autowired
+    private PushDataToMqService pushDataToMqService;
+    @Autowired
+    private FileUploadController fileUploadController;
+
+
+    @Override
+    @RabbitListener(queues = Constants.BSDT_XMGL_XXTX_QUEUE)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void onMessage(Message message, Channel channel) {
+        try {
+            byte[] bytes = message.getBody();
+            String str = new String(bytes, "UTF-8");
+            logger.info(str);
+            // TODO 业务处理
+            saveXxtx(str);
+            basicACK(message, channel); //正常消费掉后通知mq服务器移除此条mq
+            logger.info("在线办结接收成功");
+        } catch (UnsupportedEncodingException e) {
+            basicReject(message, channel);
+            logger.error("接收失败", e);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            logger.error("接收失败", e);
+        }
+    }
+
+    //正常消费掉后通知mq服务器移除此条mq
+    private void basicACK(Message message, Channel channel) {
+        try {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("通知服务器移除mq时异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicNACK(Message message, Channel channel) {
+        try {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicReject(Message message, Channel channel) {
+        try {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    //消息提醒数据推送
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveXxtx(String str) throws Exception {
+        DchyXmglMqCzrz dchyXmglMqCzrz = new DchyXmglMqCzrz();
+        try {
+            dchyXmglMqCzrz.setCzrzid(UUIDGenerator.generate18());
+            dchyXmglMqCzrz.setCzsj(CalendarUtil.getCurHMSDate());
+            dchyXmglMqCzrz.setMsg(str.getBytes("utf-8"));
+            Map<String, Object> slxxJson = JSON.parseObject((String) JSON.parse(str));
+//            DchyXmglXxtxDto dchyXmglXxtxDto = JSONObject.toJavaObject((JSON) slxxJson, DchyXmglXxtxDto.class);
+            DchyXmglXxtxDto dchyXmglXxtxDto = JSONObject.toJavaObject((JSON) slxxJson.get("data"), DchyXmglXxtxDto.class);
+
+            logger.info("*************************************输出*****************************************");
+            //保存的数据
+            if (dchyXmglXxtxDto != null) {
+//                DchyXmglYhxxPz dchyXmglYhxxPz = dchyXmglXxtxDto.getDchyXmglYhxxPz();
+                List<DchyXmglYhxx> dchyXmglYhxxList = dchyXmglXxtxDto.getDchyXmglYhxxList();
+//                if (dchyXmglYhxxPz != null) {
+//                    if (StringUtils.isNotBlank(dchyXmglYhxxPz.getId())) {
+//                        entityMapper.saveOrUpdate(dchyXmglYhxxPz, dchyXmglYhxxPz.getId());
+//                        logger.info("************多测合一用户消息配置表入库成功");
+//                    }
+//                }
+
+                if (CollectionUtils.isNotEmpty(dchyXmglYhxxList)) {
+                    for (DchyXmglYhxx dchyXmglYhxx : dchyXmglYhxxList) {
+                        if (StringUtils.isNotBlank(dchyXmglYhxx.getYhxxid())) {
+                            entityMapper.saveOrUpdate(dchyXmglYhxx, dchyXmglYhxx.getYhxxid());
+                            logger.info("************多测合一用户消息入库成功");
+                        }
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            logger.error("数据库入库失败:" + e);
+            dchyXmglMqCzrz.setSbyy(e.toString());
+            entityMapper.saveOrUpdate(dchyXmglMqCzrz, dchyXmglMqCzrz.getCzrzid());
+            throw new Exception();
+        }
+    }
+
+}

@@ -1,0 +1,12 @@
+var config = {
+    msurveyplatContext: '/msurveyplat-promanage',
+    serviceOlContext: '/msurveyplat-serviceol',
+    portalOlContext: '/portal-ol',
+    cgglOlOrigin: '',
+    placeSevice: "常州市建设项目",
+    placePinyin: "CHANGZHOU CITY",
+    disabledClsx: ['3','3001','3002','4','4001','4002','5','5001','5002','5003','5004'], //禁止勾选的测绘阶段
+    chdwMultiChoose: false, // 新增备案-测绘单位是否多选
+    showChdwManualEntry: false // 新增备案-是否需要手动录入测绘单位功能
+}
+window.config = config;

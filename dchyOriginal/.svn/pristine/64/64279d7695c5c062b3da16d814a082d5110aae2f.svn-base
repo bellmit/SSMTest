@@ -1,0 +1,288 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="项目编号 " class="form-list-search" prop="babh">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getEntrustList(1,formInline.size)" v-model="formInline.babh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="项目代码 " class="form-list-search" prop="gcbh">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getEntrustList(1,formInline.size)" v-model="formInline.gcbh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称 " class="form-list-search" prop="gcmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getEntrustList(1,formInline.size)" v-model="formInline.gcmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='50' class="form-list-search">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getEntrustList(1,formInline.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <Table
+            :cols="tableCols"
+            :data="myEntrustList"
+            :count="totalNum"
+            :page="formInline.page"
+            :size="formInline.size"
+            :func="getEntrustList"
+            :operation="operationList"
+            @download="downloadHt"
+            @change="edit"
+            @changerecord="editRecord"
+        ></Table>
+        <Modal
+            class="modal-base form-verify"
+            v-model="visible"
+            width="1000"
+            title="合同变更"
+            :mask-closable="false"
+            :footer-hide="true"
+            :closable="false"
+        >
+            <div>
+                <div class="message-normal-tip margin-bottom-10">上传后会直接变更合同信息</div>
+                <uploadHtFile
+                    ref="upload-file-Ht"
+                    v-if="visible"
+                    :showDefaultTool="false"
+                    :url="'/fileoperation/uploadfilestoxsbf'"
+                    :ssmkid="editSsmkid"
+                    :deleted="false"
+                ></uploadHtFile>
+            </div>
+            <div class="save-btn margin-top-20">
+                <Button class="btn-cancel margin-left-10" @click="cancel" type="primary">关闭</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { getMyprojectList, chdwHtDownload } from "../../../service/myproject"
+import { syncHtInfo } from "../../../service/commission"
+import { queryHtInfo, getDictInfo } from "../../../service/mlk"
+import uploadHtFile from "../../../components/survey/upload-HT"
+export default {
+    components: {
+        uploadHtFile
+    },
+    data() {
+        return {
+            formInline: {
+                page: 1,
+                size: 10
+            },
+            ruleInline: {},
+            visible: false,
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    width: 70,
+                    align: "center",
+                    title: "序号",
+                    fixed: "left"
+                },
+                {
+                    field: "BABH",
+                    align: "center",
+                    title: "项目编号"
+                },
+                {
+                    field: "GCBH",
+                    align: "center",
+                    title: "项目代码"
+                },
+                {
+                    field: "GCMC",
+                    align: "center",
+                    title: "工程名称"
+                },
+                {
+                    field: "JSDW",
+                    align: "center",
+                    title: "建设单位"
+                },
+                {
+                    field: "SLSJ",
+                    align: "center",
+                    title: "备案时间"
+                },
+                {
+                    field: "XMZT",
+                    title: "当前状态",
+                    align: "center",
+                    width: 120,
+                    templet: function(d){
+                        let className= d.XMZT==="已办结" ? "color-finish" :d.XMZT==="已备案"?"color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.XMZT+"</span>"
+                    }
+                },
+                {
+                    align: "center",
+                    title: "操作",
+                    toolbar: "#operation",
+                    minWidth: 250
+                }
+            ],
+            operationList: ["download","change","changerecord"],
+            myEntrustList: [],
+            clsxList: [],
+            editSsmkid: '22',
+            totalNum: 0,
+            selectChxm: null,
+            htxxidList: []
+        }
+    },
+    // 进入路由时获取上一次的页面信息
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/construction/ht/record")){
+            this.pageInfo["editHtInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["editHtInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["editHtInfo"]){
+            this.formInline = {...this.pageInfo["editHtInfo"]}
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.getEntrustList();
+    },  
+    methods: {
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    if(list.ZDLX == "CLSX"){
+                        this.clsxList.push(list)
+                    }
+                })
+            })
+        },
+        // 获取委托列表
+       getEntrustList(page,size){
+           if(page){
+               this.formInline.page = page;
+               this.formInline.size = size;
+           }
+           this.$loading.show("加载中...")
+           getMyprojectList(this.formInline).then(res => {
+               this.$loading.close()
+               this.totalNum = res.data.totalNum;
+               this.myEntrustList = res.data.dataList;
+           })
+        },
+        //重置
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                size: this.formInline.size
+            }
+        },
+        // 下载
+        downloadHt(data){
+            let params ={
+                chxmid: data.CHXMID,
+                mlkid: data.MLKID
+            }
+            chdwHtDownload(params).then(res =>{
+                if(!res.data || !res.data.WJZXID){
+                    layer.msg("暂无合同或协议书")
+                }else{
+                    if (!location.origin) {
+                    location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                    }
+                    location.href = location.origin + '/msurveyplat-serviceol/jsdwFbxqgl/download?chxmid=' +data.CHXMID + '&mlkid='+data.MLKID + '&dwlx=' + "chdw"
+                }
+            })
+        },
+        // 变更
+        edit(data){
+            this.visible = true;
+            this.selectChxm = data;
+            let params = {
+                ssmkid: data.XMLYDM == '2' ? "8" : "22",
+                glsxid: data.CHXMID
+            }
+            this.editSsmkid = data.XMLYDM == '2' ? "8" : "22";
+            let htxxidList = [];
+            // 获取需要上传的文件
+            queryHtInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    let clsxList = list.CLSXS;
+                    htxxidList.push(list.HTXXID)
+                    let htList = {};
+                    let clsxMC ="";
+                    let find = {}
+                    clsxList.forEach(clsx => {
+                        find = this.clsxList.find(findList => findList.DM == clsx) || {}
+                        if(find){
+                            clsxMC += find.MC + '、'
+                        }
+                    })
+                    clsxMC = clsxMC.substring(0, clsxMC.lastIndexOf('、')); 
+                    let chjdFind = this.clsxList.find(item => item.DM == find.FDM) || {}
+                    htList.CLMC= list.CLMC;
+                    htList.SJCLID= list.SJCLID;
+                    htList.SJXXID= list.SJXXID;
+                    htList.CLSX= clsxMC;
+                    htList.CHJD= chjdFind.MC;
+                    htList.NEED= list.NEED;
+                    htList.HTXXID= list.HTXXID;
+                    htList.GLSXID= data.CHXMID;
+                    this.$refs["upload-file-Ht"].addFile(htList)
+                })
+                this.htxxidList = htxxidList
+            })
+        },
+        // 取消变更
+        cancel(){
+            let htList = this.$refs["upload-file-Ht"].queryUploadList();
+            let hasUpload = false;
+            htList.forEach(ht => {
+                if(ht.WJZXID){
+                    hasUpload = true;
+                }
+            })
+            if(hasUpload){
+                let params = {
+                    ssmkid: this.selectChxm.XMLYDM == '2' ? '8' : '22',
+                    htxxid: this.htxxidList
+                }
+                this.$loading.show("加载中...")
+                syncHtInfo(params).then(res => {
+                    this.$loading.close();
+                    this.selectChxm = null;
+                    this.visible = false;
+                })
+            } else {
+                this.visible = false;
+            }
+        },
+        // 变更记录
+        editRecord(data){
+            this.$router.push({
+                path: "/construction/ht/edit/record",
+                query: {
+                    chxmid: data.CHXMID
+                }
+            })
+        }
+    },
+}
+</script>
+<style scoped>
+</style>

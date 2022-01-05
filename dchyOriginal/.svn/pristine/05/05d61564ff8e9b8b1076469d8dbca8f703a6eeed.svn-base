@@ -1,0 +1,22 @@
+<!--在这里编写html代码-->
+<div class="widget-panel-title"><div class="title-icon"></div>地图截图<span></span></div>
+<div class="panel-body">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="nav-tab active"><a href="#screenShotFull" role="tab" data-toggle="tab" id="videoTab">当前范围</a>
+        </li>
+        <li role="presentation" class="nav-tab" ><a href="#screenShotChoose" role="tab" data-toggle="tab" id="proTab">手动选择</a></li>
+    </ul>
+    <div class="tab-content" id="shot_panel">
+        <div class="tab-pane active" id="screenShotFull">
+            <button class="btn btn-primary" id="fullView">当前范围</button>
+        </div>
+
+        <div class="tab-pane" id="screenShotChoose">
+            <button class="btn btn-primary" id="handChoose">手动选择</button>
+            <div id="chosen">
+                <button class="btn btn-success btn-sm" id="decide">截取</button>
+                <button class="btn btn-success btn-sm" id="reChoose">重绘</button>
+            </div>
+        </div>
+    </div>
+</div>

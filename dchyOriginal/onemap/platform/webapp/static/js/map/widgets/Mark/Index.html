@@ -1,0 +1,49 @@
+<div class="panel-body" id="marksContent">
+    <div class="row tools-wrapper">
+        <div class="col-md-7 col-xs-7">
+            <span class="text-primary pull-left" id="mDescSpan">
+                共 <strong data-bind="text: marks().length"></strong> 条记录
+            </span>
+        </div>
+        <div class="col-md-5 col-xs-5">
+            <!--<div class="btn-group pull-right filter-group" title="筛选">-->
+                <!--<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">-->
+                    <!--<i class="iconfont">&#xe61d;</i>-->
+                <!--</button>-->
+                <!--<ul class="dropdown-menu" role="menu">-->
+                    <!--<li><a href="javascript:void(0);" data-scope="public"><i class="fa fa-check"></i> 公共</a></li>-->
+                    <!--<li><a href="javascript:void(0);" data-scope="private"><i class="fa fa-check"></i> 私有</a></li>-->
+                    <!--<li><a href="javascript:void(0);" class="filter-menu-sel" data-scope="all"><i class="fa fa-check"></i> 全部</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <button class="btn btn-primary pull-right btn-xs text-primary" id="addMarkBtn">
+                <i class="iconfont">&#xe639;</i>添加
+            </button>
+        </div>
+    </div>
+    <!--查询栏-->
+    <div class="row tools-wrapper" style="margin-top: 10px">
+        <div class="col-md-7 col-xs-7">
+            <input class="form-control" id="queryLocationMark" type="text"/>
+        </div>
+        <div style="float: left"  class="col-md-5 col-xs-5">
+            <button style="width: 74px" class="btn btn-primary pull-right btn-xs text-primary" id="searchLocationMark">查询</button>
+        </div>
+    </div>
+    <div id="marksContainer">
+        <div class="mark-table" id="marks" data-bind="foreach: marks">
+            <div class="mark-style item-closeIcon-hover" data-bind="attr: {id: $data.id}">
+                <div class="mark-detail private-information"
+                     data-bind="attr: {'data-id': $data.id, 'data-content': $data.title}, text: $data.title"
+                     data-original-title="标记名称" style="width: 75%">
+                </div>
+                <div title="删除标记" class="delete-mark"
+                     data-bind="attr: {'data-id': $data.id},click: $parent.removeMark" >
+                    <a class="item-closeIcon">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="cn.gtmap.onemap.dchy.*"/>
+    <context:component-scan base-package="cn.gtmap.onemap.server.web,cn.gtmap.onemap.dchy.web" use-default-filters="false">
+        <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+
+    <context:property-placeholder/>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="useSuffixPatternMatch" value="false"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <ref bean="jsonMessageConverter"/>
+            </list>
+        </property>
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <property name="messageConverters" ref="jsonMessageConverter"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="warnLogCategory" value="cn.gtmap.onemap.core.ex"/>
+        <property name="defaultErrorView" value="common/error"/>
+    </bean>
+
+    <bean id="jsonMessageConverter" class="cn.gtmap.onemap.core.support.fastjson.FastjsonHttpMessageConverter"/>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="urlMap">
+            <map>
+                <entry key="/static/**">
+                    <bean class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">
+                        <property name="locations" value="/static/"/>
+                        <property name="cacheSeconds" value="3600"/>
+                    </bean>
+                </entry>
+                <entry key="/solr/**">
+                    <bean class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">
+                        <property name="locations" value="classpath:/solr/"/>
+                        <property name="cacheSeconds" value="3600"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="cn.gtmap.onemap.core.support.spring.PerformanceMonitorInterceptor"/>
+        <bean class="cn.gtmap.onemap.security.web.SecContextInterceptor">
+            <property name="sessionProvider" ref="sessionProvider"/>
+            <property name="redirectUrl" value="${login.url}"/>
+            <property name="needLogins" value="/console/**"/>
+        </bean>
+        <bean class="cn.gtmap.onemap.security.web.AuthorizationInterceptor">
+            <property name="rootPath" value="oms-urls"/>
+            <property name="privileges">
+                <map>
+                    <entry key="/console/**" value=""/>
+                </map>
+            </property>
+            <!--<property name="whitelist">
+                <map>
+                    <entry key="127.0.0.1" value=""/>
+                    <entry key="192.168.90.16" value=""/>
+                    <entry key="192.168.90.31" value=""/>
+                </map>
+            </property>-->
+        </bean>
+        <bean class="cn.gtmap.onemap.server.web.service.RequestInterceptor">
+            <property name="metadataService" ref="metadataService"/>
+            <property name="handlers">
+                <map>
+                    <entry key="arcgisrest">
+                        <bean class="cn.gtmap.onemap.server.handle.request.ArcgisRestRequestHandlerImpl"/>
+                    </entry>
+                </map>
+            </property>
+        </bean>
+    </mvc:interceptors>
+
+    <mvc:default-servlet-handler/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <import resource="applicationContext-export.xml"/>
+</beans>

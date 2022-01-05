@@ -1,0 +1,89 @@
+
+{
+java:S1192à"dDefine a constant instead of duplicating this literal "no-cache, no-store, must-revalidate" 4 times.(ÔçŽ¦
+j
+java:S1192ä"NDefine a constant instead of duplicating this literal "Last-Modified" 4 times.(åÚŒÍÿÿÿÿÿ
+a	java:S112è"FDefine and throw a dedicated exception instead of using a generic one.(ˆ¦šŒùÿÿÿÿ
+d
+java:S1192ã"HDefine a constant instead of duplicating this literal "Expires" 4 times.(·øšƒøÿÿÿÿ
+R	java:S125°"<This block of commented-out lines of code should be removed.(µÊï¿
+h
+java:S3776…"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(µàê=
+D
+java:S1481À".Remove this unused "httpState" local variable.(¡ØšE
+R	java:S125ê"<This block of commented-out lines of code should be removed.(µÊï¿
+G
+java:S1172¦"+Remove this unused method parameter "path".(ƒ©âõýÿÿÿÿ
+F
+java:S3740ã"/Provide the parametrized type for this generic.(äÇ¦
+e
+java:S1192â"IDefine a constant instead of duplicating this literal "no-cache" 4 times.(ë«ÙÏÿÿÿÿÿ
+n
+java:S3776¦"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(ƒ©âõýÿÿÿÿ
+D
+java:S1481".Remove this unused "httpState" local variable.(¡ØšE
+c
+java:S1192â"GDefine a constant instead of duplicating this literal "Pragma" 4 times.(ë«ÙÏÿÿÿÿÿ
+R	java:S125Á"<This block of commented-out lines of code should be removed.(†€éˆ
+R	java:S125Ï"<This block of commented-out lines of code should be removed.(†€éˆ
+i
+java:S3776Ú"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ÃËŒ 
+a	java:S112¦"FDefine and throw a dedicated exception instead of using a generic one.(ƒ©âõýÿÿÿÿ
+D
+java:S1481ß".Remove this unused "httpState" local variable.(¡ØšE
+Q	java:S125Þ"<This block of commented-out lines of code should be removed.(ªðã/
+u
+java:S1192â"YDefine a constant instead of duplicating this literal "text/html; charset=UTF-8" 4 times.(­„£ûÿÿÿÿ
+D
+java:S1481•".Remove this unused "httpState" local variable.(¡ØšE
+W	java:S125ß"<This block of commented-out lines of code should be removed.(îÜ³šüÿÿÿÿ
+R	java:S125ü"<This block of commented-out lines of code should be removed.(†€éˆ
+u
+java:S1192¯"YDefine a constant instead of duplicating this literal "application/octet-stream" 7 times.(ñÁø•ûÿÿÿÿ
+Q	java:S125¹"<This block of commented-out lines of code should be removed.(ªðã/
+K
+java:S3740"/Provide the parametrized type for this generic.(ÊÅÒÎúÿÿÿÿ
+d
+java:S1871ê"MThis branch's code block is the same as the block for the branch on line 871.(‚æÕþ
+b
+java:S1192Y"GDefine a constant instead of duplicating this literal "sjxxid" 4 times.(‚£‡Þûÿÿÿÿ
+B
+java:S1172è"&Remove these unused method parameters.(ˆ¦šŒùÿÿÿÿ
+f
+java:S1192ï"ODefine a constant instead of duplicating this literal "é”™è¯¯åŽŸå› {}" 4 times.(ÑçÄù
+F
+java:S2093³"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+d
+java:S1871ä"MThis branch's code block is the same as the block for the branch on line 865.(úŸîè
+c
+java:S1192¼"GDefine a constant instead of duplicating this literal "wjzxid" 9 times.(„”ç¸ýÿÿÿÿ
+i
+java:S3776Þ"RRefactor this method to reduce its Cognitive Complexity from 48 to the 15 allowed.(˜¡Ì×
+i
+java:S3776º"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(üÕ¿®
+i
+java:S1192á"MDefine a constant instead of duplicating this literal "attachment; " 4 times.(‚„”Îýÿÿÿÿ
+n
+java:S1192ý"RDefine a constant instead of duplicating this literal "é”™è¯¯åŽŸå› {}ï¼š" 4 times.(ªÇ†Žýÿÿÿÿ
+b
+java:S1192R"GDefine a constant instead of duplicating this literal "ssmkid" 3 times.( ©Ø²ûÿÿÿÿ
+n
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 57 to the 15 allowed.(È¤ôÑúÿÿÿÿ
+a	java:S112†"FDefine and throw a dedicated exception instead of using a generic one.(œüËÃüÿÿÿÿ
+p
+java:S1192á"TDefine a constant instead of duplicating this literal "Content-Disposition" 5 times.(‚„”Îýÿÿÿÿ
+]
+java:S1192S"GDefine a constant instead of duplicating this literal "glsxid" 5 times.(Ž¹«¡
+F
+java:S2093“"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+F
+java:S2093˜"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+e
+java:S1192à"NDefine a constant instead of duplicating this literal "Cache-Control" 4 times.(ÔçŽ¦
+R	java:S125×"<This block of commented-out lines of code should be removed.(†€éˆ
+p
+java:S1192˜"YDefine a constant instead of duplicating this literal "æš‚æ— æ–‡ä»¶å¯ä¾›ä¸‹è½½" 3 times.(±ÞÚ
+Y
+java:S2259»"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+D
+java:S1481°".Remove this unused "httpState" local variable.(¡ØšE

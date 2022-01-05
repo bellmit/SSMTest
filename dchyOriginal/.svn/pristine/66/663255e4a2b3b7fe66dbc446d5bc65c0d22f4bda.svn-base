@@ -1,0 +1,425 @@
+<template>
+    <div>
+        <Tabs value="name1">
+            <TabPane label="我的测绘项目" name="name1"></TabPane>
+            <!-- <Button type="primary" class="float-right bdc-major-btn main-btn-first"  slot="extra" @click="submitCg">成果提交</Button> -->
+        </Tabs>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="114" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="项目编号 " class="form-list-search" prop="babh">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.babh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称 " class="form-list-search" prop="gcmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.gcmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="12">
+                         <FormItem label="备案时间 " class="form-list-search" prop="basj">
+                            <Row class="form-list-search">
+                                <i-col span="11">
+                                    <DatePicker class="form-search-item"  @on-change="kssjChange" format="yyyy-MM-dd" :options="ksOptions" v-model="formInline.bakssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                                <i-col span="1">
+                                    <div style="text-align:center">-</div>
+                                </i-col>
+                                <i-col span="12">
+                                    <DatePicker class="form-search-item" @on-change="jssjChange" format="yyyy-MM-dd" :options="jsOptions" v-model="formInline.bajssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                            </Row>
+                        </FormItem>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="建设单位 " class="form-list-search" prop="jsdw">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.jsdw" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="当前状态 " class="form-list-search" prop="xmzt">
+                            <Select v-model="formInline.xmzt" clearable class="form-search-item">
+                                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="项目类型 " class="form-list-search" prop="xmly">
+                            <Select v-model="formInline.xmly" clearable class="form-search-item">
+                                <Option v-for="item in xmlyList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='50'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getProjectList(1,formInline.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="ch-tip margin-top-10 margin-bottom-10">
+            <img src="static/images/kp-tip.png" style="vertical-align: middle" alt="">
+            <span class="font-size-16">您当前进行中测绘业务：</span>
+            <span class="font-color-tip">{{count}}</span>
+        </div>
+        <Table
+            :cols="tableCols"
+            :data="myprojectList"
+            :count="totalNum"
+            :page="formInline.page"
+            :size="formInline.size"
+            :func="getProjectList"
+            :operation="operationList"
+            :tool="tool"
+            @view="viewDetail"
+            @htdownload="downloadHt"
+            @check="checkList"
+            @btn1="dataRequest"
+            @btn2="submitCg"
+            @deleteOpr="deleteOpr"
+        ></Table>
+        <Modal 
+            class="modal-base form-record" 
+            v-model="visible" 
+            :title="'基础数据范围'" 
+            width="1000"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <basicDataTable
+                ref="upload-apply-info"
+            ></basicDataTable>
+            <div class="save-btn">
+                <Button type="primary" class="btn-h-32 bdc-major-btn" @click="submit()">确认</Button>
+                <Button class="margin-left-10 btn-h-32 btn-cancel" @click="cancel()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { getMyprojectList, chdwHtDownload, queryChsl,initBasicDataApplication,initSqxx } from "../../../service/myproject"
+import { getDictInfo, getUploadList } from "../../../service/mlk"
+import basicDataTable from "../../../components/survey/upload-apply-file"
+import _ from "lodash"
+import moment from "moment"
+export default {
+    components: {
+        basicDataTable
+    },
+    data() {
+        return {
+            formInline: {
+                jsdw: "",
+                gcbh: "",
+                gcmc: "",
+                slbh: "",
+                xmzt: "",
+                page: 1,
+                size: 10
+            },
+            requestData: {
+                babh: "",
+                page: 1,
+                size: 10
+            },
+            xmlyList: [
+                {
+                    MC: "内网",
+                    DM: "2"
+                },
+                {
+                    MC: "外网",
+                    DM: "1,3"
+                }
+            ],
+            newFileForm:{},
+            count: 0,
+            visible: false,
+            ruleInline: {},
+            ztList: [],
+            selectedList: [],
+            jsOptions: {},
+            ksOptions: {},
+            tool: '<div>' +
+                    '<span class="layui-btn main-btn-a" lay-event="btn1">基础数据申请</span>' +
+                    '<span class="layui-btn main-btn-a" lay-event="btn2">成果提交</span>' +
+                '</div>',
+            tableCols: [
+                {
+                    type:'checkbox',
+                    fixed: "left"
+                },
+                {
+                    field: "ROWNUM_",
+                    width: 70,
+                    align: "center",
+                    title: "序号",
+                    fixed: "left"
+                },
+                {
+                    field: "BABH",
+                    align: "center",
+                    title: "项目编号"
+                },
+                {
+                    field: "SLBH",
+                    align: "center",
+                    title: "受理编号",
+                    hide: true
+                },
+                {
+                    field: "GCBH",
+                    align: "center",
+                    title: "项目代码"
+                },
+                {
+                    field: "GCMC",
+                    align: "center",
+                    title: "工程名称"
+                },
+                {
+                    field: "JSDW",
+                    align: "center",
+                    title: "建设单位"
+                },
+                
+                {
+                    field: "CLSX",
+                    align: "center",
+                    title: "测绘阶段"
+                },
+                {
+                    field: "WTFS",
+                    align: "center",
+                    title: "委托方式"
+                },
+                {
+                    field: "SLSJ",
+                    align: "center",
+                    title: "备案时间"
+                },
+                {
+                    field: "XMLY",
+                    title: "项目类型",
+                    align: "center",
+                    templet: function(d){
+                        return d.XMLY == "2" ? "内网" : "外网"
+                    }
+                },
+                {
+                    field: "XMZT",
+                    align: "center",
+                    title: "当前状态",
+                    width: 100,
+                    templet: function(d){
+                        let className= d.XMZT==="已办结" ? "color-finish" :d.XMZT==="已备案"?"color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.XMZT+"</span>"
+                    }
+                },
+                {
+                    align: "center",
+                    title: "操作",
+                    toolbar: "#operation",
+                    minWidth: 180
+                }
+            ],
+            ssmkid: "20",
+            operationList: ["view","htdownload"],
+            myprojectList: [],
+            totalNum: 0
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/survey/myproject/view")){
+            this.pageInfo["surveyProjectPageInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["surveyProjectPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["surveyProjectPageInfo"]){
+            this.formInline = {...this.pageInfo["surveyProjectPageInfo"]}
+        }
+    },
+    mounted() {
+        this.getProjectList();
+        this.getDictInfo();
+        this.queryChsl();
+    },
+    methods: {
+        queryChsl(){
+            this.$loading.show("加载中...")
+            queryChsl().then(res => {
+                this.$loading.close();
+                this.count = res.data.chxmsl
+            })
+        },
+        getDictInfo(){
+            let params = {
+                zdlx: ["XMZT"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    //去除重新备案、已退回状态
+                    if(list.ZDLX == "XMZT" && list.MC !="待备案"){
+                        this.ztList.push(list)
+                    }
+                })
+                this.ztList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        // 重置查询表单
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                size: this.formInline.size
+            }
+        },
+        // 查询
+        getProjectList(page,size){
+            if(page){
+                this.formInline.page = page;
+                this.formInline.size = size;
+            }
+            this.$loading.show("加载中...")
+            this.formInline.bakssj = this.formInline.bakssj ? moment(this.formInline.bakssj).format("YYYY-MM-DD") : "";
+            this.formInline.bajssj = this.formInline.bajssj ? moment(this.formInline.bajssj).format("YYYY-MM-DD") : "";
+            getMyprojectList(this.formInline).then(res => {
+                this.$loading.close();
+                this.myprojectList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        viewDetail(data){
+            this.$router.push({
+                path: `/survey/myproject/view`,
+                query: {slbh: data.SLBH, chdwxxid: data.CHDWXXID,chxmid:data.CHXMID, mlkid: data.MLKID, from: this.$route.fullPath}
+            });
+        },
+        downloadHt(data){
+            if(!(data.CHXMID && data.MLKID)){
+                layer.msg("暂无合同或协议书")
+            } else if(data.CHXMID && data.MLKID){
+                let params ={
+                    chxmid: data.CHXMID,
+                    mlkid: data.MLKID
+                }
+                chdwHtDownload(params).then(res =>{
+                    if(!res.data || !res.data.WJZXID){
+                        layer.msg("暂无合同或协议书")
+                    }else{
+                        if (!location.origin) {
+                        location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                        }
+                        location.href = location.origin + '/msurveyplat-serviceol/jsdwFbxqgl/download?chxmid=' +data.CHXMID + '&mlkid='+data.MLKID + '&dwlx=' + "chdw"
+                    }
+
+                })
+
+            }
+        },
+        //基础数据申请
+        dataRequest(){
+            if(!this.selectedList.length){
+                layer.msg("未选择需要进行数据申请的项目")
+            }else {
+                this.visible = true
+                let GLSXID = this.selectedList[0].SLBH || this.selectedList[0].BABH || "";
+                let params = {
+                    ssmkid: this.ssmkid,
+                    glsxid: GLSXID
+                }
+                getUploadList("/fileoperation/getsjcl",params).then(res => {
+                    this.selectedList.forEach(select => {
+                        select.GLSXID = select.SLBH || select.BABH || "";
+                        res.data.dataList.forEach(list => {
+                            select.fileName = list.CLMC;
+                            select.NEED = list.NEED;
+                            select.FS = list.FS;
+                            select.CLLX = list.CLLX;
+                            select.SJCLID = list.SJCLID;
+                            if(!list.WJZXID){
+                                this.$refs["upload-apply-info"].addFile(select)
+                            }
+                        })
+                    })
+                    
+                })
+            }    
+        },
+        //提交申请
+        submit(){
+            let slbhList = [];
+            let validate = this.$refs["upload-apply-info"].validate()
+            if(validate){
+                return;
+            }
+            this.selectedList.forEach(element => {
+                slbhList.push(element.SLBH);
+            });
+            this.requestData.babh = slbhList.join(";");
+            this.$loading.show("加载中...")
+            initBasicDataApplication(this.requestData).then(res => {
+                this.$loading.close();
+                this.$refs["upload-apply-info"].clearFileList()
+                this.visible = false;
+                this.getProjectList();
+                this.selectedList = [];
+            })
+        },
+        //取消
+        cancel(){
+            this.$refs["upload-apply-info"].clearFileList()
+            this.visible = false;
+        },
+        checkList(list){
+            this.selectedList = _.cloneDeep(list)
+        },
+         // 禁止某项选中
+        deleteOpr(){
+            this.myprojectList.forEach((list,index) => {
+                if(list.XMZT != "已备案"){
+                    $('th[data-field="0"] input[type="checkbox"]').prop('disabled', true);
+                    $('th[data-field="0"] input[type="checkbox"]').next().prop('disabled', true);
+                    $('th[data-field="0"] input[type="checkbox"]').next().addClass("layui-btn-disabled");
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").next().prop("disabled",true);
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").next().addClass("layui-btn-disabled");
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").prop("disabled",true);
+                }
+            });
+        },
+        // 成果提交
+        submitCg(){
+            this.$loading.show("加载中...")
+            initSqxx().then(res => {
+                this.$loading.close();
+                this.$router.push({path:`/survey/submitCg`, query: {sqxxid: res.data.sqxxid}})
+            })
+            
+        },
+        // 控制结束时间可选状态
+        kssjChange(select){
+            this.jsOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select){
+            this.ksOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() > moment(select).unix());
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+</style>

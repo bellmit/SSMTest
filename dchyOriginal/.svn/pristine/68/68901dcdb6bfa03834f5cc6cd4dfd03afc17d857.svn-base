@@ -1,0 +1,174 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.service.Impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.JsdwFbwtModel;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.service.JsdwFbwtService;
+import cn.gtmap.msurveyplat.serviceol.utils.Constants;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.0, 2021/02/24
+ * @description 线上数据同步线下数据
+ */
+@Service
+public class JsdwFbwtServiceImpl implements JsdwFbwtService {
+
+    @Resource(name = "entityMapper")
+    private EntityMapper entityMapper;
+
+    @Override
+    public JsdwFbwtModel getSingleData(String chxmid) {
+
+        JsdwFbwtModel jsdwFbwtModel = new JsdwFbwtModel();
+        //测绘项目数据
+        DchyXmglChxm dchyXmglChxm = entityMapper.selectByPrimaryKey(DchyXmglChxm.class, chxmid);
+        if (dchyXmglChxm != null) {
+            dchyXmglChxm.setWjzxid(Constants.WJZXID_FLAG);
+            List<DchyXmglChxm> dchyXmglChxmList = new ArrayList<>();
+            dchyXmglChxmList.add(dchyXmglChxm);
+            jsdwFbwtModel.setDchyXmglChxmList(dchyXmglChxmList);
+            //测绘工程数据
+            if (StringUtils.isNotBlank(dchyXmglChxm.getChgcid())) {
+                Example exampleChgc = new Example(DchyXmglChgc.class);
+                exampleChgc.createCriteria().andEqualTo("chgcid", dchyXmglChxm.getChgcid());
+                List<DchyXmglChgc> dchyXmglChgcList = entityMapper.selectByExample(exampleChgc);
+                if (CollectionUtils.isNotEmpty(dchyXmglChgcList)) {
+                    jsdwFbwtModel.setDchyXmglChgcList(dchyXmglChgcList);
+                }
+
+            }
+
+            //测绘事项数据
+            if (StringUtils.isNotBlank(dchyXmglChxm.getChxmid())) {
+                Example exampleChsx = new Example(DchyXmglChxmClsx.class);
+                exampleChsx.createCriteria().andEqualTo("chxmid", dchyXmglChxm.getChxmid());
+                List<DchyXmglChxmClsx> dchyXmglChxmClsxList = entityMapper.selectByExample(exampleChsx);
+                jsdwFbwtModel.setDchyXmglClsxList(dchyXmglChxmClsxList);
+                //测绘事项数据
+                List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxListAll = new ArrayList<>();
+
+                if (CollectionUtils.isNotEmpty(dchyXmglChxmClsxList)) {
+                    for (DchyXmglChxmClsx dchyXmglChxmClsx : dchyXmglChxmClsxList) {
+                        if (StringUtils.isNotBlank(dchyXmglChxmClsx.getClsxid())) {
+                            Example exampleClsxChdwxxGx = new Example(DchyXmglClsxChdwxxGx.class);
+                            exampleClsxChdwxxGx.createCriteria().andEqualTo("clsxid", dchyXmglChxmClsx.getClsxid());
+                            List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxList = entityMapper.selectByExample(exampleClsxChdwxxGx);
+                            if (CollectionUtils.isNotEmpty(dchyXmglClsxChdwxxGxList)) {
+                                dchyXmglClsxChdwxxGxListAll.addAll(dchyXmglClsxChdwxxGxList);
+                            }
+
+                        }
+                    }
+                }
+                jsdwFbwtModel.setDchyXmglClsxChdwxxGxList(dchyXmglClsxChdwxxGxListAll);
+
+                //测绘单位测绘项目
+                Example exampleChxmChdwxx = new Example(DchyXmglChxmChdwxx.class);
+                exampleChxmChdwxx.createCriteria().andEqualTo("chxmid", dchyXmglChxm.getChxmid());
+                List<DchyXmglChxmChdwxx> dchyXmglChxmChdwxxList = entityMapper.selectByExample(exampleChxmChdwxx);
+                jsdwFbwtModel.setDchyXmglChxmChdwxxList(dchyXmglChxmChdwxxList);
+
+            }
+        }
+
+
+        //收件信息数据
+        Example exampleSjxx = new Example(DchyXmglSjxx.class);
+        exampleSjxx.createCriteria().andEqualTo("glsxid", chxmid);
+        List<DchyXmglSjxx> dchyXmglSjxxList = entityMapper.selectByExample(exampleSjxx);
+        if (CollectionUtils.isNotEmpty(dchyXmglSjxxList)) {
+            jsdwFbwtModel.setDchyXmglSjxxList(dchyXmglSjxxList);
+            //收件材料数据
+            for (DchyXmglSjxx dchyXmglSjxx : dchyXmglSjxxList) {
+                Example exampleSjcl = new Example(DchyXmglSjcl.class);
+                exampleSjcl.createCriteria().andEqualTo("sjxxid", dchyXmglSjxx.getSjxxid());
+                List<DchyXmglSjcl> dchyXmglSjClList = entityMapper.selectByExample(exampleSjcl);
+                if (CollectionUtils.isNotEmpty(dchyXmglSjClList)) {
+                    jsdwFbwtModel.setDchyXmglSjclList(dchyXmglSjClList);
+                }
+            }
+        }
+
+        /*涉及合同的三张表*/
+        Example htxxExample = new Example(DchyXmglHtxx.class);
+        htxxExample.createCriteria().andEqualTo("chxmid", chxmid);
+        List<DchyXmglHtxx> htxxList = entityMapper.selectByExample(htxxExample);
+        if (CollectionUtils.isNotEmpty(htxxList)) {
+            jsdwFbwtModel.setDchyXmglHtxxList(htxxList);
+        }
+
+        /*测绘单位与合同*/
+        Example chdwxxExample = new Example(DchyXmglHtxxChdwxxGx.class);
+        chdwxxExample.createCriteria().andEqualTo("chxmid", chxmid);
+        List<DchyXmglHtxxChdwxxGx> chdwxxGxList = entityMapper.selectByExample(chdwxxExample);
+        if (CollectionUtils.isNotEmpty(chdwxxGxList)) {
+            jsdwFbwtModel.setChdwxxGxList(chdwxxGxList);
+        }
+
+        /*测量事项与合同*/
+        Example clsxHtxxExample = new Example(DchyXmglClsxHtxxGx.class);
+        clsxHtxxExample.createCriteria().andEqualTo("chxmid", chxmid);
+        List<DchyXmglClsxHtxxGx> clsxHtxxGxList = entityMapper.selectByExample(clsxHtxxExample);
+        if (CollectionUtils.isNotEmpty(clsxHtxxGxList)) {
+            jsdwFbwtModel.setClsxHtxxGxList(clsxHtxxGxList);
+        }
+
+        //合同收件信息数据
+        Example exampleSjxxHt = new Example(DchyXmglSjxx.class);
+        exampleSjxxHt.createCriteria().andEqualTo("glsxid", chxmid);
+        List<DchyXmglSjxx> dchyXmglSjxxHtList = entityMapper.selectByExample(exampleSjxxHt);
+        if (CollectionUtils.isNotEmpty(dchyXmglSjxxHtList)) {
+            jsdwFbwtModel.setDchyXmglSjxxHtList(dchyXmglSjxxHtList);
+            //合同收件材料数据
+            for (DchyXmglSjxx dchyXmglSjxxHt : dchyXmglSjxxHtList) {
+                Example exampleSjclHt = new Example(DchyXmglSjcl.class);
+                exampleSjclHt.createCriteria().andEqualTo("sjxxid", dchyXmglSjxxHt.getSjxxid());
+                List<DchyXmglSjcl> dchyXmglSjClHtList = entityMapper.selectByExample(exampleSjclHt);
+                if (CollectionUtils.isNotEmpty(dchyXmglSjClHtList)) {
+                    jsdwFbwtModel.setDchyXmglSjclHtList(dchyXmglSjClHtList);
+                }
+            }
+        }
+
+        /*申请信息*/
+        Example sqxxExample = new Example(DchyXmglSqxx.class);
+        sqxxExample.createCriteria().andEqualTo("glsxid", chxmid);
+        List<DchyXmglSqxx> sqxxList = entityMapper.selectByExample(sqxxExample);
+        if (CollectionUtils.isNotEmpty(sqxxList)) {
+            jsdwFbwtModel.setDchyXmglSqxxList(sqxxList);
+        }
+        return jsdwFbwtModel;
+    }
+
+    @Override
+    public Map<String, Object> getAllData(Map param) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String chxmidSaveOrUpdate = CommonUtil.formatEmptyValue(param.get("chxmidSaveOrUpdate"));
+        JsdwFbwtModel jsdwFbwtModelDelete = (JsdwFbwtModel) param.get("chxmidDelete");
+
+        if (StringUtils.isNotBlank(chxmidSaveOrUpdate)) {
+            JsdwFbwtModel jsdwFbwtModelSaveOrUpdate = getSingleData(chxmidSaveOrUpdate);
+            map.put("saveOrUpdate", jsdwFbwtModelSaveOrUpdate);
+        }
+
+        if (null != jsdwFbwtModelDelete) {
+            map.put("delete", jsdwFbwtModelDelete);
+        }
+        return map;
+    }
+
+}

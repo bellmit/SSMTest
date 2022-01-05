@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglJsdwMapper">
+
+    <!--根据项目名称和状态获取建设单位项目信息-->
+    <select id="queryJsxmByXmmcOrZtByPage" resultType="map" parameterType="map"></select>
+
+    <!--根据合同编号，合同状态，测绘单位名称获取合同信息-->
+    <select id="queryHtxxByBhAndChdwmcByPage" resultType="map" parameterType="map"></select>
+
+    <!--根据项目名称，承揽测绘机构，状态获取测绘项目评价-->
+    <select id="queryXmpjByXmmcAndClchjgByPage" resultType="map" parameterType="map"></select>
+
+    <!--根据项目编号，项目名称，状态获取建设项目信息-->
+    <select id="queryJsxmByHbAndMc" resultType="map" parameterType="map"></select>
+
+    <!--查询建设单位台账-->
+    <select id="queryJsdwmByPage" parameterType="map" resultType="map">
+        SELECT jsdw.jsdwm,jsdw.dwmc,jsdw.tyshxydm,jsdw.lxr,jsdw.lxdh,jsdw.lrr,jsdw.lrsj FROM dchy_xmgl_jsdw jsdw
+        <where>
+            <if test="jsdwmc != null and jsdwmc !=''">
+                AND jsdw.dwmc LIKE '%'||#{jsdwmc}||'%'
+            </if>
+            <if test="jsdwm != null and jsdwm !=''">
+                AND jsdw.jsdwm LIKE '%'||#{jsdwm}||'%'
+            </if>
+            <if test="tyshxydm != null and tyshxydm !=''">
+                AND jsdw.tyshxydm = #{tyshxydm}
+            </if>
+        </where>
+    </select>
+
+    <!--查询建设单位列表-->
+    <select id="queryJsdwList" parameterType="map" resultType="map">
+        SELECT jsdw.jsdwm,jsdw.dwmc,jsdw.tyshxydm,jsdw.lxr,jsdw.lxdh FROM dchy_xmgl_jsdw jsdw
+        <where>
+            <if test="jsdwmc != null and jsdwmc !=''">
+                AND jsdw.dwmc = #{jsdwmc}
+            </if>
+        </where>
+    </select>
+</mapper>

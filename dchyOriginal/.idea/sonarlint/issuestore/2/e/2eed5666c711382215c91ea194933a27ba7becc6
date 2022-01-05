@@ -1,0 +1,17 @@
+
+b
+java:S1192V"GDefine a constant instead of duplicating this literal "mbqyzt" 5 times.(ÈÑ¯…ıÿÿÿÿ
+N
+java:S1854“"7Remove this useless assignment to local variable "msg".(‚ÉĞÄ
+N
+java:S1854’"8Remove this useless assignment to local variable "code".(Í¹Ú
+n
+java:S3776‘"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(¸ÒŠşÿÿÿÿ
+]
+java:S1192@"GDefine a constant instead of duplicating this literal "MBQYZT" 4 times.(©ò¾û
+X
+java:S1854Q";Remove this useless assignment to local variable "message".(ïÒğÑ8åíí—£/
+o
+java:S3776P"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ÿÃªË8åíí—£/
+F
+java:S10681"*Remove this unused "LOGGER" private field.(İšãT8åíí—£/

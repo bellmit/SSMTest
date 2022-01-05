@@ -1,0 +1,264 @@
+.record-wrapper {
+    height: 100%;
+    width: 100%;
+    padding-top: 10px;
+    background-color: #ECF0F5;
+}
+.record-opt{
+    height: 45px;
+    list-style: none;
+    margin-bottom: -1px;
+    padding: 6px;
+    background: #ECF0F5;
+    padding-left: 12px!important;
+}
+
+.bottom-border{
+    border-bottom: #ddd solid 3px;
+}
+.record-opt>li{
+    display: inline-block;
+}
+
+.record-opt>li:first-child{
+    margin-right: 6px;
+}
+
+.record-opt>li[attr="custom"]{
+    margin-left: 12px;
+}
+
+.record-opt>li:last-child{
+    position: absolute;
+    right: 28px;
+}
+.btn-top{
+    display: none;
+    right: 2px;
+    position: absolute;
+    top: -25px;
+    height: 24px;
+    width: 30px;
+    text-align: center;
+    padding: 0px !important;
+}
+
+/*timeline*/
+.record-timeline {
+    border-left: 4px solid #ddd;
+    position: relative;
+    list-style: none;
+    margin: 0px 0px 53px 27px;
+    padding: 0;
+}
+
+.record-timeline>li {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    margin-left: -35px;
+}
+
+.record-timeline>.time-label{
+    margin-left: -35px;
+}
+
+.record-timeline>.time-label>span {
+    font-weight: 600;
+    padding: 5px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.record-timeline>li>.fa,
+.record-timeline>li>.glyphicon,
+.record-timeline>li>.ion {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    line-height: 30px;
+    position: absolute;
+    color: #666;
+    background: #d2d6de;
+    border-radius: 50%;
+    text-align: center;
+    left: 18px;
+    top: 0;
+}
+
+.bg-red {
+    background-color: #dd4b39 !important;
+}
+
+.bg-purple {
+    background-color: #605ca8 !important;
+}
+
+.bg-aqua {
+    background-color: #00c0ef !important;
+}
+
+.bg-blue {
+    background-color: #0073b7 !important;
+}
+
+.bg-yellow {
+    background-color: #f39c12 !important;
+}
+
+.bg-green {
+    background-color: #00a65a !important;
+}
+
+.bg-maroon {
+    background-color: #d81b60 !important;
+}
+
+.bg-gray {
+    color: #000;
+    background-color: #d2d6de !important;
+}
+
+.bg-red,
+.bg-purple,
+.bg-aqua,
+.bg-blue,
+.bg-yellow,
+.bg-green,
+.bg-maroon {
+    color: #fff !important;
+}
+
+.no-border {
+    border: 0 !important;
+}
+
+.record-timeline>li>.record-timeline-item {
+    webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    margin-top: 10px;
+    background: #fff;
+    color: #444;
+    margin-left: 60px;
+    margin-right: 15px;
+    padding: 0;
+    position: relative;
+}
+
+.record-timeline>li>.record-timeline-item>.time {
+    color: #999;
+    float: right;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.record-timeline>li>.record-timeline-item>.record-timeline-header {
+    margin: 0;
+    color: #555;
+    border-bottom: 1px solid #f4f4f4;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.1;
+    font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
+}
+
+.record-timeline>li>.record-timeline-item>.record-timeline-header>a {
+    /*font-weight: 600;*/
+    /*color: #3c8dbc !important;*/
+}
+
+.record-timeline>li>.record-timeline-item>.record-timeline-body,
+.record-timeline>li>.record-timeline-item>.record-timeline-footer {
+    padding: 5px 10px;
+}
+
+.record-timeline>li>.record-timeline-item>.record-timeline-body>img{
+    margin: 5px 0;
+}
+
+.mg-10 {
+    margin: 10px;
+}
+
+.btn.btn-flat {
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-width: 1px;
+}
+
+.inspect-record-delete {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: -1px;
+    color: #428Bca;
+    font-size: 12px;
+    cursor: pointer;
+}
+.inspect-record-delete:hover{
+    font-size: 20px;
+}
+
+.record-timeline-item:hover .inspect-record-delete{
+    display: block;
+}
+
+.view-file{
+    z-index: 99;
+    border: 1px solid #ccc;
+    padding: 2px;
+    width: 150px;
+    /*vertical-align: middle;*/
+    color: #999;
+    height: 28px;
+    float: left;
+}
+
+.view-label{
+    margin-left: 2px;
+    border: 1px solid #00a65a;
+    background:#00a65a;
+    color: #fff;
+    height: 28px;
+    /*line-height: 28px;*/
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+    cursor: pointer;
+    float: left;
+}
+
+.upload-file{
+    display: none!important;
+}
+
+.history-close{
+    position: absolute;
+    right: 2px;
+    top: 3px;
+    cursor: pointer;
+}
+.illegal-icon{
+    position: absolute;
+    right: 7px;
+    color: #F9DC02;
+    height: 15px;
+    bottom: 0;
+}
+
+.sent-icon{
+    position: absolute;
+    right: 24px;
+    color: #57d04a;
+    height: 15px;
+    bottom: 0;
+}
+
+.record-timeline-item{
+    min-height: 50px;
+}

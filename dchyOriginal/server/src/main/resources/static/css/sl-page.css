@@ -1,0 +1,236 @@
+/*受理页面*/
+.sl-page-contanier {
+	font-size: 14px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+/* 必填项icon */
+.sl-page-contanier .required-icon{
+	color: #f54743;
+	font-size: 12px;
+	font-style: normal;
+	margin: 10px 3px 0 0;
+}
+.sl-page-contanier .house-required-icon{
+	display: none;
+}
+.sl-page-contanier .bdc-content-item {
+	margin-bottom: 20px;
+}
+.sl-page-contanier .bdc-content-item .layui-form-item .layui-inline{
+	width: 33%;
+	margin-right: 0;
+}
+.sl-page-contanier .bdc-content-item .layui-form-item .layui-input-inline{
+	width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 120px;
+    box-sizing: border-box;
+    margin-right: 0;
+}
+.sl-page-contanier .bdc-content-item .layui-form-item .layui-icon-rate-solid{
+	color:#FF5722;
+	font-size: 1px;
+	opacity: 0.8;
+}
+.sl-page-contanier .bdc-content-item .layui-form-item .layui-input-inline .layui-input{
+	border-radius: 2px;
+}
+ .sl-page-contanier .bdc-content-item .layui-form-label{
+	width: 100px;
+	padding:9px 10px;
+} 
+/*受理页面表格1*/
+.sl-page-contanier .bdc-table .xmxx-table,
+.sl-page-contanier .bdc-table .xmxkqk-table{
+	width: 100%;
+}
+.sl-page-contanier td,
+.sl-page-contanier th,
+{
+	padding: 0px !important;
+	height: 38px;
+	line-height: 38px;
+	font-size: 12px;
+	
+}
+.sl-page-contanier .bdc-table td ,.sl-page-contanier .bdc-table th{
+	width: 30%;
+	height: 38px;
+	line-height: 38px;
+	font-size: 14px;
+	padding: 0 10px;
+	color:#666666;
+	font-weight:normal;
+	box-sizing:border-box;
+	border:1px solid #e6e6e6;
+}
+.sl-page-contanier .bdc-table td input {
+	width: 100%;
+	height: 100%;
+	color:#666666;
+	font-weight:normal;
+	border: none;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	background: transparent;
+}
+
+.sl-page-contanier .bdc-table .td-name {
+	background: #f2f2f2;
+	text-align: right;
+	width: 20%;
+}
+
+.sl-page-contanier .bdc-table tr:hover {
+	background: #FFFFFF;
+}
+
+.sl-page-contanier .bdc-table .layui-table {
+	margin: 0;
+}
+
+.sl-page-contanier .bdc-content-item .layui-form-item .layui-icon-rate-solid{
+    color:#FF5722;
+    font-size: 1px;
+    opacity: 0.8;
+}
+.sl-page-contanier .bdc-content-item .layui-form-label{
+    width: 100px;
+    padding:9px 10px;
+}
+.sl-page-contanier .xmxkqk-table th{
+	text-align: center;
+	background: #f2f2f2;
+}
+.sl-page-contanier .xmxkqk-table td{
+	position: relative;
+}
+.sl-page-contanier .xmxkqk-table .unit-text{
+	position: absolute;
+	top: 1px;
+	right: 10px;
+	font-size: 14px;
+	color: #999;
+}
+/*受理页面表格2*/
+.sl-page-contanier .bdc-number-table{
+	position: relative;
+}
+.sl-page-contanier .bdc-number-table .sjcl-title{
+	position: absolute;
+	top: 7px;
+	left: 0;
+	margin-bottom: 0;
+	z-index: 999;
+}
+.sl-page-contanier .bdc-number-table .layui-border-box{
+	 border: none; 
+	margin-top: 0px;
+}
+.sl-page-contanier .bdc-number-table .layui-table-tool{
+	background-color: #FFF;
+	border: none;
+	padding: 0 15px;
+	height: 40px;
+	min-height: 40px;
+    line-height: auto
+}
+.sl-page-contanier .bdc-number-table .layui-border-box .layui-table-box{
+	border: 1px solid #e6e6e6;
+}
+.sl-page-contanier .bdc-number-table .layui-table-cell {
+	height: 38px;
+	line-height: 38px;
+}
+.sl-page-contanier .layui-table-tool .layui-btn{
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+}
+.sl-page-contanier .bdc-number-table .layui-btn-normal{
+	background: #1D87D1;
+}
+.sl-page-contanier .bdc-number-table .layui-table-main .layui-btn-normal {
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	font-size: 12px;
+}
+
+.sl-page-contanier .bdc-number-table .layui-form-select {
+	padding-top: 4px;
+}
+
+.sl-page-contanier .bdc-number-table .layui-form-select .layui-input {
+	height: 32px;
+	line-height: 32px;
+}
+
+.sl-page-contanier .bdc-number-table .layui-table-view .layui-table td,
+.layui-table-view .layui-table th {
+	padding: 0px;
+}
+/* 按钮工作条右对齐 */
+.sl-page-contanier .bdc-number-table .layui-table-tool-temp {
+    padding-right: 0px;
+    text-align: right;
+}
+
+/*select下拉框*/
+#chdw-select-box{
+	padding: 9px 0;
+}
+#chdw-select-box .layui-form-select dl dd.layui-select-tips{
+	padding-left: 15px!important;
+}
+#chdw-select-box .layui-input,#chdw-select-box .layui-form-select dl dd{
+	padding-left: 15px;
+}
+
+/*----下拉选项选中背景色*/
+.layui-form-select dl dd.layui-this {
+	background: #1D87D1;
+}
+#chdw-select-box .layui-input, #chdw-select-box .layui-form-select dl dd{
+	padding-left: 10px;
+}
+/*----显示表格中的下拉选项*/
+
+th:nth-child(6) .layui-table-cell,
+th:nth-child(6) .layui-table-tool-panel li,
+td:nth-child(6) .layui-table-cell,
+td:nth-child(6) .layui-table-tool-panel li {
+	overflow: visible !important;
+}
+
+.layui-form-select .layui-input {
+	height: 30px;
+}
+.bdc-add-sjcl-form  .layui-input-inline .layui-input,
+.bdc-add-sjcl-form .layui-form-select .layui-input{
+    width: 280px;
+}
+.bdc-add-sjcl-form .layui-form-item {
+    margin-bottom: 10px;
+}
+.bdc-add-sjcl-form .layui-form-select .layui-edge{
+    right: 50px;
+}
+/* 修改IE中input有焦点时的×删除图标大小 */
+/* .bdc-number-table .layui-table-edit{
+	padding: 7px 10px; 
+	color: #333;
+} */
+/* 去掉IE中input有焦点时的×删除图标 */
+::-ms-clear{display: none;}
+::-ms-reveal{display: none;}
+::-o-clear{display: none;}
+
+/* 必填项未填写 */
+.emptyInput{
+	border: 2px solid #FF5722!important;
+}

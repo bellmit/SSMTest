@@ -1,0 +1,153 @@
+package cn.gtmap.msurveyplat.portalol.web.rest;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.portalol.config.CasProperties;
+import cn.gtmap.msurveyplat.portalol.config.JszwfwProperties;
+import cn.gtmap.msurveyplat.portalol.core.service.JszwfwSsoService;
+import cn.gtmap.msurveyplat.portalol.model.JszwfwUserDto;
+import cn.gtmap.msurveyplat.portalol.model.UserDto;
+import cn.gtmap.msurveyplat.portalol.service.DchyXmglYhdwService;
+import cn.gtmap.msurveyplat.portalol.web.main.BaseController;
+import cn.gtmap.msurveyplat.portalol.web.main.HomeController;
+import com.alibaba.fastjson.JSONObject;
+import com.gtis.config.AppConfig;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+@Controller
+@RequestMapping("/login")
+public class LoginController extends BaseController {
+
+    private final Log logger = LogFactory.getLog(LoginController.class);
+
+    @Autowired
+    private JszwfwSsoService jszwfwSsoService;
+
+    @Autowired
+    DchyXmglYhdwService dchyXmglYhdwService;
+
+    @Resource
+    private CasProperties casProperties;
+
+    @Resource
+    private JszwfwProperties jszwfwProperties;
+
+    /**
+     * @return java.lang.String
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: token
+     * @time 2021/3/19 11:21
+     * @description 江苏政务登录地址
+     */
+    @RequestMapping("/jszwlogin")
+    public String jszwlogin(String token, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
+        logger.info(JSONObject.toJSONString(httpServletRequest.getParameterMap()));
+        logger.info(token);
+        String targetUrl = "redirect:/#/home";
+        if (StringUtils.isNoneBlank(token)) {
+            // 判断是否已经登录
+            JszwfwUserDto jszwfwUserDto = jszwfwSsoService.getTokenInfo(token);
+            if (jszwfwUserDto.isCorpUser()) {
+                boolean isRegisted = dchyXmglYhdwService.usernameIsRepet(jszwfwUserDto.getCreditcode());
+                // 已注册
+                if (isRegisted) {
+                    boolean isavailable = dchyXmglYhdwService.usernameIsRepet(jszwfwUserDto.getCreditcode());
+                    if (isavailable) {
+                        jszwfwUserDto.setAvailed(isavailable);
+                        String path = casProperties.getCasServerUrl() + "/slogin?username=" + URLEncoder.encode(jszwfwUserDto.getCreditcode(), "UTF8") + "&password=" + URLEncoder.encode(StringUtils.reverse(jszwfwUserDto.getCreditcode()), "UTF8") + "&url=" + casProperties.getIndexLogin();
+                        targetUrl = "redirect:" + path;
+                    }
+                }
+            }
+//            TokenUtil.setWebSsoInfoToken(token, JSONObject.toJSONString(jszwfwUserDto));
+        }
+        targetUrl += "?token=" + token;
+        return targetUrl;
+    }
+
+    /**
+     * @return java.lang.String
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: token
+     * @time 2021/3/19 11:21
+     * @description 江苏政务登录获取用户信息
+     */
+    @RequestMapping("/jszwfwuserinfo")
+    @ResponseBody
+    public ResponseMessage jszwfwuserinfo(String token, HttpServletRequest httpServletRequest) {
+        ResponseMessage responseMessage = ResponseUtil.wrapSuccessResponse();
+        if (StringUtils.isNoneBlank(token)) {
+            JszwfwUserDto jszwfwUserDto = jszwfwSsoService.getTokenInfo(token);
+            responseMessage.setData(JSONObject.parseObject(JSONObject.toJSONString(jszwfwUserDto)));
+        } else {
+            responseMessage.getHead().setCode(ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return responseMessage;
+    }
+
+    @ApiOperation(value = "当前用户跳转", notes = "当前用户跳转")
+    @RequestMapping("/disPatcher")
+    public String disPatcher(String token, String rid, HttpServletRequest request) {
+        String targetUrl = "redirect:";
+        try {
+            UserDto userDto = super.getCurrentUserDto(null);
+            if (null != userDto && StringUtils.isNotBlank(userDto.getId())) {
+                // 已登录用户，直接跳转
+                targetUrl += AppConfig.getProperty("portal.url") + "/view/index.html";
+                if (StringUtils.isNotBlank(rid)) {
+                    targetUrl += "?rid=" + rid;
+                }
+            } else if (StringUtils.isNotBlank(token)) {
+                JszwfwUserDto jszwfwUserDto = jszwfwSsoService.getTokenInfo(token);
+                if (!jszwfwUserDto.isLogin()) {
+                    // 政务未登录
+                    targetUrl += jszwfwProperties.getSso();
+                } else if (!jszwfwUserDto.isCorpUser()){
+                    // 个人用户
+                    targetUrl += "/#/home?token=" + token+"&errorCode="+ResponseMessage.CODE.TOKEN_NONCORPUSER.getCode();
+                } else if (jszwfwUserDto.isCorpUser()){
+                    // 企业用户，未登录或注册
+                    // 判断是否注册
+                    boolean isRegisted = dchyXmglYhdwService.usernameIsRepet(jszwfwUserDto.getCreditcode());
+                    // 已注册
+                    if (isRegisted) {
+                        boolean isavailable = dchyXmglYhdwService.usernameIsRepet(jszwfwUserDto.getCreditcode());
+                        if (isavailable) {
+                            // 可用的用户
+                            jszwfwUserDto.setAvailed(isavailable);
+                            String path = casProperties.getCasServerUrl() + "/slogin?username=" + URLEncoder.encode(jszwfwUserDto.getCreditcode(), "UTF8") + "&password=" + URLEncoder.encode(StringUtils.reverse(jszwfwUserDto.getCreditcode()), "UTF8") + "&url=" + casProperties.getIndexLogin();
+                            targetUrl = "redirect:" + path;
+                        } else {
+                            // 用户已禁用
+                            targetUrl += "/#/home?token=" + token+"&errorCode="+ResponseMessage.CODE.USERDISABLE_FAIL.getCode();
+                        }
+                    } else {
+                        // 未注册用户，进行认证
+                        targetUrl += "/#/certificate?token=" + token;
+                    }
+                }
+            } else {
+                // 政务未登录
+                targetUrl += jszwfwProperties.getSso();
+            }
+        } catch (Exception e) {
+            logger.error("登录信息获取失败{}", e);
+            targetUrl += "/#/home?token=" + token+ token+"&errorCode="+ResponseMessage.CODE.EXCEPTION_MGS.getCode();
+        }
+//        System.out.println(targetUrl);
+        return targetUrl;
+    }
+}

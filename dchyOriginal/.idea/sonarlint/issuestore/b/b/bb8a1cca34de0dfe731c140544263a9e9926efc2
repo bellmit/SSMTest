@@ -1,0 +1,12 @@
+
+P	java:S1258"<This block of commented-out lines of code should be removed.(Ï½ÍX
+<
+java:S1168S"&Return an empty array instead of null.(¥¹ï
+V	java:S1252"<This block of commented-out lines of code should be removed.(ñ¥ùšøÿÿÿÿ
+`	java:S112%"FDefine and throw a dedicated exception instead of using a generic one.(Ô‚¬ˆùÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(¬ïŠÖøÿÿÿÿ
+M
+java:S1135R"2Complete the task associated to this TODO comment.(» æÿÿÿÿÿ
+V	java:S125H"<This block of commented-out lines of code should be removed.(ñ¥ùšøÿÿÿÿ
+N
+java:S1068"3Remove this unused "DEFAULT_CHARSET" private field.(‚‡º“ıÿÿÿÿ

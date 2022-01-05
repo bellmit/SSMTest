@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.QualityCheckMapper">
+    <!-- 新增其他错误 -->
+    <insert id="xzqtcw"  parameterType="cn.gtmap.msurveyplat.common.domain.DchyCgglZjqtcwDO">
+        insert into DCHY_CGGL_ZJQTCW(cwid,xmid,shrid,shr,cwms,cwjb,wjzxjdid,tjsj,bz) SELECT  r.*
+        FROM (
+        <foreach collection="cwList" item="item" open="" separator="union all" close="">
+            select #{item.cwid,jdbcType = VARCHAR},#{item.xmid,jdbcType = VARCHAR},#{item.shrid,jdbcType = VARCHAR},
+            #{item.shr,jdbcType = VARCHAR},#{item.cwms,jdbcType = VARCHAR},#{item.cwjb,jdbcType = VARCHAR},
+            #{item.wjzxjdid,jdbcType = VARCHAR}
+            ,#{item.tjsj,jdbcType = TIMESTAMP},#{item.bz,jdbcType = VARCHAR}
+            from dual
+        </foreach>
+        ) r
+
+    </insert>
+
+
+    <select id="getqtcwxx" parameterType="Map" resultType="Map">
+         SELECT cwid,xmid,shrid,shr,cwms,cwjb,wjzxjdid,tjsj FROM DCHY_CGGL_ZJQTCW
+         WHERE CWID=#{CWID}
+    </select>
+
+    <select id="countcwxx" resultType="INTEGER" parameterType="Map">
+        SELECT COUNT(*)FROM DCHY_CGGL_ZJQTCW  WHERE XMID=#{xmid}
+    </select>
+
+
+
+
+
+    <delete id="delQtcw">
+        DELETE FROM DCHY_CGGL_ZJQTCW a
+        <where>
+            <if test="cwidList != null">
+                AND a.cwid IN
+                <foreach collection="cwidList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+
+    <select id="getQtcwListByPage" parameterType="Map" resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglZjqtcwDO">
+        SELECT CWID,XMID,SHRID,SHR,CWMS,CWJB,Z.MC CWDJ,WJZXJDID,TJSJ,BZ FROM DCHY_CGGL_ZJQTCW Q
+        LEFT JOIN DCHY_ZD_CWJB Z ON Q.CWJB = Z.DM
+        <where>
+            <if test="xmid !=null and xmid !=''">
+                xmid = #{xmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getJclx" resultType="Map">
+         select t.dm, t.mc,t.fz, t.cwdj,t.xgyj,t.dllmc,t.mmkjmc,t.ffmc, t.jccs, t.dbtype,t.jcnr from S_ZD_JCLX t order by t.dm
+    </select>
+
+    <select id="getJcjgByPage" parameterType="Map"  resultMap="jcjg">
+        SELECT S.MC CWDJ,S.DM,A.ZDMC,A.TCMC,A.JCSJ,A.CWMS,A.SFLW,A.LWYY,J.MC JCLX,A.CWYSID FROM S_SJ_JCJG A
+        LEFT JOIN S_ZD_CWDJ S ON A.CWDJ = S.DM
+        LEFT JOIN S_ZD_JCLX J ON A.JCLX = J.DM
+        <where>
+            <if test="dm != null and  dm !=''">
+                A.JCLX LIKE #{dm}||'%'
+            </if>
+            <if test="xmbh != null and xmbh !=''">
+                AND A.XMBH = #{xmbh}
+            </if>
+        </where>
+    </select>
+    <resultMap id="jcjg" type="Map">
+        <result property="CWMS" column="CWMS" javaType="java.lang.String" jdbcType="CLOB"/>
+    </resultMap>
+
+    <select id="countJgsl" parameterType="String" resultType="Map">
+        select count(*) jgsl from s_sj_jcjg b
+        where xmbh = #{xmbn} and jclx like #{dm}||'%'
+    </select>
+
+    <select id="getCwjb" resultType="Map">
+        select dm,mc from DCHY_ZD_CWJB
+    </select>
+
+    <select id="getJcnr" parameterType="String" resultMap="jcnr">
+        SELECT T.XMBH,T.JCMS FROM S_SJ_JCJGGK T where XMBH = #{xmbh}
+    </select>
+    <resultMap id="jcnr" type="Map">
+        <result property="JCMS" column="JCMS" javaType="java.lang.String" jdbcType="CLOB"/>
+    </resultMap>
+
+    <select id="countJcjgTotal" parameterType="String" resultType="Map">
+        select count(*) jgsl from s_sj_jcjg b
+        where xmbh = #{xmbn}
+    </select>
+
+</mapper>

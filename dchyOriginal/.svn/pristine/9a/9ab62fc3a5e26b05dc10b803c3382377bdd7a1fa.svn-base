@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclpzMapper">
+
+    <select id="queryResultListMap" resultType="java.util.Map">
+        SELECT n.SJCLPZID,
+               n.CLMC,
+               n.CLLX   AS CLLXID,
+               n.SSMKID,
+               n.XH,
+               n.MRFS,
+               n.SSCLSX AS SSCLSXID,
+               n.NEED,
+               m.MC     AS CLLX,
+               x.MC     AS SSMK,
+               y.MC     AS SSCLSX
+        FROM DCHY_XMGL_SJCLPZ n
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') m ON n.CLLX = m.DM
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'SSMKID') x ON n.SSMKID = x.DM
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLSX') y ON n.SSCLSX = y.DM
+    </select>
+
+    <select id="querySsmkId" resultType="String">
+        SELECT DISTINCT SSMKID
+        FROM DCHY_XMGL_SJCLPZ
+    </select>
+
+    <select id="queryClsxListMap" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NOT NULL
+    </select>
+
+    <select id="queryCsmkListMap" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'SSMKID'
+          AND DM NOT IN (SELECT DISTINCT SSMKID FROM DCHY_XMGL_SJCLPZ)
+    </select>
+
+    <select id="queryRootClsx" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NULL
+    </select>
+
+    <select id="queryChildrenClsx" resultType="java.util.Map">
+        SELECT n.DM AS CLCGPZID,
+               n.ID,
+               n.DM,
+               n.MC,
+               n.FDM,
+               n.ZDLX,
+               n.QTSX,
+               n.DZZD,
+               n.NAME,
+               n.TABLEINDEX
+        FROM DCHY_XMGL_ZD n
+        WHERE ZDLX = 'CLSX'
+          AND FDM = #{fatherDm}
+    </select>
+
+    <select id="queryChildrenLcgpz" resultType="java.util.Map">
+        SELECT CLCGPZID, CLMC, WJLX, CLSX, PCLCGPZID
+        FROM DCHY_XMGL_CLCGPZ
+        WHERE PCLCGPZID = #{pclcgpzid}
+    </select>
+
+    <update id="dropAllRecount">
+        truncate table DCHY_XMGL_CLCGPZ
+    </update>
+
+    <!--获取当前序号最大值-->
+    <select id="queryMaxXhBySsmkid" parameterType="map" resultType="String">
+        SELECT MAX(v.xh) AS slbh FROM dchy_xmgl_sjclpz v
+        <where>
+            <choose>
+                <when test="ssmkid != null and ssmkid != ''">
+                    and v.xh = #{ssmkid}
+                </when>
+                <otherwise>
+                    and v.xh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--根据ssmkid,测量事项获取对应需要上传的材料信息-->
+    <select id="querySjclpzBySsmkIdAndClsx" parameterType="map" resultType="map">
+        select z.sjclpzid, z.clmc, z.cllx, z.mrfs fs, null ys,null wjzxid,z.need,z.ssclsx
+        from DCHY_XMGL_SJCLPZ z
+        <where>
+            <if test="ssmkid != null and ssmkid != '' ">
+                <choose>
+                    <when test="ssmkid != null and ssmkid!=''">
+                        and z.ssmkid = #{ssmkid}
+                    </when>
+                    <otherwise>
+                        and z.ssmkid = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="clsxList != null and clsxList.size() > 0 ">
+                <choose>
+                    <when test="clsxList != null and clsxList.size() > 0 ">
+                        AND
+                        <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                            z.ssclsx = #{item}
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        AND z.ssclsx = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+</mapper>
+
+

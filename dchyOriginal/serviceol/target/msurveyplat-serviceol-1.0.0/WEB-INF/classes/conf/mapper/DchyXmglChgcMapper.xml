@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChgcMapper">
+
+    <!--建设单位需求发布后的查询列表，以及测绘单位查询我的项目-->
+    <select id="queryChgcxxByXmmcOrZtByPage" resultType="map" parameterType="map">
+        SELECT t.chgcid,t.gcbh,t.gcmc,t.chgcbh,t.xqfbbh,t.chxmid,t.xmzt,t.fbsj,t.cgfs,t.fbr FROM
+        (SELECT chgc.chgcid,chgc.gcbh,chgc.gcmc,m.chgcbh,m.xqfbbh,m.chxmid,m.fbr,
+        CASE WHEN xxslxm.xmzt IS NOT NULL THEN xxslxm.xmzt ELSE m.xmzt END xmzt ,m.fbsj,m.cgfs
+        FROM DCHY_XMGL_CHGC chgc
+        INNER JOIN DCHY_XMGL_CHXM m ON chgc.chgcid=m.chgcid
+        LEFT JOIN XSBF_DCHY_XMGL_CHXM xxslxm ON xxslxm.xqfbbh=m.xqfbbh
+        <where>
+            AND m.xmly='1'
+            <if test="usidList !=null and usidList.size >0">
+                AND m.fbr IN
+                <foreach collection="usidList" item="item" index="index" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+        ) t
+        <where>
+            AND t.xmzt IS NOT NULL AND TRIM(t.xmzt) <![CDATA[<> ]]> '0'
+            <if test="gcbh != null and gcbh !=''">
+                AND t.gcbh LIKE '%'|| #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND t.gcmc LIKE '%'|| #{gcmc} || '%'
+            </if>
+            <if test="xmzt != null and xmzt !=''">
+                AND t.xmzt = #{xmzt}
+            </if>
+        </where>
+        ORDER BY t.fbsj DESC NULLS LAST
+    </select>
+
+    <!--根据测绘项目ID查询详情-->
+    <select id="queryChxmxxByChxmid" resultType="map" parameterType="map">
+        SELECT DISTINCT
+        t.chgcid,t.gcbh,t.gcmc,t.gcdzs,t.gcdzss,t.gcdzqx,t.gcdzxx,m.xqfbbh,m.fbsj,m.xmly,m.chxmid,m.cgjfrq,m.cgfs,m.clrzgyq,m.clrzgyq
+        zgyq,t.lxr,t.lxdh,t.wtdw AS xqfbdw
+        FROM DCHY_XMGL_CHGC t
+        LEFT JOIN DCHY_XMGL_CHXM m
+        ON t.chgcid=m.chgcid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX x
+        ON x.chxmid = m.chxmid
+        <where>
+            AND m.xmzt IS NOT NULL AND TRIM(m.xmzt) <![CDATA[<> ]]> '0'
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid = #{chxmid}
+            </if>
+        </where>
+        ORDER BY m.fbsj DESC NULLS LAST
+    </select>
+
+    <!-- 测量事项字典项 -->
+    <select id="getClsxByChxmid" resultType="map" parameterType="map">
+        SELECT t.chxmid,t.clsx
+        FROM DCHY_XMGL_CHXM_CLSX t
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND t.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND t.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY t.clsx NULLS LAST
+    </select>
+
+    <!-- 测绘单位测量事项字关系 -->
+    <select id="getClsxByChdwxxid" resultType="map" parameterType="map">
+        SELECT x.chdwxxid,t.clsx
+        FROM DCHY_XMGL_CLSX_CHDWXX_GX x LEFT JOIN DCHY_XMGL_CHXM_CLSX t ON x.clsxid=t.clsxid
+        <where>
+            <choose>
+                <when test="chdwxxidList !=null and chdwxxidList.size >0">
+                    AND x.chdwxxid IN
+                    <foreach collection="chdwxxidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND x.chdwxxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY t.clsx NULLS LAST
+    </select>
+
+    <!-- 测绘项目测绘单位关系 -->
+    <select id="getChxmChdwxxByChxmid" resultType="map" parameterType="map">
+        SELECT t.chxmid,t.chdwmc,t.mlkid
+        FROM DCHY_XMGL_CHXM_CHDWXX t
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND t.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND t.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

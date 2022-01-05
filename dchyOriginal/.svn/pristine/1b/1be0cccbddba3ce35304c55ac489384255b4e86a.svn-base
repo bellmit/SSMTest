@@ -1,0 +1,61 @@
+.shxx-page-contanier .layui-form-item label{
+	width: 140px;
+}
+.shxx-page-contanier .layui-table th {
+	text-align: center;
+}
+
+.shxx-page-contanier .layui-table .detail-item {
+	width: 12%;
+	text-align: center;
+	background: #f2f2f2;
+}
+
+.shxx-page-contanier .layui-table td {
+	/*height: 120px;*/
+	overflow: hidden;
+	padding: 10px;
+}
+
+.shxx-page-contanier .layui-table .signature-item {
+	width: 19%;
+}
+
+.shxx-page-contanier .layui-table .date-item {
+	width: 15%;
+}
+
+.shxx-page-contanier .layui-table td .handle-btn-box {
+	width: 80px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 20px 20px 20px 0;
+	box-sizing: border-box;
+}
+
+.shxx-page-contanier .layui-table td .handle-btn-box p {
+	padding: 10px 0;
+}
+
+.shxx-page-contanier .layui-table td .handle-btn-box p i {
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+.shxx-page-contanier .layui-table td .signature {
+	width: 100%;
+	height: 100%;
+	font-size: 40px;
+	font-family: "宋体";
+	padding-right: 70px;
+	box-sizing: border-box;
+	border: none;
+}
+.shxx-page-contanier .layui-table tbody tr:hover{
+	background: #FFFFFF;
+}
+
+#zjradioForm .layui-form-radio{
+	width: 150px;
+}

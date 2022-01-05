@@ -1,0 +1,36 @@
+.collapse-header {
+    height: 42px;
+    line-height: 42px;
+    background-color: #f3f4f6;
+    padding: 0 10px;
+    border-bottom: 1px solid #dcdee2;
+    display: flex;
+    justify-content: space-between;
+}
+.collapse-item {
+    border: 1px solid #dcdee2;
+    border-bottom: none;
+}
+.list-title {
+    display: flex;
+    justify-content: space-between;
+}
+.info-title {
+    display: flex;
+    justify-content: flex-start;
+}
+.collapse-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+.page-item {
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+}
+.main-content {
+    min-height: calc(100vh - 60px);
+    padding-bottom: 100px;
+    position: relative;
+}

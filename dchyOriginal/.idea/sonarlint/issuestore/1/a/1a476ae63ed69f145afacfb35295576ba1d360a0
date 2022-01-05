@@ -1,0 +1,23 @@
+
+c
+java:S47194"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñÞZ
+r
+java:S2629i"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(Ý…ìÙ
+Z	java:S112x"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+D
+java:S1144K".Remove this unused private "basicNACK" method.(¤´Àÿ
+w
+java:S2629n"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(„Û¤Åøÿÿÿÿ
+\
+java:S3457:"AFormat specifiers should be used instead of string concatenation.(ñ¦†•øÿÿÿÿ
+Z
+java:S3252e"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+\
+java:S34571"AFormat specifiers should be used instead of string concatenation.(ˆÿ®Ãþÿÿÿÿ
+W
+java:S3457i"AFormat specifiers should be used instead of string concatenation.(Ý…ìÙ
+i
+java:S4719b"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+[	java:S112]"FDefine and throw a dedicated exception instead of using a generic one.(‹ñò‘
+\
+java:S3457n"AFormat specifiers should be used instead of string concatenation.(„Û¤Åøÿÿÿÿ

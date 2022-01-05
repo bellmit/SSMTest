@@ -1,0 +1,72 @@
+<div class="container-fluid" style="width: 96%;margin: 0 auto 0">
+    <div style="padding: 5px;position: relative" >
+        <button id="close" type="button" class="btn btn-default btn-sm pull-right" style="padding-right: 5px;z-index: 5"><i class="fa fa-power-off" aria-hidden="true"></i> 退出</button>
+        <button id="send" type="button" class="btn btn-success btn-sm pull-right" style="margin-right: 5px;z-index: 5"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> 发送</button>
+        <button id="search" type="button" class="btn btn-primary btn-sm pull-right" style="margin-right: 5px;z-index: 5"><i class="fa fa-search" aria-hidden="true"></i> 查询</button>
+    </div>
+    <div class="text-center clearfix">
+        <h3 style="padding-left: 160px;">执法监察违法项目一览表</h3>
+    </div>
+
+    <div id="searchCondition" style="margin-top:20px;border: dotted #e8e5e5 2px; padding-bottom: 3px;padding-top: 5px;">
+        <div style="position: relative;top: -27px">
+            <span class="label label-info"><i class="fa fa-search" aria-hidden="true"></i>  查询条件</span>
+        </div>
+        <form id="leasForm" class="leasForm">
+            <div class="row">
+                <div class="col-xs-4">
+                    <label for="township" class="col-xs-4 control-label text-right">所属乡镇</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="township" name="township" placeholder="所属乡镇">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <label for="landUnit" class="col-xs-4 control-label text-right">用地单位</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="landUnit" name="landUnit" placeholder="用地单位">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <label for="proName" class="col-xs-4 control-label text-right">项目名称</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="proName" name="proName" placeholder="项目名称">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px">
+                <div class="col-xs-4">
+                    <label for="location" class="col-xs-4 control-label text-right">土地坐落</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="location" name="location" placeholder="土地坐落">
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <label class="control-label text-right" style="padding-left: 23px;">动工时间</label>
+
+                    &nbsp;&nbsp;从
+                    <input type="text" style="height: 33px;width: 37%;display: inline-block;" class="form-control laydate-icon" id="startTime"
+                           name="startTime" placeholder="开始动工时间">
+                    &nbsp;到&nbsp;
+                    <input type="text" style="height: 33px;width: 38%;display: inline-block;" class="form-control laydate-icon" id="endTime"
+                           name="endTime" placeholder="结束动工时间">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table table-hover" style="margin-bottom:5px">
+    <thead>
+        <tr>
+            <th></th>
+            <th>所属乡镇</th>
+            <th>用地单位</th>
+            <th>项目名称</th>
+            <th>土地坐落</th>
+            <th>动工时间</th>
+        </tr>
+    </thead>
+    <tbody id="leasProListItems">
+        {{>listItems}}
+    </tbody>
+</table>
+<div id="pageCtx" class="text-center"></div>

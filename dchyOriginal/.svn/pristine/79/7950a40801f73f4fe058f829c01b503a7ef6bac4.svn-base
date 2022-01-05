@@ -1,0 +1,97 @@
+<template>
+    <div>
+        <Tabs>
+            <TabPane label="项目信息" name="applyInfo">
+                <htbadjAdd></htbadjAdd>
+            </TabPane>
+            <TabPane label="成果评价" name="evaluateInfo">
+                <div class="form-title">
+                    <div class="list-title">成果评价</div>
+                    <div>
+                        <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel">返回</Button>
+                    </div>
+                </div>
+                 <Form class="form-edit" :model="evaluateInfo" ref="project-info" :label-width="114">
+                    <Row>
+                        <i-col span="12">
+                            <FormItem v-model="evaluateInfo.gcmc" prop="gcmc" label="工程名称">
+                                <Input readonly v-model="evaluateInfo.gcmc" style="width: 80%"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                    <Row>
+                        <i-col span="12">
+                            <FormItem v-model="evaluateInfo.chdwmc" prop="chdwmc" label="测绘单位">
+                                <Input readonly v-model="evaluateInfo.chdwmc" style="width: 80%"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                    <Row>
+                        <FormItem v-model="evaluateInfo.cgpj" prop="cgpj" label="成果评价">
+                            <RadioGroup v-model="evaluateInfo.cgpj">
+                                <Radio disabled label="1">合格</Radio>
+                                <Radio disabled label="0">不合格</Radio>
+                            </RadioGroup>
+                        </FormItem>
+                    </Row>
+                    <Row>
+                        <i-col span="12">
+                            <FormItem v-model="evaluateInfo.pjyj" prop="pjyj" label="评价意见">
+                                <Input readonly v-model="evaluateInfo.pjyj" :rows="4" type="textarea" style="width: 80%"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                </Form>
+                <div class="form-title">
+                    <div class="list-title">可供下载的附件</div>
+                </div>
+                <uploadFileInfo
+                    ref="upload-file-info" 
+                    :ssmkid="ssmkid" 
+                    :mlkid="cgccid"
+                ></uploadFileInfo>
+            </TabPane>
+        </Tabs>
+    </div>
+</template>
+<script>
+import htbadjAdd from "../changzhou/manage/htbadj-add"
+import uploadFileInfo from "../../components/manage/upload-file-info"
+import { spotcheckevaluationdetails } from "../../service/manage";
+export default {
+    components: {
+        htbadjAdd,
+        uploadFileInfo
+    },
+    data() {
+        return {
+            evaluateInfo: {},
+            ssmkid: "",
+            cgccid: ""
+        }
+    },
+    mounted() {
+        this.cgccid = this.$route.query.cgccid || "";
+        this.getEvaluateInfo();
+    },
+    methods: {
+        // 获取评价信息
+        getEvaluateInfo(){
+            this.$loading.show("加载中...")
+            spotcheckevaluationdetails({cgccid: this.cgccid}).then(res => {
+                this.$loading.close();
+                this.evaluateInfo = res.data.dataList[0]
+            })
+        },
+        cancel(){
+            this.$router.push("/manage/evaluate/list")
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

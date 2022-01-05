@@ -1,0 +1,16 @@
+
+i
+java:S3252 "RUse static access with "org.springframework.beans.BeanUtils" for "copyProperties".(ì¤áÄ
+|
+java:S1488®"`Immediately return this expression instead of assigning it to the temporary variable "clsxList".(³‹Œµıÿÿÿÿ
+G
+java:S1602n",Remove useless curly braces around statement(øø üÿÿÿÿ
+W	java:S125Æ"<This block of commented-out lines of code should be removed.(ŒÒ‰çøÿÿÿÿ
+V	java:S125P"<This block of commented-out lines of code should be removed.(Ì¢§“ÿÿÿÿÿ
+G
+java:S1602e",Remove useless curly braces around statement(øø üÿÿÿÿ
+|
+java:S1488´"`Immediately return this expression instead of assigning it to the temporary variable "csmkList".(Â ×„ùÿÿÿÿ
+`
+java:S1192À"IDefine a constant instead of duplicating this literal "children" 4 times.(Ïª³İ
+r	java:S116&"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ıÖßôùÿÿÿÿ8½å§‡š/

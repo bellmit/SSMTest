@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-width: 320px;
+    background-color: #eaedf1;
+    width: 750px;
+    color: #333;
+    box-sizing: border-box;
+}
+/* 公共样式 */
+.cursor-pointer {
+    cursor: pointer!important;
+}
+.margin-top-10 {
+    margin-top: 10px!important;
+}
+.margin-bottom-10 {
+    margin-bottom: 10px!important;
+}
+.margin-top-20 {
+    margin-top: 20px!important;
+}
+.margin-bottom-20 {
+    margin-bottom: 20px!important;
+}
+
+/* 修改弹框默认样式 */
+.van-dialog {
+    border-radius: 8px!important;
+    min-height: 224px!important;
+    width: auto!important;
+    min-width: 320px!important;
+}
+.van-dialog__header {
+    padding-top: 48px!important;
+}
+.van-dialog__header {
+    font-size: 36px;
+    color: #333;
+}
+.van-dialog__message--has-title {
+    padding-top: 48px!important;
+}
+.van-dialog__message  {
+    font-size: 32px!important;
+    color: #333!important;
+    line-height: 48px!important;
+}
+.van-dialog__footer {
+    padding: 24px 0;
+    border: none!important;
+    display: block!important;
+    position: relative!important;
+    text-align: center!important;
+}
+.van-hairline--top::after {
+    border-top-width: 0px!important
+}
+.van-button {
+    width: auto!important;
+    height: 64px!important;
+    background-color: #1d87d1!important;
+    font-size: 28px!important;
+    color: #fff!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 0 24px!important;
+    margin: 0 auto;
+}
+.van-dialog__footer .van-button {
+    margin: 0 auto!important;
+}
+.van-dialog__footer .van-dialog__cancel {
+    margin-right: 10px!important;
+    color: #333!important;
+    background-color: #f3f4f6!important;
+    border: 1px solid #d0d5da!important;
+} 
+/* 修改提示信息加载中样式 */
+.van-toast--loading {
+    width: 160px!important;
+    height: 160px!important;
+    border-radius: 8px!important;
+    font-size: 28px!important;
+}
+.van-toast  {
+    border-radius: 8px!important;
+    font-size: 28px!important;
+    line-height: 46px!important;
+    box-sizing: border-box!important;
+}
+.van-toast--text {
+    min-height: 80px!important;
+    max-width: 530px!important;
+    padding: 13px 30px!important;
+}
+.van-toast--loading .van-toast__text {
+    margin-top: 24px!important;
+}
+.van-loading__spinner--spinner {
+    width: 50px!important;
+    height: 50px!important;
+}
+/* 按钮 */
+.new-lg-btn {
+    color: white!important;
+    background: #1d87d1!important;
+    height: 80px!important;
+    line-height: 80px!important;
+    font-size: 32px!important;
+    border-radius: 5px!important;
+    width: 690px!important;
+}
+.cancel-lg-btn {
+    color: #333!important;
+    background: #f3f4f6!important;
+    height: 80px!important;
+    line-height: 80px!important;
+    font-size: 32px!important;
+    border-radius: 5px!important;
+    width: 690px!important;
+    border: 1px solid #d0d5da!important;
+}
+/* 标签栏 */
+.van-tabbar {
+    height: 98px!important;
+}
+.van-tabbar .van-tabbar-item__icon {
+    font-size: 44px!important;
+    margin-bottom: 8px;
+}
+.van-tabbar .van-tabbar-item__text {
+    font-size: 28px!important;
+}
+.van-tabbar-item--active {
+    color: #1d87d1!important;
+}
+/* 单元格 */
+.van-cell {
+    height: 84px!important;
+    font-size: 32px!important;
+    padding: 15px 30px!important;
+    line-height: 54px!important;
+    color: #333!important;
+}
+.van-cell .van-cell__left-icon, .van-cell__right-icon {
+    line-height: 54px!important;
+    font-size: 30px!important;
+}
+.van-cell::after {
+    left: 0!important;
+    right: 0!important;
+}
+.van-cell__left-icon {
+    color: #1d87d1!important;
+    font-size: 30px!important;
+    margin-right: 26px!important;
+}
+.cell-item {
+    padding-left: 50px!important;
+    color: #666!important;
+    font-size: 28px!important;
+    height: 94px!important;
+    line-height: 64px!important;
+}
+.cell-item-img {
+    margin-right: 24px;
+    vertical-align: middle;
+    width: 34px;
+}
+.cell-item .van-cell__left-icon, .van-cell__right-icon {
+    line-height: 65px!important;
+    font-size: 30px!important;
+}
+.home-cell-head {
+    height: 70px!important;
+    line-height: 40px!important;
+}
+.title-list {
+    display: inline-block;
+    vertical-align: middle;
+    height: 32px;
+    border-left: 6px solid #1d87d1;
+    margin-top: -4px;
+    margin-right: 12px;
+}
+/* 输入框 */
+.van-field__left-icon {
+    margin-right: 30px!important;
+}
+.van-field__control {
+    color: #333!important;
+}
+.van-field__control::placeholder {
+    color: #999!important;
+}
+.van-field--error .van-field__control, .van-field--error .van-field__control::placeholder {
+    color: #999!important;
+}
+.yzm-btn {
+    position: absolute!important;
+    top: 0;
+    right: -25px;
+    background: #fff!important;
+    color: #1d87d1!important;
+    border: 1px solid #1d87d1!important;
+    height: 60px!important;
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}
+/* 表单 */
+
+.van-form .van-cell {
+    height: 60px!important;
+    font-size: 24px!important;
+    line-height: 60px!important;
+    padding: 0!important;
+}
+.van-login-form .van-cell {
+    height: 80px!important;
+    font-size: 28px!important;
+    line-height: 52px!important;
+    padding: 15px 30px!important;
+}
+.blue {
+    color: #1d87d1;
+}
+.van-form .van-checkbox__icon {
+    font-size: 24px;
+    margin-right: 16px;
+}
+.van-tabbar .van-tabbar-item__icon img {
+    width: 44px!important;
+    height: 44px!important;
+}
+.van-picker__cancel, .van-picker__confirm {
+    font-size: 28px!important;
+}
+.form-edit .van-field__label {
+    border: 1px solid #d0d5da;
+    padding-right: 12px;
+    background-color: #f3f4f6 ;
+    margin-right: 0;
+}
+.form-edit .van-cell:nth-child(n+2) .van-field__label{
+    border-top: none;
+}
+.form-edit .van-cell__value {
+    border: 1px solid #d0d5da;
+    border-left: none;
+    padding-left: 12px;
+}
+.form-edit .van-cell:nth-child(n+2) .van-cell__value{
+    border-top: none;
+}

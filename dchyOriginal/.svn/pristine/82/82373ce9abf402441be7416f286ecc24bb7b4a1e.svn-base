@@ -1,0 +1,508 @@
+<template>
+    <div class="application-view">
+        <Tabs  @on-click="changeTabs" v-model="current">
+            <TabPane label="建设单位评价记录" name="jsdw">
+                <div class="search-form">
+                    <Form ref="jsdwInline" :model="jsdwInline" :rules="ruleInline" inline>
+                        <Row>
+                            <i-col span="10">
+                                <FormItem label="考评时间 " class="form-list-search" prop="pjsj" :label-width="120">
+                                    <Row class="form-list-search">
+                                        <i-col span="11">
+                                        <DatePicker @on-change="kssjChange" class="form-search-item" format="yyyy-MM-dd" :options="ksOptions"
+                                                    v-model="jsdwInline.pjkssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                        <i-col span="1">
+                                        <div style="text-align:center">-</div>
+                                        </i-col>
+                                        <i-col span="12">
+                                        <DatePicker @on-change="jssjChange" class="form-search-item" format="yyyy-MM-dd" :options="jsOptions"
+                                                    v-model="jsdwInline.pjjssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                    </Row>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem label="满意度 " class="form-list-search" prop="fwpj" :label-width="120">
+                                    <Select v-model="jsdwInline.fwpj" clearable class="form-search-item">
+                                        <Option v-for="item in kpjgList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                    </Select>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem :label-width="20">
+                                    <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getEvaluationList(1)">查询</Button>
+                                    <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                                </FormItem>
+                            </i-col>
+                        </Row>
+                    </Form>
+                </div>
+                <Table 
+                    :id="'jsdwTableId'"
+                    :pageId="'jsdwPageId'"
+                    :cols="jsdwCols" 
+                    :data="jsdwList" 
+                    :count="jsdwTotal" 
+                    :page="jsdwInline.page"
+                    :size="jsdwInline.size"
+                    :func="getEvaluationList"
+                ></Table>
+            </TabPane>
+            <TabPane label="管理单位考评记录" name="gldw">
+                <div class="search-form">
+                    <Form ref="gldwInline" :model="gldwInline" :rules="ruleInline" inline>
+                        <Row>
+                            <i-col span="10">
+                                <FormItem label="考评时间 " class="form-list-search" prop="kpkssj" :label-width="120">
+                                    <Row class="form-list-search">
+                                        <i-col span="11">
+                                        <DatePicker @on-change="kssjChange" class="form-search-item" format="yyyy-MM-dd" :options="ksOptions"
+                                                    v-model="gldwInline.kpkssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                        <i-col span="1">
+                                        <div style="text-align:center">-</div>
+                                        </i-col>
+                                        <i-col span="12">
+                                        <DatePicker @on-change="jssjChange" class="form-search-item" format="yyyy-MM-dd" :options="jsOptions"
+                                                    v-model="gldwInline.kpjssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                    </Row>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem label="考评结果 " class="form-list-search" prop="kpjg" :label-width="120">
+                                    <Select v-model="gldwInline.kpjg" clearable class="form-search-item">
+                                        <Option v-for="item in kpzdList" :value="item.kpjg" :key="item.kpjg">{{ item.MC }}</Option>
+                                    </Select>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem :label-width="20">
+                                    <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getEvaluationList(1)">查询</Button>
+                                    <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                                </FormItem>
+                            </i-col>
+                        </Row>
+                    </Form>
+                </div>
+                <Table 
+                    :id="'gldwTableId'"
+                    :pageId="'gldwPageId'"
+                    :cols="gldwCols" 
+                    :data="gldwList" 
+                    :page="gldwInline.page"
+                    :size="gldwInline.size"
+                    :count="gldwTotal" 
+                    :func="getEvaluationList"
+                ></Table>
+            </TabPane>
+            <TabPane label="管理单位抽查结果" name="ccjg">
+                <div class="search-form">
+                    <Form ref="formInlineCcjg" :model="formInlineCcjg" :label-width="120" :rules="ruleInline" inline>
+                        <Row>
+                            <i-col span="10">
+                                <FormItem label="评价时间 " class="form-list-search" prop="kssj" >
+                                    <Row class="form-list-search">
+                                        <i-col span="11">
+                                        <DatePicker class="form-search-item" @on-change="kssjChange" format="yyyy-MM-dd" :options="ksOptions"
+                                                    v-model="formInlineCcjg.kssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                        <i-col span="1">
+                                        <div style="text-align:center">-</div>
+                                        </i-col>
+                                        <i-col span="12">
+                                        <DatePicker class="form-search-item" @on-change="jssjChange" format="yyyy-MM-dd" :options="jsOptions"
+                                                    v-model="formInlineCcjg.jssj" type="date" placeholder="请选择"></DatePicker>
+                                        </i-col>
+                                    </Row>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem label="评价结果 " class="form-list-search" prop="cgpj">
+                                    <Select  v-model="formInlineCcjg.cgpj" clearable class="form-search-item">
+                                        <Option v-for="item in pjjgList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                    </Select>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="6">
+                                <FormItem :label-width="20">
+                                    <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getEvaluationList(1)">查询</Button>
+                                    <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                                </FormItem>
+                            </i-col>
+                        </Row>
+                    </Form>
+                </div>
+                <Table
+                :id="'gldwCcjgTableId'"
+                :pageId="'gldwCcjgPageId'"
+                :operationId="'gldwCcjgOperation'"
+                :cols="gldwCcjgCols"
+                :data="gldwCcjgList"
+                :count="gldwCcjgTotal"
+                :page="formInlineCcjg.page"
+                :size="formInlineCcjg.size"
+                :operation="operationList"
+                :func="getEvaluationList"
+                @fjdownload="fjdownload"
+                @deleteOpr="deleteOpr"
+                ></Table>
+        </TabPane>
+            <Button class="btn-cancel" slot="extra" @click="cancel()">返回</Button>
+        </Tabs>
+    </div>
+</template>
+<script>
+import moment from "moment";
+import { getgldwTableList, getJsdwTableList,gldwEvaluationCheckResults, getKpDictInfo } from "../../../service/evaluate"
+export default {
+    data() {
+        return {
+            current: "jsdw",
+            gldwInline: {
+                mlkid:"",
+                kpkssj: "",
+                kpjssj: "",
+                page:1,
+                size:10
+            },
+            jsdwInline: {
+                mlkid: "",
+                pjkssj: "",
+                pjjssj: "",
+                page: 1,
+                size: 10
+            },
+            formInlineCcjg: {
+                mlkid: "",
+                cgpj: "",
+                kssj: "",
+                jssj: "",
+                page: 1,
+                size: 10
+            },
+            kpjgList: [
+                {
+                    value: "",
+                    label: "全部"
+                },
+                {
+                    value: "1",
+                    label: "差"
+                },
+                {
+                    value: "2",
+                    label: "较差"
+                },
+                {
+                    value: "3",
+                    label: "一般"
+                },
+                {
+                    value: "4",
+                    label: "满意"
+                },
+                {
+                    value: "5",
+                    label: "非常满意"
+                }
+            ],
+            ruleInline: {},
+            jsdwList: [],
+            ksOptions: {},
+            jsOptions: {},
+            jsdwTotal: 0,
+            jsdwCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center",
+                },
+                {
+                    field: "WTDW",
+                    title: "建设单位",
+                    align: "center"
+                },
+                {
+                    field: "FWPJ",
+                    title: "满意度",
+                    align: "center",
+                    templet: function(d){
+                        if(d.FWPJ == "1"){
+                            return '差'
+                        }else if(d.FWPJ == "2"){
+                            return '较差'
+                        }else if(d.FWPJ == "3"){
+                            return '一般'
+                        }else if(d.FWPJ == "4"){
+                            return '满意'
+                        }else if(d.FWPJ == "5"){
+                            return '非常满意'
+                        }else{
+                            return ""
+                        }
+                    }
+                },
+                {
+                    field: "PJYJ",
+                    title: "评价意见",
+                    align: "center"
+                },
+                {
+                    field: "PJSJ",
+                    title: "评价时间",
+                    align: "center"
+                }
+            ],
+            gldwList: [],
+            gldwTotal: 0,
+            gldwCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                {
+                    field: "KPJG",
+                    title: "考评结果",
+                    align: "center",
+                },
+                {
+                    field: "kpnr",
+                    title: "考评内容",
+                    align: "center",
+                    templet: function(d){
+                        return "信用： " + d.XY + "分； "+ "成果质量： " + d.CGZL + "分； " + "满意度： " + d.MYD + "分；"
+                    }
+                },
+                {
+                    field: "KPSJ",
+                    title: "考评时间",
+                    align: "center"
+                },
+                {
+                    field: "KPYJ",
+                    title: "考评意见",
+                    align: "center"
+                }
+            ],
+            operationList: ["fjdownload"],
+            gldwCcjgList:[],
+            gldwCcjgTotal:0,
+            kpzdList: [],
+            pjjgList: [
+                {
+                    value: "",
+                    label: "全部"
+                },
+                {
+                    value: "1",
+                    label: "合格"
+                },
+                {
+                    value: "2",
+                    label: "不合格"
+                },
+            ],
+            gldwCcjgCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                {
+                    field: "XMBABH",
+                    title: "项目编号",
+                    align: "center"
+                },
+                {
+                    field: "GCBH",
+                    title: "工程编号",
+                    align: "center",
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center"
+                },
+                {
+                    field: "JSDW",
+                    title: "建设单位名称",
+                    align: "center"
+                },
+                {
+                    field: "CGPJ",
+                    title: "评价结果",
+                    align: "center",
+                    templet: function(d){
+                        if(d.CGPJ){
+                        let className= d.CGPJ==="合格" ? "color-finish" :  "color-unfinish"
+                                return "<span class='"+className+"'>"+d.CGPJ+"</span>"
+                        }else{
+                        return ""
+                        }
+
+                    }
+                },
+                {
+                    field: "PJYJ",
+                    title: "评价意见",
+                    align: "center"
+                },
+                {
+                    field: "PJSJ",
+                    title: "评价时间",
+                    align: "center"
+                },
+                {
+                    title: '操作',
+                    align: "center",
+                    toolbar: '#gldwCcjgOperation'
+                }
+            ]
+        }
+    },
+    mounted() {
+        if(this.$route.query.mlkid){
+            this.gldwInline.mlkid = this.$route.query.mlkid
+            this.jsdwInline.mlkid = this.$route.query.mlkid
+            this.formInlineCcjg.mlkid = this.$route.query.mlkid
+        }
+        this.getEvaluationList();
+        this.getKpDictInfo();
+    },
+    methods: {
+        // 获取建设单位评价信息list
+        getEvaluationList(page,size){
+            if (this.current == "jsdw") {
+                if(page){
+                    this.jsdwInline.page = page
+                    this.jsdwInline.size = size || this.jsdwInline.size
+                }
+                this.jsdwInline.pjkssj = this.jsdwInline.pjkssj ? moment(this.jsdwInline.pjkssj).format("YYYY-MM-DD") : "";
+                this.jsdwInline.pjjssj = this.jsdwInline.pjjssj ? moment(this.jsdwInline.pjjssj).format("YYYY-MM-DD") : "";
+                this.$loading.show("加载中...")
+                getJsdwTableList(this.jsdwInline).then(res => {
+                    this.$loading.close();
+                    this.jsdwList = res.data.dataList || [];
+                    this.jsdwTotal = res.data.totalNum || 0;
+                })
+            }else if(this.current == "gldw"){
+                if(page){
+                this.gldwInline.page = page
+                this.gldwInline.size = size || this.gldwInline.size
+                }
+                this.gldwInline.kpkssj = this.gldwInline.kpkssj ? moment(this.gldwInline.kpkssj).format("YYYY-MM-DD") : "";
+                this.gldwInline.kpjssj = this.gldwInline.kpjssj ? moment(this.gldwInline.kpjssj).format("YYYY-MM-DD") : "";
+                this.$loading.show("加载中...")
+                getgldwTableList(this.gldwInline).then(res => {
+                    this.$loading.close();
+                    this.gldwList = res.data.dataList || []
+                    this.gldwTotal = res.data.totalNum || 0
+                })
+            }else if (this.current == 'ccjg') {
+                if (page) {
+                    this.formInlineCcjg.page = page
+                    this.formInlineCcjg.size = size || this.formInlineCcjg.size
+                }
+                this.formInlineCcjg.kssj = this.formInlineCcjg.kssj ? moment(this.formInlineCcjg.kssj).format("YYYY-MM-DD") : "";
+                this.formInlineCcjg.jssj = this.formInlineCcjg.jssj ? moment(this.formInlineCcjg.jssj).format("YYYY-MM-DD") : "";
+                this.$loading.show("加载中...")
+                gldwEvaluationCheckResults(this.formInlineCcjg).then(res => {
+                    this.$loading.close()
+                    this.gldwCcjgList = res.data.dataList || [];
+                    this.gldwCcjgTotal = res.data.totalNum || 0;
+                })
+            }
+        },
+        getKpDictInfo() {
+            this.kpzdList = [];
+            this.kpzdList.push(
+            {
+                kpjg: "",
+                MC: "全部"
+            }
+            )
+            getKpDictInfo().then(res => {
+                res.forEach(list => {
+                    this.kpzdList.push(list)
+                })
+            })
+        },   
+        cancel(){
+            this.$router.push("/admin/evaluation")
+        },
+        // 控制结束时间可选状态
+        kssjChange(select) {
+            this.jsOptions.disabledDate = (date) => {
+            return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select) {
+            this.ksOptions.disabledDate = (date) => {
+            return date && (moment(date).unix() > moment(select).unix());
+            }
+        },
+        //附件下载
+        fjdownload(data){
+            if(data.SFSC == "0"){
+                return
+            }
+            if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            location.href=location.origin + '/msurveyplat-serviceol/gldw/download?cgccid=' + data.CGCCID
+        },
+        changeTabs(name) {
+            this.current = name
+            this.getEvaluationList(1)
+        },
+        // 重置查询表单
+        resetForm() {
+            if (this.current == "jsdw") {
+                this.jsdwInline = {
+                    page: this.jsdwInline.page,
+                    size: this.jsdwInline.size,
+                    mlkid: this.jsdwInline.mlkid
+                }
+            } else if(this.current == "gldw") {
+                this.gldwInline = {
+                    page: this.gldwInline.page,
+                    size: this.gldwInline.size,
+                    mlkid: this.gldwInline.mlkid
+                }
+            }else {
+                this.formInlineCcjg = {
+                    page: this.formInlineCcjg.page,
+                    size: this.formInlineCcjg.size,
+                    mlkid: this.formInlineCcjg.mlkid
+                }
+            }
+        },
+        // 删除操作
+        deleteOpr(){
+            if(this.current == "ccjg" && this.gldwCcjgList && this.gldwCcjgList.length){
+                this.gldwCcjgList.forEach((list, index) => {
+                if (list.SFSC == "0" ) {
+                    $(".table:eq(2)").find(".layui-table:eq(1) tr:eq("+index+")").find("td").last().find("span[lay-event='fjdownload']").addClass("table-btn-disabled cursor-not-allowed");
+                } 
+                });
+            }
+        },
+    },
+}
+</script>

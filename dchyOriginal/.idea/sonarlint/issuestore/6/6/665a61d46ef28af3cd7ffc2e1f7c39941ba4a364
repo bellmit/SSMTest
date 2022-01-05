@@ -1,0 +1,139 @@
+
+`
+java:S1192¢"IDefine a constant instead of duplicating this literal "clsxList" 3 times.(”ûƒ³
+3
+java:S1643ê	"Use a StringBuilder instead.(¦¶¥±
+3
+java:S1643”
+"Use a StringBuilder instead.(¨†ìª
+F
+java:S3740œ"/Provide the parametrized type for this generic.(­ÚŠ
+n
+java:S3776µ"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(Ÿ‡ııÿÿÿÿ
+o	java:S135Â"YReduce the total number of break and continue statements in this loop to use at most one.(èÃ¼æ
+d
+java:S5361Í"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ä§ŞÙüÿÿÿÿ
+b
+java:S1192±"KDefine a constant instead of duplicating this literal "  å…ƒç´ : " 3 times.(µº
+d
+java:S5361†"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ïášÙıÿÿÿÿ
+K
+java:S3740ğ"/Provide the parametrized type for this generic.(†»‰ğüÿÿÿÿ
+i
+java:S3776İ"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(‚Â²À
+d
+java:S1192¶"HDefine a constant instead of duplicating this literal "chxmid" 17 times.(×„éÿıÿÿÿÿ
+c
+java:S1192–"GDefine a constant instead of duplicating this literal "chgcbh" 3 times.(¤ä‘ãüÿÿÿÿ
+n
+java:S3776Ã	"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(î¬ÌÜùÿÿÿÿ
+e
+java:S1192Å"IDefine a constant instead of duplicating this literal "parentId" 6 times.(ı¸Ôùÿÿÿÿ
+c
+java:S1192‡"GDefine a constant instead of duplicating this literal "CHXMID" 4 times.(¯÷Ù´ıÿÿÿÿ
+l
+java:S1192Ò"PDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› :{}" 4 times.(à¼´†ÿÿÿÿÿ
+8
+java:S1643Ø"Use a StringBuilder instead.(ÜãĞşÿÿÿÿ
+[
+java:S2259Ì"DA "NullPointerException" could be thrown; "yhxxPz" is nullable here.(ñõŞ†
+^
+java:S1192"GDefine a constant instead of duplicating this literal "CHDWMC" 4 times.(Ã†î¿
+i
+java:S3776²
+"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(Â£¦ÿ
+T
+java:S1144ô"8Remove this unused private "getChdwmcByChdwxxid" method.(¤†öñùÿÿÿÿ
+[
+java:S1144É"?Remove this unused private "querySsjdAndClsxByClsxList" method.(ßŸø…üÿÿÿÿ
+n
+java:S3776ö"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(…òÿÕüÿÿÿÿ
+f
+java:S1192ø	"JDefine a constant instead of duplicating this literal "pclcgpzid" 3 times.(³ü—öúÿÿÿÿ
+i
+java:S3776Ğ"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(ƒİÚ¯
+n
+java:S3776À"RRefactor this method to reduce its Cognitive Complexity from 99 to the 15 allowed.(¯ú·¢ùÿÿÿÿ
+d
+java:S5361Í"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ä§ŞÙüÿÿÿÿ
+g
+java:S1192Ú"KDefine a constant instead of duplicating this literal "childCount" 4 times.(ÑıÛŠùÿÿÿÿ
+i
+java:S3776ƒ"RRefactor this method to reduce its Cognitive Complexity from 64 to the 15 allowed.(ñ‚ïä
+n
+java:S3776÷"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(˜ÂË‘ùÿÿÿÿ
+c
+java:S1192å"GDefine a constant instead of duplicating this literal "title" 18 times.(ÍïğÄüÿÿÿÿ
+R
+java:S2589c"7Remove this expression which always evaluates to "true"(–±ø´ùÿÿÿÿ
+]
+java:S1192Ç"FDefine a constant instead of duplicating this literal "scope" 6 times.(²¹Ò¹
+F
+java:S3740ì"/Provide the parametrized type for this generic.(ÍûşÏ
+I
+java:S1144«"2Remove this unused private "getSlDhByGcid" method.(Ï¿š†
+n
+java:S3776Ü
+"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(ş»ë¢øÿÿÿÿ
+K
+java:S1144›"4Remove this unused private "getRegisterTime" method.(ÅïÌ¦
+n
+java:S3776³"RRefactor this method to reduce its Cognitive Complexity from 40 to the 15 allowed.(’×ƒúüÿÿÿÿ
+E
+java:S1144»".Remove this unused private "getXmcgzt" method.(ã¬ğ¢
+K
+java:S1144Â"4Remove this unused private "getClsxParentDm" method.(Á–¦
+c
+java:S1871Ş"MThis branch's code block is the same as the block for the branch on line 731.(Øµü5
+d
+java:S5361Í"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ä§ŞÙüÿÿÿÿ
+K
+java:S3740„"/Provide the parametrized type for this generic.(ß¶‚‚şÿÿÿÿ
+^
+java:S1192‡"GDefine a constant instead of duplicating this literal "chgcid" 9 times.(ÎÎÑ
+i
+java:S3776”"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(â—€á
+8
+java:S1643å"Use a StringBuilder instead.(¤ıØ”øÿÿÿÿ
+n
+java:S3776‘"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(ù²º±øÿÿÿÿ
+R
+java:S1144„"6Remove this unused private "getChdwmcByClsxid" method.(ß¶‚‚şÿÿÿÿ
+d
+java:S1192È"HDefine a constant instead of duplicating this literal "wjzxid" 17 times.(’¬Øøÿÿÿÿ
+n
+java:S3776Š"RRefactor this method to reduce its Cognitive Complexity from 44 to the 15 allowed.(½Âşÿÿÿÿÿ
+m
+java:S3776M"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(çÁŠ±ûÿÿÿÿ
+f
+java:S1192ñ"JDefine a constant instead of duplicating this literal "children" 10 times.(û»«ùÿÿÿÿ
+n
+java:S3776¦"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(àíéıÿÿÿÿ
+K
+java:S3740–"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+b
+java:S1192É"KDefine a constant instead of duplicating this literal "updateTime" 6 times.(¾½ÿê
+2
+java:S3626Å"Remove this redundant jump.(ÉŠ©ƒ
+b
+java:S1192Y"GDefine a constant instead of duplicating this literal "chdwmc" 5 times.(æ»¯©ûÿÿÿÿ
+]
+java:S1192ä"FDefine a constant instead of duplicating this literal "items" 3 times.( ¯ô¼
+B
+java:S1168½"+Return an empty collection instead of null.(¥¹ï
+d
+java:S5361†"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ïášÙıÿÿÿÿ
+b
+java:S3252Ø"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(øîóÿÿÿÿÿ
+i
+java:S3776•"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¢ÂÙË
+8
+java:S1643"Use a StringBuilder instead.(ªÌé¨ùÿÿÿÿ
+F
+java:S3740Õ"/Provide the parametrized type for this generic.(â‹²‰
+d
+java:S5361†"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ïášÙıÿÿÿÿ
+h
+java:S3776~"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(À°ï˜
+b
+java:S3252å"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(Û«ä„úÿÿÿÿ

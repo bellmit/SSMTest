@@ -1,0 +1,1088 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">委托项目信息</div>
+            <div>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="!readonly" @click="submit()">保存</Button>
+                <Button type="primary" v-if="isEdit" class="btn-h-34 bdc-major-btn" @click="edit()">编辑</Button>
+                <Button type="primary" v-if="isRetrieve" class="btn-h-34 bdc-major-btn" @click="retrieve()">取回</Button>
+                <Button type="primary" class="btn-h-34 bdc-major-btn margin-left-10" v-if="isHy" @click="verifyData">核验</Button>
+                <Button type="primary" v-if="wtzt || isRetrieve || isHy" class="btn-h-34 bdc-major-btn margin-left-10" @click="viewFj()">附件材料</Button>
+                <Button type="primary" v-if="!readonly || isEdit" class="btn-h-34 bdc-major-btn margin-left-10" @click="sure()">委托</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel">返回</Button>
+            </div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" ref="commission-form" :model="commissionForm" :rules="ruleInline" :label-width="128">
+            <Row v-if="hyyj">
+                <FormItem label="委托核验意见">
+                    <span style="font-size: 16px;line-height: 36px;font-weight: bold;display: inline-block" class="font-color-tip">{{hyyj}}</span>
+                </FormItem>
+            </Row>
+            <Row v-if="shyj">
+                <FormItem label="备案审核意见">
+                    <span style="font-size: 16px;line-height: 36px;font-weight: bold;display: inline-block" class="font-color-tip">{{shyj}}</span>
+                </FormItem>
+            </Row>
+            <Row>
+                <FormItem v-model="commissionForm.clsx" :class="{'requireStar': btxyzList.includes('clsx')}" prop="clsx" label="测绘事项 ">
+                    <div class="stage-tree">
+                        <div class="select-row-tree">
+                            <div v-for="(tree,index) in treeList" :key="index">
+                                <Tree @on-check-change="checkChange" :data="tree" show-checkbox></Tree>
+                        </div>
+                        </div>
+                    </div>
+                </FormItem>
+            </Row>
+            <Row>
+                <i-col span="8">
+                <FormItem v-model="commissionForm.gcmc" prop="gcmc" class="required-link" label="工程名称 ">
+                    <Input :readonly="readonly" v-model="commissionForm.gcmc"/>
+                </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.gcbh" prop="gcbh" class="required-link" label="工程编号 ">
+                        <Input :readonly="readonly" v-model="commissionForm.gcbh"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.wtbh" prop="wtbh" label="委托编号 ">
+                        <Input :readonly="true" v-model="commissionForm.wtbh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.wtdw" :class="{'requireStar': btxyzList.includes('wtdw')}" prop="wtdw" label="建设单位 ">
+                        <Input :readonly="true" v-model="commissionForm.wtdw"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.lxr" :class="{'requireStar': btxyzList.includes('lxr')}" prop="lxr" label="联系人 ">
+                        <Input :readonly="readonly" v-model="commissionForm.lxr"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.lxdh" :class="{'requireStar': btxyzList.includes('lxdh')}" prop="lxdh" label="联系电话 ">
+                        <Input :readonly="readonly" v-model="commissionForm.lxdh"/>
+                    </FormItem>
+                </i-col>
+                
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.chdw" prop="chdw" :class="{'requireStar': btxyzList.includes('chdw')}" label="测绘单位 ">
+                        <div style="width: 100%" class="chdw-form">
+                            <Select :disabled="readonly" v-model="commissionForm.chdw" filterable @on-change="changeChdw" :class="readonly?'':'chdw-lr'">
+                                <Option v-for="item in chdwList" :key="item.CHDWID" :value="item.CHDWID">{{item.CHDWMC}}</Option>
+                            </Select>
+                            <span v-if="!readonly" class="font-color-major cursor-pointer" @click="toMlk">名录库列表</span>
+                        </div>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.chjglxr" :class="{'requireStar': btxyzList.includes('chjglxr')}" prop="chjglxr" label="联系人 ">
+                        <Input :disabled="true" v-model="commissionForm.chjglxr"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.chjglxdh" :class="{'requireStar': btxyzList.includes('chjglxdh')}" prop="chjglxdh" label="联系电话 ">
+                        <Input :disabled="true" v-model="commissionForm.chjglxdh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+             <Row>
+                <i-col span="16">
+                    <FormItem  v-model="commissionForm.gcdzs" :title="gcddMc" :class="{'requireStar': btxyzList.includes('gcdzs')}" prop="gcdzs" label="工程地点 ">
+                        <Row>
+                            <i-col span="16">
+                                <Row>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="commissionForm.gcdzs" @on-select="selectGcdzs" placeholder="">
+                                            <Option v-for="(item) in gcdzsList" :key="item.DM" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="commissionForm.gcdzss" @on-select="selectGcdzss" placeholder="">
+                                            <Option v-for="(item) in gcdzssList" :key="item.DM" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="commissionForm.gcdzqx" placeholder="">
+                                            <Option v-for="(item) in gcdzqxList" :key="item.DM" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                </Row>
+                            </i-col>
+                            <i-col span="8">
+                                <Input :readonly="readonly" style="margin-left: 5px;" v-model="commissionForm.gcdzxx"/>  
+                            </i-col>  
+                        </Row>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="commissionForm.ys" :class="{'requireStar': btxyzList.includes('ys')}" prop="ys" label="预算（元） ">
+                        <Input :readonly="readonly" v-model="commissionForm.ys"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+        </Form>
+        <div v-if="showHtFj" class="line-dashed margin-bottom-10"></div>
+        <div v-if="showHtFj" class="form-title">
+            <div class="list-title">上传合同</div>
+        </div>
+        <uploadFileInfo
+            ref="upload-file-ht"
+            v-if="showHtFj"
+            :deleteColumns="deleteColumns"
+            :glsxid="chxmid"
+            :ssmkid="'22'"
+        ></uploadFileInfo>
+        <div v-if="showHyFj" class="line-dashed margin-bottom-10 margin-top-10"></div>
+        <div v-if="showHyFj" class="form-title">
+            <div class="list-title">核验材料</div>
+        </div>
+        <uploadFileInfo
+            ref="upload-file-hy01"
+            v-if="showHyFj"
+            :deleteColumns="deleteColumns"
+            :glsxid="chxmid"
+            :ssmkid="'19'"
+        ></uploadFileInfo>
+        <div class="line-dashed margin-bottom-10 margin-top-10"></div>
+        <div class="form-title">
+            <div class="list-title">附件材料</div>
+        </div>
+        <uploadFile
+            ref="upload-file"
+            v-if="!fileReadOnly"
+            :glsxid="chxmid"
+            :ssmkid="ssmkid"
+            :needclsx="true"
+            :needsave="true"
+            :clsxList="checkedClsxList"
+            :deleteFileList="deleteFileList"
+            :showDefaultTool="true"
+            :sjclurl="sjclurl"
+            :url="'/fileoperation/uploadfilestosx'"
+        ></uploadFile>
+        <uploadFileInfo
+            ref="upload-file-info"
+            v-if="fileReadOnly"
+            :glsxid="chxmid"
+            :clsxList="checkedClsxList"
+            :deleteColumns="deleteColumns"
+            :deleteFileList="deleteFileList"
+            :ssmkid="ssmkid"
+            :needclsx="true"
+            :wtzt="wtzt"
+            :url="sjclurl"
+        ></uploadFileInfo>
+        <Modal
+            class="modal-base form-verify"
+            v-model="visible"
+            :title="'核验意见'"
+            width="1000"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <div class="form-title">
+                <div class="list-title">核验意见</div>
+            </div>
+            <Form v-if="visible" class="form-edit" :hide-required-mark="hideRequiredMark" ref="verify-form" @on-validate="validateChecked" :model="verifyForm" :rules="fileRule" :label-width="114" >
+                <FormItem v-model="verifyForm.wtzt" prop="wtzt" label="核验结果 ">
+                    <RadioGroup @on-change="changeWtzt" v-model="verifyForm.wtzt">
+                        <Radio label="3">接受委托</Radio>
+                        <Radio label="4">拒绝委托</Radio>
+                    </RadioGroup>
+                </FormItem>
+                <FormItem v-model="verifyForm.lxr" prop="lxr" label="联系人 ">
+                    <Input v-model="verifyForm.lxr" style="width: 60%"  placeholder=""/>
+                </FormItem>
+                <FormItem v-model="verifyForm.lxdh" prop="lxdh" label="联系电话 ">
+                    <Input v-model="verifyForm.lxdh" style="width: 60%"  placeholder=""/>
+                </FormItem>
+                <FormItem v-model="verifyForm.hyyj" prop="hyyj" label="核验意见 ">
+                    <Input v-model="verifyForm.hyyj" style="width: 60%" :rows="4" type="textarea" placeholder=""/>
+                </FormItem>
+            </Form>
+            <div class="form-title" v-if="verifyForm.wtzt=='3'">
+                <div class="list-title">附件材料</div>
+            </div>
+            <uploadFile
+                ref="upload-file-hy"
+                v-if="verifyForm.wtzt=='3'&&visible"
+                :glsxid="chxmid"
+                :ssmkid="'19'"
+                :showDefaultTool="true"
+                :url="'/fileoperation/uploadfilestosx'"
+            ></uploadFile>
+            <div class="save-btn">
+                <Button type="primary" class="bdc-major-btn btn-h-36" @click="verify()">确认</Button>
+                <Button class="margin-left-10 btn-cancel btn-h-36" @click="cancelVerify()">取消</Button>
+            </div>
+        </Modal>
+        <Modal
+                class="modal-base"
+                v-model="chqxVisible"
+                :title="'设置'"
+                width="400"
+                :mask-closable="false"
+                :footer-hide="true"
+                closable
+            >
+            <Form class="form-setting" :model="chqxForm" :label-width="100" >
+                <FormItem v-model="chqxForm.clsxMc"  label="测绘事项：">
+                        <Input readonly v-model="chqxForm.clsxMc"  style="width: 213px"/>
+                </FormItem>
+                <FormItem label="进场日期：" v-model="chqxForm.jcrq" >
+                        <DatePicker :disabled="readonly" v-model="chqxForm.jcrq" type="date" placeholder="请选择"></DatePicker>
+                </FormItem>
+                <span style="margin-left: 15px">
+                    自进场后
+                    <input :disabled="readonly" class="rq-input" type="text" name="jsrq" v-model="chqxForm.YJJFRQ"/> 个日历日内提交测绘成果资料
+                </span>
+            </Form>
+                <div class="submit-back margin-top-20" >
+                    <Button type="primary" class="btn-h-34 bdc-major-btn" @click="saveChrq()">确认</Button>
+                    <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancelChrq()">取消</Button>
+                </div>
+            </Modal>
+    </div>
+</template>
+<script>
+import { checkGcbh } from "../../../service/publish"
+import { getDictInfo } from "../../../service/mlk"
+import { queryChdwList,saveEntrust,queryEntrustByChxmid, deleteEntrust,verification,retrieveEntrust,queryHyyj,getauditopinion,beforeverificationinfo } from "../../../service/commission"
+import moment from "moment"
+import uploadFile from "../../../components/survey/upload-file"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import _ from "loadsh"
+import yz_mixins from "../../../service/yz_mixins"
+export default {
+    mixins: [yz_mixins],
+    components: {
+        uploadFile,
+        uploadFileInfo
+    },
+    data() {
+        const _self = this;
+        return {
+            commissionForm: {
+                zdxm: "0",
+                gcdzqx: "",
+                gcdzs: "",
+                gcdzss: "",
+                gcdzxx: ""
+            },
+            showHtFj: false,
+            showHyFj: false,
+            verifyForm: {
+                wtzt: "3",
+                hyyj: "",
+                chxmid: "",
+                lxr: "",
+                lxdh: "",
+            },
+            chqxForm: {
+                clsxMc: "",
+                jcrq: "",
+                YJJFRQ: ""
+            },
+            deleteColumns: ["opeartion"],
+            sjclurl: "/fileoperation/querySjclByClsx",
+            hideRequiredMark: false,
+            fileRule: {
+                lxr: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                lxdh: {
+                    required: true,
+                    validator: (rule,value,callback) => {
+                        if(!value&&_self.verifyForm.wtzt=='3'){
+                            callback("必填项不能为空")
+                        }else if(value && !(/^([0-9]{3,4}-)?[0-9]{7,8}$/).test(value)&&!(/^1\d{10}$/.test(value))){
+                            callback("联系电话格式错误")
+                        }
+                        callback();
+                    },
+                    trigger: "blur"
+                },
+            },
+            wtzt: "",
+            hyyj: "",
+            isEdit: false,
+            fileReadOnly: false,
+            isRetrieve: false,
+            isHy: false,
+            isFileEdit: false,
+            visible: false,
+            chqxVisible: false,
+            deleteFileList: ["备案登记合同"],
+            ruleInline: {
+                gcmc: {
+                    message: "必填项不能为空"
+                },
+                gcbh: {
+                    trigger: "blur",
+                    validator: (rule, value, callback) => {
+                        if((!value || !value.trim())&&_self.ruleInline.gcbh.required){
+                            callback("必填项不能为空")
+                        } 
+                        if((!value || !value.trim())&&!_self.ruleInline.gcbh.required){
+                            callback()
+                        }else if(!this.readonly){
+                            checkGcbh({gcbh: value}).then(res => {
+                                if(res.data&&res.data.gcmc){
+                                    this.commissionForm.gcmc = res.data.gcmc || this.commissionForm.gcmc;
+                                    this.commissionForm.gcdzqx = res.data.gcdzqx || this.commissionForm.gcdzqx;
+                                    this.commissionForm.gcdzs = res.data.gcdzs || this.commissionForm.gcdzs;
+                                    this.commissionForm.gcdzss = res.data.gcdzss || this.commissionForm.gcdzss;
+                                    this.commissionForm.gcdzxx = res.data.gcdzxx || this.commissionForm.gcdzxx;
+                                    this.selectGcdzs({value:this.commissionForm.gcdzs})
+                                    this.selectGcdzss({value: this.commissionForm.gcdzss})
+                                    callback()
+                                }else {
+                                    callback()
+                                }
+                            }).catch(err => {
+                                callback()
+                            })
+                        }else {
+                            callback()
+                        }
+                    }
+                },
+                wtdw: {
+                    message: "必填项不能为空"
+                },
+                chdw: {
+                    
+                    message: "必填项不能为空"
+                },
+                xmlx: {
+                    message: "必填项不能为空"
+                },
+                ys: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                gcdzs: {
+                    message: "必填项不能为空"
+                },
+                wtbh: {
+                    required: false
+                },
+                lxr: {
+                    message: "必填项不能为空"
+                },
+                lxdh: {
+                    validator: (rule,value,callback) => {
+                        if((!value || !value.trim())&& this.btxyzList.includes("lxdh")){
+                            callback("必填项不能为空")
+                        } else if(value && !(/^([0-9]{3,4}-)?[0-9]{7,8}$/).test(value)&&!(/^1\d{10}$/.test(value))){
+                            callback("联系电话格式错误")
+                        }
+                        callback();
+                    },
+                    trigger: "blur"
+                },
+                gcjfrq: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                cgfs: {
+                    message: "必填项不能为空"
+                },
+                zgyq: {
+                    message: "必填项不能为空"
+                }
+            },
+            treeList: [],
+            readonly: false,
+            gcdzsList: [],
+            ssmkid: "18",
+            bdid: "7",
+            gcdzssList: [],
+            gcdzqxList: [],
+            checkedClsxList: [],
+            chxmid: "",
+            mlkid: "",
+            selectedClsx: [],
+            dictionaryInfo: [],
+            chdwList: [],
+            wtbh:"",
+            type: "",
+            chdwxxid:"",
+            isSummbit: false,
+            disabledClsx: config.disabledClsx,
+            shyj: "",
+            slbh: "",
+            selectedNode: [] // 选中的根目录
+        }
+    },
+    // 计算工程地点的名称
+    computed: {
+        gcddMc(){
+            let gcdzs = this.gcdzsList.find(list => list.DM == this.commissionForm.gcdzs) || {};
+            let gcdzss = this.gcdzssList.find(list => list.DM == this.commissionForm.gcdzss) || {};
+            let gcdzqx = this.gcdzqxList.find(list => list.DM == this.commissionForm.gcdzqx) || {};
+            return (gcdzs.MC || "") + (gcdzss.MC || "") + (gcdzqx.MC || "") + (this.commissionForm.gcdzxx || "")
+        }
+    },
+    created() {
+        this.wtzt = this.$route.query.wtzt || "";
+        if(this.wtzt == "已备案" || this.wtzt == "待备案"){
+            // 已备案和待备案的展示核验附件列表
+            this.deleteFileList = [];
+            this.showHyFj = true;
+        } else if(this.wtzt == "已拒绝"&&!this.$route.query.from){
+            this.isFileEdit = true;
+        }
+        if(this.wtzt == "已接受"){
+            // 已接受可展示核验附件列表
+            this.showHyFj = true;
+        }
+        this.commissionForm.wtdw = this.$route.query.wtdw || "";
+        this.commissionForm.lxr = this.$route.query.lxr || "";
+        this.commissionForm.lxdh = this.$route.query.lxdh || "";
+        this.chxmid = this.$route.query.chxmid || "";
+        this.chdwxxid = this.$route.query.chdwxxid || "";
+        this.commissionForm.wtbh = this.$route.query.wtbh || "";
+        this.commissionForm.slbh = this.$route.query.slbh || "";
+        this.type = this.$route.query.type || "";
+        if(this.type == "verify"){
+            this.isHy = true;
+            this.readonly = true;
+            this.fileReadOnly = true;
+        } else if(this.type == "view"){
+            this.readonly = true;
+            this.fileReadOnly = true;
+            this.queryHyyj();
+            this.getauditopinion();
+        } else if(this.type == "edit"){
+            this.isEdit = true;
+            this.readonly = true;
+            this.fileReadOnly = true;
+            this.queryHyyj();
+            this.getauditopinion();
+        } else if(this.type == "retrieve"){
+            this.readonly = true;
+            this.isRetrieve = true;
+            this.fileReadOnly = true;
+        }
+        if(this.$route.query.type != "add"){
+            this.queryEntrustByChxmid();
+        } 
+        if(this.wtzt == "已备案"){
+            // 已备案的展示合同附件列表
+            this.showHtFj = true;
+        }  
+        if(this.wtzt == "已备案" || this.wtzt == "待备案" || this.wtzt == "已接受" || this.wtzt == "已拒绝"){
+            this.ssmkid = "18";
+        }
+    },
+    mounted() {
+        // 点击查看测绘单位后返回，取跳转前页面修改数据
+        if(this.$root.$data.getCommissionInfo()){
+            this.commissionForm = {...this.$root.$data.getCommissionInfo()}
+            this.checkedClsxList = typeof this.commissionForm.clsx == "object" ? this.commissionForm.clsx : this.commissionForm.clsx ? this.commissionForm.clsx.split(",") : []
+            this.checkedClsxList.forEach(clsx => {
+                this.selectedClsx.push({id: clsx})
+            })
+            this.$nextTick(() => {
+                this.queryChdwList();
+            })
+        }
+        if(this.$route.query.type == "add"){
+            this.getDictInfo();
+        }
+    },
+    methods: {
+        // 附件材料
+        viewFj(){
+            const {href} = this.$router.resolve({
+                path: '/review/fj',
+                query: {
+                    chxmid: this.$route.query.chxmid,
+                    type: "xm"
+                }
+            })
+            window.open(href);
+        },
+        // 修改委托状态
+        changeWtzt(select){
+            if(select == '4'){
+                this.fileRule.lxr.required = false;
+                this.fileRule.lxdh.required = false;
+                this.hideRequiredMark = true;
+            } else {
+                this.fileRule.lxr.required = true;
+                this.fileRule.lxdh.required = true;
+                this.hideRequiredMark = false;
+            }
+        },
+        //初始化测绘单位选择列表
+        queryChdwList(){
+            let params = {
+                clsxList: this.checkedClsxList
+            }
+            queryChdwList(params).then(res => {
+                this.chdwList = res.data.dataList
+            })
+        },
+        // 获取核验信息
+        queryHyyj(){
+           this.$loading.show("加载中...")
+            queryHyyj({chxmid: this.chxmid}).then(res => {
+                this.$loading.close();
+                this.hyyj = res.data.hyyj
+            }) 
+        },
+        //获取备案审核意见
+        getauditopinion(){
+            this.$loading.show("加载中...")
+            getauditopinion({chxmid: this.chxmid}).then(res => {
+                this.$loading.close();
+                this.shyj = res.data.shyj
+            })
+        },
+        //查看
+        queryEntrustByChxmid(){
+            this.$loading.show("加载中...")
+            queryEntrustByChxmid({chxmid: this.chxmid, chdwxxid: this.chdwxxid}).then(res => {
+                this.$loading.close();
+                let commissionForm = {}
+                let data = res.data.dataList && res.data.dataList.length ? res.data.dataList[0] : {}
+                for(let key in data){
+                    commissionForm[_.toLower(key)] = data[key]
+                }
+                let commissionData = {...commissionForm}
+                commissionData.gcjfrq = commissionData.cgjfrq ? moment(commissionData.cgjfrq).format("YYYY-MM-DD HH:mm:ss") : ""
+                commissionData.wtbh = commissionData.xqfbbh
+                commissionData.chdw = commissionData.mlkid
+                this.commissionForm = {...commissionData}
+                this.checkedClsxList = commissionForm.clsx || [];
+                this.selectedNode = [];
+                this.checkedClsxList.forEach(clsx => {
+                    let clsxFdm = clsx.split("");
+                    if(clsxFdm.length&&!this.selectedNode.includes(clsxFdm[0])){
+                        this.selectedNode.push(clsxFdm[0])
+                    }
+                })
+                this.changeReuquiredData();
+                this.$nextTick(() => {
+                    this.queryChdwList();
+                    this.$refs["upload-file"]&&this.$refs["upload-file"].getUploadList()
+                    this.$refs["upload-file-info"]&&this.$refs["upload-file-info"].getUploadList()
+                })
+                this.checkedClsxList.forEach(clsx => {
+                    this.selectedClsx.push({id: clsx})
+                })
+                this.commissionForm.clsx = this.checkedClsxList.join(",")
+                this.getDictInfo();
+            })
+        },
+        // 编辑
+        edit(){
+            this.$router.push({ query: {chxmid: this.chxmid,chdwxxid: this.chdwxxid} })
+            this.readonly = false;
+            this.fileReadOnly = false;
+            this.isEdit = false;
+            this.treeList = [];
+            this.sjclurl = "/fileoperation/querySjclByClsx"
+            this.getDictInfo();
+        },
+        // 拒绝后点击编辑可修改上传的材料
+        editFile(){
+            this.fileReadOnly = false;
+            this.isFileEdit = false;
+        },
+        // 
+        saveEditFile(){
+            this.$router.push("/construction/commission")
+        },
+        // 取回
+        retrieve(){
+            layer.confirm("确认取回？",(index) => {
+                layer.close(index)
+                this.commissionForm.wtzt = "1"
+                retrieveEntrust({chxmid: this.chxmid, wtzt: "1"}).then(res => {
+                    if(res.data.ISHY == true){
+                        layer.msg("取回成功!")
+                        this.readonly = false;
+                        this.fileReadOnly = false;
+                        this.isRetrieve = false;
+                        this.sjclurl = "/fileoperation/querySjclByClsx"
+                        this.$router.push({ query: {chxmid: this.chxmid,chdwxxid: this.chdwxxid} })
+                        this.treeList = [];
+                        this.getDictInfo();
+                    }else{
+                        layer.msg("测绘单位正在核验，不可取回!")
+                    }
+                })
+            })
+        },
+        // 提交
+        submit(){
+            this.commissionForm.wtzt = "1"
+            // this.save('submit')
+            this.commissionForm.gcjfrq = this.commissionForm.gcjfrq ? moment(this.commissionForm.gcjfrq).format("YYYY-MM-DD") : ""
+            this.commissionForm.chxmid = this.chxmid
+            let uploadList = [];
+            if(!this.fileReadOnly){
+                uploadList = [...this.$refs["upload-file"].queryUploadList()];
+            }else {
+                uploadList = [...this.$refs["upload-file-info"].queryUploadList()];
+            }
+            this.commissionForm.clxx = uploadList
+            this.$loading.show("保存中...")
+            saveEntrust(this.commissionForm).then(res => {
+                this.isSummbit = true;
+                this.$loading.close();
+                this.readonly = true;
+                this.fileReadOnly = true;
+                this.isEdit = true;
+                this.treeList = []
+                this.getDictInfo();
+            })
+        },
+        //确认委托
+        sure(){
+            this.commissionForm.wtzt = "2"
+            this.save('save')
+        },
+        save(type){
+            this.commissionForm.gcjfrq = this.commissionForm.gcjfrq ? moment(this.commissionForm.gcjfrq).format("YYYY-MM-DD") : ""
+            this.commissionForm.chxmid = this.chxmid
+            // this.commissionForm.slbh = this.slbh
+            this.isSummbit = false;
+            this.unLastSubmit = false;
+            this.$refs["commission-form"].validate(valid => {
+                this.unLastSubmit = true;
+                this.$nextTick(() => {
+                    this.changeReuquiredData();
+                })
+                if(valid){
+                    if((!this.commissionForm.gcdzss || !this.commissionForm.gcdzqx || !this.commissionForm.gcdzxx)){
+                        this.$error.show("填写完整的地点信息")
+                        return
+                    }
+                    if(this.btxyzList.includes("clsx")&&!this.commissionForm.clsx){
+                        this.$error.show("测绘事项不能为空")
+                        return;
+                    }
+                    let uploadList = [];
+                    if(!this.fileReadOnly){
+                        uploadList = [...this.$refs["upload-file"].queryUploadList()];
+                        let validate = this.$refs["upload-file"].validate();
+                        if(validate){
+                            return;
+                        }
+                    }else {
+                        uploadList = [...this.$refs["upload-file-info"].queryUploadList()];
+                        let validate = this.$refs["upload-file-info"].validate();
+                        if(validate){
+                            return;
+                        }
+                    }
+                    this.commissionForm.clxx = uploadList
+                    this.$loading.show("保存中...")
+                    saveEntrust(this.commissionForm).then(res => {
+                        this.isSummbit = true;
+                        this.$loading.close();
+                        if(type == 'save'){
+                            layer.msg("委托成功")
+                            this.$root.$data.setCommissionInfo();
+                            this.$router.push("/construction/commission")
+                        } else {
+                            layer.msg("保存成功")
+                            this.readonly = true;
+                            this.fileReadOnly = true;
+                            this.isEdit = true;
+                            this.treeList = []
+                            this.getDictInfo();
+                        }
+                    })
+                }
+            })
+        },
+        goBack(){
+            this.$root.$data.setCommissionInfo();
+            if(this.$route.query.from){
+                this.$router.push(this.$route.query.from)
+            } else {
+                this.$router.push("/construction/commission")
+            }
+        },
+        cancel(){
+            if(this.$route.query.type == 'add' && this.isSummbit == false){
+                this.$loading.show("加载中...")
+                deleteEntrust({chxmid: this.chxmid}).then(res => {
+                    this.$loading.close();
+                    this.goBack()
+                })
+            } else {
+                this.goBack();
+            }
+        },
+        // 选择测绘事项
+        checkChange(selected,item){
+            if(item.checked){
+                selected.forEach(s => {
+                    let find = this.selectedClsx.find(clsx => clsx.id == s.id);
+                    if(!find&&s.nodeKey!=0){
+                        this.selectedClsx.push(s)
+                        if(s.fdm&&!this.selectedNode.includes(s.fdm)){
+                            this.selectedNode.push(s.fdm)
+                        }
+                    } else if(!this.selectedNode.includes(s.id)&&s.nodeKey == 0){
+                        this.selectedNode.push(s.id)
+                    }
+                })
+                // selected.forEach(s => {
+                //     let find = this.selectedClsx.find(clsx => clsx.id == s.id);
+                //     if(!find&&s.nodeKey!=0){
+                //         this.selectedClsx.push(s)
+                //     } else if(!this.selectedNode.includes(s.id)&&s.nodeKey == 0){
+                //         this.selectedNode.push(s.id)
+                //     }
+                // })
+            } else {
+                this.selectedClsx.forEach((select,index) => {
+                    if(select.id == item.id){
+                        this.selectedClsx.splice(index,1)
+                    }
+                })
+                this.selectedNode.forEach((select,index) => {
+                    if(select == item.id || select == item.fdm){
+                        this.selectedNode.splice(index,1)
+                    }
+                })
+                if(item.children){
+                    item.children.forEach(d => {
+                        this.selectedClsx.forEach((select,index) => {
+                            if(select.id == d.id){
+                                this.selectedClsx.splice(index,1)
+                            }
+                        })
+                    })
+                }
+            }
+            this.changeReuquiredData();
+            let selectedDm = this.selectedClsx.map(s => s.id);
+            this.checkedClsxList = selectedDm;
+            if(this.checkedClsxList.length){
+                this.commissionForm = {
+                    ...this.commissionForm,
+                    chdw: ""
+                };
+                this.$nextTick(() => {
+                    this.queryChdwList();
+                    this.$refs["upload-file"]&&this.$refs["upload-file"].getUploadList()
+                    this.$refs["upload-file-info"]&&this.$refs["upload-file-info"].getUploadList()
+                })
+            } else {
+                this.chdwList = [];
+            }
+            this.renderTreeList();
+            this.commissionForm.clsx = selectedDm.join(",");
+        },
+        // 修改必填项
+        changeReuquiredData(){
+            if(this.selectedNode.includes("3") 
+                || this.selectedNode.includes("4") 
+                || this.selectedNode.includes("5")
+            ){
+                this.ruleInline.gcmc.required = true;
+                this.ruleInline.gcbh.required = true;
+                $(".required-link").addClass("requireStar")
+            } else {
+                this.ruleInline.gcmc.required = false;
+                this.ruleInline.gcbh.required = false;
+                $(".required-link").removeClass("requireStar")
+            }
+        },
+        kssjChange(select){
+            this.commissionForm.gcjfrq = moment(select).format("YYYY-MM-DD");
+        },
+        // 查看名录库列表
+        toMlk(){
+            this.$root.$data.setCommissionInfo(this.commissionForm);
+            this.$router.push({
+                path: "/construction/mlk/list",
+                query: {
+                    from: this.$route.fullPath
+                }
+            })
+        },
+        // 渲染树结构
+        renderTreeList(){
+            let clsxList = this.dictionaryInfo;
+            let treeList = []
+            clsxList.forEach(list => {
+                if(!list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.push({
+                        title: list.MC, 
+                        dm: Number(list.DM),
+                        disabled: this.readonly? true : this.disabledClsx.includes(list.DM) ? true: false, 
+                        expand: true,
+                        id: list.DM, 
+                    children: []})
+                }
+            })
+            clsxList.forEach(list => {
+                if(list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.forEach(tree => {
+                        if(tree.id == list.FDM){
+                            tree.children.push({
+                                title: list.MC, 
+                                checked: this.checkedClsxList.includes(list.DM), 
+                                disabled: this.readonly ? true : this.disabledClsx.includes(list.DM) ? true: false, 
+                                id: list.DM,
+                                fdm: list.FDM,
+                                chqx: list.JCRQ ? (list.JCRQ + '至' + list.JSRQ) : '',
+                                jcrq: list.JCRQ,
+                                yjjfrq: list.YJJFRQ,
+                                render: (h, { root, node, data }) => {                                                                                
+                                return h('span', {
+                                    style: {
+                                        display: 'inline-block',
+                                        width: '100%'
+                                    }
+                                },  [
+                                    h('span',[
+                                        h('span',{
+                                            style: {
+                                                marginRight: '20px'
+                                            }
+                                        },  data.title),
+                                        // h('span','测绘期限：'+( data.chqx || '未设置')),
+                                        // h('span',{
+                                        //     style: {
+                                        //         marginLeft: "5px",
+                                        //         color: "#2d5de1"
+                                        //     },
+                                        //     on: {
+                                        //         click: () => { this.addDate(data) }
+                                        //     }
+                                        // }, this.readonly? "" : data.chqx ? "| 修改" : "| 设置" ),
+                                        // h('span',{
+                                        //     style: {
+                                        //         marginLeft: "5px",
+                                        //         color: "#2d5de1"
+                                        //     },
+                                        //     on: {
+                                        //         click: () => { this.deleteDate(data) }
+                                        //     }
+                                        // }, this.readonly? "" : data.chqx ? "| 清除" : "")
+                                    ])
+                                ])
+                                }
+                                })
+                        }
+                    })
+                }
+            })
+            treeList = _.orderBy(treeList,['dm'],['asc'])
+            this.treeList = [];
+            treeList.forEach(tree => {
+                this.treeList.push([tree])
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX","GCDZ","XMLX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryInfo = res.data.dataList;
+                this.selectGcdzs({value: this.commissionForm.gcdzs})
+                this.selectGcdzss({value: this.commissionForm.gcdzss})
+                this.gcdzsList = [];
+                this.dictionaryInfo.forEach(list => {
+                    if(!list.FDM&&list.ZDLX=="GCDZ"){
+                        this.gcdzsList.push(list)
+                    }
+                })
+                this.renderTreeList();
+            })
+        },
+        // 选择省
+        selectGcdzs(select){
+            let gcdzssList = []
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value) && dict.ZDLX=="GCDZ"){
+                    gcdzssList.push(dict)
+                }
+            })
+            this.gcdzqxList = [];
+            this.gcdzssList = [...gcdzssList]
+        },
+        // 选择市
+        selectGcdzss(select){
+            var gcdzqxList = [];
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value)&& dict.ZDLX=="GCDZ"){
+                    gcdzqxList.push(dict)
+                }
+            })
+            this.gcdzqxList = [...gcdzqxList]
+        },
+        //修改选中的测绘单位
+        changeChdw(select){
+            this.commissionForm.chdwxx = [];
+            let find = this.chdwList.find(chdw => chdw.CHDWID == select)
+            find && this.commissionForm.chdwxx.push({chdwmc: find.CHDWMC,chdwid: select})
+        },
+        // 取消核验
+        cancelVerify(){
+            this.visible = false;
+            this.$refs["verify-form"].resetFields();
+        },
+        // 确认核验
+        verify(){
+            this.unLastSubmit = false;
+            this.verifyForm.chxmid = this.chxmid;
+            this.$refs["verify-form"].validate(valid => {
+                this.unLastSubmit = true;
+                let uploadHyList= [];
+                if(valid){
+                    if(this.verifyForm.wtzt == "3"){
+                        uploadHyList = [...this.$refs["upload-file-hy"].queryUploadList()];
+                        let validate = this.$refs["upload-file-hy"].validate();
+                        if(validate){
+                            return;
+                        }
+                    }
+                    verification(this.verifyForm).then(res => {
+                    layer.msg("核验成功");
+                    this.visible = false;
+                    this.$router.push("/survey/commission")
+                    })
+                }
+                
+            })
+        },
+        // 点击核验
+        verifyData(){
+            beforeverificationinfo().then(res => {
+                if(res.head.code == "0000"){
+                    this.verifyForm.lxr = res.data.dataList ? res.data.dataList.lxr : ""
+                    this.verifyForm.lxdh = res.data.dataList ? res.data.dataList.lxdh : ""
+                    this.visible = true;
+                } else {
+                    this.visible = true;
+                }
+            })
+        },
+        // 删除测绘期限
+        deleteDate(data){
+            let treeList = _.cloneDeep(this.treeList)
+            treeList.forEach(tree => {
+                tree[0].children.forEach(t => {
+                    if(t.id === data.id){
+                        t.JCRQ = null
+                        t.JSRQ = ""
+                        t.yjjfrq = null
+                        t.chqx = ""
+                    }
+                })
+            })
+            this.treeList = _.cloneDeep(treeList)
+        },
+        // 设置测绘期限
+        addDate(data){
+            this.selectClsx = data;
+            this.chqxVisible = true;
+            this.chqxForm.clsxMc = data.title || "";
+            this.chqxForm.jcrq = data.JCRQ || "";
+            this.chqxForm.YJJFRQ = data.yjjfrq || "";
+        },
+        cancelChrq(){
+            this.chqxVisible = false;
+        },
+        // 确认设置测绘期限
+        saveChrq(){
+            if(this.chqxForm.jcrq && this.chqxForm.YJJFRQ) {
+                let treeList = _.cloneDeep(this.treeList)
+                treeList.forEach(tree => {
+                    tree[0].children.forEach(t => {
+                        if(t.id === this.selectClsx.id){
+                            t.JCRQ = moment(this.chqxForm.jcrq).format("YYYY-MM-DD")
+                            t.JSRQ = moment(this.chqxForm.jcrq).add(parseInt(this.chqxForm.YJJFRQ),"days").format("YYYY-MM-DD")
+                            t.yjjfrq = this.chqxForm.YJJFRQ
+                            t.chqx = t.JCRQ + '至' + t.JSRQ
+                        }
+                    })
+                })
+                this.treeList = _.cloneDeep(treeList)
+                this.chqxVisible = false;
+            }else{
+                this.$error.show("请选择进场日期与日历日")
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title,
+    .chdw-form {
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-row-tree >>> .ivu-tree-arrow {
+        display: none;
+    }
+    .select-row-tree {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .select-row-tree >>> .ivu-tree {
+        margin-right: 10px;
+    }
+    .select-row-tree >>> .ivu-tree-title .ivu-icon {
+        font-family: "FontAwesome";
+        color: #1d87d1;
+    }
+    .form-verify .form-edit {
+        padding: 0 10px!important;
+    }
+    .chdw-lr {
+        width: 78%
+    }
+    @media (max-width: 1680px) {
+        .chdw-lr {
+            width: 70%
+        }
+    }
+    @media (max-width: 1440px) {
+        .chdw-lr {
+            width: 60%
+        }
+    }
+    .stage-tree {
+        width: 100%;
+        padding: 5px;
+        overflow-x: auto;
+        background-color: #e8f3fa;
+    }
+    .stage-next {
+        flex-grow: 1;
+        overflow-x: auto;
+    }
+    .rq-input {
+        border-bottom: 1px solid #000;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        width: 50px;
+        text-align:center;
+        vertical-align:middle;
+    }
+    .stage-tree >>> .ivu-tree-title-selected {
+        background-color: #e8f3fa;
+    }
+</style>

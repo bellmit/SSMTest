@@ -1,0 +1,211 @@
+<template>
+	<div>
+		<div class="search-form">
+			<Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+				<Row>
+					<i-col span="6">
+						<FormItem label="受理编号" class="form-list-search" prop="slbh">
+							<Input type="text" class="form-search-item" @keydown.enter.native.prevent="getCompletedList(1,formInline.size)" v-model="formInline.slbh" placeholder="" />
+						</FormItem>
+					</i-col>
+					<i-col span="6">
+						<FormItem label="测绘单位" class="form-list-search" prop="chdw">
+							<Input type="text" class="form-search-item" @keydown.enter.native.prevent="getCompletedList(1,formInline.size)" v-model="formInline.chdw" placeholder="" />
+						</FormItem>
+					</i-col>
+					<i-col span="6">
+						<FormItem label="建设单位" class="form-list-search" prop="jsdw">
+							<Input type="text" class="form-search-item" @keydown.enter.native.prevent="getCompletedList(1,formInline.size)" v-model="formInline.jsdw" placeholder="" />
+						</FormItem>
+					</i-col>
+					<i-col span="6">
+						<FormItem :label-width='50'>
+							<Button type="primary" class="btn-h-32 bdc-major-btn" @click="getCompletedList(1,formInline.size)">查询</Button>
+							<Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+						</FormItem>
+					</i-col>
+				</Row>
+			</Form>
+		</div>
+		<div>
+			<Table 
+				:cols="tableCols" 
+				:data="completedList" 
+				:count="totalNum" 
+				:page="formInline.page"
+				:size="formInline.size" 
+				:func="getCompletedList" 
+				:operation="operationList"
+				@view="viewDetail"
+			></Table>
+		</div>
+	</div>
+</template>
+<script>
+import { queryCompletedList } from "../../../service/data-apply";
+export default {
+	data() {
+		return {
+			formInline: {
+				gcbh: "",
+				gcmc: "",
+				slbh: "",
+				jsdw: "",
+				chdw: "",
+				page: 1,
+				size: 10,
+			},
+			ruleInline: {},
+			completedList: [],
+			totalNum: 0,
+			operationList: ["view"],
+			tableCols: [
+				{
+					field: "ROWNUM_",
+					title: "序号",
+					width: 70,
+					align: "center",
+					fixed: "left",
+				},
+				{
+					title: "项目编号",
+					align: "center",
+					field: "XMBABH",
+				},
+				{
+					title: "备案编号",
+					align: "center",
+					field: "BABH",
+					hide: true
+				},
+				{
+					field: "GCBH",
+					title: "项目代码",
+					align: "center",
+				},
+				{
+					field: "text1",
+					title: "受理编号",
+					align: "center",
+				},
+				{
+					field: "GCMC",
+					title: "工程名称",
+					align: "center",
+				},
+				{
+					field: "CHDWMC",
+					title: "测绘单位",
+					align: "center",
+				},
+				{
+					field: "text2",
+					title: "建设单位",
+					align: "center",
+				},
+				{
+					field: "SQFS",
+					title: "申请方式",
+					align: "center",
+					width: 140
+				},
+				{
+					field: "SQSJ",
+					title: "申请时间",
+					align: "center",
+				},
+				{
+					field: "DQZT",
+					title: "当前状态",
+					align: "center",
+					width: 120,
+					templet: function(d){
+						let className = d.DQZT==="审核中" ? "color-processing": d.DQZT ==="待制作" ? "color-unfinish": "color-finish"
+						let DQZT = d.DQZT ? d.DQZT : "/"
+						return "<span class='"+className+"'>"+DQZT+"</span>"
+					}
+				},
+				{
+					title: "操作",
+					align: "center",
+					width: 180,
+					toolbar: "#operation",
+				},
+			],
+		};
+	},
+	beforeRouteLeave(to, from, next) {
+		if (to.fullPath.startsWith("/apply/review/view") || to.fullPath.startsWith("/apply/completed/view")) {
+			this.pageInfo["completedPageInfo"] = { ...this.formInline };
+		} else {
+			this.pageInfo["completedPageInfo"] = null;
+		}
+		next();
+	},
+	created() {
+		if (this.pageInfo["completedPageInfo"]) {
+			this.formInline = { ...this.pageInfo["completedPageInfo"] };
+		}
+	},
+	mounted() {
+		this.getCompletedList();
+	},
+	methods: {
+		// 获取基础数据申请列表
+		getCompletedList(page, size) {
+			if (page) {
+				this.formInline.page = page;
+				this.formInline.size = size;
+			}
+			this.$loading.show("加载中...");
+			queryCompletedList(this.formInline).then((res) => {
+				this.$loading.close();
+				res.data.content&&res.data.content.forEach((c,index) => {
+					c.ROWNUM_ = (index + 1) + this.formInline.size*(this.formInline.page - 1);
+				})
+				this.completedList = res.data.content || [];
+				this.totalNum = res.data.totalElements || 0;
+			});
+		},
+		// 重置查询条件
+		resetForm() {
+			this.$refs["formInline"].resetFields();
+		},
+		// 查看
+		viewDetail(data){
+			let type = "view"
+			let path = "/apply/review/check"
+			if(data.DQZT == "待交付" || data.DQZT == "已交付"){
+				type = "";
+				path = "/apply/completed/view"
+			}
+			this.$router.push({
+				path,
+				query: {
+					reviewType: type,
+					type: "view",
+					chxmid: data.CHXMID,
+					xmid: data.text9,
+					glsxid: data.procInsId,
+					taskid: data.taskId,
+					slbh: data.text1
+				}
+			});
+		}
+	},
+};
+</script>
+<style scoped>
+.content-title {
+  margin-bottom: 20px;
+}
+.tab-review >>> .ivu-tabs-ink-bar {
+  width: 110px !important;
+}
+.tab-review >>> .ivu-tabs-tab > div span {
+  margin-right: 10px;
+}
+.tab-review >>> .ivu-tabs-tab > div .ivu-badge-count {
+  background-color: #f24b43;
+}
+</style>

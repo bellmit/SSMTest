@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title class="bdc_processDefName">审核信息</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+	<meta http-equiv="Pragma" content="no-cache"></meta>
+	<meta http-equiv="Cache-Control" content="no-cache"></meta>
+	<meta http-equiv="Expires" content="0"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+	<link href="../css/mask.css" rel="stylesheet" />
+	<link href="../css/layer.css" rel="stylesheet" />
+	<link href="../css/service-page.css" media="all" rel="stylesheet" />
+	<link href="../css/shxx-page.css" media="all" rel="stylesheet" />
+</head>
+
+<body class="shxx-page-contanier">
+	<h1 class="bdc-main-title">“多测合一”成果入库审核信息</h1>
+	<!--添加质量评价得分信息-->
+	<div class="bdc-title">
+		<!-- <span class="btn" style="pointer-events:none;">质量评价</span> -->
+		<span class="zlpjbtn">质量评价</span>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">自动检查扣分</label>
+			<div class="layui-input-inline">
+				<input type="text" name="zdjcdf" readonly lay-verify="required" autocomplete="off" class="layui-input" value="10" disabled="disabled">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label" style="width: 100px">人工检查扣分</label>
+			<div class="layui-input-inline">
+				<input type="text" name="date" id="rgjcdf" lay-verify="required" autocomplete="off" class="layui-input" value="5" disabled="disabled">
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">成果总分（总分100）</label>
+			<div class="layui-input-inline">
+				<input type="text" name="cgzdf" lay-verify="required" autocomplete="off" class="layui-input" value="85" disabled="disabled">
+			</div>
+		</div>
+	</div>
+	<div class="bdc-title jgpd">
+		<span>结果评定</span>
+	</div>
+	<form class="layui-form jgpd" action="" id="zjradioForm">
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否通过</label>
+			<div class="layui-input-block">
+				<input type="radio" name="ispass" value="通过" title="通过" checked>
+				<input type="radio" name="ispass" value="不通过" title="不通过">
+			</div>
+		</div>
+	</form>
+	<div class="bdc-title">
+		<span>审核意见</span>
+	</div>
+	<div class="shxx-table" id="shxxTable">
+	</div>
+	
+	<div class="shxx-table" id="gcjsxmspTable">
+		<table class="layui-table gcjsxmsp-table">
+			<thead>
+				<tr>
+					<th colspan="6">工程建设项目审批</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="detail-item">审核结果</td>
+					<td>
+						<input type="text" class="opinion audit-result" value="" />
+					</td>
+					<td class="detail-item">审核部门</td>
+					<td class="signature-item audit-department"></td>
+					<td class="detail-item">审核日期</td>
+					<td class="date-item audit-date"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- 隐藏按钮 -->
+	<button id="bdc-son-gcjsxmsp-btn">工程建设项目审批</button>
+   <!-- 签名模板 -->
+	<script type="text/html" id="reviewTpl">
+		{{# layui.each(d, function(index, item){ }}
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<th colspan="6">{{item.jdmc}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="detail-item">{{item.jdmc}}意见</td>
+					<td>
+						<input type="text" class="opinion" name="" value="{{item.shyj || '审核无误，同意入库'}}" />
+					</td>
+					<td class="detail-item">审核人</td>
+					<td class="signature-item">
+						<div class="signature-img-box">
+							<img src="{{item.qmtpdz || ''}}" alt="" />
+						</div>
+						<div class="handle-btn-box">
+							<p class='bdc-sign-btn' data-id="{{item.shxxid}}"><i class="layui-icon layui-icon-edit"></i>签名</p>
+							<p class='bdc-delete-btn'><i class="layui-icon layui-icon-delete"></i>删除</p>
+						</div>
+					</td>
+					<td class="detail-item">审核日期</td>
+					<td class="date-item">{{item.qmsj || ''}}</td>
+				</tr>
+			</tbody>
+		</table>
+		{{# })}}
+	</script>
+	<!-- 签名模板结束 -->
+	<button class="bdc-send-btn-son" id="bdc-shztSend-btn-son" style="display: none;">转发</button>
+	<script src="../lib/jquery/jquery.min.js"></script>
+	<script src="../lib/layui/layui.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/shxx-page.js"></script>
+</body>
+
+</html>

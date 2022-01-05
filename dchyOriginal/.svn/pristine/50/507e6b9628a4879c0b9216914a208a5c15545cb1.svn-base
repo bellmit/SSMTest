@@ -1,0 +1,28 @@
+<div class="panel-body">
+    <div class="opt-btn">
+        <button class="btn btn-primary" id="lengthBtn"><i class="iconfont">&#xe63f;</i>长度</button>
+        <button class="btn btn-primary" id="areaBtn"><i class="iconfont">&#xe63e;</i>面积</button>
+    </div>
+    <div class="area-length-content" style="overflow-y:scroll;overflow-x:hidden;height:400px"></div>
+    <div class="text-center">
+        <a class="btn-measure-clear">清空</a>
+    </div>
+</div>
+<!--tpl-->
+<script id="resultTpl" type="x-tpl-mustache">
+<div class="measure-result" data-uid="{{uid}}" data-value="{{geometry}}">
+    <div><span class="m-item">长度:{{length}}&nbsp;米</span></div>
+    {{#area}}<div><span class="m-item">面积:{{area}}&nbsp;平方米</span><div style='cursor:pointer;'class='item-export pull-right'><i class='iconfont'>&#xe617;</i></div></div>{{/area}}
+</div>
+</script>
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>

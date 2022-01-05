@@ -1,0 +1,62 @@
+<div class="panel-body" id="printPanel" style="padding: 1px;">
+
+</div>
+<!--print form-->
+<script id="printFormTpl" type="x-tpl-mustache">
+<form class="form-horizontal" id="printSetForm">
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="layoutSelect" class="control-label">纸张选择</label>
+        </div>
+        <div class="col-xs-8">
+            <select class="form-control" name="layout" id="layoutSelect">
+                {{#templates}}
+                <option>{{.}}</option>
+                {{/templates}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="formatSelect" class="control-label">输出格式</label>
+        </div>
+        <div class="col-xs-8">
+            <select class="form-control" name="format" id="formatSelect">
+                {{#formats}}
+                 <option>{{.}}</option>
+                {{/formats}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="titleInput" class="control-label">标题</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="titleInput" name="titleText" placeholder="输入标题" value="{{title}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="authorInput" class="control-label">作者</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="authorInput" name="authorText" placeholder="输入作者" value="{{author}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="copyrightInput" class="control-label">版权</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="copyrightInput" name="copyrightText" placeholder="输入版权" value="{{copyright}}">
+        </div>
+    </div>
+    <div class="text-center" style="margin: 10px;">
+        {{#allowMapAnnotation }}
+            <button type="button" class="btn btn-primary" style="margin-right: 10px;" id="annotationBtn"><i class="iconfont">&#xe60d;</i>&nbsp;添加注记</button>
+        {{/allowMapAnnotation}}
+        <button type="button" class="btn btn-primary" id="printBtn"><i class="iconfont">&#xe608;</i>&nbsp;输&nbsp;&nbsp;出</button>
+    </div>
+</form>
+</script>

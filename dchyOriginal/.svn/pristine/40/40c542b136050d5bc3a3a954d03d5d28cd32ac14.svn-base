@@ -1,0 +1,296 @@
+<template>
+    <div class="form-edit review">
+        <div class="review-title">审核意见</div>
+        <Form :model="reviewData" @on-validate="validateChecked" :rules="reviewRule" ref="review-info" label-position="left" :label-width="240">
+            <FormItem v-model="reviewData.shjg" prop="shjg" label="审核结果：">
+                <RadioGroup v-model="reviewData.shjg" @on-change="changeShjg">
+                    <Radio label="pass">通过</Radio>
+                    <Radio label="back">退回</Radio>
+                </RadioGroup>
+            </FormItem>
+            <FormItem v-model="reviewData.clsx" prop="clsx" label="测绘事项：">
+                <CheckboxGroup v-model="reviewData.clsx">
+                    <Checkbox :disabled="reviewData.shjg=='pass'" v-for="(clsx,index) in clsxList" :key="index" :label="clsx.DM">{{clsx.MC}}</Checkbox>
+                </CheckboxGroup>
+            </FormItem>
+            <FormItem v-model="reviewData.blyj" prop="blyj" label="审核意见：">
+                <Input v-model="reviewData.blyj" :rows="3" type="textarea" placeholder=""/>
+            </FormItem>
+            <FormItem v-model="reviewData.shr" prop="shr" label="审核人：">
+                <img :src="signImg"  v-if="signImg" alt="" style="float: left; width: 130px; height: 49px; margin-top: -9px">
+                <div style="float: right; margin-top:-18px">
+                    <span class="fa fa-pencil" @click="sign" style="cursor:pointer">签名</span>
+                    <br/>
+                    <span class="fa fa-trash" @click="remove" style="cursor:pointer">删除</span>
+                </div>
+            </FormItem>
+            <FormItem v-model="reviewData.jssj" prop="jssj" label="审核时间：">
+                <span>{{nowtime}}</span>
+            </FormItem>
+            <div class="submit-back">
+                <Button type="primary" id="bdcSaveBtnSon" class="width-100 btn-h-36 bdc-major-btn margin-left-10 hidden">确认办结</Button>
+            </div>
+        </Form>
+    </div>
+</template>
+<script>
+import { getSignxx } from "../../../service/review";
+import util from "../../../service/util"
+import { getDictInfo } from "../../../service/manage"
+import { removeSign, checkFinish, queryReviewDetail, queryDetail } from "../../../service/review";
+export default {
+    data() {
+        return {
+            signImg:"",
+            reviewData: {
+                shjg: "pass",
+                blyj: "",
+                clsx: []
+            },
+            savedata: {},
+            reviewRule: {
+                shjg: {
+                    required: true,
+                    message: "请选择审核结果"
+                },
+                blyj: {
+                    required: false,
+                    message: "审核意见不能为空"
+                }
+            },
+            form:{
+                dbrwid:"",
+                dqjd:""
+            },
+            signId:"",
+            timeInterval: "",
+            nowtime: '',//当前日期时间
+            taskid: "",
+            gzlslid: "",
+            xmid: "",
+            clcgid: "",
+            shjdmc: "",
+            dbrwid: "",
+            submitStatus: false,
+            clsxList: [],
+            shyjList: []
+        }
+    },
+    mounted() {
+        this.taskid = util.getSearchParams("taskid") || this.$route.query.taskid
+        this.gzlslid = util.getSearchParams("gzlslid") || this.$route.query.gzlslid
+        this.xmid = util.getSearchParams("xmid") || this.$route.query.xmid
+        this.queryReviewDetail();
+        this.queryDetail();
+        $("#bdcSaveBtnSon").on("click", () => {
+            var clsx = this.reviewData.clsx.join(";");
+            if(clsx&&this.reviewData.shjg!='pass'){
+                window.parent.flag = false;
+            } else {
+                window.parent.flag = true;
+            }
+            this.save();
+        })
+        this.signId = sessionStorage.getItem("signId")
+        if(this.signId){
+            if (!location.origin) {
+                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            this.signImg = location.origin + "/msurveyplat-promanage/shxx/sign/" +this.signId
+        }
+    },
+    // 页面离开前钩子函数
+    beforeDestroy(){
+        clearInterval(this.timeInterval)
+    },
+    methods: {
+        // 获取详情
+        queryDetail(){
+            queryDetail({taskid: this.taskid,gzlslid: this.gzlslid,xmid: this.xmid}).then(res => {
+                let clsxList = res.data.dataList.clsxList || []
+                let jdxx = res.data.dataList.jdxx || [];
+                this.shjdmc = jdxx.length?jdxx[0].SHJDMC : ""
+                this.getShyjList(clsxList);
+            })
+        },
+        // 获取上次审核信息
+        queryReviewDetail(){
+            this.$loading.show("加载中...")
+            queryReviewDetail({taskid: this.taskid,gzlslid: this.gzlslid,xmid: this.xmid}).then(res => {
+                this.$loading.close();
+                if(res.data.dataList && res.data.dataList.data){
+                    let result = res.data.dataList.data
+                    this.clcgid = result.clcgid
+                    this.shjdmc = result.shjdmc
+                    if(result.shzt == '99' || result.shzt == '98'){
+                        clearInterval(this.timeInterval)
+                        this.nowtime = result.shsj
+                        this.reviewData.blyj = result.shyj
+                        this.reviewData.shjg = result.shzt == '99' ? 'pass':'back'
+                        this.reviewData.clsx = result.clsx.split(";")
+                        if(res.data.dataList && res.data.dataList.qmid){
+                            this.signId = res.data.dataList.qmid
+                            if (!location.origin) {
+                                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                            }
+                            this.signImg = location.origin + "/msurveyplat-promanage/shxx/sign/" +this.signId
+                        }
+                    }
+                }
+            })
+        },
+        // 获取审核意见字典项
+        getShyjList(clsxList){
+            let params = {
+                zdlx: ["SHYJ","CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList&&res.data.dataList.forEach((item) => {
+                    if(item.ZDLX == "SHYJ"){
+                        this.shyjList.push(item)
+                    } else {
+                        if(clsxList.find(clsx => clsx.CLSX === item.DM)){
+                            this.clsxList.push(item)
+                        }
+                    }
+                })
+                this.reviewData.blyj = this.findShyj('1')
+            })
+        },
+        // 根据审核意见字典项找到审核意见名称
+        findShyj(type){
+            let find = this.shyjList.find(shyj => shyj.DM == type)
+            return find ? find.MC : ""
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error){
+                this.$error.show(error)
+            }
+        },
+        // 修改审核意见
+        changeShjg(select){
+            if(select == "back"){
+                this.reviewData.blyj = this.findShyj('0')
+                this.reviewRule.blyj.required = true
+            }else {
+                this.reviewData.blyj = this.findShyj('1')
+                this.reviewRule.blyj.required = false 
+                this.reviewData.clsx = [];
+            }
+        },
+        // 确认签名
+        sign(){
+            let params = {
+                taskid: this.taskid,
+                xmid: this.xmid,
+                dqjd: this.shjdmc
+            }
+            getSignxx(params).then(res => {
+                this.signId = res.data.qmid;
+                sessionStorage.setItem("signId", this.signId)
+                if (!location.origin) {
+                    location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                this.signImg = location.origin + "/msurveyplat-promanage/shxx/sign/" +this.signId
+            })
+        },
+        // 删除签名
+        remove(){
+            let params = {
+                taskid: this.taskid,
+                xmid: this.xmid,
+                dqjd: this.shjdmc
+            }
+            getSignxx(params).then(res => {
+                this.signId = res.data.qmid;
+                removeSign({signId: this.signId}).then(resRemove => {
+                    this.signImg = "";
+                })
+            });
+        },
+        getTime(){
+            this.timeInterval = setInterval(()=>{
+                //new Date() new一个data对象，当前日期和时间
+                //toLocaleString() 方法可根据本地时间把 Date 对象转换为字符串，并返回结果。
+                this.nowtime = new Date().toLocaleString();
+            },1000)
+        },
+        // 确认审核操作
+        save() {
+            this.$refs["review-info"].validate(valid => {
+                if (valid) {
+                    this.savedata.shyj = this.reviewData.blyj;
+                    if(this.reviewData.shjg == "pass"){
+                        this.savedata.shzt = "99"
+                    }else if(this.reviewData.shjg == "back"){
+                        this.savedata.shzt = "98"
+                    }
+                    this.savedata.taskid = this.taskid;
+                    this.savedata.gzlslid = this.gzlslid;
+                    this.savedata.xmid = this.xmid;
+                    this.savedata.clsx = this.reviewData.clsx.join(";");
+                    if(this.reviewData.shjg == "back" && !this.savedata.clsx){
+                        layer.msg("请选择退回的测绘事项")
+                        return false;
+                    }
+                    checkFinish(this.savedata).then((res) => {
+                        layer.msg("保存成功")
+                        this.submitStatus = true;
+                        clearInterval(this.timeInterval)
+                    })
+                } 
+            }) 
+        }
+    },
+    created(){
+		this.getTime();
+	}
+}
+</script>
+<style scoped>
+    .review {
+        max-width: 800px;
+        min-width: 740px;
+        margin: 0 auto;
+    }
+    .review >>> .ivu-form-item {
+        margin-bottom: 0!important;
+        height: 50px;
+        min-width: 740px;
+        border: 1px solid rgb(247, 247, 247);
+    }
+    .review >>> .ivu-form-item:nth-child(2){
+        height: 140px;
+    }
+    .review >>> .ivu-form-item:nth-child(3){
+        height: 100px;
+    }
+    .review >>> .ivu-form-item:nth-child(n+2) {
+        border-top: none;
+    }
+    .review >>> .ivu-form .ivu-form-item-label {
+        height: 100%;
+        line-height: 2;
+        background-color: rgb(240, 239, 239);
+        text-align: center;
+    }
+    .review >>> .ivu-form .ivu-form-item:nth-child(2) .ivu-form-item-label {
+        line-height: 120px;
+    }
+    .review >>> .ivu-form .ivu-form-item:nth-child(3) .ivu-form-item-label {
+        line-height: 80px;
+    }
+    .review >>> .ivu-form .ivu-form-item-content {
+        padding: 10px;
+        min-width: 500px;
+    }
+    .review-title {
+        width: 100%;
+        text-align: center;
+        padding: 60px 0 30px;
+        font-weight: bold;
+        color: #7F7F7F;
+        font-size: 18px;
+    }
+</style>

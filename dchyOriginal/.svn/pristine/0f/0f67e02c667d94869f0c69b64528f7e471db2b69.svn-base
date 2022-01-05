@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglSjclMapper">
+
+    <!--通过材料类型获取对应上传材料-->
+    <select id="querySjclBycllx" resultType="map" parameterType="string">
+
+    </select>
+
+    <select id="getSjclList" resultType="map" parameterType="map">
+        SELECT DISTINCT sj.sjxxid,cl.sjclid,cl.clmc,cl.fs, cl.cllx,cl.ys,cl.wjzxid,z.need,z.ssclsx
+        FROM dchy_xmgl_sjxx sj
+        LEFT JOIN dchy_xmgl_sjcl cl ON cl.sjxxid = sj.sjxxid
+        LEFT JOIN dchy_xmgl_sjclpz z ON z.clmc = cl.clmc
+        <where>
+            <if test="glsxid != null and glsxid != ''">
+                AND sj.glsxid = #{glsxid}
+            </if>
+            <if test="ssmkId != null and ssmkId != ''">
+                AND z.ssmkid = #{ssmkId}
+            </if>
+            <if test="clsxList != null and clsxList.size() > 0 ">
+                <choose>
+                    <when test="clsxList != null and clsxList.size() > 0 ">
+                        AND
+                        <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                            z.ssclsx = #{item}
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        AND z.ssclsx = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

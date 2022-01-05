@@ -1,0 +1,87 @@
+
+J
+java:S3740n"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+T	java:S106·"9Replace this use of System.out or System.err by a logger.(”·£øÿÿÿÿ
+V	java:S125{"<This block of commented-out lines of code should be removed.(”Û®¦ıÿÿÿÿ
+i
+java:S4719X"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+R	java:S125¼"<This block of commented-out lines of code should be removed.(¨ò—
+V	java:S125b"<This block of commented-out lines of code should be removed.(â–ùâúÿÿÿÿ
+K
+java:S3740ü"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+S
+java:S1854q"8Remove this useless assignment to local variable "msg1".(›ÑÎøúÿÿÿÿ
+]
+java:S2142­"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€
+Z
+java:S1155æ">Use isEmpty() to check whether the collection is empty or not.(‚º§‡ùÿÿÿÿ
+T	java:S106±"9Replace this use of System.out or System.err by a logger.(¨™Íšûÿÿÿÿ
+X
+java:S1075Ã"ARefactor your code to get this URI from a customizable parameter.(†®£à
+R
+java:S1854­";Remove this useless assignment to local variable "zipname".(×Œ—×
+J
+java:S3740B"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+V	java:S125D"<This block of commented-out lines of code should be removed.(ÿ¡¢ûùÿÿÿÿ
+W	java:S125é"<This block of commented-out lines of code should be removed.(íÜÇºúÿÿÿÿ
+i
+java:S3776Ê"RRefactor this method to reduce its Cognitive Complexity from 40 to the 15 allowed.(µë‚ö
+T	java:S106½"9Replace this use of System.out or System.err by a logger.(Ø¿Ù©ùÿÿÿÿ
+K
+java:S3740Û"/Provide the parametrized type for this generic.(™ëÅ‰úÿÿÿÿ
+N
+java:S1854°"7Remove this useless assignment to local variable "num".(‰ó¾
+F
+java:S3740Ë"/Provide the parametrized type for this generic.(õš†°
+W	java:S125“"<This block of commented-out lines of code should be removed.(Ç¸™¯øÿÿÿÿ
+U
+java:S1155İ">Use isEmpty() to check whether the collection is empty or not.(¡ñÃ·
+K
+java:S3740Ô"/Provide the parametrized type for this generic.(§­Ø…øÿÿÿÿ
+Q	java:S125s"<This block of commented-out lines of code should be removed.(ÌíÏ†
+R	java:S125Å"<This block of commented-out lines of code should be removed.(ªÂÉ€
+X
+java:S1854®"<Remove this useless assignment to local variable "zipname1".(¨¦Õşÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(€Ì£¼ÿÿÿÿÿ
+K
+java:S3740Ó"/Provide the parametrized type for this generic.(ŒÄåşÿÿÿÿ
+J
+java:S3740^"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+W	java:S125½"<This block of commented-out lines of code should be removed.(‹ôÅåùÿÿÿÿ
+K
+java:S3740Õ"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+Z
+java:S1155Õ">Use isEmpty() to check whether the collection is empty or not.(†—Ï×şÿÿÿÿ
+W	java:S125â"<This block of commented-out lines of code should be removed.(äÕûèúÿÿÿÿ
+V	java:S125o"<This block of commented-out lines of code should be removed.(˜ƒ¿ùÿÿÿÿ
+T	java:S106¹"9Replace this use of System.out or System.err by a logger.(”·£øÿÿÿÿ
+D
+java:S1481q")Remove this unused "msg1" local variable.(›ÑÎøúÿÿÿÿ
+I
+java:S1481®"-Remove this unused "zipname1" local variable.(¨¦Õşÿÿÿÿ
+W
+java:S1128!"ARemove this unused import 'java.io.UnsupportedEncodingException'.(Ãµ…“
+@
+java:S1481Ã")Remove this unused "path" local variable.(†®£à
+J
+java:S3740l"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+F
+java:S3740¦"/Provide the parametrized type for this generic.(‰óÂƒ
+€
+java:S1488¨"dImmediately return this expression instead of assigning it to the temporary variable "xmslbyqxList".(€Ì£¼ÿÿÿÿÿ
+?
+java:S1481°"(Remove this unused "num" local variable.(‰ó¾
+J
+java:S3740m"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+O
+java:S1854Ã"8Remove this useless assignment to local variable "path".(†®£à
+W	java:S125î"<This block of commented-out lines of code should be removed.(à²÷±ùÿÿÿÿ
+Q	java:S125"<This block of commented-out lines of code should be removed.(ÌÇû&
+Q	java:S125_"<This block of commented-out lines of code should be removed.(õì¶‰
+U
+java:S1155Î">Use isEmpty() to check whether the collection is empty or not.(Ò¡¯
+K
+java:S3740Ù"/Provide the parametrized type for this generic.(ú™ş–şÿÿÿÿ
+C
+java:S1481­",Remove this unused "zipname" local variable.(×Œ—×

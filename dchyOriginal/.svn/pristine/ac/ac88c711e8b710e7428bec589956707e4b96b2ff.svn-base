@@ -1,0 +1,36 @@
+package cn.gtmap.msurveyplat.promanage.service.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.Repo;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.promanage.service.DchyXmglCzrzService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/4/30
+ * @description TODO
+ */
+@Service
+public class DchyXmglCzrzServiceImpl implements DchyXmglCzrzService {
+
+    @Autowired
+    private Repo repository;
+
+    @Override
+    public ResponseMessage queryCzrzList(Map<String, String> param) {
+        int page = Integer.parseInt(param.get("page") != null ? param.get("page").toString() : Constants.DCHY_XMGL_PAGINATION_PAGE);
+        int pageSize = Integer.parseInt(param.get("size") != null ? param.get("size").toString() : Constants.DCHY_XMGL_PAGINATION_SIZE);
+
+        Page<Map<String, Object>> czrzListByPage = repository.selectPaging("queryXtCzrzListByPage", param, page - 1, pageSize);
+
+        return ResponseUtil.wrapResponseBodyByPage(czrzListByPage);
+
+    }
+
+}

@@ -1,0 +1,12 @@
+<ul id="dates">
+    {{#data}}
+    <li><a href="#{{id}}" {{#selected}}class="selected" {{/selected}}>{{day}}</a></li>
+    {{/data}}
+</ul>
+<ul id="issues">
+    {{#data}}
+    <li id="{{id}}">
+        <img high-res-src="{{origin}}" src="{{origin}}" id="img_{{id}}" data-id="{{id}}"  class="pannable-image" />
+    </li>
+    {{/data}}
+</ul>

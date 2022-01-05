@@ -1,0 +1,138 @@
+package cn.gtmap.msurveyplat.server.web.rest;
+
+import cn.gtmap.msurveyplat.common.dto.CggxsqDTO;
+import cn.gtmap.msurveyplat.common.dto.GxchgcxxDTO;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.server.service.share.CggxsqService;
+import cn.gtmap.msurveyplat.server.service.share.GxYyfxService;
+import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/6/9
+ * @description 成果共享申请
+ */
+@Api(tags = "成果共享申请")
+@RestController
+public class CggxsqController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CggxsqController.class);
+
+    @Autowired
+    private CggxsqService cggxsqService;
+
+
+    @ApiOperation(value = "成果共享申请初始化申请信息")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求获取成功"), @ApiResponse(code = 500, message = "请求参数错误")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "CggxsqDTO", value = "成果共享申请信息参数对象", required = true, dataType = "CggxsqDTO")})
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rest/v1.0/cggxsq/cshsqxx")
+    public ResponseMessage cshsqxx(@RequestBody CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (null != cggxsqDTO) {
+            try {
+                message = cggxsqService.cshsqxx(cggxsqDTO);
+            } catch (Exception e) {
+                message = ResponseUtil.wrapExceptionResponse(e);
+                LOGGER.error("错误原因:{}", e);
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+    @ApiOperation(value = "成果共享申请申请信息审核")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求获取成功"), @ApiResponse(code = 500, message = "请求参数错误")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "CggxsqDTO", value = "成果共享申请信息参数对象", required = true, dataType = "CggxsqDTO")})
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rest/v1.0/cggxsq/cggxsqsh")
+    public ResponseMessage cggxsqSh(@RequestBody CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (null != cggxsqDTO) {
+            try {
+                message = cggxsqService.cggxsqSh(cggxsqDTO);
+            } catch (Exception e) {
+                message = ResponseUtil.wrapExceptionResponse(e);
+                LOGGER.error("错误原因:{}", e);
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+    @ApiOperation(value = "成果共享申请审核待办台账")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求获取成功"), @ApiResponse(code = 500, message = "请求参数错误")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "CggxsqDTO", value = "成果共享申请信息参数对象", required = true, dataType = "CggxsqDTO")})
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rest/v1.0/cggxsq/cggxsqshjldb")
+    public ResponseMessage cggxsqShjlDb(@RequestBody CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (null != cggxsqDTO) {
+            try {
+                message = cggxsqService.cggxsqShjlDb(cggxsqDTO);
+            } catch (Exception e) {
+                message = ResponseUtil.wrapExceptionResponse(e);
+                LOGGER.error("错误原因:{}", e);
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+
+    @ApiOperation(value = "成果共享申请审核已办台账")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求获取成功"), @ApiResponse(code = 500, message = "请求参数错误")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "CggxsqDTO", value = "成果共享申请信息参数对象", required = true, dataType = "CggxsqDTO")})
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rest/v1.0/cggxsq/cggxsqshjlyb")
+    public ResponseMessage cggxsqShjlYb(@RequestBody CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (null != cggxsqDTO) {
+            try {
+                message = cggxsqService.cggxsqShjlYb(cggxsqDTO);
+            } catch (Exception e) {
+                message = ResponseUtil.wrapExceptionResponse(e);
+                LOGGER.error("错误原因:{}", e);
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+    @ApiOperation(value = "成果共享申请已办台账")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求获取成功"), @ApiResponse(code = 500, message = "请求参数错误")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "CggxsqDTO", value = "成果共享申请信息参数对象", required = true, dataType = "CggxsqDTO")})
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rest/v1.0/cggxsq/cggxsqyb")
+    public ResponseMessage cggxsqYb(@RequestBody CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (null != cggxsqDTO) {
+            try {
+                message = cggxsqService.cggxsqYb(cggxsqDTO);
+            } catch (Exception e) {
+                message = ResponseUtil.wrapExceptionResponse(e);
+                LOGGER.error("错误原因:{}", e);
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+
+}

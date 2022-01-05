@@ -1,0 +1,12 @@
+
+\	java:S112Б"FDefine and throw a dedicated exception instead of using a generic one.(х Ъє
+a	java:S112Л"FDefine and throw a dedicated exception instead of using a generic one.(═цу▓     
+[	java:S112░"FDefine and throw a dedicated exception instead of using a generic one.(■Т▓M
+P
+java:S3416""5Update this logger to use "DataBaseConfigPLAT.class".(▓╜∙Ь№    
+Г
+java:S1130Б"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(х Ъє
+И
+java:S1130Л"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(═цу▓     
+В
+java:S1130░"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(■Т▓M

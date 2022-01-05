@@ -1,0 +1,7 @@
+.esriScalebar {
+    bottom: 60px;
+}
+
+#scaleInfo{
+    background: rgba(255,255,255 ,.7);
+}

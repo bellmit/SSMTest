@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <luceneMatchVersion>LUCENE_43</luceneMatchVersion>
+    <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+    <codecFactory class="solr.SchemaCodecFactory"/>
+    <indexConfig>
+        <ramBufferSizeMB>64</ramBufferSizeMB>
+        <maxBufferedDocs>2000</maxBufferedDocs>
+    </indexConfig>
+    <updateHandler class="solr.DirectUpdateHandler2">
+        <autoCommit>
+            <maxDocs>30000</maxDocs>
+            <maxTime>60000</maxTime>
+            <openSearcher>false</openSearcher>
+        </autoCommit>
+        <autoSoftCommit>
+            <maxTime>1000</maxTime>
+        </autoSoftCommit>
+    </updateHandler>
+    <query>
+        <maxBooleanClauses>1024</maxBooleanClauses>
+        <filterCache class="solr.FastLRUCache" size="16384" initialSize="4096" autowarmCount="4096"/>
+        <queryResultCache class="solr.FastLRUCache" size="16384" initialSize="4096" autowarmCount="1024"/>
+        <documentCache class="solr.FastLRUCache" size="16384" initialSize="16384"/>
+        <enableLazyFieldLoading>true</enableLazyFieldLoading>
+        <queryResultWindowSize>50</queryResultWindowSize>
+        <queryResultMaxDocsCached>400</queryResultMaxDocsCached>
+        <HashDocSet maxSize="10000" loadFactor="0.75"/>
+        <useColdSearcher>false</useColdSearcher>
+        <maxWarmingSearchers>2</maxWarmingSearchers>
+    </query>
+
+    <requestDispatcher handleSelect="true">
+        <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000"/>
+        <httpCaching never304="true"/>
+    </requestDispatcher>
+
+    <searchComponent name="terms" class="solr.TermsComponent"/>
+
+    <requestHandler name="search" class="solr.SearchHandler" default="true">
+        <lst name="defaults">
+            <str name="echoParams">all</str>
+        </lst>
+        <arr name="components">
+            <str>query</str>
+            <str>terms</str>
+            <str>facet</str>
+            <str>highlight</str>
+        </arr>
+    </requestHandler>
+    <requestHandler name="/update" class="solr.UpdateRequestHandler"/>
+    <requestHandler name="/update/javabin" class="solr.UpdateRequestHandler"/>
+    <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler"/>
+    <requestHandler name="/admin/" class="solr.admin.AdminHandlers"/>
+    <requestHandler name="/admin/ping" class="solr.PingRequestHandler"/>
+</config>

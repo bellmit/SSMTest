@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClsxChdwxxGxMapper">
+
+    <select id="getClsxChdwgxByHtxxid" parameterType="map"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClsxChdwxxGx">
+        select b.gxid,b.clsxid,b.chdwxxid,b.chxmid from dchy_xmgl_clsx_htxx_gx a inner join dchy_xmgl_clsx_chdwxx_gx b
+        on a.clsxid = b.clsxid where
+        <choose>
+            <when test="htxxidList != null and htxxidList.size()>0">
+                <foreach collection="htxxidList" item="htxxid" open="(" separator=" or " close=")">
+                    a.htxxid = #{htxxid}
+                </foreach>
+            </when>
+            <otherwise>a.htxxid = 'emptyParamValue'</otherwise>
+        </choose>
+        union
+        select b.gxid,b.clsxid,b.chdwxxid,b.chxmid from dchy_xmgl_htxx_chdwxx_gx a inner join dchy_xmgl_clsx_chdwxx_gx b
+        on a.chdwxxid = b.chdwxxid where
+        <choose>
+            <when test="htxxidList != null and htxxidList.size()>0">
+                <foreach collection="htxxidList" item="htxxid" open="(" separator=" or " close=")">
+                    a.htxxid = #{htxxid}
+                </foreach>
+            </when>
+            <otherwise>a.htxxid = 'emptyParamValue'</otherwise>
+        </choose>
+    </select>
+
+    <!--根据chxmid与fdm判断测绘单位-->
+    <select id="getChdwxxByChxmidAndFdm" resultType="map" parameterType="map">
+        SELECT gx.clsxid,sx.clsx,gx.chdwxxid,dw.chdwmc,dw.mlkid,zd.fdm
+        FROM dchy_xmgl_clsx_chdwxx_gx gx
+        LEFT JOIN dchy_xmgl_chxm_chdwxx dw ON gx.chdwxxid = dw.chdwxxid
+        LEFT JOIN dchy_xmgl_chxm_clsx sx ON gx.clsxid = sx.clsxid
+        LEFT JOIN dchy_xmgl_zd zd ON zd.dm = sx.clsx
+        <where>
+            <if test="chxmidList !=null and chxmidList.size >0">
+                AND gx.chxmid IN
+                <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="fdm != null and fdm !=''">
+                AND zd.fdm = #{fdm}
+            </if>
+        </where>
+    </select>
+
+</mapper>

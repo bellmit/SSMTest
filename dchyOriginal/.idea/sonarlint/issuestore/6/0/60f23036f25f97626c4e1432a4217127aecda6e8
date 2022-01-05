@@ -1,0 +1,23 @@
+
+W
+java:S3457="AFormat specifiers should be used instead of string concatenation.(¹Ÿ‹’
+m
+java:S3776k"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(¹¾ç½üÿÿÿÿ
+V	java:S125{"<This block of commented-out lines of code should be removed.(–ö¾šøÿÿÿÿ
+[	java:S112µ"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+Z
+java:S3252s"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+`	java:S112k"FDefine and throw a dedicated exception instead of using a generic one.(¹¾ç½üÿÿÿÿ
+1
+java:S3457å"Not enough arguments.(à¼´†ÿÿÿÿÿ
+F
+java:S1144º"/Remove this unused private "uploadFile" method.(ÑÒÒ
+i
+java:S4719p"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+c
+java:S4719@"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñÞZ
+D
+java:S1144W".Remove this unused private "basicNACK" method.(¤´Àÿ
+\
+java:S3457F"AFormat specifiers should be used instead of string concatenation.(¦ûÍäûÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(àº€Ê

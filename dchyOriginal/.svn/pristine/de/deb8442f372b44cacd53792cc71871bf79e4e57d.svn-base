@@ -1,0 +1,12 @@
+package cn.gtmap.msurveyplat.serviceol.core.service;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.o, 2020-12-09
+ * @description
+ */
+public interface FileUploadHtxxService {
+
+    void deleteFileHtxxJl(String htxxid);
+
+}

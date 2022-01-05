@@ -1,0 +1,123 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.receive;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMqCzrz;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglCgJcDto;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.CommonUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.Constants;
+import cn.gtmap.msurveyplat.serviceol.web.util.EhcacheUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Charsets;
+import com.gtis.common.util.UUIDGenerator;
+import com.rabbitmq.client.Channel;
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @description 接收项目管理子系统推送的成果检查的结果信息
+ * @time 2021/04/12 15:05
+ */
+@Service
+public class ReceiveCgjcResultFromXmglServiceImpl implements ChannelAwareMessageListener {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private EntityMapper entityMapper;
+
+    @Override
+    @RabbitListener(queues = Constants.XMGL_BSDT_CGJC_QUEUE)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void onMessage(Message message, Channel channel) {
+        try {
+            logger.info("**********线下成果检查数据--消息接收成功**********");
+            logger.info(Constants.XMGL_BSDT_DIRECT_EXCHANGE + "-" + Constants.XMGL_BSDT_CGJC_QUEUE +
+                    "消息接收时间为:" + CalendarUtil.getCurHMSStrDate());
+            byte[] bytes = message.getBody();
+            String str = new String(bytes, Charsets.UTF_8);
+            saveCgjcResult(str);
+            basicACK(message, channel); //正常消费掉后通知mq服务器移除此条mq
+        } catch (Exception e) {
+            basicReject(message, channel);
+
+            logger.info("**********线下成果检查数据--消息接收失败**********" +
+                    Constants.XMGL_BSDT_DIRECT_EXCHANGE + "-" + Constants.XMGL_BSDT_CGJC_QUEUE +
+                    "消息接收时间为:" + CalendarUtil.getCurHMSStrDate());
+            logger.error("消息接收失败", e);
+        }
+    }
+
+    //正常消费掉后通知mq服务器移除此条mq
+    private void basicACK(Message message, Channel channel) {
+        try {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("通知服务器移除mq时异常，异常信息：", e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicNACK(Message message, Channel channel) {
+        try {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：", e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicReject(Message message, Channel channel) {
+        try {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：", e);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveCgjcResult(String str) throws Exception {
+        DchyXmglMqCzrz dchyXmglMqCzrz = new DchyXmglMqCzrz();
+        try {
+            dchyXmglMqCzrz.setCzrzid(UUIDGenerator.generate18());
+            dchyXmglMqCzrz.setCzsj(CalendarUtil.getCurHMSDate());
+            dchyXmglMqCzrz.setMsg(str.getBytes(Charsets.UTF_8));
+
+            JSONObject slxxJson = JSONObject.parseObject(str);
+            DchyXmglCgJcDto dchyXmglCgJcDto = JSON.toJavaObject(slxxJson, DchyXmglCgJcDto.class);
+            ResponseMessage responseMessage = dchyXmglCgJcDto.getMessage();
+
+            //保存的数据
+            Map data = responseMessage.getData();
+            String glsxid = CommonUtil.formatEmptyValue(MapUtils.getString(data, "glsxid"));
+            EhcacheUtil.putDataToEhcache(glsxid + "cgjc", data);
+        } catch (Exception e) {
+            dchyXmglMqCzrz.setSbyy(e.toString());
+            entityMapper.saveOrUpdate(dchyXmglMqCzrz, dchyXmglMqCzrz.getCzrzid());
+            throw new Exception();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        String str = "{\"clcgFiles\":\"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\\r\\n\",\"uploadFileName\":\"20210401780.zip\",\"glsxid\":\"54TB2922216I0401\",\"message\":{\"head\":{\"code\":\"4000\",\"msg\":\"绯荤粺寮傚父\"},\"data\":{\"glsxid\":\"54TB2922216I0401\"}}}\n";
+        JSONObject slxxJson = JSONObject.parseObject(str);
+        DchyXmglCgJcDto dchyXmglCgJcDto = JSON.toJavaObject(slxxJson, DchyXmglCgJcDto.class);
+        System.out.println(dchyXmglCgJcDto.getGlsxid());
+    }
+
+}

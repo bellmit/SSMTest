@@ -1,0 +1,39 @@
+package cn.gtmap.msurveyplat.promanage.core.service.mq.model;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/3/14
+ * @description 成果提交 检查实体
+ */
+public class DchyXmglCgJcModel {
+
+    String clcgFiles;
+
+    String uploadFileName;
+
+    String glsxid;
+
+    public String getClcgFiles() {
+        return clcgFiles;
+    }
+
+    public void setClcgFiles(String clcgFiles) {
+        this.clcgFiles = clcgFiles;
+    }
+
+    public String getUploadFileName() {
+        return uploadFileName;
+    }
+
+    public void setUploadFileName(String uploadFileName) {
+        this.uploadFileName = uploadFileName;
+    }
+
+    public String getGlsxid() {
+        return glsxid;
+    }
+
+    public void setGlsxid(String glsxid) {
+        this.glsxid = glsxid;
+    }
+}

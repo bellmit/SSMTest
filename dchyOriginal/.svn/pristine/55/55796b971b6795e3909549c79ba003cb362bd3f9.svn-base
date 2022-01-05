@@ -1,0 +1,382 @@
+<template>
+    <div class="main-content">
+        <div class="search-form">
+            <Form :model="recordForm" :rules="recordRule" inline :label-width="120">
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="备案编号" class="form-list-search" v-model="recordForm.babh">
+                            <Input v-model="recordForm.babh" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程编号" class="form-list-search" v-model="recordForm.gcbh">
+                            <Input v-model="recordForm.gcbh" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称" class="form-list-search" v-model="recordForm.gcmc">
+                            <Input v-model="recordForm.gcmc" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="测绘单位" class="form-list-search" v-model="recordForm.chdwmc">
+                            <Input v-model="recordForm.chdwmc" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="当前状态" class="form-list-search" prop="xmzt">
+                            <Select v-model="recordForm.xmzt" clearable class="form-search-item">
+                                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="50">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryList(1,recordForm.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <Table
+            ref="tableRef"
+            :id="'tableId'"
+            :cols="tableCols"
+            :data="cgInfoList"
+            :count="totalNum"
+            :operation="operationList"
+            :tool="tool"
+            :page="recordForm.page"
+            :size="recordForm.pageSize"
+            :func="queryList"
+            @btn1="submitCg"
+            @finish="finish"
+            @view="viewDetail"
+            @viewCgFj="viewCgFj"
+            @deleteOpr="deleteOpr"
+        ></Table>
+        <Modal 
+            class="modal-base form-record" 
+            v-model="visible" 
+            :title="'查看详情'" 
+            width="1000"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <Table
+                ref="detailInfoTable"
+                :id="'detailInfoTableId'"
+                :cols="detailCols"
+                :data="detailData"
+                :showPage="false"
+                :unShowTool="true"
+            ></Table>
+            <div class="save-btn">
+                <Button type="primary" class="btn-h-36 bdc-major-btn" @click="cancel()">确认</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import _ from "lodash";
+import { initSubmitSqxx, createTask } from "../../../service/result-manage"
+import { getDictInfo, queryCgInfoList, queryProjectInfo,finishHtbadj, checkFinishStatus } from "../../../service/manage"
+import util from '../../../service/util';
+export default {
+    data() {
+        return {
+            recordForm: {
+                page: 1,
+                pageSize: 10
+            },
+            visible: false,
+            recordRule: {},
+            totalNum: 0,
+            operationList: ["view","finish","viewCgFj"],
+            ztList: [],
+            cgInfoList: [],
+            tool: this.perm.hasPerm('cgtj') ? '<div>' +
+                '<span class="layui-btn main-btn-a" lay-event="btn1">成果提交</span>' +
+            '</div>' : '', //添加权限控制
+            detailCols: [
+                {
+                    field: "index",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "RKSJ",
+                    title: "入库时间",
+                    align: "center",
+                },
+                {
+                    field: "TJR",
+                    title: "入库人",
+                    align: "center",
+                    width: 150
+                },
+                {
+                    field: "CLSXMC",
+                    title: "测绘事项",
+                    align: "center"
+                },
+                {
+                    field: "CLCGMC",
+                    title: "材料名称",
+                    align: "center"
+                },
+            ],
+            detailData: [],
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "SLBH",
+                    title: "备案编号",
+                    align: "center",
+                },
+                {
+                    field: "GCBH",
+                    title: "工程编号",
+                    align: "center"
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center"
+                },
+                {
+                    field: "CHDWMC",
+                    title: "测绘单位",
+                    align: "center"
+                },
+                {
+                    field: "RKSJ",
+                    title: "入库时间",
+                    align: "center",
+                    maxWidth: 180
+                },
+                {
+                    field: "XMZT",
+                    title: "当前状态",
+                    align: "center",
+                    width: 100,
+                    templet: function(d){
+                        let className= d.XMZT==="已办结" ? "color-finish": d.XMZT ==="已受理" ? "color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.XMZT+"</span>"
+                    }
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    minWidth: 250,
+                    toolbar: "#operation"
+                }
+            ],
+            wdid: "",
+            resourceid: "",
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/manage/chsldj/view")){
+            this.pageInfo["chsldjPageInfo"] = {...this.recordForm}
+        } else {
+            this.pageInfo["chsldjPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        this.resourceid = util.getSearchParams("resourceid") || this.$route.query.resourceid;
+        if(this.pageInfo["chsldjPageInfo"]){
+            this.recordForm = {...this.pageInfo["chsldjPageInfo"]}
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.queryList();
+        this.initSubmitSqxx();
+    },
+    methods: {
+        // 展开收起点击事件
+        handlerClick(item,index){
+            if(item.collapse){
+                $(".collapse-item:eq("+index+")").slideUp(200);
+                $(".collapse-icon:eq("+index+") .dropdown").show()
+                $(".collapse-icon:eq("+index+") .dropup").hide()
+            } else {
+                $(".collapse-item:eq("+index+")").slideDown(200);
+                $(".collapse-icon:eq("+index+") .dropdown").hide()
+                $(".collapse-icon:eq("+index+") .dropup").show()
+            }
+            item.collapse= !item.collapse
+        },
+        // 修改页数
+        changePage(page){
+            this.recordForm.page = page
+            this.queryList();
+        },
+        // 修改每页显示条数
+        changePageSize(size){
+            this.recordForm.pageSize = size
+            this.queryList();
+        },
+        // 初始化成果提交申请
+        initSubmitSqxx(){
+            initSubmitSqxx().then(result => {
+                this.wdid = result.data.sqxxid;
+                sessionStorage.setItem("wdid",this.wdid)
+            })
+        },
+        // 成果提交
+        submitCg(){
+            this.$loading.show("加载中...")
+            createTask({wdid: this.wdid}).then(res => {
+                this.$loading.close();
+                let ywlx = res.name == '规划测绘成果入库' ? 'GHJG' : res.name == '地籍测绘成果入库' ? 'DJCH' : 'FCCH';
+                let href = `/portal/view/service-page.html?taskid=${res.taskId}&xmid=${res.executionId}&gzlslid=${res.processInstanceId}&formKey=${res.formKey}&wdid=${this.wdid}&type=db&ywlx=${ywlx}`
+                window.open(href)
+            })
+        },
+        // 成果浏览
+        viewCgFj(data){
+            const { href } = this.$router.resolve({
+                path: "/review/fj",
+                query: {chgcid: data.CHGCID, chxmid:data.CHXMID}
+            });
+            window.open(href);
+        },
+        deleteOpr(){
+            this.cgInfoList.forEach((list,index) => {
+                if(list.XMZT == '已办结'){
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='finish']").addClass("table-btn-disabled cursor-not-allowed");
+                }
+            })
+        },
+        // 办结操作
+        finish(data){
+            if(data.XMZT == "已办结"){
+                return 
+            }
+            this.$loading.show("加载中...")
+            checkFinishStatus({chxmid: data.CHXMID,cgtjzt: data.CGTJZT}).then(res => {
+                this.$loading.close()
+                let msg = res.data.msg
+                let code = res.data.code
+                if(code == "1001"){
+                    layer.msg(msg)
+                }else if(code == "0000"){
+                    layer.confirm(msg,(index) => {
+                        layer.close(index)
+                        this.$loading.show("办结中...")
+                        finishHtbadj({chxmid: data.CHXMID}).then(res => {
+                            this.$loading.close()
+                            layer.msg("办结成功")
+                            this.queryList();
+                        })
+                    })
+                }
+                
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["XMZT"]
+            }
+            let dbList = [];
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    if(list.ZDLX == "XMZT" && list.MC !="已办结" ){
+                        dbList.push(list.DM)
+                    }else{
+                        this.ztList.push(list)
+                    }
+                })
+                this.ztList.push({
+                    DM: dbList.join(","),
+                    MC : "未办结"
+                }) 
+                this.ztList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        // 重置查询项
+        resetForm(){
+            this.recordForm = {
+                page: this.recordForm.page,
+                pageSize: this.recordForm.pageSize
+            }
+        },  
+        // 查询
+        queryList(page,size){
+            if(page){
+                this.recordForm.page = page;
+                this.recordForm.size = size;
+            }
+            this.$loading.show("加载中...")
+            queryCgInfoList(this.recordForm).then(res => {
+                this.$loading.close();
+                this.cgInfoList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            }) 
+        },
+        // 查看操作
+        viewDetail(data){
+            this.visible = true;
+            queryProjectInfo({chxmid: data.CHXMID}).then(res => {
+                this.detailData = res.data.dataList || [];
+                this.detailData.forEach((list,index) => {
+                    list.index = index + 1;
+                })
+            })
+        },
+        cancel(){
+            this.visible = false;
+        },
+        // 选择暂停恢复终止
+        stopAndRestore(){
+            this.tableCols[0].type = "checkbox";
+            this.$refs["tableRef"].renderTable();
+        }
+    },
+}
+</script>
+<style scoped>
+@import "../../manage/chsldj/chsldj.less";
+    .collapse-table >>> .table .layui-table-view {
+        margin-top: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-table >>> .page-table {
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-title {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .title-tip {
+        width: 300px;
+        overflow: hidden;
+        text-overflow:ellipsis; 
+        white-space: nowrap;
+    }
+    .form-title {
+        padding: 5px 0;
+    }
+</style>

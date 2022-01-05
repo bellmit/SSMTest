@@ -1,0 +1,35 @@
+
+R
+java:S1854í";Remove this useless assignment to local variable "message".(ïÒğÑ
+b
+java:S1192¸"FDefine a constant instead of duplicating this literal "GCDZS" 3 times.(¬¿İşÿÿÿÿ
+^
+java:S1192¬"GDefine a constant instead of duplicating this literal "chxmid" 6 times.(°è©
+]
+java:S1192Ä"GDefine a constant instead of duplicating this literal "GCDZQX" 3 times.(Ì©Î8
+^
+java:S1192¾"GDefine a constant instead of duplicating this literal "GCDZSS" 3 times.(Õ¶¥
+g
+java:S1192Ù"KDefine a constant instead of duplicating this literal "jcsjsqxxid" 3 times.(½“Ä¡ıÿÿÿÿ
+c
+java:S1192Õ"GDefine a constant instead of duplicating this literal "glsxid" 4 times.( ë£üÿÿÿÿ
+F
+java:S2093Ë"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+i
+java:S3776¬"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ŞšÓè
+Y
+java:S2259ì"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+R
+java:S1854©";Remove this useless assignment to local variable "message".(ïÒğÑ
+D
+java:S1481È".Remove this unused "httpState" local variable.(¡ØšE
+c
+java:S1192Ì"GDefine a constant instead of duplicating this literal "HTXXID" 3 times.(¸­Éıÿÿÿÿ
+u
+java:S3776¨"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ŞİòÇıÿÿÿÿ8œîí—£/
+p
+java:S3776Û"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(¬°ı¾8œîí—£/
+Y
+java:S1854Ö";Remove this useless assignment to local variable "message".(ïÒğÑ8œîí—£/
+Y
+java:S1854ğ";Remove this useless assignment to local variable "message".(ïÒğÑ8œîí—£/

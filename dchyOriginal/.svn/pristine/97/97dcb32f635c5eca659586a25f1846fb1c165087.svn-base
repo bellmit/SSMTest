@@ -1,0 +1,59 @@
+<div id="commonAnalysisResultContainer">
+    <div id="headContainer">
+        <div id="generalResult">
+            <div class="gnlRstContent"><b>分析结果:</b>&nbsp;&nbsp;&nbsp;&nbsp;图形面积:&nbsp;{{general.geoArea}}&nbsp;m<sup>2</sup>&nbsp;&nbsp;未覆盖面积:&nbsp;{{general.unCoverArea}}
+                &nbsp;m<sup>2</sup><button id="clearResultBtn"><i title="清除分析结果">清除分析结果</i></button>
+            </div>
+        </div>
+        <div class="dropdown"  style="text-align: right;padding: 0 10px 0 0;float: right;">
+            <a id="exportExcelBtn" class="dropdown-toggle" data-target="#" data-toggle="dropdown" role="button">
+                导出Excel
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="exportExcelBtn">
+                <li ><a style="text-align: left;" id="expExcelGroupBtn" href="javascript:;">分组</a></li>
+                <li ><a style="text-align: left;" id="expExcelListBtn" href="javascript:;">列表</a></li>
+            </ul>
+            <a id="exportShpBtn" style="cursor:pointer" role="button">
+                导出Shp
+                <span class="caret"></span>
+            </a>
+        </div>
+    </div>
+    <div id="infoContainer" style="clear: both;">
+        <ul class="nav nav-tabs" role="tablist">
+            {{#each info}}
+            <li role="presentation" class="{{#enableActive @index 0}}{{/enableActive}}"><a href="#comAnaResultInfo{{@index}}" aria-controls="comAnaResultInfo{{@index}}" role="tab" data-toggle="tab" style="font-size: 14px;">{{alias}}</a></li>
+            {{/each}}
+        </ul>
+        <div class="tab-content">
+            {{#each info}}
+            <div role="tabpanel" class="tab-pane fade {{#enableActive @index 1}}{{/enableActive}}" id="comAnaResultInfo{{@index}}">
+                <h5 style="font-weight: bold; color:#188074"><span class="icon icon-double-angle-right"></span>
+                    分类面积 {{this.value}}&nbsp;m<sup>2</sup></a></h5>
+                <h5 style="font-weight: bold; color:#188074">
+                    <span class="icon icon-double-angle-right toggle" style="cursor:pointer;"></span> 详细信息</h5>
+
+                <div class="detailPanel">
+                    <table class="common-analysis-tbl">
+                        <tbody>
+                            <tr>
+                                {{#fieldsTitles this.children}}{{/fieldsTitles}}
+                            </tr>
+                            {{#each this.children}}
+                            <tr>
+                                <td>{{addOne @index}}</td>
+                                {{#each this}}
+                                <td>{{#formatValue this}}{{/formatValue}}</td>
+                                {{/each}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

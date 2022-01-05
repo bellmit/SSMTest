@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglZxkfMapper">
+
+    <select id="queryMessageListByPage" resultType="map" parameterType="map">
+        select x.issuesId,
+        x.title,
+        x.isOpen,
+        x.issuesContent,
+        x.answerId,
+        x.answerContent,
+        x.cjsj
+        from (select i.issues_id AS issuesId,
+        i.title,
+        i.is_open AS isOpen,
+        i.issues_content AS issuesContent,
+        a.answer_id AS answerId,
+        a.answer_content AS answerContent,
+        i.create_time cjsj
+        from dchy_Xmgl_zxkf_issues i
+        left join dchy_Xmgl_zxkf_answer a
+        on a.issues_id = i.issues_id
+        where i.issues_id in (select sqxx.glsxid
+        from dchy_xmgl_ybrw ybrw
+        left join dchy_Xmgl_sqxx sqxx
+        on sqxx.sqxxid = ybrw.sqxxid
+        where sqxx.blsx = '5')
+        and i.sfyx = '1'
+        and i.is_open = '0'
+        <if test="useridList != null and useridList.size>0">
+            AND i.USER_ID IN
+            <foreach collection="useridList" item="item" open="(" separator="," close=")">
+                #{item,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="title != null and title != ''">
+            and i.title like '%'||#{title}||'%'
+        </if>
+        union all
+        select i.issues_id AS issuesId,
+        i.title,
+        i.is_open AS isOpen,
+        i.issues_content AS issuesContent,
+        a.answer_id AS answerId,
+        a.answer_content AS answerContent,
+        i.create_time cjsj
+        from dchy_Xmgl_zxkf_issues i
+        left join dchy_Xmgl_zxkf_answer a
+        on a.issues_id = i.issues_id
+        where i.issues_id in (select sqxx.glsxid
+        from dchy_xmgl_ybrw ybrw
+        left join dchy_Xmgl_sqxx sqxx
+        on sqxx.sqxxid = ybrw.sqxxid
+        where sqxx.blsx = '5')
+        and i.sfyx = '1'
+        and i.is_open = '1'
+        <if test="title != null and title != ''">
+            and i.title like '%'||#{title}||'%'
+        </if>
+        ) x
+        ORDER BY x.cjsj DESC
+    </select>
+
+    <select id="queryMyIssuesListByPage" resultType="map" parameterType="map">
+        select i.issues_id AS issuesId,
+        i.title,
+        i.status,
+        i.issues_content AS issuesContent,
+        a.answer_id AS answerId,
+        a.answer_content AS answerContent,
+        i.create_time cjsj
+        from dchy_Xmgl_zxkf_issues i
+        left join dchy_xmgl_zxkf_answer a
+        on a.issues_id = i.issues_id
+        <where>
+            and i.sfyx='1'
+            <if test="useridList != null and useridList.size>0">
+                AND i.USER_ID IN
+                <foreach collection="useridList" item="item" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+
+            <if test="title != null and title != ''">
+                and i.title like '%'||#{title}||'%'
+            </if>
+
+            <if test="status != null and status != ''">
+                and i.status =#{status}
+            </if>
+        </where>
+        ORDER BY i.create_time DESC
+    </select>
+
+    <select id="queryAnswerListByPage" parameterType="map" resultType="map">
+        select i.issues_id AS issuesId,
+        i.title,
+        i.issues_content AS issuesContent,
+        a.answer_id AS answerId,
+        a.answer_content AS answerContent,
+        i.create_time cjsj
+        from dchy_Xmgl_zxkf_issues i
+        left join dchy_Xmgl_zxkf_answer a
+        on a.issues_id = i.issues_id
+        where i.issues_id in (
+        select sqxx.glsxid from dchy_xmgl_dbrw dbrw
+        left join dchy_Xmgl_sqxx sqxx
+        on sqxx.sqxxid = dbrw.sqxxid
+        where sqxx.blsx='5')
+
+        <if test="title != null and title != ''">
+            and i.title like '%'||#{title}||'%'
+        </if>
+        ORDER BY i.create_time DESC
+    </select>
+
+    <select id="queryIssuesById" parameterType="map"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglZxkfIssues">
+        select i.issues_id AS issuesId,
+        i.title,
+        i.issues_content AS issuesContent,
+        i.STATUS ,
+        i.UPDATE_TIME AS updateTime,
+        i.CREATE_TIME AS createTime,
+        i.IS_OPEN AS isOpen,
+        i.user_id AS userid
+        from dchy_xmgl_zxkf_issues i
+        <where>
+            <choose>
+                <when test="issuesid != null and issuesid != ''">
+                    and i.issues_id = #{issuesid}
+                </when>
+                <otherwise>
+                    and i.issues_id ='emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

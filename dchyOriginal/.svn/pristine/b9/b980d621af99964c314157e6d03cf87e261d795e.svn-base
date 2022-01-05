@@ -1,0 +1,10 @@
+<div class="widget-panel-title">规划执行情况分析</div>
+<div class="ghzx-time-content">
+    <label for="ghzsStart">开始时间：</label>
+    <input class="form-control input-sm ghzx-time laydate-icon" id="ghzsStart"/>
+</div>
+<div class="ghzx-time-content">
+    <label for="ghzxEnd">截止时间：</label>
+    <input class="form-control input-sm laydate-icon ghzx-time" id="ghzxEnd"/>
+</div>
+<div class="text-center"><button class="btn btn-primary" id="doGhzxAnalysis">开始分析</button></div>

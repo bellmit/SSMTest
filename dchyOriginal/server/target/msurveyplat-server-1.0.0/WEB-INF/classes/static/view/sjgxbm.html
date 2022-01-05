@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>数据共享配置</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="../css/add.css">
+    <link href="../css/sjgxbm.css" media="all" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_2334914_ydfyfi8lqwa.css">
+</head>
+<body>
+<form class="layui-form" style="margin-top: 20px">
+    <div class="layui-inline">
+        <label class="layui-form-label">工程编号：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="xmbh" name="xmbh" placeholder="" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">工程名称：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="xmmc" name="xmmc" placeholder="" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <div class="layui-form-item">
+            <div class="ywmc">
+                <label class="layui-form-label">业务名称：</label>
+                <div class="layui-input-block" style="margin-top: 5px">
+                    <select name="ywmc" lay-filter="ywmc"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-inline bdc-button-box-four">
+        <a href="javascript:;" class="layui-btn layui-btn-normal bdc-major-btn" id="search"
+           style="margin-left: 50px;">查询</a>
+        <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="reset" style="margin-left: 50px;">重置</button>
+    </div>
+</form>
+
+<!-- 主体 -->
+<div class="layui-collapse lay-accordion" lay-filter="test" style="margin-top: 12px;margin-bottom: 20px" id="xmxx">
+</div>
+
+<div id="pageHelper"></div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs detail-btn" lay-event="detail">获取</a>
+</script>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/layui/layui.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/sjgxbm.js"></script>
+
+</body>
+</html>

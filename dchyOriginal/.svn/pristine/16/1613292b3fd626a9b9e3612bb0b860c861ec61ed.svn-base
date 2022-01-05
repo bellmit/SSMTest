@@ -1,0 +1,320 @@
+<template>
+    <div class="main-content">
+        <Tabs value="name1">
+            <TabPane label="项目管理" name="name1"></TabPane>
+            <Button type="primary" class="float-right bdc-major-btn main-btn-first" v-if="perm.hasPerm('cgtj')" slot="extra" @click="submitCg">成果提交</Button>
+        </Tabs>
+        <div class="search-form">
+            <Form :model="recordForm" :rules="recordRule" inline :label-width="100">
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="工程编号" class="form-list-search" v-model="recordForm.gcbh">
+                            <Input v-model="recordForm.gcbh" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称" class="form-list-search" v-model="recordForm.gcmc">
+                            <Input v-model="recordForm.gcmc" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="建设单位" class="form-list-search" v-model="recordForm.wtdw">
+                            <Input v-model="recordForm.wtdw" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="20">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryList(1,recordForm.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <div class="margin-top-10 collapse-table">
+            <div v-for="(item,index) in cgInfoList" :key="index" class="margin-top-10">
+                <div class="form-title">
+                    <div class="list-title">
+                        <div class="info-title">
+                            <div class="margin-left-10 title-tip" :title="item.GCBH"><span>工程编号：</span>{{item.GCBH}}</div>
+                            <div class="margin-left-10 title-tip" :title="item.GCMC"><span>工程名称：</span>{{item.GCMC}}</div>
+                            <div class="margin-left-10 title-tip" :title="item.WTDW"><span>建设单位：</span>{{item.WTDW}}</div>
+                            <div class="margin-left-10"></div>
+                        </div>
+                        <div class="collapse-icon"  style="margin-top: -4px">
+                            <Icon type="ios-arrow-dropup" class="dropup" title="收起" @click="handlerClick(item,index)" v-show="item.collapse"/>
+                            <Icon type="ios-arrow-dropdown" class="dropdown" title="展开" @click="handlerClick(item,index)" v-show="!item.collapse"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="item.collapse" class="collapse-item margin-bottom-10">
+                    <div class="collapse-content">
+                        <Table
+                            ref="tableRef"
+                            :id="'tableId'+index"
+                            :cols="tableCols"
+                            :data="item.CHILDREN"
+                            :operation="operationList"
+                            :tool="tool"
+                            :showPage="false"
+                            @btn1="viewDetail(item)"
+                            @finish="finish"
+                        ></Table>
+                    </div>
+                </div>
+                <div class="line-dashed"></div>
+            </div>
+        </div>
+        <div class="page-item margin-top-10">
+            <Page :total="totalNum" :page-size="recordForm.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :current="recordForm.page" show-total show-elevator show-sizer />
+        </div>
+    </div>
+</template>
+<script>
+import moment from "moment";
+import _ from "lodash";
+import { initSubmitSqxx, createTask } from "../../service/result-manage"
+import { getDictInfo, searchProject, finishHtbadj, checkFinishStatus } from "../../service/manage"
+import util from '../../service/util';
+export default {
+    data() {
+        return {
+            recordForm: {
+                page: 1,
+                pageSize: 10
+            },
+            recordRule: {},
+            totalNum: 0,
+            operationList: ["finish"],
+            chsldjList: [],
+            xmlxList: [],
+            cgInfoList: [],
+             tool: '<div>' +
+                '<span class="layui-btn main-btn-a" lay-event="btn1">查看</span>' +
+            '</div>',
+            tableCols: [
+                {
+                    field: "index",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "SLBH",
+                    title: "备案编号",
+                    align: "center",
+                },
+                {
+                    field: "SLSJ",
+                    title: "登记时间",
+                    align: "center"
+                },
+                {
+                    field: "CHDWMC",
+                    title: "测绘单位",
+                    align: "center"
+                },
+                {
+                    field: "CHSX",
+                    title: "测绘事项",
+                    align: "center",
+                    minWidth: 250,
+                    templet: function(d){
+                        return d.CLSX&&d.CLSX.length ? d.CLSX.join(",") : "";
+                    }
+                },
+                {
+                    field: "CGTJZT",
+                    title: "成果状态",
+                    align: "center",
+                    width: 140
+                },
+                {
+                    field: "XMZT",
+                    title: "办结状态",
+                    align: "center",
+                    width: 120,
+                    templet: function(d){
+                        let className= d.XMZT==="已办结" ? "color-finish": d.XMZT ==="已受理" ? "color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.XMZT+"</span>"
+                    }
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    minWidth: 180,
+                    fixed: "right",
+                    toolbar: "#operation"
+                }
+            ],
+            wdid: "",
+            resourceid: "",
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/manage/chsldj/view")){
+            this.pageInfo["chsldjPageInfo"] = {...this.recordForm}
+        } else {
+            this.pageInfo["chsldjPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        this.resourceid = util.getSearchParams("resourceid") || this.$route.query.resourceid;
+        if(this.pageInfo["chsldjPageInfo"]){
+            this.recordForm = {...this.pageInfo["chsldjPageInfo"]}
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.queryList();
+        this.initSubmitSqxx();
+    },
+    methods: {
+        // 展开收起点击事件
+        handlerClick(item,index){
+            if(item.collapse){
+                $(".collapse-item:eq("+index+")").slideUp(200);
+                $(".collapse-icon:eq("+index+") .dropdown").show()
+                $(".collapse-icon:eq("+index+") .dropup").hide()
+            } else {
+                $(".collapse-item:eq("+index+")").slideDown(200);
+                $(".collapse-icon:eq("+index+") .dropdown").hide()
+                $(".collapse-icon:eq("+index+") .dropup").show()
+            }
+            item.collapse= !item.collapse
+        },
+        // 修改页数
+        changePage(page){
+            this.recordForm.page = page
+            this.queryList();
+        },
+        // 修改每页显示条数
+        changePageSize(size){
+            this.recordForm.pageSize = size
+            this.queryList();
+        },
+        // 初始化成果提交申请
+        initSubmitSqxx(){
+            initSubmitSqxx().then(result => {
+                this.wdid = result.data.sqxxid;
+                sessionStorage.setItem("wdid",this.wdid)
+            })
+        },
+        // 成果提交
+        submitCg(){
+            this.$loading.show("加载中...")
+            createTask({wdid: this.wdid}).then(res => {
+                this.$loading.close();
+                let ywlx = res.name == '规划测绘成果入库' ? 'GHJG' : res.name == '地籍测绘成果入库' ? 'DJCH' : 'FCCH';
+                let href = `/portal/view/service-page.html?taskid=${res.taskId}&xmid=${res.executionId}&gzlslid=${res.processInstanceId}&formKey=${res.formKey}&wdid=${this.wdid}&type=db&ywlx=${ywlx}`
+                window.open(href)
+            })
+        },
+        // 办结操作
+        finish(data){
+            this.$loading.show("加载中...")
+            checkFinishStatus({chxmid: data.CHXMID,cgtjzt: data.CGTJZT}).then(res => {
+                this.$loading.close()
+                let msg = res.data.msg
+                let code = res.data.code
+                if(code == "1001"){
+                    layer.msg(msg)
+                }else if(code == "0000"){
+                    layer.confirm(msg,(index) => {
+                        layer.close(index)
+                        this.$loading.show("办结中...")
+                        finishHtbadj({chxmid: data.CHXMID}).then(res => {
+                            this.$loading.close()
+                            layer.msg("办结成功")
+                            this.queryList();
+                        })
+                    })
+                }
+                
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["XMXZ"]
+            }
+            getDictInfo(params).then(res => {
+                this.xmlxList = res.data.dataList;
+                this.xmlxList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        // 重置查询项
+        resetForm(){
+            this.recordForm = {
+                page: this.recordForm.page,
+                pageSize: this.recordForm.pageSize
+            }
+        },  
+        // 查询
+        queryList(page,size){
+            if(page){
+                this.recordForm.page = page;
+                this.recordForm.size = size;
+            }
+            this.$loading.show("加载中...")
+            searchProject(this.recordForm).then(res => {
+                this.$loading.close();
+                this.cgInfoList = res.data.dataList || [];
+                if(this.cgInfoList.length){
+                    this.cgInfoList[0].collapse = true;
+                }
+                this.cgInfoList.forEach(list => {
+                    list.CHILDREN.forEach((l,index) => {
+                        l.index = index + 1;
+                    })
+                })
+                this.totalNum = res.data.totalNum || 0;
+            }) 
+        },
+        // 查看操作
+        viewDetail(data){
+            this.$router.push({
+                path: `/manage/chsldj/view`,
+                query: { chgcid: data.CHGCID, gcmc: data.GCMC,gcbh: data.GCBH}
+            });
+        },
+        // 选择暂停恢复终止
+        stopAndRestore(){
+            this.tableCols[0].type = "checkbox";
+            this.$refs["tableRef"].renderTable();
+        }
+    },
+}
+</script>
+<style scoped>
+@import "./chsldj.less";
+    .collapse-table >>> .table .layui-table-view {
+        margin-top: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-table >>> .page-table {
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-title {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .title-tip {
+        width: 300px;
+        overflow: hidden;
+        text-overflow:ellipsis; 
+        white-space: nowrap;
+    }
+    .form-title {
+        padding: 5px 0;
+    }
+</style>

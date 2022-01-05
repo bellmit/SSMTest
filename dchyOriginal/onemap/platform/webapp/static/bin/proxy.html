@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title> proxy iframe function </title>
+</head>
+
+<body>
+<script type="text/javascript">
+    var result = {};
+    var s = decodeURIComponent(window.location.search);
+    var param = s.substr(1);
+    var arrWithEqual = param.split("&");
+    for (var i = 0; l = arrWithEqual.length, i < l; i++) {
+        var val = arrWithEqual[i];
+        var firstIndex = val.indexOf("=");
+        result[val.substring(0, firstIndex)] = val.substr(firstIndex + 1);
+    }
+
+    parent.parent.window.EventBus.trigger("callMap", result); // execute main function
+
+</script>
+</body>
+</html>

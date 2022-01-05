@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="GROUP_BY_SEVERITY" value="true" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f521b0c4-5ba1-48c9-8593-de3751cc812a" name="Default Changelist" comment="修改日志输出">
+      <change beforePath="$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/XcsldjDtoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/XcsldjDtoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/config/SecurityConfig.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="msurveyplat" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Program Files\maven" />
+        <option name="userSettingsFile" value="D:\Program Files\apache-maven-3.3.9\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectId" id="1qm3FP876LMn8AGmA0Jtnbso6FW" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="oracle" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/serviceol/src/main/resources/static" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\gtmapCode\dchyOriginal\serviceol\src\main\resources\static" />
+      <recent name="D:\gtmapCode\dchyOriginal\serviceol\src\main\resources\conf\xsbfmapper" />
+      <recent name="D:\gtmapCode\dchyOriginal\serviceol\src\main\java\cn\gtmap\msurveyplat\serviceol\utils" />
+      <recent name="D:\gtmapCode\dchyOriginal\promanage\src\main\resources\conf\changelog" />
+      <recent name="D:\gtmapCode\dchyOriginal\serviceol\src\main\resources\conf\changelog" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\liuqiang\workspace\dchyOriginal" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper" />
+      <recent name="cn.gtmap.msurveyplat.serviceol.service.impl" />
+      <recent name="cn.gtmap.msurveyplat.serviceol.service" />
+      <recent name="cn.gtmap.msurveyplat.server.web.rest" />
+      <recent name="cn.gtmap.msurveyplat.common.dto" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.PromanageApp">
+    <configuration name="HelloPdf" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.gtmap.msurveyplat.promanage.utils.HelloPdf" />
+      <module name="msurveyplat-promanage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.gtmap.msurveyplat.promanage.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PdfReport" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.gtmap.msurveyplat.promanage.utils.PdfReport" />
+      <module name="msurveyplat-promanage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.gtmap.msurveyplat.promanage.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExchangeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="msurveyplat-exchange" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.exchange.ExchangeApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PortalApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="portal" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.gtmap.msurveyplat.portal.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.portal.PortalApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PortalOlApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="portal-ol" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.portalol.PortalOlApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PromanageApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="msurveyplat-promanage" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.gtmap.msurveyplat.promanage.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.promanage.PromanageApp" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="msurveyplat-serv" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.serv.ServApp" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="msurveyplat-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.server.ServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServiceOlApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="msurveyplat-serviceol" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.gtmap.msurveyplat.serviceol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.gtmap.msurveyplat.serviceol.ServiceOlApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.HelloPdf" />
+      <item itemvalue="Application.PdfReport" />
+      <item itemvalue="Spring Boot.ExchangeApplication" />
+      <item itemvalue="Spring Boot.ServerApplication" />
+      <item itemvalue="Spring Boot.PortalOlApplication" />
+      <item itemvalue="Spring Boot.ServApp" />
+      <item itemvalue="Spring Boot.PromanageApp" />
+      <item itemvalue="Spring Boot.PortalApplication" />
+      <item itemvalue="Spring Boot.ServiceOlApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.PromanageApp" />
+        <item itemvalue="Spring Boot.ServiceOlApplication" />
+        <item itemvalue="Application.PdfReport" />
+        <item itemvalue="Application.HelloPdf" />
+        <item itemvalue="Spring Boot.PortalApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:@192.168.0.19" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:@192.168.0.19" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@5b19fe9e" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\86153\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f521b0c4-5ba1-48c9-8593-de3751cc812a" name="Default Changelist" comment="" />
+      <created>1617670833452</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617670833452</updated>
+      <workItem from="1617670837190" duration="256000" />
+      <workItem from="1617671142852" duration="160000" />
+      <workItem from="1617758979396" duration="1244000" />
+      <workItem from="1617760446992" duration="107000" />
+      <workItem from="1617787141592" duration="973000" />
+      <workItem from="1617935847370" duration="1019000" />
+      <workItem from="1617960271288" duration="15000" />
+      <workItem from="1619057644906" duration="178000" />
+      <workItem from="1619751371851" duration="1985000" />
+      <workItem from="1620262220809" duration="1357000" />
+      <workItem from="1620264022763" duration="572000" />
+      <workItem from="1620264617861" duration="25611000" />
+      <workItem from="1620350402490" duration="21877000" />
+      <workItem from="1620434950357" duration="24263000" />
+      <workItem from="1620607994007" duration="29622000" />
+      <workItem from="1620694596951" duration="18708000" />
+      <workItem from="1620782967012" duration="30526000" />
+      <workItem from="1620866589310" duration="6356000" />
+      <workItem from="1620873798091" duration="14101000" />
+      <workItem from="1620894889400" duration="338000" />
+      <workItem from="1620895257171" duration="5667000" />
+      <workItem from="1620953368968" duration="15567000" />
+      <workItem from="1620975457865" duration="7750000" />
+      <workItem from="1620985190894" duration="800000" />
+      <workItem from="1621056766704" duration="6632000" />
+      <workItem from="1621093282275" duration="620000" />
+      <workItem from="1621133151439" duration="637000" />
+      <workItem from="1621212917431" duration="41116000" />
+      <workItem from="1621328912358" duration="2695000" />
+      <workItem from="1621385387688" duration="2342000" />
+      <workItem from="1621388285375" duration="926000" />
+      <workItem from="1621389532957" duration="668000" />
+      <workItem from="1621390812546" duration="8394000" />
+      <workItem from="1621471406402" duration="24558000" />
+      <workItem from="1621557503458" duration="25304000" />
+      <workItem from="1621815966272" duration="3510000" />
+      <workItem from="1621836497942" duration="16528000" />
+      <workItem from="1621902280481" duration="11303000" />
+      <workItem from="1621989603596" duration="13909000" />
+      <workItem from="1622017881755" duration="4722000" />
+      <workItem from="1622038930238" duration="647000" />
+      <workItem from="1622077085410" duration="3975000" />
+      <workItem from="1622081345500" duration="15382000" />
+      <workItem from="1622164888808" duration="17996000" />
+      <workItem from="1622304939274" duration="89000" />
+      <workItem from="1622305086469" duration="50000" />
+      <workItem from="1622422535900" duration="17925000" />
+      <workItem from="1622449169170" duration="1381000" />
+      <workItem from="1622450685019" duration="15162000" />
+      <workItem from="1622474826051" duration="29663000" />
+      <workItem from="1622596245657" duration="1379000" />
+      <workItem from="1622598152904" duration="19669000" />
+      <workItem from="1622628082378" duration="45640000" />
+      <workItem from="1622729115789" duration="678000" />
+      <workItem from="1622767389961" duration="22323000" />
+      <workItem from="1622862200725" duration="11666000" />
+      <workItem from="1623026745364" duration="13244000" />
+      <workItem from="1623052717956" duration="6905000" />
+      <workItem from="1623112436676" duration="33049000" />
+      <workItem from="1623199527739" duration="21619000" />
+      <workItem from="1623253125374" duration="2015000" />
+      <workItem from="1623287578610" duration="15656000" />
+      <workItem from="1623318418947" duration="4562000" />
+      <workItem from="1623372056870" duration="20274000" />
+      <workItem from="1623717253403" duration="50688000" />
+      <workItem from="1623890612573" duration="9989000" />
+      <workItem from="1623910091397" duration="16819000" />
+      <workItem from="1623981488437" duration="14820000" />
+      <workItem from="1624235232971" duration="41566000" />
+      <workItem from="1624321312701" duration="24054000" />
+      <workItem from="1624408592737" duration="32567000" />
+      <workItem from="1624524725233" duration="4037000" />
+      <workItem from="1637390096131" duration="997000" />
+      <workItem from="1638682129521" duration="827000" />
+      <workItem from="1638696189134" duration="233000" />
+      <workItem from="1638705497963" duration="50000" />
+      <workItem from="1638708931304" duration="31000" />
+      <workItem from="1638716259350" duration="62000" />
+      <workItem from="1638718940476" duration="341000" />
+      <workItem from="1638795816363" duration="51000" />
+    </task>
+    <task id="LOCAL-00012" summary="建设单位新增建设单位码">
+      <created>1620460322940</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1620460322940</updated>
+    </task>
+    <task id="LOCAL-00013" summary="用户单位新增字段">
+      <created>1620460613160</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1620460613160</updated>
+    </task>
+    <task id="LOCAL-00014" summary="建设单位在线认证推送到线下,线下备案录入推送到线上">
+      <created>1620635864844</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1620635864844</updated>
+    </task>
+    <task id="LOCAL-00015" summary="新增建设单位表">
+      <created>1620636164767</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1620636164768</updated>
+    </task>
+    <task id="LOCAL-00016" summary="线下成果提交完自动办结">
+      <created>1620640192371</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1620640192371</updated>
+    </task>
+    <task id="LOCAL-00017" summary="用户管理,修改管理员用户的逻辑错误">
+      <created>1620697778651</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1620697778651</updated>
+    </task>
+    <task id="LOCAL-00018" summary="用户管理接口从portalol移动到exchange">
+      <created>1620703146105</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1620703146105</updated>
+    </task>
+    <task id="LOCAL-00019" summary="修改编码">
+      <created>1620870847346</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1620870847346</updated>
+    </task>
+    <task id="LOCAL-00020" summary="用户管理接口从portalol移动到exchange">
+      <created>1620898078234</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1620898078234</updated>
+    </task>
+    <task id="LOCAL-00021" summary="1,用户管理代码迁移直exchange &#10;2,线下单点登录 &#10;3,成果提交受理编号换成备案编号">
+      <created>1620898924547</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1620898924547</updated>
+    </task>
+    <task id="LOCAL-00022" summary="还原代码">
+      <created>1620901158049</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1620901158049</updated>
+    </task>
+    <task id="LOCAL-00023" summary="还原代码">
+      <created>1620960890207</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1620960890207</updated>
+    </task>
+    <task id="LOCAL-00024" summary="注册逻辑">
+      <created>1620976706555</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1620976706555</updated>
+    </task>
+    <task id="LOCAL-00025" summary="移动配置项">
+      <created>1620978582295</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1620978582295</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fegion路径配置错误">
+      <created>1621060826169</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1621060826169</updated>
+    </task>
+    <task id="LOCAL-00027" summary="成果提交受理编号改为备案编号">
+      <created>1621222886155</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1621222886155</updated>
+    </task>
+    <task id="LOCAL-00028" summary="1,操作日志操作参数字段加长&#10;2,新注册的建设单位可以看到所有的留言提问&#10;3,成果提交,测绘工程id和工程编号没有录入">
+      <created>1621240188004</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1621240188004</updated>
+    </task>
+    <task id="LOCAL-00029" summary="还原代码">
+      <created>1621240238743</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1621240238743</updated>
+    </task>
+    <task id="LOCAL-00030" summary="个人用户授权,普通用户被授予单位管理员权限">
+      <created>1621302924921</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1621302924921</updated>
+    </task>
+    <task id="LOCAL-00031" summary="代码走查">
+      <created>1621560260890</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1621560260890</updated>
+    </task>
+    <task id="LOCAL-00032" summary="1,部分测绘单位可以看到管理单位抽查结果&#10;2,部分建设单位可以看到所有的提问&#10;3,成果提交同一批入库时间不一致">
+      <created>1621585386517</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1621585386517</updated>
+    </task>
+    <task id="LOCAL-00033" summary="用户授权身份证号码解密">
+      <created>1621822376728</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1621822376728</updated>
+    </task>
+    <task id="LOCAL-00034" summary="代码走查">
+      <created>1621903933634</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1621903933634</updated>
+    </task>
+    <task id="LOCAL-00035" summary="mq操作日志新增队列名称和队列代码">
+      <created>1621990239373</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1621990239373</updated>
+    </task>
+    <task id="LOCAL-00036" summary="线下成果提交的时候同步成果提交记录">
+      <created>1621994555257</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1621994555257</updated>
+    </task>
+    <task id="LOCAL-00037" summary="名录库查看 从业人员分页展示问题">
+      <created>1622008842750</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1622008842750</updated>
+    </task>
+    <task id="LOCAL-00038" summary="名录库查看 从业人员分页展示问题">
+      <created>1622009674053</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1622009674053</updated>
+    </task>
+    <task id="LOCAL-00039" summary="在线客服提问逻辑bug">
+      <created>1622013714593</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1622013714593</updated>
+    </task>
+    <task id="LOCAL-00040" summary="同步测量成果数据到线上">
+      <created>1622020212062</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1622020212062</updated>
+    </task>
+    <task id="LOCAL-00041" summary="修改线上统计进行中逻辑">
+      <created>1622079242827</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1622079242827</updated>
+    </task>
+    <task id="LOCAL-00042" summary="1,基础数据申请转发时,删除其他用户当前节点信息&#10;2,基础数据申请新增xmbabh字段,用于展示备案编号&#10;3,展示已办列表接口名错误&#10;4,在线客服,用户单位提问台账展示逻辑">
+      <created>1622444316049</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1622444316049</updated>
+    </task>
+    <task id="LOCAL-00043" summary="1,完善基础数据申请和成果提交流程(加审核节点)&#10;2,代码走查,(接口返回值优化)">
+      <created>1622683887458</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1622683887458</updated>
+    </task>
+    <task id="LOCAL-00044" summary="1,办事大厅-用户授权：用户授权已有建设单位会报系统异常，但其实授权成功了&#10;2,基础数据申请和成果提交流程bug&#10;3,基础数据申请,制作交付过程新增消息提醒">
+      <created>1622873371597</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1622873371597</updated>
+    </task>
+    <task id="LOCAL-00045" summary="基础数据申请,审核退回新增办结节点">
+      <created>1623053273908</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1623053273908</updated>
+    </task>
+    <task id="LOCAL-00046" summary="基础数据申请,审核退回新增办结节点">
+      <created>1623117988478</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1623117988478</updated>
+    </task>
+    <task id="LOCAL-00047" summary="受理编号换成备案编号">
+      <created>1623202428959</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1623202428959</updated>
+    </task>
+    <task id="LOCAL-00048" summary="线下项目管理新增日志记录">
+      <created>1623220569337</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1623220569337</updated>
+    </task>
+    <task id="LOCAL-00049" summary="成果共享申请台账">
+      <created>1623287870706</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1623287870706</updated>
+    </task>
+    <task id="LOCAL-00050" summary="1,共享申请统计台账&#10;2,server的UserUtil还原&#10;3,基础数据申请基础数据红线的glsxid修改">
+      <created>1623322892553</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1623322892554</updated>
+    </task>
+    <task id="LOCAL-00051" summary="共享申请统计台账和echarts数据">
+      <created>1623402279334</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1623402279336</updated>
+    </task>
+    <task id="LOCAL-00052" summary="更新数据库文件">
+      <created>1623403664328</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1623403664328</updated>
+    </task>
+    <task id="LOCAL-00053" summary="基础数据测试反馈">
+      <created>1623749011277</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1623749011279</updated>
+    </task>
+    <task id="LOCAL-00054" summary="1,修改基础数据范围的上传逻辑,&#10;将流程中的额受理编号作为glsxid上传数据范围&#10;2,修改成果提交办结验证是否全部提交奥逻辑">
+      <created>1623927038352</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1623927038352</updated>
+    </task>
+    <task id="LOCAL-00055" summary="1,修改基础数据范围的上传逻辑,&#10;将流程中的额受理编号作为glsxid上传数据范围&#10;2,获取收件材料,入参新增ssmkid">
+      <created>1624002008135</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1624002008136</updated>
+    </task>
+    <task id="LOCAL-00056" summary="1,代码走查，接口新增打印日志错误信息&#10;2，新增打印功能">
+      <created>1624327911350</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1624327911351</updated>
+    </task>
+    <task id="LOCAL-00057" summary="办事大厅,建设单位,我的项目台账新增通过ssjd进行查询&#10;打印回执单,去掉人名和时间改为手写">
+      <created>1624346697242</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1624346697243</updated>
+    </task>
+    <task id="LOCAL-00058" summary="1,代码走查，接口新增打印日志错误信息">
+      <created>1624350399952</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1624350399952</updated>
+    </task>
+    <task id="LOCAL-00059" summary="1,代码走查，接口新增打印日志错误信息">
+      <created>1624525392810</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1624525392811</updated>
+    </task>
+    <task id="LOCAL-00060" summary="修改日志输出">
+      <created>1624526013002</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1624526013002</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="用户授权身份证号码解密" />
+    <MESSAGE value="代码走查" />
+    <MESSAGE value="mq操作日志新增队列名称和队列代码" />
+    <MESSAGE value="线下成果提交的时候同步成果提交记录" />
+    <MESSAGE value="名录库查看 从业人员分页展示问题" />
+    <MESSAGE value="在线客服提问逻辑bug" />
+    <MESSAGE value="同步测量成果数据到线上" />
+    <MESSAGE value="修改线上统计进行中逻辑" />
+    <MESSAGE value="1,基础数据申请转发时,删除其他用户当前节点信息&#10;2,基础数据申请新增xmbabh字段,用于展示备案编号&#10;3,展示已办列表接口名错误&#10;4,在线客服,用户单位提问台账展示逻辑" />
+    <MESSAGE value="1,完善基础数据申请和成果提交流程(加审核节点)&#10;2,代码走查,(接口返回值优化)" />
+    <MESSAGE value="1,办事大厅-用户授权：用户授权已有建设单位会报系统异常，但其实授权成功了&#10;2,基础数据申请和成果提交流程bug&#10;3,基础数据申请,制作交付过程新增消息提醒" />
+    <MESSAGE value="基础数据申请,审核退回新增办结节点" />
+    <MESSAGE value="受理编号换成备案编号" />
+    <MESSAGE value="线下项目管理新增日志记录" />
+    <MESSAGE value="成果共享申请台账" />
+    <MESSAGE value="1,共享申请统计台账&#10;2,server的UserUtil还原&#10;3,基础数据申请基础数据红线的glsxid修改" />
+    <MESSAGE value="共享申请统计台账和echarts数据" />
+    <MESSAGE value="更新数据库文件" />
+    <MESSAGE value="基础数据测试反馈" />
+    <MESSAGE value="1,修改基础数据范围的上传逻辑,&#10;将流程中的额受理编号作为glsxid上传数据范围&#10;2,修改成果提交办结验证是否全部提交奥逻辑" />
+    <MESSAGE value="1,修改基础数据范围的上传逻辑,&#10;将流程中的额受理编号作为glsxid上传数据范围&#10;2,获取收件材料,入参新增ssmkid" />
+    <MESSAGE value="办事大厅,建设单位,我的项目台账新增通过ssjd进行查询&#10;打印回执单,去掉人名和时间改为手写" />
+    <MESSAGE value="1,代码走查，接口新增打印日志错误信息&#10;2，新增打印功能" />
+    <MESSAGE value="1,代码走查，接口新增打印日志错误信息" />
+    <MESSAGE value="修改日志输出" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改日志输出" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/core/service/mq/receive/ReceiveZxbjFromXmglServiceImpl.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveXsxmwjFromBsdtServiceImpl.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveXsxmwjFromBsdtServiceImpl.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveJsdwlrFromBsdtServiceImpl.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/web/main/UserController.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/CztyptSsoServiceImpl.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/CztyptSsoServiceImpl.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/exchange/src/main/java/cn/gtmap/msurveyplat/exchange/web/rest/PlatformController.java</url>
+          <line>762</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/exchange/src/main/java/cn/gtmap/msurveyplat/exchange/web/rest/PlatformController.java</url>
+          <line>780</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/exchange/src/main/java/cn/gtmap/msurveyplat/exchange/web/rest/PlatformController.java</url>
+          <line>698</line>
+          <option name="timeStamp" value="127" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/web/main/DchyXmglZxkfController.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglZxkfServiceImpl.java</url>
+          <line>159</line>
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ContractRegistrationFileServiceImpl.java</url>
+          <line>618</line>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglYhdwServiceImpl.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglZxkfServiceImpl.java</url>
+          <line>149</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/web/main/ResultsSubmitController.java</url>
+          <line>215</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglJcsjsqServiceImpl.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="238" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglJcsjsqServiceImpl.java</url>
+          <line>401</line>
+          <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/JcsjsqServiceImpl.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="243" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/core/service/mq/receive/ReceiveXxtxFromXmglServiceImpl.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="246" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/core/service/mq/receive/ReceiveXxtxFromXmglServiceImpl.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="247" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/MessageReminderServiceImpl.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="249" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/MessageReminderServiceImpl.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="250" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/ChgcCgtjWorkFlowServiceImpl.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="252" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/ChgcCgtjWorkFlowServiceImpl.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="253" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ExportPdfServiceImpl.java</url>
+          <line>214</line>
+          <option name="timeStamp" value="268" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/impl/ChxmCgtjWorkFlowServiceImpl.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="273" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ChxmResultsSubmitServiceImpl.java</url>
+          <line>340</line>
+          <option name="timeStamp" value="276" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ChxmResultsSubmitServiceImpl.java</url>
+          <line>375</line>
+          <option name="timeStamp" value="277" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ChxmResultsSubmitServiceImpl.java</url>
+          <line>519</line>
+          <option name="timeStamp" value="278" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/cn/gtmap/msurveyplat/server/service/share/impl/GxsqtjxxServiceImpl.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="281" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/web/main/JcsjsqController.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="287" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglJcsjsqServiceImpl.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="288" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/service/impl/DchyXmglJcsjsqServiceImpl.java</url>
+          <line>413</line>
+          <option name="timeStamp" value="289" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/core/service/mq/service/Impl/JcsjsqServiceImpl.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="290" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ContractRegistrationFileServiceImpl.java</url>
+          <line>185</line>
+          <option name="timeStamp" value="305" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ResultsSubmitServiceImpl.java</url>
+          <line>461</line>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ResultsSubmitServiceImpl.java</url>
+          <line>472</line>
+          <option name="timeStamp" value="312" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/service/impl/ContractRegistrationFileServiceImpl.java</url>
+          <line>2017</line>
+          <option name="timeStamp" value="317" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveJcsjFromBsdtServiceImpl.java</url>
+          <line>215</line>
+          <option name="timeStamp" value="318" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveJcsjFromBsdtServiceImpl.java</url>
+          <line>123</line>
+          <option name="timeStamp" value="319" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/core/service/mq/receive/ReceiveJcsjFromBsdtServiceImpl.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="320" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/web/main/FileUploadController.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="323" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/promanage/src/main/java/cn/gtmap/msurveyplat/promanage/utils/PdfReport.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="329" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://D:/Program Files/maven/com/itextpdf/itextpdf/5.5.13/itextpdf-5.5.13-sources.jar!/com/itextpdf/text/pdf/PdfPTable.java</url>
+          <line>523</line>
+          <option name="timeStamp" value="336" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/serviceol/src/main/java/cn/gtmap/msurveyplat/serviceol/utils/PdfReport.java</url>
+          <line>246</line>
+          <option name="timeStamp" value="338" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://D:/Program Files/maven/com/itextpdf/itextpdf/5.5.13/itextpdf-5.5.13-sources.jar!/com/itextpdf/text/pdf/PdfPRow.java</url>
+          <line>216</line>
+          <option name="timeStamp" value="340" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/msurveyplat$PromanageApp.ic" NAME="PromanageApp Coverage Results" MODIFIED="1622448452388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>cn.gtmap.msurveyplat.promanage.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/msurveyplat$PortalApplication.ic" NAME="PortalApplication Coverage Results" MODIFIED="1622088543504" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>cn.gtmap.msurveyplat.portal.*</FILTER>
+    </SUITE>
+  </component>
+</project>

@@ -1,0 +1,134 @@
+.tools-wrapper{
+    height: 27px;
+    line-height: 27px;
+}
+#iSwitchBtn{
+    font-size: 26px;
+    cursor: pointer;
+}
+.identify-content{
+    padding-top: 8px;
+    padding-right: 10px;
+}
+
+.item-content{
+    border: 1px solid #dddddd;
+    padding: 5px 5px;
+    margin:5px;
+    cursor: pointer;
+    border-left: #0091ff solid 3px;
+}
+
+.item-content-selected{
+    background: #D6D6D6;
+}
+
+.item-content >h4{
+    color: #333333;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: '微软雅黑 Bold', '微软雅黑';
+    height: auto;
+    width: auto;
+}
+
+.item-content >p{
+    color: #333333;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: '微软雅黑 Regular', '微软雅黑';
+    height: auto;
+    width: auto;
+    margin: 0 0 4px!important;
+}
+
+.item-content:hover{
+    background: #EFEFEF;
+    opacity: .7;
+}
+
+
+.info-content:first-child{
+    text-align: right;
+    margin-right:1em;
+}
+
+.info-content >ul{
+    float: left;
+    list-style-type: none;
+    padding: 3px;
+}
+
+.info-content>ul>li{
+    height: 22px;
+    line-height: 22px;
+    /*border-bottom: 1px solid #E8E6E6;*/
+    width: 250px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+
+}
+
+.info hr {
+    margin-top: -5px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+}
+
+
+/******* h-ui 样式整理 ********/
+.Huifold .item {
+    position: relative;
+    border:solid #E3E5E6 1px;
+}
+
+.Huifold .item .info {
+    display: none;
+    padding: 10px;
+}
+
+ul, ol, dl {
+    list-style-type: none;
+}
+
+#resultDiv ul{
+    padding: 0px;
+}
+
+#resultDiv li{
+    border-radius: 4px;
+    margin-bottom: 5px!important;
+}
+
+
+.Huifold .item h4 {
+    margin: 0;
+    font-weight: bold;
+    position: relative;
+    border-top: 1px solid #fff;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 6px 10px;
+    cursor: pointer;
+    padding-right: 30px;
+    color: #707D8A;
+    border-radius: 5px;
+    border: none;
+}
+.Huifold .item h4 .badge{
+    background-color: #1D8AFF;
+}
+
+.Huifold .item h4 b {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    right: 10px;
+    top: 7px;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    color: #1D8AFF;
+    line-height: 1;
+}

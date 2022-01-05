@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChdwMapper">
+
+    <!--获取线上线下测绘单位列表，1名录库，2线下库-->
+    <select id="queryChdwList" resultType="map">
+        SELECT x.chdwid, x.chdwmc, x.clsx, x.dwlx
+             FROM (SELECT distinct mlk.mlkid AS chdwid,
+                          mlk.dwmc AS chdwmc,
+                          '1' AS dwlx,
+                          wm_concat(gx.clsx) AS clsx
+            FROM dchy_xmgl_mlk mlk
+            LEFT JOIN dchy_xmgl_mlk_clsx_gx gx
+              ON gx.mlkid = mlk.mlkid
+           WHERE trim(mlk.sfyx) = '1'
+               AND (trim(mlk.sfdj) IS NULL OR trim(mlk.sfdj) <![CDATA[<>]]> '1')
+           GROUP BY mlk.mlkid, mlk.dwmc) x
+
+        UNION ALL
+
+        SELECT x1.chdwid, x1.chdwmc, x1.clsx, x1.dwlx
+        FROM (SELECT chdw.chdwid,
+                 chdw.chdwmc,
+                 '2' AS dwlx,
+                 wm_concat(gx1.clsx) AS clsx
+            FROM dchy_xmgl_chdw chdw
+            LEFT JOIN dchy_xmgl_mlk mlk1
+              ON mlk1.dwmc = chdw.chdwmc
+            LEFT JOIN dchy_xmgl_mlk_clsx_gx gx1
+              ON gx1.mlkid = mlk1.mlkid
+           GROUP BY chdw.chdwid, chdw.chdwmc) x1
+    </select>
+
+</mapper>

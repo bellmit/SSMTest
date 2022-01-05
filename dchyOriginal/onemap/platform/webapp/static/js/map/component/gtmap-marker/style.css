@@ -1,0 +1,16 @@
+/******* style of marker ****/
+
+.gtmap-marker{
+    display: block;
+    background: #FFFDF3;
+    border:solid 1px #ccc;
+    border-radius: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.gtmap-marker-content{
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    opacity: 1;
+}

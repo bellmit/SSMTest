@@ -1,0 +1,117 @@
+<div class="widget-panel-title">
+    档案分析
+</div>
+
+<div class="panel-body">
+    <div class="tab-content">
+        <div id="faSpatialQueryPanel">
+            <div class="col-sm-4 col-xs-4">
+                <div class="point-choose spatial-geo-icon" data-type="point"></div>
+                <div class="choose-title">点选</div>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <div style="width: 33%;">
+                    <div class="frame-choose spatial-geo-icon" data-type="rect"></div>
+                    <div class="choose-title">框选</div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <div class="polygon-choose spatial-geo-icon" data-type="polygon"></div>
+                <div class="choose-title">多边形</div>
+            </div>
+            <div style="border-bottom: 1px solid #4285f4;">&nbsp
+            </div>
+        </div>
+    </div>
+    <div class="row tools-wrapper">
+        <div class="col-md-7 col-xs-7">
+            <span class="text-muted pull-left" style="width: 100%;" id="faDescSpan">无信息</span>
+        </div>
+        <div class="col-md-5 col-xs-5" style="padding: 0 5px">
+            <a class="btn btn-primary btn-xs pull-right text-primary hidden m-r-5" id="faClearBtn"><i class="iconfont">&#xe60b;</i>清空</a>
+        </div>
+    </div>
+    <div id="faResultDiv" class="fa-content">
+        <ul id="faLayerFoldl" class="Huifold hidden">
+        </ul>
+    </div>
+</div>
+
+
+<script id="faResultHuiTpl" type="x-tpl-mustache">
+<li class="item" data-layerId={{layerName}}>
+    <h4>
+        {{layerName}}
+        <span class="badge pull-right">{{count}}</span>
+        <b><i class="Hui-iconfont Hui-iconfont-arrow2-bottom"></i></b>
+    </h4>
+    <div class="info">
+        <hr/>
+        <div class="scrollContent">
+            {{#result}}
+            <div class="item-content" data-objectid={{objectid}} data-layerid="{{layerName}}">
+                {{#data}}
+                <p>{{key}}:&nbsp;{{value}}</p>
+                {{/data}}
+            </div>
+            {{/result}}
+        </div>
+    </div>
+</li>
+
+
+
+
+</script>
+
+<script id="faResultTpl" type="x-tpl-mustache">
+{{#result}}
+<div class="item-content" data-objectid={{objectid}}>
+    <h4>图层:{{layerName}}</h4>
+    {{#data}}
+    <p>{{key}}:{{value}}</p>
+    {{/data}}
+</div>
+{{/result}}
+
+
+
+
+</script>
+
+<script id="infoContentTpl" type="x-tpl-mustache">
+ <div class="info-content" style="overflow-y:auto;overflow-x:hidden; height:300px;">
+    <form id="faDrawLayerForm" class="form-horizontal" style="margin-right:0">
+        {{#data}}
+        <div class="row">
+        <div class="col-md-4 col-xs-4 text-right popup-field-alias">
+            <span title="{{key}}">{{key}}:</span>
+        </div>
+
+        <div class="col-md-8 col-xs-8 text-left popup-field-value">
+            <span title="{{value}}">{{value}}</span>
+        </div>
+    </div>
+        {{/data}}
+    </form>
+ </div>
+
+
+
+
+</script>
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>
+
+
+
+

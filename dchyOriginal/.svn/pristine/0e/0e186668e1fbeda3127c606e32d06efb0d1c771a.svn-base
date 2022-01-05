@@ -1,0 +1,94 @@
+package cn.gtmap.msurveyplat.exchange.service.user;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.dto.UserDto;
+import com.gtis.plat.vo.PfOrganVo;
+import com.gtis.plat.vo.PfUserVo;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Map;
+
+public interface PlatUserService {
+    /**
+     * @return boolean
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: loginName
+     * @time 2021/5/7 16:51
+     * @description 用户名已存在检查
+     */
+    boolean loginNameExists(String loginName);
+
+    /**
+     * @return boolean
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: mobilePhone
+     * @time 2021/5/7 16:51
+     * @description 绑定手机号已存在
+     */
+    boolean mobilePhoneExists(String mobilePhone);
+
+    /**
+     * @return
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: userDto
+     * @time 2021/5/7 16:51
+     * @description 新用户注册
+     */
+    Map registerNewUser(UserDto userDto);
+
+    /**
+     * @return java.util.Map
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: userDto
+     * @time 2021/5/7 16:53
+     * @description 用户更新
+     */
+    Map updateUser(UserDto userDto);
+
+    List<PfUserVo> getUserListByOrgan(UserDto userDto);
+
+    /**
+     * @param map
+     * @return
+     * @description 2021/1/6 用户管理台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Page<Map<String, Object>> queryUserByUsername(Map map);
+
+    /**
+     * @param username
+     * @param password
+     * @return
+     * @description 2021/1/5 修改密码
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> changePassword(String username, String password, String passwordNew);
+
+    /**
+     * @param userid
+     * @param state
+     * @return
+     * @description 2021/1/5 启用或者暂用用户
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> changeUserState(String userid, String state);
+
+    /**
+     * @param userid 用户id
+     * @param roles  角色
+     * @return
+     * @description 2021/1/5 用户分配权限
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> distributionRoleAuthority(String userid, String roles);
+
+    /**
+     * @param
+     * @return
+     * @description 2021/3/9 所有的角色
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage queryAllRole();
+
+}

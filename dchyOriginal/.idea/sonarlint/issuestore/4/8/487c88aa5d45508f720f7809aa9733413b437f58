@@ -1,0 +1,71 @@
+
+U
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Â¾Í°
+`
+java:S1192"GDefine a constant instead of duplicating this literal "glsxid" 5 times.(ı‚À«úÿÿÿÿ
+H
+java:S3740"/Provide the parametrized type for this generic.(Õƒ“×øÿÿÿÿ
+C
+java:S3740"/Provide the parametrized type for this generic.(ëÖÛ
+C
+java:S3740"/Provide the parametrized type for this generic.(‚ƒ®‹
+1
+java:S3457Ë"Not enough arguments.(§ê‰øÿÿÿÿ
+u
+java:S3776Ğ"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(üªŸ¼úÿÿÿÿ8ßúê™/
+D
+java:S1481"+Remove this unused "dbrwid" local variable.(»³‚ıÿÿÿÿ
+.
+java:S3457"Not enough arguments.(à¼´†ÿÿÿÿÿ
+H
+java:S3740"/Provide the parametrized type for this generic.(‡Š•Åıÿÿÿÿ
+`
+java:S1192"GDefine a constant instead of duplicating this literal "sjxxid" 4 times.(Ë›èóıÿÿÿÿ
+[
+java:S1192"GDefine a constant instead of duplicating this literal "chxmid" 9 times.(”ùŞ±
+C
+java:S3740"/Provide the parametrized type for this generic.(ëÖÛ
+C
+java:S3740"/Provide the parametrized type for this generic.(ëÖÛ
+K
+java:S2629"7Use the built-in formatting to construct this argument.(Â¾Í°
+a
+java:S1192"MDefine a constant instead of duplicating this literal "saveOrUpdate" 4 times.(ëÈ£
+n
+java:S3776ß"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(Ğ®‹“şÿÿÿÿ
+n
+java:S3776¤"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(óÏËáüÿÿÿÿ
+U
+java:S3457"AFormat specifiers should be used instead of string concatenation.(İ–ØØ
+C
+java:S3740"/Provide the parametrized type for this generic.(¦Ûï«
+l
+java:S3776"SRefactor this method to reduce its Cognitive Complexity from 250 to the 15 allowed.(ŠíÖãüÿÿÿÿ
+H
+java:S3740"/Provide the parametrized type for this generic.(‡Š•Åıÿÿÿÿ
+C
+java:S3740"/Provide the parametrized type for this generic.(ëÖÛ
+C
+java:S3740"/Provide the parametrized type for this generic.(ã¾£
+C
+java:S3740"/Provide the parametrized type for this generic.(ã¾£
+H
+java:S3740"/Provide the parametrized type for this generic.(Õƒ“×øÿÿÿÿ
+N
+java:S1854":Remove this useless assignment to local variable "dbrwid".(—¡è¹
+O
+java:S1144¤"3Remove this unused private "generateHtList" method.(óÏËáüÿÿÿÿ
+C
+java:S3740"/Provide the parametrized type for this generic.(Ùâƒ¼
+)
+java:S3457"Not enough arguments.(ÑçÄù
+H
+java:S3740"/Provide the parametrized type for this generic.(—äÔÊşÿÿÿÿ
+f
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 81 to the 15 allowed.(ã¾£
+d
+java:S5361ÿ"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ğÇºËşÿÿÿÿ
+c
+java:S1192Ê"GDefine a constant instead of duplicating this literal "htxxid" 3 times.(ÇÎ¢¶ıÿÿÿÿ
+K
+java:S2629"7Use the built-in formatting to construct this argument.(İ–ØØ

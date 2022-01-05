@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmMapper">
+
+    <!--根据测绘工程编号查询已有测绘工程信息-->
+    <select id="queryChgcByChgcbh" resultType="map" parameterType="map">
+        SELECT a.wtdw,a.lxr,a.lxdh,a.xmly,a.zdbh,a.gcdzs,a.gcdzss,a.gcdzqx,a.gcdzxx,a.gcmc,a.xmxz
+        FROM DCHY_XMGL_CHGC a
+        <where>
+            <if test="chgcbh != null and chgcbh !=''">
+                AND a.gcbh = #{chgcbh}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘工程编号查询已有需求发布编号,包括线上需求、线上委托-->
+    <select id="queryChxmByChgcbh" resultType="map" parameterType="map">
+        SELECT b.chxmid,b.xqfbbh,b.fbsj,b.zdxm
+        FROM DCHY_XMGL_CHGC a INNER JOIN DCHY_XMGL_CHXM b ON a.gcbh = b.chgcbh
+        WHERE a.gcbh = #{chgcbh} AND (b.xmly = '1' OR b.xmly = '3' ) AND NOT exists (SELECT m.xqfbbh FROM DCHY_XMGL_CHXM m WHERE m.xmly = '2' AND b.xqfbbh = m.xqfbbh )
+        ORDER BY b.fbsj DESC
+    </select>
+
+    <!--根据需求发布编号查询测绘项目信息-->
+    <select id="queryChxmByXqfbbh" resultType="map" parameterType="map">
+        SELECT M.CHXMID, M.CHZSX, M.QJFS, M.YYQJSJ, M.QJDD, M.CHGCID, M.CHGCBH, M.FBSJ, M.FBR, M.CLRZGYQ,M.WJZXID, M.CGFS,
+        M.CGJFRQ, M.XQFBBH, M.SJDDS,M.SJDDSS,M.SJDDQX,M.SJDDXX, M.SJRLXDH ,M.SLBH,M.CHJGLXR,M.CHJGLXDH,CHDW.MLKID
+        FROM DCHY_XMGL_CHXM M
+        LEFT JOIN DCHY_XMGL_CHXM_CHDWXX CHDW
+        ON CHDW.CHXMID = M.CHXMID
+        <where>
+            AND (m.xmly = '1' OR m.xmly = '3')
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid = #{chxmid}
+            </if>
+            <if test="xqfbbh != null and xqfbbh !=''">
+                AND m.xqfbbh = #{xqfbbh}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘项目id查询备案信息详情-->
+    <select id="queryBaxxByChxmid" resultType="map" parameterType="map">
+        SELECT
+        a.gcbh,a.gcmc,a.wtdw,a.lxr,a.lxdh,a.xmxz,a.zdbh,a.gcdzs,a.gcdzss,a.gcdzqx,a.gcdzxx,b.slbh,b.chxmid,b.xqfbbh,
+        b.sjdds,b.sjddss,b.sjddqx,b.sjddxx,b.slr,b.slsj,b.chzsx,b.sjrlxdh,b.qjfs,b.qjdd,b.yyqjsj,b.wjzxid,b.sjr,b.xmly,b.xmzt,b.zdxm,chjglxr,chjglxdh,b.wjsftb
+        FROM DCHY_XMGL_CHGC a
+        LEFT JOIN DCHY_XMGL_CHXM b ON a.chgcid = b.chgcid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND b.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘项目id查询测量事项信息-->
+    <select id="queryClsxByChxmid" resultType="map" parameterType="map">
+        SELECT clsx,chxmid FROM DCHY_XMGL_CHXM_CLSX
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘项目id查询备案信息详情，测绘单位信息-->
+    <select id="queryChdwByChxmid" resultType="map" parameterType="map">
+        SELECT x.chdwxxid,x.chdwmc,x.mlkid
+        FROM DCHY_XMGL_CHXM_CHDWXX x
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND x.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--获取当前需求发布编号-->
+    <select id="queryMaxXqfbbh" resultType="String">
+        SELECT to_char(seq_xqfbbh.nextVal) AS xqfbbh FROM dual
+    </select>
+
+    <!--获取当前受理编号-->
+    <select id="queryMaxSlbh" resultType="String">
+        SELECT to_char(seq_slbh.nextVal) AS slbh FROM dual
+    </select>
+
+    <!--获取当前项目编号-->
+    <select id="queryMaxBabh" resultType="String">
+        SELECT to_char(seq_babh.nextVal) AS babh FROM dual
+    </select>
+
+    <select id="queryUsername" resultType="String">
+       SELECT user_name AS sjrmc FROM PF_USER WHERE user_id = #{userid}
+    </select>
+
+    <!--根据测绘工程id查询已入库成果的测绘事项-->
+    <select id="queryChxmByChgcid" parameterType="map" resultType="map">
+        SELECT DISTINCT t.slbh,t.slsj,t.xmzt,t.chxmid
+        FROM DCHY_XMGL_CHXM t
+        <where>
+            AND t.xmly in ('2','3')
+            <if test="chgcid != null and chgcid !=''">
+                AND t.chgcid = #{chgcid}
+            </if>
+        </where>
+        ORDER BY t.slsj DESC NULLS LAST
+    </select>
+
+    <!--查询建设单位码-->
+    <select id="queryJsdwmByDwmc" parameterType="map" resultType="String">
+        SELECT yh.jsdwm,yh.dwmc FROM
+        (
+        SELECT jsdw.jsdwm,jsdw.dwmc FROM dchy_xmgl_jsdw jsdw
+        UNION ALL
+        SELECT yhdw.jsdwm,yhdw.dwmc FROM dchy_xmgl_yhdw yhdw WHERE yhdw.yhlx='1'
+        ) yh
+        <where>
+            <if test="dwmc != null and dwmc !=''">
+                AND yh.dwmc = #{dwmc}
+            </if>
+        </where>
+    </select>
+
+</mapper>

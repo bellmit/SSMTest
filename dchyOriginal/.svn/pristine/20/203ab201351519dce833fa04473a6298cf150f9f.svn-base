@@ -1,0 +1,115 @@
+package cn.gtmap.msurveyplat.server.service.share.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.domain.DchyCgglGxywsqDO;
+import cn.gtmap.msurveyplat.common.domain.DchyCgglXmDO;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglHtxx;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSqxx;
+import cn.gtmap.msurveyplat.common.dto.CggxsqDTO;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.server.service.share.CggxsqService;
+import cn.gtmap.msurveyplat.server.util.UserUtil;
+import com.gtis.common.util.UUIDGenerator;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/6/9
+ * @description 成果共享申请
+ */
+@Service
+public class CggxsqServiceImpl implements CggxsqService {
+
+    @Autowired
+    private EntityMapper entityMapper;
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 初始化申请信息
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @Override
+    public ResponseMessage cshsqxx(CggxsqDTO cggxsqDTO) {
+        ResponseMessage message;
+        if (StringUtils.isNotBlank(cggxsqDTO.getXmid())) {
+            DchyCgglXmDO dchyCgglXmDO = new DchyCgglXmDO();
+            dchyCgglXmDO.setXmid(cggxsqDTO.getXmid());
+            dchyCgglXmDO.setGzlslid(dchyCgglXmDO.getGzlslid());
+
+            DchyCgglGxywsqDO dchyCgglGxywsqDO = new DchyCgglGxywsqDO();
+            dchyCgglGxywsqDO.setGxsqid(UUIDGenerator.generate18());
+//            dchyCgglGxywsqDO.setSqrid(UserUtil.getCurrentUserId());
+//            dchyCgglGxywsqDO.setSqrmc(UserUtil.getCurrentUser().getUsername());
+            dchyCgglGxywsqDO.setChxmid(cggxsqDTO.getChxmid());
+            dchyCgglGxywsqDO.setChxmgcbh(cggxsqDTO.getGcbh());
+            dchyCgglGxywsqDO.setChxmgcid(cggxsqDTO.getChgcid());
+            dchyCgglGxywsqDO.setChxmbabh(cggxsqDTO.getBabh());
+            dchyCgglGxywsqDO.setChxmslbh("chxmslbh");
+            dchyCgglGxywsqDO.setXmid(cggxsqDTO.getXmid());
+            dchyCgglGxywsqDO.setGxywid(cggxsqDTO.getGxywid());
+            dchyCgglGxywsqDO.setSqsj(CalendarUtil.getCurHMSDate());
+
+            int flag1 = entityMapper.saveOrUpdate(dchyCgglGxywsqDO, dchyCgglGxywsqDO.getGxsqid());
+            int flag2 = entityMapper.saveOrUpdate(dchyCgglXmDO, dchyCgglXmDO.getXmid());
+
+            if (flag1 > 0 && flag2 > 0) {
+                message = ResponseUtil.wrapSuccessResponse();
+            } else {
+                message = ResponseUtil.wrapExceptionResponse();
+            }
+        } else {
+            message = ResponseUtil.wrapParamEmptyFailResponse();
+        }
+        return message;
+    }
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 成果共享审核
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @Override
+    public ResponseMessage cggxsqSh(CggxsqDTO cggxsqDTO) {
+        return null;
+    }
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 审核待办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @Override
+    public ResponseMessage cggxsqShjlDb(CggxsqDTO cggxsqDTO) {
+        return null;
+    }
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 审核已办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @Override
+    public ResponseMessage cggxsqShjlYb(CggxsqDTO cggxsqDTO) {
+        return null;
+    }
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 成果共享审核已办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @Override
+    public ResponseMessage cggxsqYb(CggxsqDTO cggxsqDTO) {
+        return null;
+    }
+}

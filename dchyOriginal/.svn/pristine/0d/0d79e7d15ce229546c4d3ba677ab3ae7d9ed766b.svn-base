@@ -1,0 +1,21 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.impl;
+
+import cn.gtmap.msurveyplat.serviceol.core.service.FileUploadHtxxService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.o, 2020-12-09
+ * @description
+ */
+@Service("fileUploadHtxx")
+public class FileUploadHtxxServiceImpl implements FileUploadHtxxService {
+    protected final Log logger = LogFactory.getLog(getClass());
+
+
+    @Override
+    public void deleteFileHtxxJl(String htxxid) {
+    }
+}

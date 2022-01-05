@@ -1,0 +1,151 @@
+<template>
+    <div>
+        <div class="content-user-header"></div>
+        <div v-if="hasUser">
+            <!-- 功能管理 -->
+            <div v-for="(menu,index) in menuList" :key="index" class="margin-bottom-20">
+                <van-cell class="home-cell-head" value="">
+                    <template #title>
+                        <span class="custom-title"><span class="title-list"></span>{{menu.title}}</span>
+                    </template>
+                </van-cell>
+                <div class="cell-items">
+                    <div class="manage-item" v-for="(m,i) in menu.menus" :key="i">
+                        <a href="javascript:void(0)">
+                            <img :src="'static/images/'+m.img" alt="">
+                            <br>
+                            <span class="manage-item-title">{{m.name}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cell-items cell-nologin margin-bottom-20">
+            <div class="item-nologin" style="margin-right: 16px">
+                <img src="static/images/mlk-view.png" alt="">
+            </div>
+            <div class="item-nologin">
+                <img src="static/images/manage-guide.png" alt="">
+            </div>
+        </div>
+        <!-- 通知公告 -->
+        <div class="margin-bottom-20">
+            <van-cell class="home-cell-head" value="">
+                <template #title>
+                    <div class="more-custom">
+                        <span>更多>></span>
+                    </div>
+                    <div class="custom-title">
+                        <span class="title-list"></span>通知公告
+                    </div>
+                </template>
+            </van-cell>
+            <div class="cell-items notice-items">
+                <div class="notice-item" v-for="(notice,index) in noticeList" :key="index">
+                    <div class="notice-title">
+                        <span>{{notice.BT}}</span>
+                    </div>
+                    <div class="notice-detail">
+                        <div class="notice-type">{{notice.GGLX}}</div>
+                        <div class="notice-time">{{notice.FBSJ}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { queryNoticeList } from "../../service/home"
+export default {
+    data() {
+        return {
+            hasUser: true,
+            noticeList: [],
+            menuList: [
+                {
+                    title: "名录库管理",
+                    menus: [
+                        {
+                            name: "名录库入驻",
+                            url: "",
+                            img: "mlk-rz.png"
+                        },
+                        {
+                            name: "名录库变更",
+                            url: "",
+                            img: "mlk-bg.png"
+                        },
+                        {
+                            name: "名录库注销",
+                            url: "",
+                            img: "mlk-zx.png"
+                        },
+                        {
+                            name: "变更记录展示",
+                            url: "",
+                            img: "mlk-jl.png"
+                        }
+                    ]
+                },
+                {
+                    title: "委托管理",
+                    menus: [
+                        {
+                            name: "我的委托",
+                            url: "",
+                            img: "my-wt.png"
+                        },
+                        {
+                            name: "项目委托管理",
+                            url: "",
+                            img: "xmwt-manage.png"
+                        }
+                    ]
+                },
+                {
+                    title: "测绘项目管理",
+                    menus: [
+                        {
+                            name: "我的项目",
+                            url: "",
+                            img: "myproject.png"
+                        },
+                        {
+                            name: "我的测绘项目",
+                            url: "",
+                            img: "mychproject.png"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    mounted() {
+        this.queryNoticeList();
+    },
+    methods: {
+        queryNoticeList(){
+            let params = {
+                page: 1,
+                size: 10
+            }
+            queryNoticeList(params).then(res=> {
+                if(res.data.dataList.length > 10){
+                    this.noticeList = res.data.dataList.slice(0, 10);
+                }else {
+                    this.noticeList = res.data.dataList || [];
+                }
+            })
+        },
+        toMlk(){
+            this.$router.push("/mlk/list")
+        },
+        toAuthorize(){
+            this.$router.push("/authorize")
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import url(./home.less);
+</style>

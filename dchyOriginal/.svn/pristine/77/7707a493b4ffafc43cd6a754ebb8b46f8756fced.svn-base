@@ -1,0 +1,48 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.model;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglJcsjSqxx;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSjcl;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSjxx;
+
+import java.util.List;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/3/10
+ * @description 基础数据申请实体
+ */
+public class JcsjsqModel {
+
+    //多测合一收件材料
+    private List<DchyXmglSjcl> dchyXmglSjclList;
+
+    //多测合一收件信息
+    private List<DchyXmglSjxx> dchyXmglSjxxList;
+
+    //多测合一基础数据申请
+    private List<DchyXmglJcsjSqxx> dchyXmglJcsjSqxxList;
+
+    public List<DchyXmglSjcl> getDchyXmglSjclList() {
+        return dchyXmglSjclList;
+    }
+
+    public void setDchyXmglSjclList(List<DchyXmglSjcl> dchyXmglSjclList) {
+        this.dchyXmglSjclList = dchyXmglSjclList;
+    }
+
+    public List<DchyXmglSjxx> getDchyXmglSjxxList() {
+        return dchyXmglSjxxList;
+    }
+
+    public void setDchyXmglSjxxList(List<DchyXmglSjxx> dchyXmglSjxxList) {
+        this.dchyXmglSjxxList = dchyXmglSjxxList;
+    }
+
+    public List<DchyXmglJcsjSqxx> getDchyXmglJcsjSqxxList() {
+        return dchyXmglJcsjSqxxList;
+    }
+
+    public void setDchyXmglJcsjSqxxList(List<DchyXmglJcsjSqxx> dchyXmglJcsjSqxxList) {
+        this.dchyXmglJcsjSqxxList = dchyXmglJcsjSqxxList;
+    }
+}

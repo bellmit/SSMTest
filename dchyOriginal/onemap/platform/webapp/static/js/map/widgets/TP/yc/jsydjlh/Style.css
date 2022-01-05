@@ -1,0 +1,140 @@
+.theme-group-item {
+    margin-bottom: 6px;
+    height: 44px;
+    padding: 10px 8px !important;
+}
+
+.theme-group-item > a:hover,
+.theme-group-item > a {
+    text-decoration: none;
+}
+
+.theme-group-item:first-child {
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.theme-group-item:last-child {
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.thematic-label {
+    width: 100%;
+    line-height: 24px;
+    font-weight: normal;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.thematic-cbx {
+    height: 16px;
+    width: 16px;
+    float: left;
+}
+
+.t-group-heading {
+    padding: 10px;
+}
+
+.col-xs-41 {
+    background-image:url(img/bg_03.png);
+}
+td {
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    background: #fff;
+    font-size:11px;
+    padding: 6px 6px 6px 12px;
+    color: #4f6b72;
+}
+/*power by www.winshell.cn*/
+
+td.alt {
+    background: #F5FAFA;
+    color: #797268;
+}
+td{ font-size:11px;}
+
+.wid {
+    width: 50%;
+    background: url(img/bg_03.png) no-repeat;
+}
+th {
+    font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #CAE8EA  no-repeat;
+}
+
+th.nobg {
+    border-top: 0;
+    border-left: 0;
+    border-right: 1px solid #C1DAD7;
+    background: none;
+}
+
+th.spec {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #fff no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+th.specalt {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #f5fafa no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #797268;
+}
+
+.img1{
+    background: url(img/zt_icon1.png) center no-repeat;
+}
+
+
+.thematic-cbx1 {
+    height: 16px;
+    width: 16px;
+    float: right;
+}
+
+.thematic-cbx2 {
+    height: 16px;
+    width: 16px;
+    float: right;
+    background: url(img/zt_icon2.png) left no-repeat;
+}
+
+.thematic-cbx2 > a:hover
+{
+    background: url(img/zt_icon2_hover.png);
+}
+
+.img3 {
+
+}
+
+.hr_part3{
+    margin-top: 2px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #2d3a98;
+}
+
+.query {
+    height: 34px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

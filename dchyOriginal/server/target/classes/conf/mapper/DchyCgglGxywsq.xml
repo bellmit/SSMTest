@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglGxywsqMapper">
+    <!--获取共享业务信息分页数据 -->
+    <select id="getDchyCgglGxywsqByXmid" parameterType="java.util.Map"
+            resultType="java.util.Map">
+        SELECT A.GZLSLID,a.xmid,b.gxsqid, b.sqrid, b.sqrmc, b.chxmid, b.chxmgcbh, b.chxmgcid, b.chxmbabh, b.chxmslbh,
+        b.gxywid, b.xmid, b.shzt, b.shyj, b.sqsj, b.shsj, b.shrid, b.shrmc,b.gxywmc,b.sqbmid,b.sqbmmc
+        FROM DCHY_CGGL_XM A
+        INNER JOIN DCHY_CGGL_GXYWSQ B ON A.XMID = B.XMID
+        <where>
+            <choose>
+                <when test="gzlslidList != null and gzlslidList.size() > 0">
+                    <foreach collection="gzlslidList" item="gzlslid" open="(" separator=" or " close=")">
+                        A.gzlslid = #{gzlslid}
+                    </foreach>
+                </when>
+                <otherwise>
+                    A.GZLSLID = 'emptyValueParam'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

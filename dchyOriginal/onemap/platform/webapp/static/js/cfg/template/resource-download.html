@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <script type="text/javascript" src="lib/PIE_IE678.js"></script>
+    <![endif]-->
+    <link href="../../../thirdparty/h-ui/css/H-ui.css" rel="stylesheet" type="text/css" />
+    <link href="../../../thirdparty/h-ui/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <!--<link href="lib/Hui-iconfont/1.0.6/iconfont.css" rel="stylesheet" type="text/css" />-->
+    <!--[if IE 6]>
+    <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>视频控件包下载</title>
+</head>
+<body>
+<div class="pd-20">
+    <div class="text-l">
+        <a class="btn btn-success-outline mr-10 ml-20" id="hk" href="../../../bin/hk.rar"> 海康平台</a>
+        <a class="btn btn-success-outline mr-10 ml-10" id="dh" href="../../../bin/dh.rar"> 大华平台</a>
+        <a class="btn btn-success-outline mr-10 ml-10" id="hw" href="../../../bin/hw.rar"> 华为平台</a>
+        <a class="btn btn-success-outline ml-10" id="videoModel" href="../../../bin/监控点导入模板.xls"> 监控点导入模板</a>
+    </div>
+</div>
+<script type="text/javascript" src="../../../thirdparty/jquery/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="../../../thirdparty/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="../../../thirdparty/h-ui/js/H-ui.admin.js"></script>
+<script type="text/javascript">
+    /**
+     * 获取url的参数值
+     * @param name
+     * @returns {null}
+     * @constructor
+     */
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            return  unescape(r[2]);
+        }
+
+        return null;
+    }
+
+    jQuery(function($) {
+        var ptVal = GetQueryString("pt");  //获取平台参数值
+        if(ptVal == 'hk'){
+            $("#dh, #hw").addClass("hidden");
+        }
+    });
+</script>
+</body>
+</html>

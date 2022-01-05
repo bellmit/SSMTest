@@ -1,0 +1,66 @@
+
+m
+java:S37768"RRefactor this method to reduce its Cognitive Complexity from 80 to the 15 allowed.(ìä¿éüÿÿÿÿ
+`
+java:S1192L"JDefine a constant instead of duplicating this literal "SJCLPZID" 17 times.(˜‰Ğ
+F
+java:S3740£"/Provide the parametrized type for this generic.(ˆÎÙ½
+n
+java:S3776É"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(ÎÁ²ìıÿÿÿÿ
+W	java:S125Ã"<This block of commented-out lines of code should be removed.(–îşúÿÿÿÿ
+b
+java:S1192<"GDefine a constant instead of duplicating this literal "ssmkid" 6 times.(×¾«Ôûÿÿÿÿ
+K
+java:S3740¿"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+`
+java:S1192Ñ"IDefine a constant instead of duplicating this literal "CLSXLIST" 8 times.(Ñ¯–Å
+W
+java:S3457Q"AFormat specifiers should be used instead of string concatenation.(¾•˜´
+W	java:S125Ö"<This block of commented-out lines of code should be removed.(–ø™Ûûÿÿÿÿ
+E
+java:S1481©".Remove this unused "clsxParam" local variable.(åØŸ²
+]
+java:S1192a"GDefine a constant instead of duplicating this literal "SJCLID" 4 times.(‹ô¡Â
+_
+java:S1192;"IDefine a constant instead of duplicating this literal "clsxList" 4 times.(È¸ø™
+K
+java:S3740Ü"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+]
+java:S1192="GDefine a constant instead of duplicating this literal "glsxid" 6 times.(Ì°ıÀ
+T
+java:S1854©"=Remove this useless assignment to local variable "clsxParam".(åØŸ²
+M
+java:S2629Q"7Use the built-in formatting to construct this argument.(¾•˜´
+W	java:S125á"<This block of commented-out lines of code should be removed.(–îşúÿÿÿÿ
+e
+java:S1192å"GDefine a constant instead of duplicating this literal "CLLXID" 4 times.(²¸‰ê8üäãº˜/
+K
+java:S1144Ò"/Remove this unused private "initSjclxx" method.(æµ øÿÿÿÿ
+d
+java:S1192Ä"FDefine a constant instead of duplicating this literal "SJRMC" 3 times.(÷Ú‘š8üäãº˜/
+n
+java:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(áİÇıÿÿÿÿ
+f
+java:S1192¨"HDefine a constant instead of duplicating this literal "clsxStr" 3 times.(¶—×8áîí—£/
+j
+java:S1192©"GDefine a constant instead of duplicating this literal "sjxxid" 3 times.(¥¯Üıÿÿÿÿ8áîí—£/
+
+java:S2629Ï"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(Å±ùûÿÿÿÿ8áîí—£/
+Z
+java:S2629Ğ"7Use the built-in formatting to construct this argument.(„äÉ¥úÿÿÿÿ8áîí—£/
+u
+java:S3776ä"RRefactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.(Ë—îïúÿÿÿÿ8áîí—£/
+3
+java:S3457®"Not enough arguments.(û—ëİ8áîí—£/
+Y	java:S125Ÿ"<This block of commented-out lines of code should be removed.(ì²Òİ8áîí—£/
+K	java:S108 ")Either remove or fill this block of code.(²‰®’üÿÿÿÿ8áîí—£/
+u
+java:S3776Î"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Üìºõüÿÿÿÿ8áîí—£/
+d
+java:S3457Ï"AFormat specifiers should be used instead of string concatenation.(Å±ùûÿÿÿÿ8áîí—£/
+d
+java:S3457Ğ"AFormat specifiers should be used instead of string concatenation.(„äÉ¥úÿÿÿÿ8áîí—£/
+d
+java:S3457×"AFormat specifiers should be used instead of string concatenation.(³ËîËøÿÿÿÿ8áîí—£/
+_
+java:S3457Ø"AFormat specifiers should be used instead of string concatenation.(Ì¯ŒÍ8áîí—£/

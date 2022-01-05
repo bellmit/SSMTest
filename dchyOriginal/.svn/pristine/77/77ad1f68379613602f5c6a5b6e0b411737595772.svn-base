@@ -1,0 +1,5 @@
+/*项目台帐*/
+.ledger-panel{
+    padding: 15px 5px;
+    border-top: 2px solid #0091ff;
+}

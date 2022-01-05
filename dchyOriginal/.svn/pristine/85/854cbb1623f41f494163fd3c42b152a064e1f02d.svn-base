@@ -1,0 +1,73 @@
+package cn.gtmap.msurveyplat.serviceol.core.mapper;
+
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+@Repository
+public interface DchyXmglSjclpzMapper {
+
+    /**
+     * query DISTINCT SsmkId
+     *
+     * @return List<String>
+     */
+    List<String> querySsmkId();
+
+    /**
+     * query Result List<Map>
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryResultListMap();
+
+    /**
+     * query Clsx List<Map>
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryClsxListMap();
+
+    /**
+     * query Csmk List<Map>
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryCsmkListMap();
+
+    /**
+     * query LCGPZ Children
+     *
+     * @param pclcgpzid String
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryChildrenLcgpz(String pclcgpzid);
+
+//    /**
+//     * 清空表内所有数据
+//     */
+//    void dropAllRecount();
+//
+//    /**
+//     * query Clsx Root
+//     *
+//     * @return List<Map < String, Object>>
+//     */
+//    List<Map<String, Object>> queryRootClsx();
+//
+//    /**
+//     * query Clsx Children
+//     *
+//     * @param fatherDm String
+//     * @return List<Map < String, Object>>
+//     */
+//    List<Map<String, Object>> queryChildrenClsx(String fatherDm);
+
+}

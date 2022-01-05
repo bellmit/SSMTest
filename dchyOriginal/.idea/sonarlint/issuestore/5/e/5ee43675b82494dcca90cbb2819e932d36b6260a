@@ -1,0 +1,14 @@
+
+J
+java:S3740*"/Provide the parametrized type for this generic.(šç…Šøÿÿÿÿ
+t
+java:S1128"YRemove this unused import 'cn.gtmap.msurveyplat.serviceol.service.DchyXmglJcsjsqService'.(±±§Úşÿÿÿÿ
+k	java:S116#"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÒÿŸ™ùÿÿÿÿ
+M
+java:S1135"2Complete the task associated to this TODO comment.(Â“Œùÿÿÿÿ
+X
+java:S1854N"=Remove this useless assignment to local variable "httpState".(º³¨Çûÿÿÿÿ
+Q	java:S125:"<This block of commented-out lines of code should be removed.(°èı‘
+Q	java:S125<"<This block of commented-out lines of code should be removed.(¤êìş
+C
+java:S14817".Remove this unused "httpState" local variable.(¡ØšE

@@ -1,0 +1,6 @@
+
+\	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(λιΊ“
+P
+java:S3416""5Update this logger to use "DataBaseConfigXSBF.class".(²½ωόÿÿÿÿ
+ƒ
+java:S1130"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(λιΊ“

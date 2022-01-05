@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.XsbfDchyXmglCgccMapper">
+
+    <!--测绘单位查询我的测绘项目-->
+    <select id="queryCgccByCgccid" resultType="map" parameterType="map">
+        SELECT t.babh,t.cgccid,t.gcbh,t.gcmc,t.chdwmc,t.cgpj,t.pjyj,t.pjzt,m.babh AS xmbabh
+        FROM DCHY_XMGL_CGCC t
+        LEFT JOIN DCHY_XMGL_CHXM m ON m.chxmid = t.chxmid
+        <where>
+            <if test="cgccid != null and cgccid !=''">
+                AND t.cgccid = #{cgccid}
+            </if>
+        </where>
+    </select>
+</mapper>

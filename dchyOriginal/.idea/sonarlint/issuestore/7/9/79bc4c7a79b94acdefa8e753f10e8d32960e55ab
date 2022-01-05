@@ -1,0 +1,31 @@
+
+K
+java:S3740Ê"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+^
+java:S1192o"HDefine a constant instead of duplicating this literal "isvalid" 4 times.(Ø…·¿
+_
+java:S1192o"IDefine a constant instead of duplicating this literal "tyshxydm" 5 times.(Ø…·¿
+]
+java:S1192ç"GDefine a constant instead of duplicating this literal "glsxid" 3 times.(çœµf
+c
+java:S1192ñ"GDefine a constant instead of duplicating this literal "ssmkid" 3 times.(Ú‚øÿÿÿÿ
+E
+java:S1066ş"/Merge this if statement with the enclosing one.(è¡ŸP
+s
+java:S2629¿"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(Ø˜—Å
+\
+java:S1128#"ARemove this unused import 'org.springframework.util.DigestUtils'.(–¤Ìëÿÿÿÿÿ
+Y
+java:S1128"CRemove this unused import 'cn.gtmap.msurveyplat.common.vo.PfOrgan'.(ìİØ
+l	java:S116<"RRename this field "JSDWGLY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ıˆ¡¦ûÿÿÿÿ
+g	java:S116?"RRename this field "CHDWGLY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§šƒˆ
+X
+java:S3457¿"AFormat specifiers should be used instead of string concatenation.(Ø˜—Å
+i
+java:S3776É"RRefactor this method to reduce its Cognitive Complexity from 57 to the 15 allowed.(Ä–î
+a
+java:S3252¨"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ö©àøÿÿÿÿ
+b
+java:S3252¨"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ö©àøÿÿÿÿ
+[
+java:S4143‚"DVerify this is the key that was intended; it was already set before.(˜Ïüù

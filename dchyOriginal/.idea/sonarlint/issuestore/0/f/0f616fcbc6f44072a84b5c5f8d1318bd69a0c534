@@ -1,0 +1,23 @@
+
+h
+java:S3252—"QUse static access with "org.apache.poi.ss.usermodel.CellStyle" for "BORDER_THIN".(ğüÕÅ
+i
+java:S3776ç"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(ñéøœ
+e
+java:S4719«"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(¹¼Üî
+F
+java:S2093ƒ"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+e
+java:S1192V"ODefine a constant instead of duplicating this literal "é”™è¯¯åŸå› {}" 5 times.(¥‹…
+Y
+java:S2184¡"BCast one of the operands of this addition operation to a "double".(µÇÏĞ
+b
+java:S1192‡"FDefine a constant instead of duplicating this literal ".xlsx" 3 times.(û—Šûÿÿÿÿ
+m
+java:S3252–"QUse static access with "org.apache.poi.ss.usermodel.CellStyle" for "BORDER_THIN".(§²µœÿÿÿÿÿ
+m
+java:S3252˜"QUse static access with "org.apache.poi.ss.usermodel.CellStyle" for "BORDER_THIN".(æ’şÿÿÿÿ
+m
+java:S3252•"QUse static access with "org.apache.poi.ss.usermodel.CellStyle" for "BORDER_THIN".(­Šìªÿÿÿÿÿ
+P
+java:S1128".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ8½å§‡š/

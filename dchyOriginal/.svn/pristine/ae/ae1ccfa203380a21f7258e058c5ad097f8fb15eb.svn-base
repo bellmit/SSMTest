@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglMlkMapper">
+
+    <!--根据所属模块id获取对应需要上传的材料信息-->
+    <select id="queryUploadFileBySsmkId" parameterType="string" resultType="map">
+        select z.sjclpzid, z.clmc, z.cllx, z.mrfs fs, null ys,null wjzxid,z.need
+        from DCHY_XMGL_SJCLPZ z
+        <where>
+            <choose>
+                <when test="ssmkid != null and ssmkid!=''">
+                    and z.ssmkid = #{ssmkid}
+                </when>
+                <otherwise>
+                    and z.ssmkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getSjclXx" resultType="map" parameterType="string">
+        select distinct sj.sjxxid,
+                cl.sjclid,
+                cl.clmc,
+                cl.fs,
+                cl.cllx,
+                cl.ys,
+                cl.wjzxid,
+                z.need
+      from dchy_xmgl_sjxx sj
+      left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+      left join dchy_xmgl_sjclpz z
+        on z.clmc = cl.clmc
+        <where>
+            <if test="glsxid != null and glsxid != ''">
+                and sj.glsxid = #{glsxid}
+            </if>
+            <if test="ssmkId != null and ssmkId != ''">
+                and z.ssmkid = #{ssmkId}
+            </if>
+        </where>
+        union all
+        select distinct sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        0 need
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <if test="glsxid != null and glsxid != ''">
+                and sj.glsxid = #{glsxid}
+            </if>
+            <if test="ssmkId != null and ssmkId != ''">
+                and sj.ssmkid = #{ssmkId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getHtxx" resultType="map" parameterType="string">
+        select ht.htxxid,
+        sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid
+        from dchy_xmgl_htxx ht
+        left join dchy_xmgl_sjxx sj
+        on ht.htxxid = sj.glsxid
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <choose>
+                <when test="mlkid != null and mlkid != ''">
+                    and sj.glsxid = #{mlkid}
+                </when>
+                <otherwise>
+                    and sj.glsxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getSjclXx2" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        sj.glsxid as HTXXID,
+        z.need
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        left join dchy_xmgl_sjclpz z
+        on z.clmc = cl.clmc
+        <where>
+            <if test="mlkid != null and mlkid != ''">
+                and sj.glsxid = #{mlkid}
+            </if>
+            <if test="ssmkid != null and ssmkid != ''">
+                and z.ssmkid = #{ssmkid}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getChxmClsxByXmidAndClsx" parameterType="string" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmClsx">
+        select s.*
+          from dchy_xmgl_chxm_clsx s
+          <where>
+              <if test="chxmid != null and chxmid != ''">
+                  and s.chxmid = #{chxmid}
+              </if>
+              <if test="clsx != null and clsx != ''">
+                  and s.clsx like #{clsx}||'%'
+              </if>
+          </where>
+    </select>
+
+    <select id="getHtxxIdByClsxId" resultType="string" parameterType="string">
+        select c.htxxid
+        from dchy_xmgl_clsx_htxx_gx c
+        <where>
+            <choose>
+                <when test="clsxid != null and clsxid != ''">
+                    and c.clsxid = #{clsxid}
+                </when>
+                <otherwise>
+                    and c.clsxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

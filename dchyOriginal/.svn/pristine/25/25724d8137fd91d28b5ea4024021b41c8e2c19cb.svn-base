@@ -1,0 +1,198 @@
+<template>
+	<div style="width: 100%">
+		<Form ref="formValidate" class="form-edit" @on-validate="validateChecked" :model="projectInfoData" inline :rules="ruleInline" :label-width='128'>
+			<Row class="select-tree">
+				<FormItem prop="clsx" label="测绘阶段">
+					<div class="stage-tree">
+						<div class="select-row-tree">
+							<div v-for="(tree,index) in treeList" :key="index">
+								<Tree ref="tree" :data="tree" show-checkbox></Tree>
+							</div>
+						</div>
+					</div>
+				</FormItem>
+			</Row>
+			<Row>
+				<i-col span="12">
+					<FormItem label="工程名称 " prop="gcmc">
+						<Tooltip v-if="projectInfoData.gcmc" style="width: 100%" :content="projectInfoData.gcmc">
+							<Input :readonly="readonly" style="width: 80%" v-model="projectInfoData.gcmc"/>
+						</Tooltip>
+						<Input v-else :readonly="readonly" style="width: 80%" v-model="projectInfoData.gcmc"/>
+					</FormItem>
+				</i-col>
+				<i-col span="12">
+					<FormItem label="工程编号 " prop="gcbh">
+						<Input :readonly="readonly" style="width: 80%" v-model="projectInfoData.gcbh"/>
+					</FormItem>
+				</i-col>
+			</Row>
+			<Row>
+				<i-col span="12">
+					<FormItem label="工程地点 " prop="xmdz">
+						<Tooltip v-if="projectInfoData.xmdz" style="width: 100%" :content="projectInfoData.xmdz">
+							<Input :readonly="readonly" style="width: 80%" v-model="projectInfoData.xmdz"/>
+						</Tooltip>
+						<Input v-else :readonly="readonly" style="width: 80%" v-model="projectInfoData.xmdz"/>
+					</FormItem>
+				</i-col>
+				<i-col span="12">
+					<FormItem label="项目编号 " prop="BABH">
+						<Input :readonly="readonly" style="width: 80%" v-model="projectInfoData.BABH"/>
+					</FormItem>
+				</i-col>
+			</Row>
+			<Row>
+				<i-col span="12">
+					<FormItem label="备案时间 " prop="SLSJ">
+						<Input :readonly="readonly" style="width: 80%" v-model="projectInfoData.SLSJ"/>
+					</FormItem>
+				</i-col>
+			</Row>
+		</Form>
+	</div>
+</template>
+<script>
+import _ from "loadsh"
+import { getZdClsx } from "../../service/myproject"
+export default {
+    name: "AgencyInfo",
+    props: {
+		projectInfoData: {
+			type: Object,
+			default: function(){
+				return {
+					dwmc: ""
+				}
+			}
+		},
+		checkedClsxList: {
+			type: Array,
+			default: () => {
+				return []
+			}
+		},
+		readonly: {
+			type: Boolean,
+			default: true
+		}
+    },
+    watch: {
+		checkedClsxList: {
+			deep: true,
+			handler: function(newVal,oldVal){
+				if(!_.isEqual(newVal,oldVal)){
+					this.renderTreeList();
+				}
+			}
+		}
+    },
+    data() {
+		return {
+			ruleInline: {
+				dwmc: [
+					{
+						required: true,
+						message: '不能为空'
+					}
+				]
+			},
+			treeList: [],
+			dictionaryTeeList: []
+		}
+    },
+    mounted(){
+		if(this.$route.query.chxmid){
+			this.chxmid = this.$route.query.chxmid
+		}
+      	this.getDictInfo();
+    },
+    methods: {
+      	// 获取字典项，渲染树的结构
+        getDictInfo(){
+            let params = {
+                chxmid: this.chxmid,
+                zdlx: ["CLSX"]
+            }
+            getZdClsx(params).then(res => {
+                this.dictionaryTeeList = res.data.dataList;
+                this.renderTreeList();
+            })
+        },
+		// 渲染树结构
+		renderTreeList(){
+			let treeList = [];
+			this.dictionaryTeeList.forEach(list => {
+				if (!list.FDM && list.ZDLX == "CLSX") {
+					treeList.push({
+						title: list.MC,
+						dm: Number(list.DM),
+						disabled: this.readonly,
+						expand: true,
+						id: list.DM,
+						children: []
+					})
+				}
+			})
+			this.dictionaryTeeList.forEach(list => {
+				if (list.FDM && list.ZDLX == "CLSX") {
+					treeList.forEach(tree => {
+						if (tree.id == list.FDM) {
+							tree.children.push({
+								title: list.MC,
+								checked: this.checkedClsxList.includes(list.DM),
+								disabled: this.readonly,
+								id: list.DM,
+								render: (h, {root, node, data}) => {
+									return h('span', [
+									
+									h('span', data.title)
+									])
+								}
+							})
+						}
+					})
+				}
+			})
+			treeList = _.orderBy(treeList, ['dm'], ['asc'])
+			this.treeList = [];
+			treeList.forEach(tree => {
+				this.treeList.push([tree])
+			})
+		},
+		// 弹出表单校验的失败信息
+		validateChecked(prop, status, error){
+			if(error){
+				this.$Message.error(error)
+			}
+		},
+		validate(){
+			let validate = true;
+			this.$refs["formValidate"].validate(valid => {
+				validate = valid
+			})
+			return validate;
+		}
+	},
+}
+</script>
+<style scoped>
+  .form-edit >>> .ivu-form-item {
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    margin-bottom: 0;
+  }
+  .select-tree >>> .ivu-form-item {
+    height: auto;
+  }
+  .stage-tree {
+      width: 100%;
+      padding: 5px;
+      overflow-x: auto;
+      background-color: #e8f3fa;
+  }
+  .select-row-tree >>> .ivu-tree-arrow {
+      display: none;
+  }
+</style>

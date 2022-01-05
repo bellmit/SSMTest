@@ -1,0 +1,23 @@
+
+`
+java:S1192J"JDefine a constant instead of duplicating this literal "redirect:" 4 times.(Ä Ö
+c
+java:S1192…"LDefine a constant instead of duplicating this literal "&errorCode=" 3 times.(üŒÄ‘
+f
+java:S1192…"ODefine a constant instead of duplicating this literal "/#/home?token=" 3 times.(üŒÄ‘
+g
+java:S1128"RRemove this unused import 'cn.gtmap.msurveyplat.portalol.web.main.HomeController'.(ïì
+V
+java:S2387-";"casProperties" is the name of a field in "BaseController".(àıŒ±şÿÿÿÿ
+\
+java:S3252;"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(êÑß­
+[
+java:S3252g"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ŠÎ¹
+\
+java:S3252g"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ŠÎ¹
+g
+java:S3776q"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(ËÅ›<
+Y
+java:S1854°"=Remove this useless assignment to local variable "targetUrl".(š³¢øÿÿÿÿ
+J
+java:S1481°".Remove this unused "targetUrl" local variable.(š³¢øÿÿÿÿ

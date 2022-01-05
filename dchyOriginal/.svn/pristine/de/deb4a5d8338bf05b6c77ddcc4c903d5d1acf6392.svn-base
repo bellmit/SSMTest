@@ -1,0 +1,529 @@
+<template>
+    <div class="table">
+        <form id="uploadHtFile">
+            <input type="file" class="bdc-hide" multiple id="attachmentHtUploadInput"/>
+        </form>
+        <div class="layui-table-tool" v-if="showDefaultTool" style="border: 1px solid #e6e6e6;border-bottom: none">
+            <span class="layui-btn main-btn-a" @click="addNew">新增</span>
+            <span class="layui-btn main-btn-a bdc-delete-btn margin-left-10" @click="deleteFile">删除</span>
+        </div>
+        <table class="file-data-table">
+            <thead>
+                <tr>
+                    <th data-field="attachmentName" v-if="showDefaultTool">
+                        <div>
+                            <Checkbox @on-change="checkAll" v-model="allCheck"></Checkbox>
+                        </div>
+                    </th>
+                    <th data-field="attachmentTypeIndex">
+                        <span v-if="type=='upload'">展开/收起</span>
+                        <span v-else>序号</span>
+                    </th>
+                    <th data-field="attachmentName">
+                        <span>材料名称</span>
+                    </th>
+                    <th data-field="attachmentName" v-if="!deleteColumns.includes('签约测绘单位')">
+                        <span>签约测绘单位</span>
+                    </th>
+                    <th data-field="attachmentName" v-if="!deleteColumns.includes('测绘事项')">
+                        <span>测绘事项</span>
+                    </th>
+                    <th data-field="attachmentCount">
+                        <span>份数</span>
+                    </th>
+                    <th data-field="attachmentPageSize" v-if="type=='upload'">
+                        <span>页数</span>
+                    </th>
+                    <th data-field="attachmentType" v-if="type=='upload'">
+                        <span>类型</span>
+                    </th>
+                    <th data-field="5" v-if="!deleteColumns.includes('operation')">
+                        <span>操作</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="fileTableData" class="form-edit" >
+                <template v-for="(item,index) in data">
+                    <tr data-index="N" class="data-type-zone" :key="index">
+                        <td data-field="attachmentName" v-if="showDefaultTool">
+                            <div>
+                                <Checkbox v-model="item.checked" @on-change="checkOne(item,index)"></Checkbox>
+                            </div>
+                        </td>
+                        <td data-field="attachmentTypeIndex" style="width: 15%" align="center">
+                            <div v-if="type=='upload'" class="layui-table-cell laytable-cell-5-attachmentTypeIndex">
+                                <span class="telescopic-sign-right pointer hide" @click="openPoint(index)">点击展开<i class="fa fa-caret-right"></i></span>
+                                <span class="telescopic-sign-down pointer hide" @click="downPoint(index)">点击收起<i class="fa fa-caret-down"></i></span>
+                            </div>
+                            <div v-else class=" laytable-cell-5-attachmentTypeIndex">
+                                <span>{{index + 1}}</span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentName" style="width: 25%" align="center">
+                            <div v-if="type=='upload'">
+                                <Input placeholder="请输入材料名称" v-model="item.CLMC"/>
+                            </div>
+                            <div v-else :title="item.CLMC">{{item.CLMC}}</div>
+                        </td>
+                        <td data-field="attachmentName" v-if="!deleteColumns.includes('签约测绘单位')" align="center">
+                            <div v-if="type=='upload'" class="layui-table-select layui-table-chdw laytable-cell-5-attachmentPageSize">
+                                <Select multiple v-model="item.CHDWID">
+                                    <Option v-for="(list) in chdwList" :key="list.chdwid" :value="list.chdwid">{{list.chdwmc}}</Option>
+                                </Select>
+                            </div>
+                            <div v-else>
+                                <span>{{item.CHDWMC}}</span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentPageSize" v-if="!deleteColumns.includes('测绘事项')" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentName width-250">
+                                <span v-if="item.CLSXMC"><a href="javascript:void(0)" class="btn-text" @click="selectChsx(item,index)">{{item.CLSXMC}}</a></span>
+                                <span v-else><a href="javascript: void(0)" class="btn-text" @click="selectChsx(item,index)">选择</a></span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentCount" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentCount">
+                                <Input v-if="type=='upload'" v-model="item.FS"/>
+                                <span v-else>{{item.FS}}</span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentCount" v-if="type=='upload'" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentCount">
+                                <Input v-model="item.YS"/>
+                            </div>
+                        </td>
+                        <td data-field="attachmentCount" v-if="type=='upload'" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentPageSize">
+                                <Select @on-change="selectChange(item,index)" v-model="item.CLLX">
+                                    <Option v-for="(opt,j) in typeHtmlList" :key="j" :value="opt.value">{{opt.label}}</Option>
+                                </Select>
+                            </div>
+                        </td>
+                        <td data-field="5" align="center" v-if="!deleteColumns.includes('operation')" data-content="" class="position-relative">
+                            <span class="table-btn-a" v-if="type=='upload'" @click="uploadAttachment(item,index)">上传</span>
+                            <span class="table-btn-a bdc-delete-btn" v-if="type=='upload'&&item.WJZXID" @click="deleteFj(item)">删除</span>
+                            <span class="table-btn-a" v-if="type!='upload'" @click="downloadFj(item,index)">下载</span>
+                        </td>
+                    </tr>
+                    <template v-for="(_item,i) in item.children">
+                        <tr v-if="item.children&&item.children.length" :key="'under'+i" class="data-file-zone" :data-index="index">
+                            <td data-field="attachmentName" align="center" :colspan="showDefaultTool?(9-deleteColumns.length):(8-deleteColumns.length)" :key="'name'+i">
+                                <div class="layui-table-cell file-name-show file-name-limit" :title="_item.name">{{_item.name}}</div>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+            </tbody>
+        </table>
+        <div >
+            <Modal
+                class="modal-base"
+                v-model="visible"
+                :title="'选择测绘事项'"
+                width="1000"
+                :mask-closable="false"
+                :footer-hide="true"
+                closable
+            >
+                <Form :model="chsxForm" class="form-edit" :rules="chsxRule" :label-width="100">
+                    <FormItem label="测绘事项" v-model="chsxForm.chsx">
+                        <div class="select-row-tree select-by-step">
+                            <div v-for="(tree,index) in treeList" :key="index">
+                                <Tree v-if="visible" @on-check-change="checkChange" :data="tree" show-checkbox></Tree>
+                            </div>
+                        </div>
+                    </FormItem>
+                </Form>
+                <div class="submit-back margin-top-20" >
+                    <Button v-if="type=='upload'" type="primary" class="btn-h-34 bdc-major-btn" @click="saveChsx()">确认</Button>
+                    <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel()">取消</Button>
+                </div>
+            </Modal>
+        </div>
+    </div>
+</template>
+
+<script>
+import _ from "lodash";
+export default {
+    name: "contactTable",
+    props: {
+        data: { //表数据
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        showDefaultTool: { //是否显示头部操作
+            type: Boolean,
+            default: false
+        },
+        deleteColumns: { // 需要隐藏的列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        projectInfoData: {
+            type: Object,
+            default: () => {
+                return {}
+            }
+        },
+        chdwList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        treeList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        type: {
+            type: String,
+            default: 'upload'
+        }
+    },
+    data() {
+        return {
+            table: "",
+            laypage: "",
+            form: "",
+            chsxForm: {
+                chsx: ""
+            },
+            chsxRule: {},
+            selectedClsx: [],
+            curUploadId: "",
+            allCheck: false,
+            visible: false,
+            selectHtIndex: 0,
+            typeHtmlList: [
+                {
+                    value: "1",
+                    label: "原件正本"
+                },
+                {
+                    value: "2",
+                    label: "正本复印件"
+                },
+                {
+                    value: "3",
+                    label: "原件副本"
+                },
+                {
+                    value: "4",
+                    label: "副本复印件"
+                },
+                {
+                    value: "5",
+                    label: "其它"
+                }
+            ]
+        }
+    },
+    mounted() {
+        //上传事件订阅
+        let _self = this;
+        $("#attachmentHtUploadInput").on("change", function () {
+            let selected = {
+                files: this.files,
+                index: _self.curUploadId,
+                elem: $(this)
+            }
+            $("tbody .data-type-zone:eq("+_self.curUploadId+") .telescopic-sign-down").show();
+            _self.$emit("upload-ht",selected);
+        });
+    },
+    methods: {
+        // 选择测绘事项
+        checkChange(selected,item){
+            if(item.checked){
+                selected.forEach(s => {
+                    if(!s.children || !s.children.length){
+                        let find = this.selectedClsx.find(clsx => clsx.id == s.id);
+                        if(!find){
+                            this.selectedClsx.push(s)
+                        }
+                    }
+                })
+            }else {
+                let selectedClsx = [...this.selectedClsx]
+                selectedClsx.forEach((select,index) => {
+                    if(select.id == item.id){
+                        selectedClsx.splice(index,1)
+                    }
+                })
+                if(item.children){
+                    item.children.forEach(d => {
+                        selectedClsx.forEach((select,index) => {
+                            if(select.id == d.id){
+                                selectedClsx.splice(index,1)
+                            }
+                        })
+                    })
+                }
+                this.selectedClsx = [...selectedClsx]
+            }
+        },
+        // 点击上传
+        uploadAttachment(item,index){
+            if(!item.CLSX&&!this.deleteColumns.includes("测绘事项")){
+                layer.msg("请先选择测绘事项");
+                return;
+            } else if((!item.CHDWID || !item.CHDWID.length)&&!this.deleteColumns.includes("签约测绘单位")){
+                layer.msg("请先选择签约测绘单位");
+                return;
+            }
+            if((!item.CHDWID || !item.CHDWID.length)&&!this.treeList.length){
+                layer.msg("请先选择测绘事项");
+                return;
+            }
+            if((!item.CHDWID || !item.CHDWID.length)&&!this.projectInfoData.chdwId){
+                layer.msg("请先选择测绘单位")
+                return
+            }
+            this.curUploadId = index;
+            document.getElementById('uploadHtFile')&&document.getElementById('uploadHtFile').reset();
+            $("#attachmentHtUploadInput").click();
+        },
+        // 设置树的选中状态
+        setSelectedTree(selected){
+            this.treeList.forEach(tree => {
+                if(tree[0].children){
+                    let selectLength = 0;
+                    tree[0].children.forEach(c => { 
+                        if(selected.includes(c.id)){
+                            selectLength += 1;
+                            this.selectedClsx.push(c)
+                            c.checked = true;
+                        }
+                    })
+                }
+            })
+        },
+        // 重置树的选中状态
+        resetTreeList(){
+            let treeList = [...this.treeList];
+            treeList.forEach(tree => {
+                tree[0].checked = false;
+                if(tree[0].children){
+                    tree[0].children.forEach(c => {
+                        c.checked = false;
+                    })
+                }
+            })
+            this.$emit("change-select",treeList)
+        },
+        // 重置选择的数据
+        resetSelectedClsx(clsx){
+            this.selectedClsx = [...clsx]
+        },
+        selectChsx(item,index){
+            if(item.CLSX){
+                let selected = item.CLSX.split(",")
+                this.setSelectedTree(selected)
+            }
+            this.visible = true;
+            this.selectHtIndex = index;
+        },
+        saveChsx(){
+            let selected = {
+                htIndex: this.selectHtIndex,
+                selectClsx: _.cloneDeep(this.selectedClsx)
+            }
+            this.visible = false;
+            this.selectedClsx = [];
+            this.$emit("selectchsx",selected);
+            this.resetTreeList();
+        },
+        cancel(){
+            this.visible = false;
+            this.selectedClsx = [];
+            this.resetTreeList();
+        },
+        // 删除附件
+        deleteFj(item,i){
+            layer.confirm("确认删除该附件？",(index) => {
+                layer.close(index)
+                let select = {
+                    file: item,
+                    fileIndex: i
+                }
+                this.$emit("deleteFj-ht",select)
+            })
+        },
+        // 点击展开
+        openPoint(index){
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-right").hide();
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-down").show();
+            $("tbody .data-file-zone[data-index='"+index+"']").show();
+        },
+        // 新增
+        addNew(){
+            this.$emit("tooladd")
+        },
+        // 删除
+        deleteFile(){
+            this.$emit("tooldelete")
+        },
+        downloadFj(item,i){
+            if(!item.WJZXID){
+                layer.msg("暂无材料")
+            } else if(item.WJZXID){
+                if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                location.href=location.origin + config.msurveyplatContext + '/fileoperation/download?wjzxid=' +item.WJZXID
+            }
+        },
+        // 点击收起
+        downPoint(index){
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-right").show();
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-down").hide();
+            $("tbody .data-file-zone[data-index='"+index+"']").hide();
+        },
+        selectChange(select,index){
+            select.index = index;
+            this.$emit("select",select)
+        },
+        checkAll(select){
+            this.$emit("selectall",select)
+        },
+        checkOne(item,index){
+            item.index = index;
+            this.$emit("radio",item)
+        }
+    },
+}
+</script>
+<style scoped>
+    .fileTableData {
+        width: 1200px;
+        overflow-x: scroll;
+    }
+    .table >>> .layui-table-body {
+        /* overflow: visible; */
+    }
+    .table >>> .layui-table-box {
+        /* overflow: visible; */
+    }
+    .table >>> .ivu-select-single .ivu-select-selection {
+        height: 29px;
+    }
+    .table >>> .layui-table-select, .layui-table-tool-panel li {
+        overflow: visible;
+    }
+    .table>>> tr td:nth-child(3) .layui-table-cell,
+    .table>>> tr td:nth-child(5) .layui-table-cell {
+        overflow: hidden;
+    }
+    .table>>> .layui-table-select .ivu-select-dropdown .ivu-select-item {
+        padding: 7px 30px;
+    }
+    .file-name-show {
+        width: 100%;
+        text-align: center;
+    }
+    #operation > span {
+        display: inline-block;
+    }
+    .telescopic-sign-right i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top: 2px;
+    }
+    .telescopic-sign-down i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top:2px;
+    }
+    .select-row-tree >>> .ivu-tree-arrow {
+        display: none;
+    }
+    .select-row-tree {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .select-row-tree > div {
+        margin-right: 10px;
+    }
+    .select-row-tree >>> .ivu-tree {
+        margin-right: 10px;
+    }
+    .form-edit {
+        padding: 0!important;
+    }
+    .laytable-cell-5-attachmentName  {
+        overflow: hidden;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+    .layui-table-cell {
+        margin: 0 auto;
+    }
+    @media (max-width: 1680px) {
+        .laytable-cell-5-attachmentName  {
+            overflow: hidden;
+            max-width: 140px;
+        }
+        .layui-cell-clmc {
+            max-width: 200px;
+        }
+        .laytable-cell-5-attachmentCount {
+            max-width: 80px;
+        }
+        .width-120 {
+            width: 80px!important;
+        }
+    }
+    @media (max-width: 1440px) {
+        .laytable-cell-5-attachmentName  {
+            overflow: hidden;
+            max-width: 100px;
+        }
+        .layui-cell-clmc {
+            max-width: 180px;
+        }
+        .laytable-cell-5-attachmentCount {
+            max-width: 70px;
+        }
+        .layui-table-chdw {
+            width: 150px;
+        }
+        .width-120 {
+            width: 70px!important;
+        }
+    }
+    .table >>> .layui-table-body {
+        overflow: visible;
+    }
+    .table >>> .layui-table-box {
+        overflow: visible;
+    }
+    #operation > span {
+        display: inline-block;
+    }
+    .telescopic-sign-right i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top: 2px;
+    }
+    .telescopic-sign-down i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top:2px;
+    }
+    thead tr th {
+        height: 30px;
+        line-height: 30px;
+    }
+</style>

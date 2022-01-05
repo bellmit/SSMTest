@@ -1,0 +1,40 @@
+<div class="widget-panel-title">南通成图功能</div>
+<!--分析操作-->
+<div class="a-opt-container" id="ntctJctbAnalysis">
+    <a class="btn btn-primary btn-sm" data-opt="draw"><i class="iconfont">&#xe615;</i>手绘</a>
+    <a href="javascript:;" class="btn btn-primary btn-sm file">
+        <i class="iconfont">&#xe632;</i>
+        <input type="file" name="file" id="analysis-file-input-ntctJctbAnalysis">
+    </a>
+    <a class="btn btn-primary btn-sm" data-opt="analysis"><i class="iconfont">&#xe619;</i>分析</a>
+    <a class="btn btn-primary btn-sm" data-opt="clear" style="display: none;"><i class="iconfont">&#xe605;</i>清除</a>
+    <a class="btn btn-primary btn-sm" data-opt="submit"><i class="iconfont">&#xe61a;</i>提交</a>
+    <a class="btn btn-primary btn-sm" data-opt="delete"><i class="iconfont">&#xe60b;</i>删除</a>
+</div>
+
+<!--list展示-->
+<div class="a-list-container" id="ntctJctbAnalysisList">
+
+</div>
+
+<script id="ntctLayerSelectTpl" type="x-handlebars-template">
+    <div class="text-center layer-select-content">
+        <label for="ntctLayerSelect">上图图层&nbsp;&nbsp;</label>
+        <select id="ntctLayerSelect" class="input-sm">
+            {{#editLayer}}
+            <option value="{{layerName}}" data-serviceid="{{serviceId}}">{{alias}}</option>
+            {{/editLayer}}
+        </select>
+    </div>
+</script>
+
+<script id="ntctDeleteLayerSelectTpl" type="x-handlebars-template">
+    <div class="text-center layer-select-content">
+        <label for="ntctDeleteLayerSelect">图层：&nbsp;&nbsp;</label>
+        <select id="ntctDeleteLayerSelect" class="input-sm">
+            {{#list}}
+            <option value="{{objectid}}" data-layerName="{{layerName}}" data-title="{{title}}" data-serviceid="{{serviceid}}">{{layerName}}</option>
+            {{/list}}
+        </select>
+    </div>
+</script>

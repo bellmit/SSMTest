@@ -1,0 +1,32 @@
+<div class="time-select-container">
+    <a href="#" id="next"></a> <!-- 用于点击展示前一项内容 -->
+    <a href="#" id="prev"></a> <!-- 用于点击展示后一项内容 -->
+    <select id="year" class="timeselect input-sm" style="margin-left:120px">
+        {{#years}}
+        <option value="{{year}}">{{year}}年</option>
+        {{/years}}
+    </select>
+
+    <select id="month" class="timeselect input-sm">
+        {{#month}}
+        <option value="{{.}}">{{.}}月</option>
+        {{/month}}
+    </select>
+
+    <select id="playSpeed" class="play-speed input-sm" title="播放速度">
+        <!--<option value="500">0.5秒</option>-->
+        <!--<option value="1000">1秒</option>-->
+        <option value="2000" selected>2秒</option>
+        <option value="3000">3秒</option>
+        <option value="4000">4秒</option>
+        <option value="5000">5秒</option>
+    </select>
+    <button type="button" class="btn-sm  play" id="autoPlay" title="自动播放"><i class="fa fa-play"></i></button>
+    <button type="button" class="btn-sm stop-play" id="stopPlay" title="停止播放"><i class="fa fa-pause"></i></button>
+
+    <button type="button" style="float:right;margin-right:100px;display:none" data-id="" id="uploadimg">上传</button>
+</div>
+
+<div id="timeline">
+
+</div>

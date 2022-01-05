@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclpzMapper">
+
+    <select id="queryResultListMap" resultType="java.util.Map">
+        SELECT n.SJCLPZID,
+               n.CLMC,
+               n.CLLX   AS CLLXID,
+               n.SSMKID,
+               n.XH,
+               n.MRFS,
+               n.SSCLSX AS SSCLSXID,
+               n.NEED,
+               m.MC     AS CLLX,
+               x.MC     AS SSMK,
+               y.MC     AS SSCLSX
+        FROM DCHY_XMGL_SJCLPZ n
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') m ON n.CLLX = m.DM
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'SSMKID') x ON n.SSMKID = x.DM
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLSX') y ON n.SSCLSX = y.DM
+    </select>
+
+    <select id="querySsmkId" resultType="String">
+        SELECT DISTINCT SSMKID
+        FROM DCHY_XMGL_SJCLPZ
+    </select>
+
+    <select id="queryClsxListMap" resultType="java.util.Map">
+        SELECT *
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NOT NULL
+    </select>
+
+    <select id="queryCsmkListMap" resultType="java.util.Map">
+        SELECT *
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'SSMKID'
+          AND DM NOT IN (SELECT DISTINCT SSMKID FROM DCHY_XMGL_SJCLPZ)
+    </select>
+
+    <select id="queryRootClsx" resultType="java.util.Map">
+        SELECT *
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NULL
+    </select>
+
+    <select id="queryChildrenClsx" resultType="java.util.Map">
+        SELECT n.DM AS CLCGPZID, n.*
+        FROM DCHY_XMGL_ZD n
+        WHERE ZDLX = 'CLSX'
+          AND FDM = #{fatherDm}
+    </select>
+
+    <select id="queryChildrenLcgpz" resultType="java.util.Map">
+        SELECT *
+        FROM DCHY_XMGL_CLCGPZ_TEST
+        WHERE PCLCGPZID = #{pclcgpzid}
+    </select>
+
+</mapper>
+
+

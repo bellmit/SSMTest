@@ -1,0 +1,25 @@
+<div class="monitor-main">
+    <div class="tab-content">
+        <div class="tab-pane active" id="listPane">
+            <ul>
+                {{#each listData}}
+                    <li class="monitor-main-li-list" data-id="{{id}}"><i class="fa fa-user"></i>&nbsp;{{userAlias}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="tab-pane" id="groupPane">
+            <ul>
+                {{#each groupData}}
+                    <li class="monitor-main-li-group">
+                        <h4>{{groupName}}</h4>
+                        <ul>
+                            {{#each data}}
+                                <li>{{userAlias}}</li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>

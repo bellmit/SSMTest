@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <beans profile="standard">
+        <bean id="userService" class="cn.gtmap.onemap.server.service.impl.UserServiceImpl"/>
+
+        <bean id="roleService" class="cn.gtmap.onemap.server.service.impl.RoleServiceImpl"/>
+
+        <bean id="identityService" class="cn.gtmap.onemap.server.service.impl.IdentityServiceImpl">
+            <property name="userService" ref="userService"/>
+            <property name="roleService" ref="roleService"/>
+            <property name="cache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="tokenCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="43200"/>
+                            <property name="timeToIdle" value="3600"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.TokenSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+    <beans profile="egov">
+        <bean id="egovDataSource" class="com.gtis.support.JndiSupportBasicDataSource" destroy-method="close">
+            <property name="jndiName" value="java:comp/env/jdbc/egov"/>
+            <property name="url" value="${egov.db.url}"/>
+            <property name="username" value="${egov.db.username}"/>
+            <property name="password" value="${egov.db.password}"/>
+            <property name="initialSize" value="2"/>
+            <property name="minIdle" value="1"/>
+            <property name="maxIdle" value="2"/>
+        </bean>
+
+        <bean id="userService" class="cn.gtmap.onemap.server.thirdparty.egov.UserServiceImpl">
+            <property name="dataSource" ref="egovDataSource"/>
+        </bean>
+
+        <bean id="roleService" class="cn.gtmap.onemap.server.thirdparty.egov.RoleServiceImpl">
+            <property name="dataSource" ref="egovDataSource"/>
+        </bean>
+
+        <bean id="identityService" class="cn.gtmap.onemap.server.thirdparty.egov.EgovIdentityServiceImpl">
+            <property name="userService" ref="userService"/>
+            <property name="roleService" ref="roleService"/>
+            <property name="cache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="tokenCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="43200"/>
+                            <property name="timeToIdle" value="3600"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.EgovSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+    <beans profile="shengtin">
+
+        <bean id="userClient" class="cn.gtmap.onemap.server.thirdparty.kanq.WsProxyFactoryBean">
+            <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.user.UserPortType"/>
+            <property name="address" value="${kanq.server.url}/user_ser/services/user"/>
+        </bean>
+
+        <bean id="orgClient" class="cn.gtmap.onemap.server.thirdparty.kanq.WsProxyFactoryBean">
+            <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.org.OrgPortType"/>
+            <property name="address" value="${kanq.server.url}/org_ser/services/org"/>
+        </bean>
+
+        <bean id="ssoClient" class="cn.gtmap.onemap.server.thirdparty.kanq.WsProxyFactoryBean">
+            <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.sso.SsoPortType"/>
+            <property name="address" value="${kanq.server.url}/sso_ser/services/sso"/>
+        </bean>
+
+        <bean id="roleService" class="cn.gtmap.onemap.server.thirdparty.kanq.impl.RoleServiceImpl">
+            <property name="userClient" ref="userClient"/>
+            <property name="orgClient" ref="orgClient"/>
+            <property name="roleCache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="roleCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="300"/>
+                            <property name="timeToIdle" value="300"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+
+        <bean id="userService" class="cn.gtmap.onemap.server.thirdparty.kanq.impl.UserServiceImpl">
+            <property name="userClient" ref="userClient"/>
+            <property name="roleService" ref="roleService"/>
+            <property name="userCache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="userCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="300"/>
+                            <property name="timeToIdle" value="300"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+            <property name="userRoleCache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="userRoleCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="300"/>
+                            <property name="timeToIdle" value="300"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+
+        <bean id="licenseFactory" class="cn.gtmap.onemap.server.thirdparty.kanq.impl.LicenseFactory">
+            <property name="username" value="${kanq.server.username}"/>
+            <property name="password" value="${kanq.server.password}"/>
+            <property name="ssoClient" ref="ssoClient"/>
+        </bean>
+
+        <bean id="identityService" class="cn.gtmap.onemap.server.thirdparty.kanq.impl.kanqIdentityServiceImpl">
+            <property name="admins" value="${sys.admins}"/>
+            <property name="userService" ref="userService"/>
+            <property name="roleService" ref="roleService"/>
+            <property name="userClient" ref="userClient"/>
+            <property name="ssoClient" ref="ssoClient"/>
+            <property name="cache">
+                <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                    <constructor-arg>
+                        <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                            <property name="cacheManager" ref="ehCacheManager"/>
+                            <property name="cacheName" value="tokenCache"/>
+                            <property name="maxElementsInMemory" value="10000"/>
+                            <property name="timeToLive" value="43200"/>
+                            <property name="timeToIdle" value="3600"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.KanqLicenseSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+</beans>

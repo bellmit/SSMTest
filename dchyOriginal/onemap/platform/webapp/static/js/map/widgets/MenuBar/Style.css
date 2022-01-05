@@ -1,0 +1,106 @@
+#MenuBar {
+    position: absolute;
+    z-index: 10;
+    right: 0px;
+    top: 0px;
+    height: 34px;
+    background-color: #d9e7fd;
+    width: 100%;
+}
+
+
+#menu-content {
+    margin: 0;
+    padding: 0;
+    float: right
+}
+
+#menu-content li {
+    float: left;
+    list-style: none;
+    text-align: center
+}
+
+#menu-content li span {
+    display: block;
+    padding: 0 5px;
+    text-decoration: none;
+    max-width: 100px;
+    color: #5f6477;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    line-height: 34px;
+    height: 34px;
+    font-size: 1.1em;
+}
+
+#menu-content li span:hover {
+    color: #4285f4
+}
+
+#menu-content li ul {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    visibility: hidden;
+    border-top: 1px solid #e0e0e0
+}
+
+#menu-content li ul li {
+    float: none;
+    display: inline;
+    text-align: left
+}
+
+#menu-content li ul li span {
+    padding: 0 8px;
+    height: 30px;
+    line-height: 30px;
+    width: auto;
+    color: #666;
+    background: #fff
+}
+
+#menu-content li ul li span:hover {
+    color: #0288d1
+}
+
+.menu-gap {
+    height: 16px;
+    display: inline-block;
+    border-right: 1px solid #bbb;
+    top: 3px;
+    left: 4px;
+    right: 4px;
+    position: relative
+}
+
+.ul-menu-group {
+    min-width: 75px;
+}
+
+#collapseWidgetContainer {
+    margin-top: 35px;
+    margin-right: 8px;
+}
+
+#collapseWidgetContainer .panel {
+    max-width: 325px;
+}
+
+#collapseWidgetContainer .panel .panel-body {
+    width:256px;
+    min-width: 150px;
+}
+
+.panel-toggle {
+    text-decoration: none;
+    min-width: 32px;
+}
+
+.panel-close {
+    margin-left: 8px;
+    float: right;
+}

@@ -1,0 +1,31 @@
+
+K
+java:S3740…"/Provide the parametrized type for this generic.(‘ÛåŠşÿÿÿÿ
+J
+java:S3740"/Provide the parametrized type for this generic.(„Üìñÿÿÿÿÿ
+X	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+Z
+java:S1155">Use isEmpty() to check whether the collection is empty or not.(íê”›øÿÿÿÿ
+J
+java:S3740~"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+~
+java:S1128"cRemove this unused import 'cn.gtmap.msurveyplat.promanage.core.service.mq.model.DchyXmglCgtjModel'.(¸‹öÏûÿÿÿÿ
+i
+java:S4719q"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+T	java:S125"<This block of commented-out lines of code should be removed.(øÆğÔÿÿÿÿÿ
+]
+java:S3457›"AFormat specifiers should be used instead of string concatenation.(“üÚ±úÿÿÿÿ
+W
+java:S3457?"AFormat specifiers should be used instead of string concatenation.(¨™ì£
+Z
+java:S3252u"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+Q	java:S125"<This block of commented-out lines of code should be removed.(€º·t
+D
+java:S1144Y".Remove this unused private "basicNACK" method.(¤´Àÿ
+`	java:S112k"FDefine and throw a dedicated exception instead of using a generic one.(ÍèËòÿÿÿÿÿ
+c
+java:S4719B"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+W
+java:S3457H"AFormat specifiers should be used instead of string concatenation.(ÄÎ€Ì
+]
+java:S3457 "AFormat specifiers should be used instead of string concatenation.(³şêšùÿÿÿÿ

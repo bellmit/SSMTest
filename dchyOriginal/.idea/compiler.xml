@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="msurveyplat-server" />
+        <module name="msurveyplat-exchange" />
+        <module name="msurveyplat-common" />
+        <module name="msurveyplat-serviceol" />
+        <module name="portal-ol" />
+        <module name="portal" />
+        <module name="msurveyplat-serv" />
+        <module name="msurveyplat-promanage" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="msurveyplat" target="1.8" />
+      <module name="msurveyplat-common" target="7" />
+      <module name="msurveyplat-exchange" target="1.8" />
+      <module name="msurveyplat-promanage" target="1.8" />
+      <module name="msurveyplat-serv" target="1.8" />
+      <module name="msurveyplat-server" target="1.8" />
+      <module name="msurveyplat-serviceol" target="1.8" />
+      <module name="portal" target="1.8" />
+      <module name="portal-ol" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="msurveyplat-promanage" options="-bootclasspath &quot;C:\Program Files\java\jdk/jre/lib/rt.jar&quot;" />
+      <module name="msurveyplat-serv" options="-bootclasspath &quot;C:\Program Files\java\jdk/jre/lib/rt.jar&quot;" />
+      <module name="msurveyplat-serviceol" options="-bootclasspath &quot;C:\Program Files\java\jdk/jre/lib/rt.jar&quot;" />
+      <module name="portal-ol" options="-bootclasspath &quot;C:\Program Files\java\jdk/jre/lib/rt.jar&quot;" />
+    </option>
+  </component>
+</project>

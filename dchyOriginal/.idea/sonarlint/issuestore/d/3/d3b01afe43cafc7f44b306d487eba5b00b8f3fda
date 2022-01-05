@@ -1,0 +1,29 @@
+
+e
+java:S4719÷"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".( û¿ï
+g
+java:S2095?"QUse try-with-resources or close this "CloseableHttpClient" in a "finally" clause.(ıê”Ê
+P
+java:S1118#":Add a private constructor to hide the implicit public one.(„Ğ¿Î
+n
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 51 to the 15 allowed.(’ô—úÿÿÿÿ
+F
+java:S2093¼"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+F
+java:S2093š"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+Q	java:S125h"<This block of commented-out lines of code should be removed.(şä…ı
+U
+java:S4719ø">Replace charset name argument with StandardCharsets.ISO_8859_1( ‡‹ß
+P
+java:S1191
+"5Use classes from the Java API instead of Sun classes.(•âƒöşÿÿÿÿ
+c
+java:S1192ç"LDefine a constant instead of duplicating this literal "filename=\"" 4 times.(´ ¤Ú
+F
+java:S1068&"0Remove this unused "platformUtil" private field.(áöıˆ
+P
+java:S1068'"5Remove this unused "fileUploadService" private field.(ú£åÒøÿÿÿÿ
+k
+java:S1192\"PDefine a constant instead of duplicating this literal "é”™è¯¯ä¿¡æ¯:{}" 3 times.(§ê‰øÿÿÿÿ
+m
+java:S3776w"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(«—»úÿÿÿÿ

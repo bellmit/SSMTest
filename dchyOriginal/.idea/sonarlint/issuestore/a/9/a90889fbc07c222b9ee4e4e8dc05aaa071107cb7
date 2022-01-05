@@ -1,0 +1,11 @@
+
+Q
+java:S1854|";Remove this useless assignment to local variable "message".(ïÒğÑ
+`	java:S112b"FDefine and throw a dedicated exception instead of using a generic one.(£Ğ¯ïüÿÿÿÿ
+W	java:S125Ì"<This block of commented-out lines of code should be removed.(¼¤£áúÿÿÿÿ
+F
+java:S3740«"/Provide the parametrized type for this generic.(ıØ†¯
+K
+java:S3740˜"/Provide the parametrized type for this generic.(ÌŒœÂÿÿÿÿÿ
+]
+java:S1192;"GDefine a constant instead of duplicating this literal "sqxxid" 5 times.(¡ÿìÑ

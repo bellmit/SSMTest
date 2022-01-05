@@ -1,0 +1,134 @@
+/*马鞍山拓展主题*/
+.root_open{
+    background-image: url(../img/add.png) !important;
+}
+
+
+
+.esriPopup{
+    right: 350px !important;
+    left: auto !important;
+    top: 300px !important;
+    position: absolute !important;
+}
+
+.esriPopupWrapper{
+    left:0px !important;
+    top:0px !important;
+}
+
+#MenuBar{
+    width: 100px !important;
+    left: 0px !important;
+}
+
+.visible{
+    visibility:visible !important;
+    display: block !important;
+}
+.outerPointer{
+    display: none !important;
+}
+
+.pointer{
+  display: none !important;
+}
+
+.popup-field-alias > span, .popup-field-value > span{
+    white-space:inherit !important;
+}
+
+.map-popup-content{
+    line-height: 25px;
+}
+
+.vertical-operation-menu{
+    position: absolute;
+    right: 0px;
+    width: inherit;
+    top:0px;
+    min-height: inherit;
+    z-index: 999;
+    height:27px !important;
+    background-color: white !important;
+    box-shadow: darkgrey 10px 10px 30px 5px ;
+}
+
+
+.optbtn > .widget-title,
+.groupbtn > .widget-title {
+    padding: 0px 5px 0px 0px;
+}
+
+.groupbtn:hover{
+    background-color: #51B0FF !important;
+    color: white !important;
+}
+
+.groupbtn{
+    position: relative !important;
+    min-width: 70px !important;
+}
+
+.groupbtn ul{
+    top:20px !important;
+    right: 0px !important;
+    left: inherit !important;
+    width: 70px;
+}
+
+.vertical-operation-menu a{
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    background-image: inherit !important;
+    border-bottom:inherit !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right:5px ;
+    font-weight:600;
+    color:black ;
+    float: right;
+    font-size: 0.8em;
+}
+
+.group-widget-btn-active, .group-widget-btn:hover{
+    font-size: inherit !important;
+}
+
+.optbtn:hover {
+    background-color: #51B0FF !important;
+    color: white !important;
+}
+#map-content{
+    /*width: 100% !important;*/
+}
+
+.main-operation{
+    width: 400px;
+}
+
+.zoom-slider{
+    display: none !important;
+}
+
+.optBtnActive{
+    background-color: #51B0FF !important;
+    color: white !important;
+}
+.group-widget-btn-active{
+    /*background-color: #51B0FF !important;*/
+    /*color: white !important;*/
+}
+
+
+
+.widget-group-content>li{
+    background-color: white;
+    color: black !important;
+}
+
+.group-widget-btn:hover{
+    background-color: #51B0FF;
+    color: white !important;
+}

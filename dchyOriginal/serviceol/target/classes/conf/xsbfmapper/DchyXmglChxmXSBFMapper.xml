@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.DchyXmglChxmXSBFMapper">
+    <!--根据测绘项目id查询备案信息详情，测绘单位信息-->
+    <select id="queryChdwByChxmid" resultType="map" parameterType="map">
+        SELECT x.chdwxxid,x.chdwmc,x.mlkid
+        FROM DCHY_XMGL_CHXM_CHDWXX x
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND x.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘项目id查询备案信息详情-->
+    <select id="queryBaxxByChxmid" resultType="map" parameterType="map">
+        SELECT
+        b.babh,a.gcbh,a.gcmc,a.wtdw,a.lxr,a.lxdh,a.xmxz,a.zdbh,a.gcdzs,a.gcdzss,a.gcdzqx,a.gcdzxx,b.slbh,b.chxmid,b.xqfbbh,
+        b.sjdds,b.sjddss,b.sjddqx,b.sjddxx,b.slr,b.slsj,b.chzsx,b.sjrlxdh,b.qjfs,b.qjdd,b.yyqjsj,b.wjzxid,b.sjr,b.xmly,b.xmzt,b.zdxm,chjglxr,chjglxdh,b.wjsftb
+        FROM DCHY_XMGL_CHGC a
+        LEFT JOIN DCHY_XMGL_CHXM b ON a.chgcid = b.chgcid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND b.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+
+K
+java:S3740é"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+j
+java:S4719Ä"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(ƒ¶ö½şÿÿÿÿ
+\
+java:S1192C"GDefine a constant instead of duplicating this literal "tzggid" 5 times.(ñ£¯x
+h
+java:S3776I"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÔÏÌÿ
+j
+java:S4719–"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(Ç–üŒüÿÿÿÿ
+e
+java:S4719â"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(³ê¢
+E
+java:S3740B"/Provide the parametrized type for this generic.(¶£Ê¶
+K
+java:S3740Ü"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+F
+java:S3740¼"/Provide the parametrized type for this generic.(šÙÉõ
+a
+java:S3252á"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(½äçÚşÿÿÿÿ
+,
+java:S3457å"Not enough arguments.(¿ç˜´
+N
+java:S2589Æ"7Remove this expression which always evaluates to "true"(´§íÍ
+a
+java:S3252Â"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(½äçÚşÿÿÿÿ
++
+java:S3457h"Not enough arguments.(¿ç˜´
+b
+java:S3252Á"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(˜¾Õüüÿÿÿÿ
+b
+java:S3252à"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(˜¾Õüüÿÿÿÿ

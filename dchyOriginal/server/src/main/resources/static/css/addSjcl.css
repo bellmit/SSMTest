@@ -1,0 +1,25 @@
+.addSjcl-page-contanier{
+    padding: 20px 20px 10px 5px;
+}
+.addSjcl-page-contanier .layui-form-item .layui-input-inline .layui-input,
+.addSjcl-page-contanier .layui-form-select .layui-input{
+    width: 280px;
+}
+.addSjcl-page-contanier .layui-form-item {
+    margin-bottom: 10px;
+}
+.addSjcl-page-contanier .layui-form-select .layui-edge{
+    right: 20px;
+}
+.bdc-addSjcl-btn{
+    text-align: center;
+    padding-top: 30px;
+}
+.bdc-addSjcl-btn .layui-btn{
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+}
+.bdc-addSjcl-btn .layui-btn-normal{
+background: #1d87d1;
+}

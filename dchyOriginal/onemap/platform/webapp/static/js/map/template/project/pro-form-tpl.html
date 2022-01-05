@@ -1,0 +1,57 @@
+<div class="container-fluid" style="width: 98%;padding: 10px">
+    <div class="row">
+        <form class="form-horizontal" id="addProForm">
+            <input name="location" type="hidden" value='{{location}}'>
+
+            <div class="form-group" style="margin-top:10px;">
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">项目名称</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="proNameInput" name="proName" placeholder="项目名称" datatype="s" nullmsg="项目名称不可为空!">
+
+                    <div class="info">
+                        <span class="Validform_checktip">
+                            请填写项目名称！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 text-right">
+                    <label for="proTypeSelect" class="control-label">项目类型</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <select class="form-control" placeholder="项目类型" name="proType" id="proTypeSelect">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">关联视频</label>
+                </div>
+                <div class="col-xs-10">
+                    {{#cameras}}
+                    <label class="radio-inline">
+                        <input type="checkbox" name="cameraId" value="{{indexCode}}"/>
+                        <a title="打开视频" class="pro-open-video" href="#" data-indexcode="{{indexCode}}">{{name}}</a>
+                    </label>
+                    {{/cameras}}
+                    {{^cameras}}
+                    无
+                    {{/cameras}}
+                </div>
+            </div>
+            <div>
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-primary" id="proSaveBtn">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

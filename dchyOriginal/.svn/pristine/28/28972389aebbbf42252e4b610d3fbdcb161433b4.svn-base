@@ -1,0 +1,39 @@
+package cn.gtmap.msurveyplat.serviceol.feign;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.TokenCheckUtil;
+import feign.Headers;
+import feign.Param;
+import feign.RequestLine;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
+
+
+/**
+ * @param
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @return
+ * @description 2021/1/12 portalol服务
+ */
+public interface PortalolFeignService {
+    @Headers({"Content-Type: application/json", "Accept: application/json", "token: " + TokenCheckUtil.TOKEN})
+    @RequestLine("POST /rest/v1.0/platform/user/queryUser")
+    ResponseMessage queryUser(@RequestBody Map<String, String> map);
+
+    @Headers({"token: " + TokenCheckUtil.TOKEN})
+    @RequestLine("POST /rest/v1.0/platform/user/changePassword/{username}/{password}/{passwordNew}")
+    ResponseMessage changePassword(@Param("username") String username, @Param("password") String password, @Param("passwordNew") String passwordNew);
+
+    @Headers({"token: " + TokenCheckUtil.TOKEN})
+    @RequestLine("POST /rest/v1.0/platform/user/changeUserState/{userid}/{state}")
+    ResponseMessage changeUserState(@Param("userid") String userid, @Param("state") String state);
+
+    @Headers({"token: " + TokenCheckUtil.TOKEN})
+    @RequestLine("POST /rest/v1.0/platform/user/distributionRoleAuthority/{userid}/{roles}")
+    ResponseMessage distributionRoleAuthority(@Param("userid") String userid, @Param("roles") String roles);
+
+    @Headers({"token: " + TokenCheckUtil.TOKEN})
+    @RequestLine("GET /rest/v1.0/platform/user/queryAllRole")
+    ResponseMessage queryAllRole();
+}

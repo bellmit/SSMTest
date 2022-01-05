@@ -1,0 +1,90 @@
+spring.application.name=msurveyplat-serviceol
+
+spring.jmx.enabled=false
+spring.jmx.default-domain=${spring.application.name}
+
+spring.http.encoding.charset=UTF-8
+spring.http.encoding.force=true
+spring.http.multipart.max-file-size=500MB
+spring.http.multipart.max-request-size=1000MB
+spring.jackson.serialization.fail-on-empty-beans=false
+spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone=GMT+8
+
+#rabbitmq服务配置
+spring.rabbitmq.host=192.168.50.106
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=dchy
+spring.rabbitmq.password=gtmap
+spring.rabbitmq.virtual-host=dchyXmglHost
+
+spring.datasource.initialize=false
+#数据库配置
+spring.datasource.dchy.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.dchy.url=jdbc:oracle:thin:@192.168.0.19:1521:orcl
+spring.datasource.dchy.username=dchy
+spring.datasource.dchy.password=gtis
+spring.datasource.dchy.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+#数据库配置 备份库
+spring.datasource.dchyxsbf.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.dchyxsbf.url=jdbc:oracle:thin:@192.168.0.19:1521:orcl
+spring.datasource.dchyxsbf.username=dchyxsbf
+spring.datasource.dchyxsbf.password=gtis
+spring.datasource.dchyxsbf.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+# 连接池的配置信息
+# 初始化大小，最小，最大
+spring.datasource.initialSize=5
+spring.datasource.minIdle=5
+spring.datasource.maxActive=20
+# 配置获取连接等待超时的时间
+spring.datasource.maxWait=60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+spring.datasource.timeBetweenEvictionRunsMillis=60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+spring.datasource.minEvictableIdleTimeMillis=300000
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle=true
+spring.datasource.testOnBorrow=false
+spring.datasource.testOnReturn=false
+# 打开PSCache，并且指定每个连接上PSCache的大小
+spring.datasource.poolPreparedStatements=true
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+# 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+spring.datasource.filters=stat,wall,log4j
+# 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+spring.datasource.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#spring 消息
+spring.messages.basename=conf/message/messages, conf/message/errors
+#spring 服务名、端口
+server.context-path=/${spring.application.name}
+server.port=${msurveyplat-serviceol.port}
+management.security.enabled=false
+resources.static-locations=classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file../../images
+#CASip
+#cas.host=http://192.168.0.19:9999
+cas.host=${base.url}
+#CAS服务地址
+cas.server.host.url=${cas.host}/cas
+#CAS服务登录地址
+cas.server.host.login_url=${cas.server.host.url}/login
+#CAS服务登出地址
+cas.server.host.logout_url=${cas.server.host.url}/logout?service=${app.server.host.url}
+#应用访问地址
+app.server.host.url=${serviceol.url}
+#应用登录地址
+app.login.url=/index
+#应用登出地址
+app.logout.url=/logout
+#server.context-path=/portal
+security.basic.enabled=false
+feign.hystrix.enabled=true
+# 定位模板的目录
+spring.mvc.view.prefix=/
+# 给返回的页面添加后缀名
+spring.mvc.view.suffix=.html
+#是否自动入驻
+entry.audit=true
+# 是否自动办结
+is.automatic.filing=true

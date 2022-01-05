@@ -1,0 +1,448 @@
+{
+  "unitName": "常州市新北国土局",
+  "counties": [
+    {
+      "id": "32010002",
+      "name": "新北区",
+      "children": [
+        {
+          "id": "00000000001310011071",
+          "name": "华西2村"
+        },
+        {
+          "id": "055200481590000",
+          "name": "孟河村孟河万绥社区"
+        },
+        {
+          "id": "055200481530000",
+          "name": "孟河固村巷"
+        }
+      ]
+    },
+    {
+      "id": "32010003",
+      "name": "开发区",
+      "children": [
+        {
+          "id": "055200481640000",
+          "name": "孟河镇树新村"
+        },
+        {
+          "id": "055200481560000",
+          "name": "孟河孟城社区"
+        },
+        {
+          "id": "055200481620000",
+          "name": "孟河镇东陆村"
+        }
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "00000000001310011070",
+          "indexCode": "00000000001310011070",
+          "ip": "172.16.13.250",
+          "name": "华西2村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "8000",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40541139.257465735,
+          "y": 3521870.3213781477
+        }
+      ],
+      "enabled": 1,
+      "id": "00000000001310011071",
+      "name": "华西2村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481590101",
+          "indexCode": "055200481590101",
+          "ip": "172.16.13.250",
+          "name": "孟河万绥社区",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40480555.0406,
+          "y": 3542900.853
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481590000",
+      "name": "孟河万绥社区",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481530101",
+          "indexCode": "055200481530101",
+          "ip": "172.16.13.170",
+          "name": "孟河固村巷",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40486520.8204,
+          "y": 3545641.2307
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481530000",
+      "name": "孟河固村巷",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481640101",
+          "indexCode": "055200481640101",
+          "ip": "172.16.13.218",
+          "name": "孟河镇树新村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40482972.5209,
+          "y": 3540812.9314
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481640000",
+      "name": "孟河镇树新村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481560101",
+          "indexCode": "055200481560101",
+          "ip": "172.16.13.186",
+          "name": "孟河孟城社区",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40480888.7224999,
+          "y": 3546036.0622
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481560000",
+      "name": "孟河孟城社区",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481620101",
+          "indexCode": "055200481620101",
+          "ip": "172.16.13.162",
+          "name": "孟河镇东陆村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40486992.534,
+          "y": 3547423.6929
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481620000",
+      "name": "孟河镇东陆村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481630101",
+          "indexCode": "055200481630101",
+          "ip": "172.16.13.202",
+          "name": "孟河镇润江村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40485799.0358999,
+          "y": 3543227.08039999
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481630000",
+      "name": "孟河镇润江村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481580101",
+          "indexCode": "055200481580101",
+          "ip": "172.16.13.226",
+          "name": "孟河双亭村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40482979.5138,
+          "y": 3543892.25199999
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481580000",
+      "name": "孟河双亭村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481570101",
+          "indexCode": "055200481570101",
+          "ip": "172.16.13.210",
+          "name": "孟河石桥村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40486992.534,
+          "y": 3547423.6929
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481570000",
+      "name": "孟河石桥村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481690101",
+          "indexCode": "055200481690101",
+          "ip": "172.16.13.234",
+          "name": "富民小区",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40483955.5,
+          "y": 3543354.5
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481690000",
+      "name": "滕村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481550101",
+          "indexCode": "055200481550101",
+          "ip": "172.16.13.194",
+          "name": "小河2",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40485528.9843,
+          "y": 3545288.0731
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481550000",
+      "name": "孟河兰陵村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481600101",
+          "indexCode": "055200481600101",
+          "ip": "172.16.14.2",
+          "name": "孟河小河社区",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40487015.8645,
+          "y": 3542714.2837
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481600000",
+      "name": "孟河小河社区",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481610101",
+          "indexCode": "055200481610101",
+          "ip": "172.16.14.18",
+          "name": "孟河荫沙村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40489361.6014,
+          "y": 3544042.2349
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481610000",
+      "name": "孟河荫沙村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "055200481650101",
+          "indexCode": "055200481650101",
+          "ip": "",
+          "name": "孟河镇通江村",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 360,
+          "x": 40485698.9994999,
+          "y": 3547040.52199999
+        }
+      ],
+      "enabled": 1,
+      "id": "055200481650000",
+      "name": "孟河镇通江村",
+      "type": "normal"
+    },
+    {
+      "devices": [
+        {
+          "createAt": "2017-03-07 09:29:14",
+          "enabled": 1,
+          "height": 70,
+          "id": "025200255420101",
+          "indexCode": "025200255420101",
+          "ip": "112.4.18.89",
+          "name": "孟城山江1",
+          "p": "",
+          "panoramaPresetId": "",
+          "password": "",
+          "platform": "",
+          "port": "5060",
+          "t": "",
+          "username": "",
+          "viewRadius": 1500,
+          "x": 40484340.7,
+          "y": 3547482.8
+        }
+      ],
+      "enabled": 1,
+      "id": "025200255420000",
+      "name": "孟城山江",
+      "type": "normal"
+    }
+  ]
+}

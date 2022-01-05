@@ -1,0 +1,610 @@
+package cn.gtmap.msurveyplat.promanage.core.service.mq.receive;
+
+/*
+ * @author <a href="mailto:juyulin@gtmap.cn">juyulin</a>
+ * @version 1.0, 2018/1/26
+ * @description 接收来自受理云平台的领导催办信息 发布项目,推送从业人员信息包含名录库
+ */
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglChxmDto;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglHtxxDto;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.promanage.core.mapper.MqMsgMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.impl.CommissionFilingServiceImpl;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.service.PushDataToMqService;
+import cn.gtmap.msurveyplat.promanage.model.XsxmxxModel;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.utils.PlatformUtil;
+import cn.gtmap.msurveyplat.promanage.utils.SlbhUtil;
+import cn.gtmap.msurveyplat.promanage.web.utils.FileUploadUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import com.gtis.config.AppConfig;
+import com.rabbitmq.client.Channel;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+/**
+ * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+ * @description
+ * @time 2020/11/27 15:07
+ */
+@Service
+public class ReceiveXsxmxxFromBsdtServiceImpl implements ChannelAwareMessageListener {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Resource(name = "entityMapper")
+    private EntityMapper entityMapper;
+    @Autowired
+    private PlatformUtil platformUtil;
+
+    @Autowired
+    MqMsgMapper mqMsgMapper;
+
+    @Autowired
+    PushDataToMqService pushDataToMqService;
+
+    @Autowired
+    CommissionFilingServiceImpl commissionFilingServiceImpl;
+
+    @Override
+    @RabbitListener(queues = Constants.BSDT_XMGL_XMFB_QUEUE)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void onMessage(Message message, Channel channel) {
+        try {
+            byte[] bytes = message.getBody();
+            String str = new String(bytes, "UTF-8");
+//            logger.info(str);
+            // TODO 业务处理
+            saveOrDeleteXxData(str);
+            basicACK(message, channel); //正常消费掉后通知mq服务器移除此条mq
+            logger.info("接收成功 ");
+        } catch (UnsupportedEncodingException e) {
+            basicReject(message, channel);
+            logger.error("接收失败", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //正常消费掉后通知mq服务器移除此条mq
+    private void basicACK(Message message, Channel channel) {
+        try {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("通知服务器移除mq时异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicNACK(Message message, Channel channel) {
+        try {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicReject(Message message, Channel channel) {
+        try {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveOrDeleteXxData(String str) throws Exception {
+
+        DchyXmglMqCzrz dchyXmglMqCzrz = new DchyXmglMqCzrz();
+        String parentId = "";
+        try {
+            dchyXmglMqCzrz.setCzrzid(UUIDGenerator.generate18());
+            dchyXmglMqCzrz.setCzsj(CalendarUtil.getCurHMSDate());
+            dchyXmglMqCzrz.setMsg(str.getBytes("utf-8"));
+            Map<String, Object> slxxJson = JSON.parseObject((String) JSON.parse(str));
+
+            XsxmxxModel xsxmxxModelSaveOrUpdate = JSONObject.toJavaObject((JSON) slxxJson.get("saveOrUpdate"), XsxmxxModel.class);
+            XsxmxxModel xsxmxxModelDelete = JSONObject.toJavaObject((JSON) slxxJson.get("delete"), XsxmxxModel.class);
+            Map<String, String> deletefile = (Map<String, String>) slxxJson.get("deletefile");
+
+            if (xsxmxxModelSaveOrUpdate != null) {
+                logger.info(xsxmxxModelSaveOrUpdate.toString());
+            }
+            DchyXmglChxmDto dchyXmglChxmDto = new DchyXmglChxmDto();
+            //保存的数据
+            if (xsxmxxModelSaveOrUpdate != null) {
+                List<DchyXmglSjcl> wtSjclList = xsxmxxModelSaveOrUpdate.getWtDchyXmglSjclList();
+                List<DchyXmglSjcl> hySjclList = xsxmxxModelSaveOrUpdate.getHyDchyXmglSjclList();
+                List<DchyXmglSjxx> xmglSjxxList = xsxmxxModelSaveOrUpdate.getDchyXmglSjxxList();
+                List<DchyXmglChxm> xmglChxmList = xsxmxxModelSaveOrUpdate.getDchyXmglChxmList();
+                List<DchyXmglChgc> xmglChgcList = xsxmxxModelSaveOrUpdate.getDchyXmglChgcList();
+                List<DchyXmglClsxChdwxxGx> clsxChdwxxGxList = xsxmxxModelSaveOrUpdate.getDchyXmglClsxChdwxxGxList();
+                List<DchyXmglChxmClsx> xmglClsxList = xsxmxxModelSaveOrUpdate.getDchyXmglChxmClsxList();
+                List<DchyXmglChxmChdwxx> xmglChxmChdwxxList = xsxmxxModelSaveOrUpdate.getDchyXmglChxmChdwxxList();
+                List<DchyXmglSqxx> xmglSqxxList = xsxmxxModelSaveOrUpdate.getDchyXmglSqxxList();
+                //线上推送的文件信息
+                List<Map<String, List>> wtFileList = xsxmxxModelSaveOrUpdate.getWtFileList();
+                List<Map<String, List>> hyFileList = xsxmxxModelSaveOrUpdate.getHyFileList();
+                /*核验,委托信息*/
+                if (CollectionUtils.isNotEmpty(xmglChxmList)) {
+                    for (DchyXmglChxm chxm : xmglChxmList) {
+                        String slbh = null;
+                        if (StringUtils.isNotEmpty(chxm.getSlbh())) {
+                            slbh = chxm.getSlbh();
+                        } else {
+                            slbh = SlbhUtil.generateSlbh(null, null);
+                        }
+                        chxm.setSlbh(slbh);
+                        if (slbh != null) {
+                            logger.info("***************受理编号****************" + slbh);
+                        }
+                        entityMapper.saveOrUpdate(chxm, chxm.getChxmid());
+                        logger.info("************测绘项目入库成功");
+                        if (CollectionUtils.isNotEmpty(wtSjclList)) {
+                            for (DchyXmglSjcl wtSjcl : wtSjclList) {
+                                if (CollectionUtils.isNotEmpty(wtFileList)) {
+                                    /*文件上传*/
+                                    Map<String, Object> map = this.uploadWjcl(wtFileList.get(0).get(wtSjcl.getSjclid()), chxm.getChxmid(), wtSjcl.getClmc());
+                                    String wjzxid = (String) map.get("folderId");
+                                    if (wtSjcl != null) {
+                                        /*更新收件材料表*/
+                                        wtSjcl.setWjzxid(wjzxid);
+                                        entityMapper.saveOrUpdate(wtSjcl, wtSjcl.getSjclid());
+                                        logger.info("************多测合一测绘收件材料入库成功");
+                                    }
+                                }
+                                dchyXmglChxmDto.setWtFileList(wtFileList);
+                                dchyXmglChxmDto.setWtDchyXmglSjclList(wtSjclList);
+                            }
+                        }
+                        if (CollectionUtils.isNotEmpty(hySjclList)) {
+                            for (DchyXmglSjcl hySjcl : hySjclList) {
+                                if (CollectionUtils.isNotEmpty(hySjclList)) {
+                                    /*文件上传*/
+                                    Map<String, Object> map = this.uploadWjcl(hyFileList.get(0).get(hySjcl.getSjclid()), chxm.getChxmid(), hySjcl.getClmc());
+                                    String wjzxid = (String) map.get("folderId");
+                                    if (hySjcl != null) {
+                                        /*更新收件材料表*/
+                                        hySjcl.setWjzxid(wjzxid);
+                                        entityMapper.saveOrUpdate(hySjcl, hySjcl.getSjclid());
+                                        logger.info("************多测合一测绘收件材料入库成功");
+                                    }
+                                    dchyXmglChxmDto.setHyFileList(hyFileList);
+                                    dchyXmglChxmDto.setHyDchyXmglSjclList(hySjclList);
+                                }
+                            }
+                        }
+                    }
+                    dchyXmglChxmDto.setDchyXmglChxmList(xmglChxmList);
+                }
+                /*sjxx*/
+                if (CollectionUtils.isNotEmpty(xmglSjxxList)) {
+                    for (DchyXmglSjxx sjxx : xmglSjxxList) {
+                        entityMapper.saveOrUpdate(sjxx, sjxx.getSjxxid());
+                        logger.info("************多测合一测绘收件信息入库成功");
+                    }
+                    dchyXmglChxmDto.setDchyXmglSjxxList(xmglSjxxList);
+                }
+                /*chgc*/
+                if (CollectionUtils.isNotEmpty(xmglChgcList)) {
+                    for (DchyXmglChgc dchyXmglChgc : xmglChgcList) {
+                        //测绘工程  项目来源为1的才可以更新
+                        if (StringUtils.isNoneBlank(dchyXmglChgc.getChgcid())) {
+                            if (StringUtils.equals(dchyXmglChgc.getXmly(), Constants.XMLY_XSFB)) {
+                                entityMapper.saveOrUpdate(dchyXmglChgc, dchyXmglChgc.getChgcid());
+                                logger.info("************测绘工程入库成功");
+                            }
+                        }
+                    }
+                }
+                /*clsxChdwxxGx*/
+                if (CollectionUtils.isNotEmpty(clsxChdwxxGxList)) {
+                    for (DchyXmglClsxChdwxxGx clsxChdwxxGx : clsxChdwxxGxList) {
+                        if (StringUtils.isNoneBlank(clsxChdwxxGx.getGxid())) {
+                            entityMapper.saveOrUpdate(clsxChdwxxGx, clsxChdwxxGx.getGxid());
+                            logger.info("************多测合一测量事项与测绘单位关系入库成功");
+                        }
+                    }
+                }
+                /*chxmClsx*/
+                if (CollectionUtils.isNotEmpty(xmglClsxList)) {
+                    for (DchyXmglChxmClsx chxmClsx : xmglClsxList) {
+                        if (StringUtils.isNoneBlank(chxmClsx.getClsxid())) {
+                            entityMapper.saveOrUpdate(chxmClsx, chxmClsx.getClsxid());
+                            logger.info("************多测合一测绘项目测量事项入库成功");
+                        }
+                    }
+                }
+                /*chxmChdwxx*/
+                if (CollectionUtils.isNotEmpty(xmglChxmChdwxxList)) {
+                    for (DchyXmglChxmChdwxx chxmChdwxx : xmglChxmChdwxxList) {
+                        if (StringUtils.isNoneBlank(chxmChdwxx.getChdwxxid())) {
+                            entityMapper.saveOrUpdate(chxmChdwxx, chxmChdwxx.getChdwxxid());
+                            logger.info("************多测合一测绘项目测绘单位信息入库成功");
+                        }
+                    }
+                }
+                /*sqxx*/
+                if (CollectionUtils.isNotEmpty(xmglSqxxList)) {
+                    for (DchyXmglSqxx xmglSqxx : xmglSqxxList) {
+                        if (null != xmglSqxx) {
+                            entityMapper.saveOrUpdate(xmglSqxx, xmglSqxx.getSqxxid());
+                            logger.info("************申请信息入库成功");
+                        }
+                    }
+                    for (DchyXmglSqxx dchyXmglSqxx : xmglSqxxList) {
+                        String chxmid = dchyXmglSqxx.getGlsxid();
+                        String sqxxid = dchyXmglSqxx.getSqxxid();
+                        String zrryid = dchyXmglSqxx.getSqr();
+                        Map paramMap = Maps.newHashMap();
+                        paramMap.put("sqxxid", sqxxid);
+                        paramMap.put("zrryid", zrryid);
+                        paramMap.put("sqzt", Constants.DCHY_XMGL_SQZT_DSH);
+                        Map resultMap = this.insertDbrw(paramMap);
+                        logger.info("************待办任务信息入库成功");
+                    }
+
+                }
+
+                /*合同信息dto*/
+                DchyXmglHtxxDto dchyXmglHtxxDto = xsxmxxModelSaveOrUpdate.getDchyXmglHtxxDto();
+                /*线上备案时推送到线下的数据及文件信息*/
+                if (null != dchyXmglHtxxDto) {
+                    dchyXmglChxmDto.setDchyXmglHtxxDto(dchyXmglHtxxDto);
+                    /*合同信息*/
+                    List<DchyXmglHtxx> htxxList = dchyXmglHtxxDto.getDchyXmglHtxxList();
+                    /*测量事项与测绘单位关系*/
+                    List<DchyXmglClsxChdwxxGx> clsxChdwxxGxes = dchyXmglHtxxDto.getDchyXmglClsxChdwxxGxList();
+                    /*合同与测绘单位关系*/
+                    List<DchyXmglHtxxChdwxxGx> htxxChdwxxGxes = dchyXmglHtxxDto.getDchyXmglHtxxChdwxxGxList();
+                    /*测量事项与合同关系*/
+                    List<DchyXmglClsxHtxxGx> clsxHtxxGxes = dchyXmglHtxxDto.getDchyXmglClsxHtxxGxList();
+                    /*收件材料*/
+                    List<DchyXmglSjcl> sjclList1 = dchyXmglHtxxDto.getDchyXmglSjclList();
+                    /*收件信息*/
+                    List<DchyXmglSjxx> sjxxList = dchyXmglHtxxDto.getDchyXmglSjxxList();
+                    /*测绘项目*/
+                    List<DchyXmglChxm> chxmList = dchyXmglHtxxDto.getDchyXmglChxmList();
+                    /*测绘项目与测量事项*/
+                    List<DchyXmglChxmClsx> chxmClsxList = dchyXmglHtxxDto.getDchyXmglChxmClsxList();
+                    List<Map<String, String>> htFileList = dchyXmglHtxxDto.getSjclList();
+
+                    if (CollectionUtils.isNotEmpty(chxmClsxList)) {
+                        for (DchyXmglChxmClsx chxmClsx : chxmClsxList) {
+                            entityMapper.saveOrUpdate(chxmClsx, chxmClsx.getClsxid());
+                            logger.info("************测绘项目与测量事项入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(htxxList)) {
+                        for (DchyXmglHtxx htxx : htxxList) {
+                            entityMapper.saveOrUpdate(htxx, htxx.getHtxxid());
+                            logger.info("************测绘项目合同信息入库成功");
+                            for (DchyXmglSjcl sjcl : sjclList1) {
+                                if (CollectionUtils.isNotEmpty(htFileList)) {
+                                    /*合同文件上传*/
+                                    Map<String, Object> map = this.uploadWjcl(htFileList, htxx.getHtxxid(), sjcl.getClmc());
+                                    String wjzxid = (String) map.get("folderId");
+                                    if (sjclList1 != null) {
+                                        String sjclid = null;
+                                        DchyXmglSjcl dchyXmglSjcl = entityMapper.selectByPrimaryKey(DchyXmglSjcl.class, sjcl.getSjclid());
+                                        if (dchyXmglSjcl != null) {
+                                            sjclid = dchyXmglSjcl.getSjclid();
+                                        } else {
+                                            sjclid = sjcl.getSjclid();
+                                        }
+                                        /*更新收件材料表*/
+                                        if (StringUtils.isNoneBlank(sjclid)) {
+                                            sjcl.setWjzxid(wjzxid);
+                                            entityMapper.saveOrUpdate(sjcl, sjclid);
+                                            logger.info("************多测合一测绘收件材料入库成功");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(clsxChdwxxGxes)) {
+                        for (DchyXmglClsxChdwxxGx chdwxxGx : clsxChdwxxGxes) {
+                            entityMapper.saveOrUpdate(chdwxxGx, chdwxxGx.getGxid());
+                            logger.info("************测绘项目与测绘单位有关系入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(htxxChdwxxGxes)) {
+                        for (DchyXmglHtxxChdwxxGx chdwxxGx : htxxChdwxxGxes) {
+                            entityMapper.saveOrUpdate(chdwxxGx, chdwxxGx.getGxid());
+                            logger.info("************测绘合同与测绘单位关系入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(clsxHtxxGxes)) {
+                        for (DchyXmglClsxHtxxGx htxxGx : clsxHtxxGxes) {
+                            entityMapper.saveOrUpdate(htxxGx, htxxGx.getGxid());
+                            logger.info("************测绘事项与合同关系入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(sjclList1)) {
+                        for (DchyXmglSjcl sjcl : sjclList1) {
+                            String sjclid = null;
+                            DchyXmglSjcl dchyXmglSjcl = entityMapper.selectByPrimaryKey(DchyXmglSjcl.class, sjcl.getSjclid());
+                            if (dchyXmglSjcl != null) {
+                                sjclid = dchyXmglSjcl.getSjclid();
+                            } else {
+                                sjclid = sjcl.getSjclid();
+                            }
+                            entityMapper.saveOrUpdate(sjcl, sjclid);
+                            logger.info("************收件材料入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(sjxxList)) {
+                        for (DchyXmglSjxx sjxx : sjxxList) {
+                            String sjxxid = null;
+                            DchyXmglSjxx dchyXmglSjxx = entityMapper.selectByPrimaryKey(DchyXmglSjxx.class, sjxx.getSjxxid());
+                            if (dchyXmglSjxx != null) {
+                                sjxxid = dchyXmglSjxx.getSjxxid();
+                            } else {
+                                sjxxid = sjxx.getSjxxid();
+                            }
+                            entityMapper.saveOrUpdate(sjxx, sjxxid);
+                            logger.info("************收件信息入库成功");
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(chxmList)) {
+                        for (DchyXmglChxm chxm : chxmList) {
+                            entityMapper.saveOrUpdate(chxm, chxm.getChxmid());
+                            logger.info("************测绘项目入库成功");
+                        }
+                    }
+                }
+
+                //自动备案
+                String autoFiling = AppConfig.getProperty("is.automatic.filing");
+                if (StringUtils.isNotEmpty(autoFiling)) {
+                    logger.info("************************************自动备案**************************************");
+                    if (StringUtils.equals(autoFiling.trim(), "true")) {
+                        //组织材料，组织合同重新上传
+                        /*Map<String, Object> resultMap = new HashMap<>();
+                        resultMap.put("saveOrUpdate", dchyXmglChxmDto);
+                        pushDataToMqService.pushMsgToMq(JSON.toJSONString(resultMap));*/
+
+                        Map map = Maps.newHashMap();
+                        //推送时只包含一个测绘项目
+                        if (CollectionUtils.isNotEmpty(xmglChxmList)) {
+                            for (DchyXmglChxm dchyXmglChxmList : xmglChxmList) {
+                                map.put("chxmid", dchyXmglChxmList.getChxmid());
+                            }
+                        }
+                        //推送时只包含一个测绘项目
+                        if (CollectionUtils.isNotEmpty(xmglChgcList)) {
+                            for (DchyXmglChgc dchyXmglChgc : xmglChgcList) {
+                                map.put("gcmc", dchyXmglChgc.getGcmc());
+                                map.put("wtdw", dchyXmglChgc.getWtdw());
+                            }
+                        }
+                        //通过
+                        map.put("sftg", Constants.SHTG);
+                        boolean result = commissionFilingServiceImpl.reviewCommission(map);
+                    }
+                }
+            }
+
+            //删除的数据
+            if (xsxmxxModelDelete != null) {
+                List<DchyXmglChgc> dchyXmglChgcListDelete = xsxmxxModelDelete.getDchyXmglChgcList();
+                List<DchyXmglChxm> dchyXmglChxmListDelete = xsxmxxModelDelete.getDchyXmglChxmList();
+                List<DchyXmglSjcl> dchyXmglSjclListDelete = xsxmxxModelDelete.getDchyXmglSjclList();
+                List<DchyXmglSjxx> dchyXmglSjxxListDelete = xsxmxxModelDelete.getDchyXmglSjxxList();
+
+                if (dchyXmglChxmListDelete != null) {
+                    for (DchyXmglChxm dchyXmglChxm : dchyXmglChxmListDelete) {
+                        if (!Constants.DCHY_XMGL_CHXM_XMZT_YBJ.equals(dchyXmglChxm.getXmzt())) {
+                            String chxmid = dchyXmglChxm.getChxmid();
+
+                            Example example = new Example(DchyXmglChxmClsx.class);
+                            example.createCriteria().andEqualTo("chxmid", chxmid);
+                            List<DchyXmglChxmClsx> dchyXmglChxmClsxList = entityMapper.selectByExample(example);
+                            for (DchyXmglChxmClsx dchyXmglChxmClsx : dchyXmglChxmClsxList) {
+                                entityMapper.deleteByPrimaryKey(DchyXmglChxmClsx.class, dchyXmglChxmClsx.getClsxid());
+                            }
+                            entityMapper.deleteByPrimaryKey(DchyXmglChxm.class, chxmid);
+                        }
+                    }
+                }
+
+                if (dchyXmglChgcListDelete != null) {
+                    for (DchyXmglChgc dchyXmglChgc : dchyXmglChgcListDelete) {
+                        //测绘工程  项目来源为1的才可以更新
+                        if (StringUtils.equals(dchyXmglChgc.getXmly(), Constants.XMLY_XSFB)) {
+                            String chgcbh = dchyXmglChgc.getGcbh();
+
+                            Example example = new Example(DchyXmglChgc.class);
+                            example.createCriteria().andEqualTo("gcbh", chgcbh);
+                            List<DchyXmglChxm> dchyXmglChxmList = entityMapper.selectByExample(example);
+
+                            //如果该测绘工程没有关联测绘项目时才可以删除
+                            if (dchyXmglChxmList.size() <= 0) {
+                                entityMapper.deleteByExample(DchyXmglChgc.class, example);
+                            }
+                        }
+                    }
+                }
+
+                if (CollectionUtils.isNotEmpty(dchyXmglSjclListDelete)) {
+                    for (DchyXmglSjcl dchyXmglSjcl : dchyXmglSjclListDelete) {
+                        entityMapper.deleteByPrimaryKey(DchyXmglSjcl.class, dchyXmglSjcl.getSjclid());
+                    }
+                }
+
+                if (CollectionUtils.isNotEmpty(dchyXmglSjxxListDelete)) {
+                    for (DchyXmglSjxx dchyXmglSjxx : dchyXmglSjxxListDelete) {
+                        entityMapper.deleteByPrimaryKey(DchyXmglSjcl.class, dchyXmglSjxx.getSjxxid());
+                    }
+                }
+            }
+
+            /*删除的文件数据*/
+            if (MapUtils.isNotEmpty(deletefile)) {
+                String ssmkid = MapUtils.getString(deletefile, "ssmkid");
+                /*删除线上推送至线下的(委托，核验的文件信息)*/
+                if (StringUtils.isNotBlank(ssmkid) && (StringUtils.equals("18", ssmkid) || StringUtils.equals("19", ssmkid))) {
+                    if (deletefile.containsKey("glsxid")) {//chxmid
+                        String glsxid = MapUtils.getString(deletefile, "glsxid");
+                        Example sjxxExample = new Example(DchyXmglSjxx.class);
+                        sjxxExample.createCriteria().andEqualTo("glsxid", glsxid);
+                        List<DchyXmglSjxx> sjxxList = entityMapper.selectByExample(sjxxExample);
+                        if (CollectionUtils.isEmpty(sjxxList)) {
+                            DchyXmglSjxx sjxx = sjxxList.get(0);
+                            if (null != sjxx) {
+                                /*删除对应收件信息*/
+                                entityMapper.deleteByPrimaryKey(DchyXmglSjxx.class, sjxx.getSjxxid());
+                                /*删除对应收件材料*/
+                                Example sjclExample = new Example(DchyXmglSjcl.class);
+                                sjclExample.createCriteria().andEqualTo("sjxxid", sjxx.getSjxxid());
+                                List<DchyXmglSjcl> sjclList = entityMapper.selectByExample(sjclExample);
+                                if (CollectionUtils.isEmpty(sjclList)) {
+                                    for (DchyXmglSjcl sjcl : sjclList) {
+                                        if (StringUtils.isNotBlank(sjcl.getWjzxid())) {
+                                            /*删除对应文件中心*/
+                                            platformUtil.deleteNodeById(Integer.parseInt(sjcl.getWjzxid()));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            dchyXmglMqCzrz.setSbyy(e.toString());
+//            mqMsgMapper.insertMqMsg(dchyXmglMqCzrz);
+            entityMapper.saveOrUpdate(dchyXmglMqCzrz, dchyXmglMqCzrz.getCzrzid());
+//            throw new Exception();
+            logger.error("" + e);
+        }
+
+    }
+
+
+    private void delFile(String sjclid) {
+        DchyXmglSjcl dchyXmglSjcl = entityMapper.selectByPrimaryKey(DchyXmglSjcl.class, sjclid);
+        String wjzxid = dchyXmglSjcl.getWjzxid();
+        if (StringUtils.isNotBlank(wjzxid)) {
+            platformUtil.deleteNodeById(Integer.parseInt(wjzxid));
+        }
+        if (StringUtils.isNotBlank(sjclid)) {
+            //删除收件材料信息
+            int sjclResult = entityMapper.deleteByPrimaryKey(DchyXmglSjcl.class, sjclid);
+            if (sjclResult > 0) {
+                logger.info("************多测合一收件材料删除成功");
+            }
+
+            // 删除收件信息
+            Example dchyXmglSjxx = new Example(DchyXmglSjxx.class);
+            dchyXmglSjxx.createCriteria().andEqualTo("glsxid", sjclid);
+            int sjxxResult = entityMapper.deleteByExampleNotNull(dchyXmglSjxx);
+            if (sjxxResult > 0) {
+                logger.info("************多测合一收件信息删除成功");
+            }
+        }
+    }
+
+    public Map insertDbrw(Map<String, Object> paramMap) {
+        String zrryid = CommonUtil.formatEmptyValue(paramMap.get("zrryid"));
+        String sqxxid = CommonUtil.formatEmptyValue(paramMap.get("sqxxid"));
+        String sqzt = CommonUtil.formatEmptyValue(paramMap.get("sqzt"));
+        Map map = Maps.newHashMap();
+        String code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+        String msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        if (StringUtils.isNoneEmpty(zrryid, sqxxid)) {
+            Example example = new Example(DchyXmglDbrw.class);
+            example.createCriteria().andEqualTo("sqxxid", sqxxid);
+            List<DchyXmglDbrw> dchyXmglDbrwList = entityMapper.selectByExampleNotNull(example);
+            if (CollectionUtils.isNotEmpty(dchyXmglDbrwList)) {
+                msg = "该事项已申请";
+            } else {
+                DchyXmglDbrw dchyXmglDbrw = new DchyXmglDbrw();
+                dchyXmglDbrw.setDbrwid(UUIDGenerator.generate18());
+                dchyXmglDbrw.setSqxxid(sqxxid);
+                dchyXmglDbrw.setZrryid(zrryid);
+                dchyXmglDbrw.setZrsj(new Date());
+                dchyXmglDbrw.setDqjd(Constants.DQJD_SH);
+                entityMapper.insertSelective(dchyXmglDbrw);
+
+                DchyXmglSqxx dchyXmglSqxx = new DchyXmglSqxx();
+                dchyXmglSqxx.setSqxxid(sqxxid);
+                dchyXmglSqxx.setSqzt(sqzt);
+
+                entityMapper.updateByPrimaryKeySelective(dchyXmglSqxx);
+                code = ResponseMessage.CODE.SUCCESS.getCode();
+                msg = ResponseMessage.CODE.SUCCESS.getMsg();
+            }
+        }
+        map.put("msg", msg);
+        map.put("code", code);
+        return map;
+    }
+
+    private Map<String, Object> uploadWjcl(List<Map<String, String>> wjList, String mainId, String clmc) throws IOException {
+        Map<String, Object> objectMap = Maps.newHashMap();
+        if (CollectionUtils.isNotEmpty(wjList)) {
+            MultipartFile[] files = new MultipartFile[wjList.size()];
+            int i = 0;
+            for (Map<String, String> map : wjList) {
+                // 文件名--文件内容
+                for (String key : map.keySet()) {
+                    String base64 = map.get(key);
+                    System.out.println(base64);
+                    byte[] bytes = Base64.getDecoder().decode(base64);
+                    InputStream inputStream = new ByteArrayInputStream(bytes);
+                    MockMultipartFile file = new MockMultipartFile(key, key, ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
+                    byte[] byte2 = file.getBytes();
+                    files[i] = file;
+                    i++;
+                }
+            }
+            // 文件,父的name,收件材料id
+            objectMap.putAll(FileUploadUtil.uploadFile(files, mainId, clmc));
+        }
+        return objectMap;
+    }
+
+}

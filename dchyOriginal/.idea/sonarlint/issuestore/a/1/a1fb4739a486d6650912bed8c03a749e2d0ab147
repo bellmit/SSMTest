@@ -1,0 +1,21 @@
+
+S
+java:S1444"8Make this "public static cacheManagerStatic" field final(çÖÖ–şÿÿÿÿ
+J
+java:S3740 "/Provide the parametrized type for this generic.(œ€ã¤üÿÿÿÿ
+J
+java:S3740>"/Provide the parametrized type for this generic.(œ€ã¤üÿÿÿÿ
+k
+java:S1192#"PDefine a constant instead of duplicating this literal "accessTokenUser" 3 times.(ñŞÏøÿÿÿÿ
+P
+java:S1141L"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+y
+java:S1104"^Make cacheManagerStatic a static final constant or non-public and provide accessors if needed.(çÖÖ–şÿÿÿÿ
+s
+java:S1488o"]Immediately return this expression instead of assigning it to the temporary variable "token".(‘³ÈĞ
+M
+java:S1135"2Complete the task associated to this TODO comment.(Â“Œùÿÿÿÿ
+L
+java:S2696"6Make the enclosing method "static" or remove this set.(¼«Ç
+K
+java:S2209"5Change this instance-reference to a static reference.(¼«Ç

@@ -1,0 +1,23 @@
+<div class="widget-panel-title">热力图</div>
+<div class="panel-body">
+    <div class="layer-item" style="height: 25px;">
+        <a href="javascript:void(0);" data-toggle="collapsePreset" class="layer-list-item">
+            <i title="点击展开" class="fa fa-caret-square-o-right" aria-hidden="true"></i>&nbsp;热力图</a>
+        <div class="pull-right omp-switch  heatlyr-vis-switch" ><em>开</em><i></i></div>
+    </div>
+    <div id="t_heatlayer" class="collapse operation-content">
+        <div class="opacity-content">
+            <div style="margin-bottom:5px;margin-top:10px;">模糊半径：<span id="op_blurRadius" ></span></div>
+            <div id="slider_blurRadius" class="opacity-slider"></div>
+        </div>
+        <div class="opacity-content">
+            <div style="margin-bottom:5px;margin-top:10px;">最终像素强度值：<span id="op_maxPixelIntensity" ></span></div>
+            <div id="slider_maxPixelIntensity" class="opacity-slider"></div>
+        </div>
+        <div class="opacity-content">
+            <div style="margin-bottom:5px;margin-top:10px;">初始像素强度值：<span id="op_minPixelIntensity" ></span></div>
+            <div id="slider_minPixelIntensity" class="opacity-slider"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

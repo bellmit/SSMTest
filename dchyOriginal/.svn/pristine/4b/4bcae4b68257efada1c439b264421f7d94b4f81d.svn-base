@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclpzMapper">
+
+    <!--    <update id="updateDisabledBySjclpzId" parameterType="java.lang.String">-->
+    <!--        UPDATE DCHY_XMGL_SJCLPZ n-->
+    <!--        SET n.DISABLED = #{status}-->
+    <!--        WHERE SJCLPZID = #{sjclpzId}-->
+    <!--    </update>-->
+
+    <!--    <select id="queryChxmIdAndXmztBySjclpzId" parameterType="java.lang.String" resultType="java.util.Map">-->
+    <!--        SELECT h.CHXMID, h.XMZT-->
+    <!--        FROM DCHY_XMGL_CHXM h-->
+    <!--                 JOIN-->
+    <!--             (SELECT DISTINCT m.CHXMID-->
+    <!--              FROM DCHY_XMGL_CHXM_CLSX m-->
+    <!--              WHERE m.CLSX IN-->
+    <!--                    (SELECT DISTINCT n.SSCLSXID-->
+    <!--                     FROM DCHY_XMGL_SJCLPZ_SSCLSX_GX n-->
+    <!--                     WHERE SJCLPZID = #{sjclpzId})) f-->
+    <!--             ON h.CHXMID = f.CHXMID AND h.XMZT IS NOT NULL-->
+    <!--    </select>-->
+
+    <select id="querySjclpzIdsBySsclsxIdIn" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT DISTINCT n.SJCLPZID
+        FROM DCHY_XMGL_SJCLPZ_SSCLSX_GX n
+        <where>
+            <if test="null != #{0} and #{0}.size() != 0">
+                n.SSCLSXID IN
+                <foreach item="item" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="querySjclpzBySsmkIdAndSsclsxAndInSjclpzIds" parameterType="java.lang.String"
+            resultType="java.util.Map">
+        SELECT n.SJCLPZID,n.CLMC,n.XH,n.MRFS,n.NEED,n.CLLX AS CLLXID,m.MC AS CLLX,n.SSMKID,x.MC AS SSMK,h.DM AS
+        SSCLSXID,h.MC AS SSCLSX
+        FROM DCHY_XMGL_SJCLPZ n
+        LEFT JOIN
+        (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') m ON n.CLLX = m.DM
+        LEFT JOIN
+        (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'SSMKID') x ON n.SSMKID = x.DM
+        LEFT JOIN
+        DCHY_XMGL_ZD h ON h.DM = #{ssclsx}
+        <where>
+            <if test="#{2} != null and #{2}.size() != 0">
+                n.SJCLPZID IN
+                <foreach item="item" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="#{0} != null ">
+                AND n.SSMKID = #{ssmkId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSjclpzIds" parameterType="java.lang.String" resultType="java.lang.Object">
+        SELECT SJCLPZID
+        FROM DCHY_XMGL_SJCLPZ_SSCLSX_GX
+        <where>
+            <if test="#{0} != null and #{0}.size() != 0">
+                SSCLSXID IN
+                <foreach item="item" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <delete id="dropSsclsx" parameterType="java.util.Map">
+        DELETE
+        FROM DCHY_XMGL_SJCLPZ_SSCLSX_GX
+        WHERE SJCLPZID = #{id}
+    </delete>
+
+    <insert id="saveSsclsx" parameterType="java.lang.String">
+        INSERT INTO DCHY_XMGL_SJCLPZ_SSCLSX_GX (SJCLPZID, SSCLSXID)
+        VALUES (#{sjclpzId,jdbcType=VARCHAR}, #{ssclsxId,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="queryResultListMap" resultType="java.util.Map">
+        SELECT n.SJCLPZID,
+               n.CLMC,
+               n.XH,
+               n.MRFS,
+               n.NEED,
+               n.CLLX AS CLLXID,
+               m.MC   AS CLLX,
+               n.SSMKID,
+               x.MC   AS SSMK
+        FROM DCHY_XMGL_SJCLPZ n
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') m ON n.CLLX = m.DM
+                 left join
+                 (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'SSMKID') x ON n.SSMKID = x.DM
+    </select>
+
+    <select id="querySsclsxIdList" resultType="java.util.Map">
+        SELECT DISTINCT n.SSCLSXID, m.MC SSCLSX
+        FROM DCHY_XMGL_SJCLPZ_SSCLSX_GX n,
+             DCHY_XMGL_ZD m
+        WHERE n.SJCLPZID = #{sjclpzId}
+          AND n.SSCLSXID = m.DM
+    </select>
+
+    <select id="querySsmkId" resultType="java.lang.String">
+        SELECT DISTINCT SSMKID
+        FROM DCHY_XMGL_SJCLPZ
+    </select>
+
+    <select id="queryClsxListMap" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NOT NULL
+    </select>
+
+    <select id="queryCsmkListMap" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'SSMKID'
+          AND DM NOT IN (SELECT DISTINCT SSMKID FROM DCHY_XMGL_SJCLPZ)
+    </select>
+
+    <select id="queryRootClsx" resultType="java.util.Map">
+        SELECT ID,
+               DM,
+               MC,
+               FDM,
+               ZDLX,
+               QTSX,
+               DZZD,
+               NAME,
+               TABLEINDEX
+        FROM DCHY_XMGL_ZD
+        WHERE ZDLX = 'CLSX'
+          AND FDM IS NULL
+    </select>
+
+    <select id="queryChildrenClsx" resultType="java.util.Map">
+        SELECT n.DM AS CLCGPZID,
+               n.ID,
+               n.DM,
+               n.MC,
+               n.FDM,
+               n.ZDLX,
+               n.QTSX,
+               n.DZZD,
+               n.NAME,
+               n.TABLEINDEX
+        FROM DCHY_XMGL_ZD n
+        WHERE ZDLX = 'CLSX'
+          AND FDM = #{fatherDm}
+    </select>
+
+    <select id="queryChildrenLcgpz" resultType="java.util.Map">
+        SELECT CLCGPZID, CLMC, WJLX, CLSX, PCLCGPZID
+        FROM DCHY_XMGL_CLCGPZ
+        WHERE PCLCGPZID = #{pclcgpzid}
+    </select>
+
+    <update id="dropAllRecount">
+        truncate table DCHY_XMGL_CLCGPZ
+    </update>
+
+    <!--获取当前序号最大值-->
+    <select id="queryMaxXhBySsmkid" parameterType="map" resultType="java.lang.String">
+        SELECT MAX(v.xh) AS slbh FROM dchy_xmgl_sjclpz v
+        <where>
+            <choose>
+                <when test="ssmkid != null and ssmkid != ''">
+                    and v.xh = #{ssmkid}
+                </when>
+                <otherwise>
+                    and v.xh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--根据ssmkid,测量事项获取对应需要上传的材料信息-->
+    <select id="querySjclpzBySsmkIdAndClsx" parameterType="map" resultType="map">
+        select z.sjclpzid, z.clmc, z.cllx, z.mrfs fs, null ys,null wjzxid,z.need
+        from DCHY_XMGL_SJCLPZ z
+        <where>
+            <if test="ssmkid != null and ssmkid != '' ">
+                <choose>
+                    <when test="ssmkid != null and ssmkid!=''">
+                        and z.ssmkid = #{ssmkid}
+                    </when>
+                    <otherwise>
+                        and z.ssmkid = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="clsxList != null and clsxList.size() > 0 ">
+                <choose>
+                    <when test="clsxList != null and clsxList.size() > 0 ">
+                        AND
+                        <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                            z.ssclsx = #{item}
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        AND z.ssclsx = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+</mapper>

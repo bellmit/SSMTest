@@ -1,0 +1,33 @@
+<div class="dropdown">
+    <div class="dropdown-header">
+        <a href="#" class="region-change-inner">
+            <b></b>
+            <span class="fa fa-caret-down"></span>
+        </a>
+    </div>
+    <div class="dropdown-body g-anim g-anim-upbit">
+        <div class="popTitle">
+            <span class="text-muted">行政区列表</span>
+        </div>
+        <div class="icon-close">
+            <a id="popCloseBtn" type="button" class="close" href="javascript:void(0);"><i class="iconfont">&#xe63b;</i></a>
+        </div>
+        <div id="region_container"></div>
+    </div>
+</div>
+<!--region basic tpl-->
+<script id="regionTemplate" type="x-tpl-handlebars">
+ <ul class="list-inline">
+    {{#data}}
+    <li><a href="javascript:void(0)" data-geo='{{value}}' data-regioncode='{{name}}' data-parent='{{parent.name}}' class="btn btn-link">{{title}}</a></li>
+    {{/data}}
+ </ul>
+</script>
+<!--breadcrumb-->
+<script id="regionBreadcrumb" type="x-tpl-handlebars">
+<ol class="region-breadcrumb">
+{{#list}}
+   {{#isActive active}}<li class="active">{{title}}</li>{{else}}<li><a href="javascript:void(0)" data-region="{{id}}">{{title}}</a></li>{{/isActive}}
+{{/list}}
+</ol>
+</script>

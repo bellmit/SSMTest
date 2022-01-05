@@ -1,0 +1,126 @@
+package cn.gtmap.msurveyplat.promanage.service.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglDyhzdMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.promanage.service.ExportPdfService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.utils.PdfUtils;
+import cn.gtmap.msurveyplat.promanage.utils.UserUtil;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/12/18
+ * @description 打印回执单
+ */
+@Service
+public class ExportPdfServiceImpl implements ExportPdfService {
+
+    @Autowired
+    private DchyXmglChxmMapper dchyXmglChxmMapper;
+
+    @Autowired
+    private DchyXmglDyhzdMapper dchyXmglDyhzdMapper;
+
+    @Autowired
+    private DchyXmglZdService dchyXmglZdService;
+    @Autowired
+    private EntityMapper entityMapper;
+
+    @Override
+    public byte[] exportPdf(String chxmid) throws IOException {
+        Map<String, String> dataMap = Maps.newHashMap();
+        Map<String, String> paramMap = Maps.newHashMap();
+        paramMap.put("chxmid", chxmid);
+
+        List<Map<String, Object>> baxxList = dchyXmglChxmMapper.queryBaxxByChxmid(paramMap);
+
+        List<Map<String, Object>> htxxList = dchyXmglDyhzdMapper.getHtxxList(paramMap);
+
+        if (CollectionUtils.isNotEmpty(baxxList)) {
+            Map<String, Object> baxx = baxxList.get(0);
+            String slr = MapUtils.getString(baxx, "SLR");
+
+            dataMap.put("slr", UserUtil.getUserNameById(slr));
+            dataMap.put("slsj", MapUtils.getString(baxx, "SLSJ").substring(0, 19));
+            dataMap.put("sqdw", MapUtils.getString(baxx, "WTDW"));
+            dataMap.put("jbr", UserUtil.getCurrentUser().getUsername());
+        }
+
+        if (CollectionUtils.isNotEmpty(htxxList)) {
+            String htcl = "";
+            for (Map<String, Object> map1 : htxxList) {
+                String cllx = MapUtils.getString(map1, "CLLX");
+                String fs = MapUtils.getString(map1, "FS");
+                htcl = htcl + convertCllx(cllx) + ":" + fs + "份;";
+            }
+            dataMap.put("htcl", htcl);
+        }
+        return PdfUtils.pdfout(Constants.DCHY_XMGL_HZDMC ,dataMap);
+    }
+
+    public String convertCllx(String cllx) {
+        String cllxMC = dchyXmglZdService.getZdmcByZdlxAndDm("CLLX", cllx);
+        return cllxMC;
+    }
+
+    @Override
+    public byte[] tyjfdPdf(String chxmid) {
+        Map pdfDataMap = Maps.newHashMap();
+        if (StringUtils.isNotEmpty(chxmid)) {
+            DchyXmglChxm dchyXmglChxm = entityMapper.selectByPrimaryKey(DchyXmglChxm.class, chxmid);
+
+            if (null != dchyXmglChxm) {
+                if (StringUtils.isNotBlank(dchyXmglChxm.getChgcid())) {
+                    DchyXmglChgc dchyXmglChgc = entityMapper.selectByPrimaryKey(DchyXmglChgc.class, dchyXmglChxm.getChgcid());
+                    pdfDataMap.put("gcmc", dchyXmglChgc.getGcmc());
+                    pdfDataMap.put("jsdw", dchyXmglChgc.getWtdw());
+                }
+                Example chdwxxExample = new Example(DchyXmglChxmChdwxx.class);
+                chdwxxExample.createCriteria().andEqualTo("chxmid", chxmid);
+                List<DchyXmglChxmChdwxx> dchyXmglChxmChdwxxList = entityMapper.selectByExample(chdwxxExample);
+                if (CollectionUtils.isNotEmpty(dchyXmglChxmChdwxxList)) {
+                    LinkedHashSet<String> chdwmxList = Sets.newLinkedHashSet();
+                    for (DchyXmglChxmChdwxx dchyXmglChxmChdwxx : dchyXmglChxmChdwxxList) {
+                        chdwmxList.add(dchyXmglChxmChdwxx.getChdwmc());
+                    }
+                    pdfDataMap.put("chdw", StringUtils.join(chdwmxList, ", "));
+                }
+                Example clsxExample = new Example(DchyXmglChxmClsx.class);
+                clsxExample.createCriteria().andEqualTo("chxmid", chxmid);
+                List<DchyXmglChxmClsx> dchyXmglChxmClsxList = entityMapper.selectByExample(clsxExample);
+                if (CollectionUtils.isNotEmpty(dchyXmglChxmChdwxxList)) {
+                    int i = 1;
+                    for (DchyXmglChxmClsx dchyXmglChxmClsx : dchyXmglChxmClsxList) {
+                        DchyXmglZd dchyXmglZd = dchyXmglZdService.getDchyXmglByZdlxAndDm("CLSX", dchyXmglChxmClsx.getClsx());
+                        if (null != dchyXmglZd) {
+                            pdfDataMap.put("clsx" + i, dchyXmglZd.getMc());
+                            DchyXmglZd dchyXmglZdP = dchyXmglZdService.getDchyXmglByZdlxAndDm("CLSX", dchyXmglZd.getFdm());
+                            if (null != dchyXmglZdP) {
+                                pdfDataMap.put("cljd" + i, dchyXmglZdP.getMc());
+                            }
+                        }
+                        pdfDataMap.put("xh" + i, String.valueOf(i));
+                        i++;
+                    }
+                }
+            }
+        }
+        return PdfUtils.pdfout(Constants.DCHY_XMGL_TYJFQRD ,pdfDataMap);
+    }
+}

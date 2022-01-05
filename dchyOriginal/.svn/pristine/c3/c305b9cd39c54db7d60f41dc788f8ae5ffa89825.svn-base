@@ -1,0 +1,13 @@
+{{#pros}}
+<div class="pro-info-content" id={{proId}} data-proid="{{proId}}" data-type="{{proType}}">
+    <ul class="pro-info-basic">
+        <li class="pro-info-header">{{proName}}</li>
+        <li>项目类型:{{proType}}</li>
+    </ul>
+    <ul class="pro-info-opt">
+        <li><a class="label label-primary" data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="record" title="记录"><i class="fa fa-calendar"></i></a></li>
+        <li><a class="label label-primary" data-proid="{{proId}}" data-type="loc" title="定位"><i class="fa fa-map-marker"></i></a></li>
+        <li><a class="label label-danger"  data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="del" title="删除"><i class="fa fa-times"></i></a></li>
+    </ul>
+</div>
+{{/pros}}

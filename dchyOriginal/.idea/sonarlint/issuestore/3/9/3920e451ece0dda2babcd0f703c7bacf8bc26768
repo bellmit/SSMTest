@@ -1,0 +1,13 @@
+
+a
+java:S1192F"FDefine a constant instead of duplicating this literal "mlkid" 5 times.(¼¼êõşÿÿÿÿ
+l
+java:S1192S"ODefine a constant instead of duplicating this literal "é”™è¯¯åŸå› {}" 5 times.(ÑçÄù8œõí—£/
+s
+java:S1192™"PDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› :{}" 3 times.(à¼´†ÿÿÿÿÿ8œõí—£/
+Y
+java:S1854ö";Remove this useless assignment to local variable "message".(ïÒğÑ8œõí—£/
+Y
+java:S1854ş";Remove this useless assignment to local variable "message".(ïÒğÑ8œõí—£/
+Y
+java:S1854¶";Remove this useless assignment to local variable "message".(ïÒğÑ8œõí—£/

@@ -1,0 +1,8 @@
+.search-result-list{
+    margin-top: 15px;
+}
+.input-placeholder-ie {
+    font-style:italic;
+    font-size: 11px;
+    color:#bbb;
+}

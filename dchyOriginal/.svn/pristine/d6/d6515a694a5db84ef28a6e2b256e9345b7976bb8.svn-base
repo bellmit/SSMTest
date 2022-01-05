@@ -1,0 +1,238 @@
+<template>
+  <div class="color-bgc">
+    <div class="introduce-detail position-relative">
+      <div class="header">
+        <div class="header-container">
+          <span class="header-title">{{placeSevice}}<span class="font-sun">“</span>多测合一<span class="font-sun">”</span>服务平台</span>
+          <div class="header-menus">
+            <!-- <span class="header-menu header-menu-select">首页</span> -->
+            <!-- <span class="header-menu">项目管理系统</span>
+            <span class="header-menu">技术审查系统</span>
+            <span class="header-menu">成果管理系统</span> -->
+            <span>欢迎您，{{userInfo.username}}</span>
+            <span class="header-menu" @click="logout">退出登录</span>
+          </div>
+        </div>
+      </div>
+      <div class="bdc-container">
+        <div class="bdc-content">
+          <div style="font-size: 38px">{{placeSevice}} “多测合一” 服务平台</div>
+          <p class="line-height-32 margin-top-20 color-content">
+            “多测合一”服务平台，以测绘事项合并为原则，以流程简化、标准统一为方向，以加强事中事后监管为抓手，面向建设单位、测绘单位、管理部门等不同用户，提供在线委托、项目备案、成果入库与共享等各类业务办理服务，实现一次委托，加强成果共享，建立信用评价体系，提高监管效率。</p>
+        </div>
+        <!-- <img style="margin-top: -10px" src="static/images/banner1.png" alt=""> -->
+      </div>
+      <!-- <Carousel class="carousel" :radius-dot='true' arrow="always" loop autoplay>
+         <CarouselItem>
+             <div class="demo-carousel">
+                 <div class="demo-title">
+                 </div>
+                 <img style="margin-top: -10px" src="static/images/banner1.png" alt="">
+             </div>
+         </CarouselItem>
+         <CarouselItem>
+             <div class="demo-carousel">
+                 <img style="margin-top: -10px" src="static/images/banner1.png" alt="">
+             </div>
+         </CarouselItem>
+         <CarouselItem>
+             <div class="demo-carousel">
+                 <img style="margin-top: -10px" src="static/images/banner1.png" alt="">
+             </div>
+         </CarouselItem>
+         <CarouselItem>
+             <div class="demo-carousel">
+                 <img style="margin-top: -10px" src="static/images/banner1.png" alt="">
+             </div>
+         </CarouselItem>
+     </Carousel> -->
+      <!-- <div class="bdc-container position-relative">
+          <div class="demo-title">
+             <div style="font-size: 38px">{{placeSevice}} “多测合一” 服务平台</div>
+             <p class="line-height-32 margin-top-20 color-content">"多测合一"服务平台基于微服务、云架构，充分利用现有信息化成果，以国土空间信息基础平台、应用基础信息平台为支撑，设置网上办事大厅、项目管理系统、成果管理系统三个业务应用系统，面向建设单位、测绘单位、管理部门等不同用户，提供项目发布、合同备案登记、成果质检、成果入库、成果管理与共享等各类业务办理服务。</p>
+         </div>
+     </div> -->
+    </div>
+    <div class="sys-menus bdc-container">
+      <div class="sys-menu" v-for="(item,index) in sysMenuLists" :key="index">
+        <div class="menu-img">
+          <img :src="item.imgSrc" alt="">
+        </div>
+        <div class="menu-title">
+          <span>{{item.title}}</span>
+        </div>
+        <div>
+          <p class="line-height-32 font-color-999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.content}}</p>
+        </div>
+        <div class="view-btn">
+          <Button :disabled="item.disabled" :type="item.active?'primary':null"
+                  :class="item.active?'view-btn-enter':'view-btn-read'" @click="viewDetail(item)">立即查看
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {getUserInfo, getSystemByUser} from "../../service/home"
+  import {logOut} from "../../service/login"
+
+  export default {
+    name: 'Home',
+    data() {
+      return {
+        placeSevice: config.placeSevice,
+        sysMenuLists: [
+          {
+            imgSrc: "static/images/manage-icon.png",
+            title: "项目管理模块",
+            content: "项目管理模块主要包括项目备案、成果提交、成果抽查、项目监管等功能，对“多测合一”项目统一管理，成果标准化入库。",
+            active: true,
+            disabled: false,
+            link: "portal"
+          },
+          {
+            imgSrc: "static/images/result-icon.png",
+            title: "技术审查模块",
+            content: "技术审查模块主要在成果提交时，对测绘成果的完整性、格式正确性等进行检查，展示错误列表，方便测绘单位对成果进行修改完善。",
+            active: false,
+            disabled: true,
+            link: ""
+          },
+          {
+            imgSrc: "static/images/tech-icon.png",
+            title: "成果管理模块",
+            content: "成果管理模块主要对提交的测绘成果进行统一管理，并进行规范化共享，加强部门间业务协同，扩大成果应用范围。",
+            active: true,
+            disabled: false,
+            link: "cggl"
+          }
+        ],
+        userInfo: {},
+        systemList: {}
+      }
+    },
+    mounted() {
+      this.getUserInfo();
+      this.getSystemByUser();
+    },
+    methods: {
+      // 获取用户信息
+      getUserInfo() {
+        getUserInfo().then(res => {
+          this.userInfo = res;
+        })
+      },
+      getSystemByUser() {
+        getSystemByUser().then(res => {
+          this.systemList= res.data.systemList;
+        })
+      },
+      // 跳转到对应系统
+      viewDetail(item) {
+        if (item.link && item.link == "portal") {
+          this.linkToPortal();
+          // this.$router.push("/manage/htbadj")
+        } else if (item.link && item.link == 'cggl') {
+          this.linkToCggl();
+        }
+      },
+      // 跳到成果管理
+      linkToCggl() {
+        if(this.systemList.includes("CGGL")){
+          location.href = config.cgglOlOrigin + "/portal/view/cggl.html"
+        }else {
+         layer.msg("对不起，您没有权限访问该系统！")
+        }
+      },
+      // 跳到Portal
+      linkToPortal() {
+        if(this.systemList.includes("XMGL")){
+          if (!location.origin) {
+            location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '');
+          }
+          location.href = location.origin + '/portal/view/xmgl.html'
+        }else {
+          layer.msg("对不起，您没有权限访问该系统！")
+        }
+      },
+      // 退出登录
+      logout() {
+        // this.$router.push("/login")
+        if (!location.origin) {
+          location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '');
+        }
+        logOut().then(res => {
+          window.location.href = location.origin + "/msurveyplat-promanage/#/";
+        })
+      }
+    },
+  }
+</script>
+
+<style lang="less" scoped>
+  @import "./home.less";
+</style>
+<style scoped>
+  .header {
+    z-index: 1;
+  }
+
+  .carousel >>> .ivu-carousel-arrow > * {
+    vertical-align: baseline;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .carousel >>> .ivu-carousel-arrow.left {
+    display: none
+  }
+
+  .carousel >>> .ivu-carousel-arrow.right {
+    display: none
+  }
+
+  .carousel >>> .ivu-carousel-arrow {
+    width: 50px;
+    height: 50px;
+    font-size: 2em;
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .carousel >>> .ivu-carousel-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .carousel >>> .ivu-carousel-dots li button.radius {
+    width: 12px;
+    height: 12px;
+  }
+
+  .carousel >>> li button {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .carousel >>> .ivu-carousel-dots-inside {
+    bottom: 50px;
+  }
+
+  .carousel >>> .ivu-carousel-active button {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .carousel >>> .ivu-carousel-dots li {
+    margin: 0 5px;
+  }
+
+  .menu-img {
+    text-align: center;
+  }
+
+  .color-content {
+    color: rgb(255, 255, 255);
+  }
+</style>

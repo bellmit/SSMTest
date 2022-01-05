@@ -1,0 +1,60 @@
+package cn.gtmap.msurveyplat.serviceol.utils;
+
+import cn.gtmap.msurveyplat.serviceol.model.UserInfo;
+import com.gtis.plat.service.SysUserService;
+import com.gtis.plat.vo.PfUserVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+public class UserUtil {
+
+    public static UserInfo getCurrentUser() {
+        UserInfo userInfo = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null) {
+            Authentication authentication = context.getAuthentication();
+            if (authentication != null) {
+                if (authentication instanceof AnonymousAuthenticationToken) {
+                    UserInfo guest = new UserInfo();
+                    guest.setAdmin(false);
+                    guest.setUsername("guest");
+                    guest.setId("-1");
+                    guest.setLoginName("guest");
+                    userInfo = guest;
+                } else {
+                    userInfo =(UserInfo) authentication.getPrincipal();
+                }
+            }
+        }
+        if (null != userInfo){
+            userInfo.setPassword("protected");
+        }
+        return userInfo;
+    }
+
+    public static String getCurrentUserId() {
+        UserInfo user = getCurrentUser();
+        //CB728BAAC53244668AA7FE9C7C71AAF6
+        return user != null ? user.getId() : "60a350819d1a0e779a39b8ee2232c6ba";
+    }
+
+    public static String getCurrentUserIds() {
+        UserInfo info = getCurrentUser();
+        return info.getUsersIdAll();
+    }
+
+    public static String getUserNameById(String userid) {
+        if (StringUtils.isNotBlank(userid)) {
+            SysUserService sysUserService = (SysUserService) Container.getBean("SysUserService");
+            PfUserVo pfUserVo = sysUserService.getUserVo(userid);
+            if (null != pfUserVo) {
+                return pfUserVo.getUserName();
+            }
+        }
+        return "";
+    }
+
+}

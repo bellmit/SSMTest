@@ -1,0 +1,38 @@
+
+F
+java:S1068'"0Remove this unused "platformUtil" private field.(áöıˆ
+i
+java:S3776ì"RRefactor this method to reduce its Cognitive Complexity from 56 to the 15 allowed.(Ä“
+n
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 52 to the 15 allowed.(’ô—úÿÿÿÿ
+Q	java:S125j"<This block of commented-out lines of code should be removed.(şä…ı
+m
+java:S3776y"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(«—»úÿÿÿÿ
+F
+java:S2093ÿ"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+F
+java:S2093 "*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+P
+java:S4719Ş"9Replace charset name argument with StandardCharsets.UTF_8(õ¦Ğ…
+g
+java:S2095A"QUse try-with-resources or close this "CloseableHttpClient" in a "finally" clause.(ıê”Ê
+P
+java:S1118$":Add a private constructor to hide the implicit public one.(„Ğ¿Î
+F
+java:S2093Á"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+U
+java:S4719ß">Replace charset name argument with StandardCharsets.ISO_8859_1( ‡‹ß
+c
+java:S1192Î"LDefine a constant instead of duplicating this literal "filename=\"" 4 times.(´ ¤Ú
+P
+java:S1068("5Remove this unused "fileUploadService" private field.(ú£åÒøÿÿÿÿ
+m
+java:S1192^"RDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› {}ï¼š" 3 times.(ªÇ†ıÿÿÿÿ
+O
+java:S1068)"9Remove this unused "fileUploadHtxxService" private field.(¦ÀŞ
+q
+java:S1192­"UDefine a constant instead of duplicating this literal "æ–‡ä»¶ä¸‹è½½å¤±è´¥{}" 4 times.(ßÇåÿÿÿÿÿ
+P
+java:S1191"5Use classes from the Java API instead of Sun classes.(•âƒöşÿÿÿÿ
+F
+java:S2093 "*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>默认意见配置</title>
+</head>
+<script src="../layui/layui.js"></script>
+<link href="../layui/css/layui.css" media="all" rel="stylesheet" />
+<script src="../js/common.js"></script>
+<style>
+   .border {
+        padding: 10px;
+    }
+
+    .layui-form-item .layui-input-inline {
+        float: left;
+        width: 190px;
+        margin-right: 10px;
+        width: 60%;
+    }
+
+    .layui-form-item .layui-inline {
+        margin-bottom: 5px;
+        margin-right: 10px;
+        width: 32.5%;
+        margin-bottom: 10px;
+    }
+
+    /*下拉框颜色*/
+    .layui-form-select dl dd.layui-this {
+        background-color: #1d87d1;
+        color: #fff;
+    }
+
+    /*分页点击颜色*/
+    .layui-laypage a:hover {
+        color: #1d87d1;
+    }
+
+    /*表头工具栏颜色*/
+    .layui-form-checked[lay-skin=primary] i {
+        border-color: #1d87d1;
+        background-color: #1d87d1;
+        color: #fff;
+    }
+
+    .label{
+        width: 120px;
+    }
+
+    .layui-btn {
+        background-color: #1d87d1;
+    }
+
+    .input{
+        width: 77%;
+    }
+
+   .layui-laypage .layui-laypage-curr .layui-laypage-em {
+       position: absolute;
+       left: -1px;
+       top: -1px;
+       padding: 1px;
+       width: 100%;
+       height: 100%;
+       background-color: #1d87d1;
+   }
+
+   .layui-unselect layui-form-select{
+       width: 80%;
+   }
+   .layui-table-tool-temp {
+       padding: 0;
+   }
+    .layui-btn-container{
+        float: right;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+<body style='overflow:hidden'>
+<div class="border">
+    <div class="layui-form">
+        <div class="layui-form-item">
+
+            <!-- 工作流名称 -->
+            <div class="layui-inline">
+                <label class="layui-form-label label">工作流名称</label>
+                <div class="layui-input-inline">
+                    <select name="gzlmc" id="gzlmc" lay-filter="gzlmc">
+                    </select>
+                </div>
+            </div>
+
+            <!-- 工作流节点名称 -->
+            <div class="layui-inline">
+                <label class="layui-form-label label">工作流节点名称</label>
+                <div class="layui-input-inline">
+                    <select name="gzljdmc" id="gzljdmc" lay-filter="gzljdmc">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下部表格 -->
+    <div class="layui_show_table" >
+        <table id="LAY_table_yjpzList" lay-filter="LAY_table_yjpzList" style="overflow: auto"></table>
+        <div id="LAY_table_yjpz_page"></div>
+    </div>
+    <!-- 下部表格end -->
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add" style="background-color: #1D87D1">新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="del" style="background-color: #f24b43">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="upd" style="background-color: #ffffff;color: black">修改</button>
+    </div>
+</script>
+
+<script type="text/html" id="showAdd">
+    <form class="layui-form" action="">
+        <div class="layui-form-item" style="padding-top: 20px">
+                <label class="layui-form-label">工作流名称</label>
+            <div class="layui-input-inline">
+                    <select name="gzlmc" id="gzlmcAdd" lay-filter="gzlmcAdd">
+                    </select>
+            </div>
+        </div>
+        <div class="layui-form-item" >
+            <label class="layui-form-label">节点名称</label>
+            <div class="layui-input-inline">
+                <select name="gzljdmc" id="gzljdmcAdd" lay-filter="gzljdmcAdd" >
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">默认意见</label>
+            <div class="layui-input-block">
+                <textarea id="mryjAdd" type="text" name="mryj" placeholder="请输入默认意见" class="layui-textarea" style="width: 78%"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <div class="layui-input-block" >
+                <button class="layui-btn" style="margin-left: 100px;" lay-submit="" lay-filter="btnAdd" >新 增</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="showUpd">
+    <form class="layui-form" >
+        <input id="yjidUpd" type="text" name="yjid" style="display: none">
+
+        <div class="layui-form-item" style="padding-top: 20px">
+            <label class="layui-form-label">工作流名称</label>
+            <div class="layui-input-inline">
+                <select name="gzlmc" id="gzlmcUpd" lay-filter="gzlmcUpd" >
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+
+            <label class="layui-form-label">节点名称</label>
+            <div class="layui-input-inline">
+                <select name="gzljdmc" id="gzljdmcUpd"  lay-filter="gzljdmcUpd">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">默认意见</label>
+            <div class="layui-input-block">
+                <textarea id="mryjUpd" type="text" name="mryj" placeholder="请输入默认意见" class="layui-textarea" style="width: 78%"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <div class="layui-input-block" >
+                <button class="layui-btn" style="margin-left: 100px;" lay-submit="" lay-filter="btnUpd" >修 改</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script src="../js/mryjpz.js"></script>
+</body>
+</html>

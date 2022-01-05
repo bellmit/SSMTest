@@ -1,0 +1,47 @@
+
+]
+java:S3457‚"AFormat specifiers should be used instead of string concatenation.(•Öİøÿÿÿÿ
+W
+java:S3457Ø"AFormat specifiers should be used instead of string concatenation.(¢›®`
+X
+java:S3457×"AFormat specifiers should be used instead of string concatenation.(˜ùÜÙ
+F
+java:S1144õ"/Remove this unused private "uploadFile" method.(ÑÒÒ
+\
+java:S3457F"AFormat specifiers should be used instead of string concatenation.(Èƒ¿Šüÿÿÿÿ
+\
+java:S3457O"AFormat specifiers should be used instead of string concatenation.(šî¢šşÿÿÿÿ
+X
+java:S3457à"AFormat specifiers should be used instead of string concatenation.(Àæ¨¢
+X
+java:S3457ğ"AFormat specifiers should be used instead of string concatenation.(âªÉß
+[	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+^
+java:S1192ç"GDefine a constant instead of duplicating this literal "htxxid" 3 times.(ºí€Ï
+c
+java:S1192Î"GDefine a constant instead of duplicating this literal "sjclid" 3 times.(šÈ²“ùÿÿÿÿ
+c
+java:S4719I"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+`	java:S112t"FDefine and throw a dedicated exception instead of using a generic one.(ÀÕ¾úÿÿÿÿ
+P
+java:S2864™"4Iterate over the "entrySet" instead of the "keySet".(½Ö²’ûÿÿÿÿ
+]
+java:S3457Ù"AFormat specifiers should be used instead of string concatenation.(ş®ïÅúÿÿÿÿ
+]
+java:S3457‹"AFormat specifiers should be used instead of string concatenation.(°”û–ûÿÿÿÿ
+1
+java:S3457 "Not enough arguments.(à¼´†ÿÿÿÿÿ
+Z
+java:S3252~"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+n
+java:S3776¿"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Âä‘Äøÿÿÿÿ
+D
+java:S1144`".Remove this unused private "basicNACK" method.(¤´Àÿ
+n
+java:S3776t"SRefactor this method to reduce its Cognitive Complexity from 291 to the 15 allowed.(ÀÕ¾úÿÿÿÿ
+E
+java:S1481‡")Remove this unused "file" local variable.(Ê¦øúÿÿÿÿ
+i
+java:S4719{"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+W
+java:S3457ù"AFormat specifiers should be used instead of string concatenation.(Ò´ø!

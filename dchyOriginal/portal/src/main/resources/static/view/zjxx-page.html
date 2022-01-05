@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html style="overflow: hidden;">
+
+	<head>
+		<meta charset="UTF-8">
+		<title class="bdc_processDefName">质检信息</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+		<meta http-equiv="Pragma" content="no-cache"></meta>
+		<meta http-equiv="Cache-Control" content="no-cache"></meta>
+		<meta http-equiv="Expires" content="0"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+		<link href="../css/service-page.css" media="all" rel="stylesheet" />
+		<link href="../css/zjxx-page.css" media="all" rel="stylesheet" />
+		<script src="../lib/jquery/jquery.min.js"></script>
+		<script src="../lib/layui/layui.all.js"></script>
+		<script src="../lib/layui/layui.js"></script>
+	</head>
+
+	<body class="zjxx-contanier">
+		<div class="layui-tab bdc-tab-aside">
+			<ul class="layui-tab-title bdc-aside">
+				<li class="layui-this">质检总览</li>
+				<li>质检详情</li>
+				<li>其他错误</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="bdc-title">
+						<span>成果总览</span>
+					</div>
+<!--					<iframe src="cgzj-page.html" width="100%" height="100%" style="border: none;"></iframe>-->
+					<div class="cgzj-page-contanier">
+						<div class="bdc-cgzj-top">
+							<div class="header">
+								<h3>检查任务</h3>
+								<div class="layui-btn-group header-right-btn">
+									<button type="button" class="layui-btn bdc-save-btn">开始</button>
+									<button type="button" class="layui-btn bdc-send-btn layui-btn-primary">结果查看</button>
+									<button type="button" class="layui-btn bdc-print-btn layui-btn-primary">导出日志</button>
+								</div>
+							</div>
+							<div class="bottom">
+								<div id="checkTreeOne" class="demo-tree-more"></div>
+								<div id="checkTreeTwo" class="demo-tree-more"></div>
+								<div id="checkTreeThree" class="demo-tree-more"></div>
+								<div id="checkTreeFour" class="demo-tree-more"></div>
+							</div>
+
+						</div>
+						<div class="bdc-cgzj-bottom">
+							<div class="bdc-title">
+								<span>检查结果</span>
+								<div class="layui-progress layui-progress-big" lay-showPercent="true">
+									<div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>
+								</div>
+							</div>
+							<div class="cgzj-detail">
+								<p><span>检查人员：张三</span><span>检查单位：测试区自然资源和规划局</span></p>
+								<p>2020/1/9 12:20:32 开始对任务：328888测试区 进行质检</p>
+								<ul>
+									<li>
+										检查项 <span>1421</span><span>【点层内拓扑关系】</span>执行成功，查出错误：0条
+									</li>
+									<li>
+										检查项 <span>1422</span><span>【线层内拓扑关系】</span>执行成功，查出错误：0条
+									</li>
+									<li>
+										检查项 <span>1423</span><span>【面层内拓扑关系】</span>执行成功，查出错误：6条
+									</li>
+									<li>
+										检查项 <span>1424</span><span>【线面内拓扑关系】</span>执行成功，查出错误：0条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+									<li>
+										检查项 <span>1425</span><span>【面面内拓扑关系】</span>执行成功，查出错误：116条
+									</li>
+								</ul>
+								<p>======全部质检项检查完成：总共5项，成功5项，失败0项======</p>
+								<p>2020/1/9 12:30:12 任务：328888测试区 质检完成。共耗时：0小时9分40秒</p>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="layui-tab-item bdc-zjxq-content">
+					<div class="content-top">
+						<div class="left">
+							<h3>错误列表</h3>
+							<p>检查列表（错误类型）</p>
+							<div id="check-tree" class="demo-tree-more"></div>
+						</div>
+						<div class="right">
+							<div class="right-content">
+								<img src="../image/service-page/zjxq01.jpg" />
+							</div>
+						</div>
+					</div>
+					<div class="content-bottom">
+						<div class="bdc-title">
+							<span>核查结果</span>
+						</div>
+						<table id="hcjg-table" lay-filter="hcjg-table"></table>
+					</div>
+
+				</div>
+				<div class="layui-tab-item otherError-table-box">
+					<div class="otherError-table-container">
+						<table id="otherError-table" lay-filter="otherError-table" class="otherError-table"></table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+
+
+		<!--其他错误表格顶部操作按钮-->
+		<script id="otherErrorToolbarBtn" type="text/html">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-sm layui-btn-normal bdc-add-btn" lay-event="addBtn">新增</button>
+				<button class="layui-btn layui-btn-sm layui-btn-danger bdc-delete-btn" lay-event="deleteBtn">删除</button>
+				<button class="layui-btn layui-btn-sm  layui-btn-primary bdc-save-btn" lay-event="saveBtn">修改</button>
+			</div>
+		</script>
+		<!--其他错误表格下拉选项-->
+		<script type="text/html" id="cwdjTpl">
+			<select name="interest" lay-filter="">
+				<option value="">请选择</option>
+				<option value="0">等级一</option>
+			</select>
+		</script>
+		<!--其他错误表格下拉选项-->
+		<script type="text/html" id="uploadTpl">
+			<button class="layui-btn layui-btn-sm layui-btn-normal bdc-upload-btn" lay-event="upload-btn">附件上传</button>
+		</script>
+		<script>
+
+
+		</script>
+
+		<script src="../js/zjxx-page.js"></script>
+	</body>
+
+</html>

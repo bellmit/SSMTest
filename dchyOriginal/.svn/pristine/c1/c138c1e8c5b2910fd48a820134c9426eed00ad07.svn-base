@@ -1,0 +1,114 @@
+package cn.gtmap.msurveyplat.promanage.web.utils;
+
+
+import com.google.common.collect.Maps;
+import org.apache.commons.codec.binary.Base64;
+
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/1/7
+ * @description TODO
+ */
+public class UZipFile {
+
+    /**
+     * @param zipFile
+     * @return
+     * @description 2021/1/8
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    public static void unZipFiles(File zipFile, String descDir) throws IOException {
+        String gcbh = zipFile.getName();
+
+        //解决zip文件中有中文目录或者中文文件
+        ZipFile zip = new ZipFile(zipFile, Charset.forName("GBK"));
+        for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
+            ZipEntry entry = (ZipEntry) entries.nextElement();
+            String zipEntryName = entry.getName();
+            InputStream in = zip.getInputStream(entry);
+            String outPath = (descDir + zipEntryName).replaceAll("\\*", "/");
+
+            System.out.println("******************目录********************" + outPath);
+
+            in.close();
+        }
+        System.out.println("******************解压完毕********************");
+    }
+
+    public static void main(String[] args) {
+
+        List<String> list1 = new ArrayList<String>();
+        List<String> list2 = new ArrayList<String>();
+        List<String> list3 = new ArrayList<String>();
+        for (int i = 0; i < 20; i++) {
+            list1.add(i+"");
+            if(i%2 == 0) {
+                list2.add(i+"");
+            }
+            list3.add(i+"@");
+        }
+        // list1 与 list2 存在相同元素，list1集合只保留list2中存在的元素
+        list1.retainAll(list2);
+        if(list1.isEmpty()) {
+            System.out.println("不包含");
+        } else {
+            System.out.println("包含");
+        }
+        System.out.println(list1);
+        // list1 与 list3 不存在相同元素，list1集合变为空
+        list1.retainAll(list3);
+        if(list1.isEmpty()) {
+            System.out.println("不包含");
+        } else {
+            System.out.println("包含");
+        }
+        System.out.println(list1);
+    }
+
+//    public static void main(String[] args) {
+//        int[] random = new int[10];
+//        for (int i = 0; i < 10; i++) {
+//            int x = (int) (Math.random() * 100 + 1);
+//            for (int j = 0; j < 10; j++) {
+//                while (x == random[j]) {
+//                    x = (int) (Math.random() * 100 + 1);
+//                }
+//            }
+//            random[i] = x;
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(random[i] + "  ");
+//        }
+//    }
+
+    /**
+     * @Description: 图片转base64编码格式
+     * @Auther: pss
+     * @Date: 2019/9/6 19:39
+     */
+    public static String readImage(String path) {
+        byte[] fileByte = null;
+        try {
+//            File file = new File("C:\\Users\\gt\\Pictures\\work\\1\\" + path);
+//            File file = new File("C:\\Users\\gt\\Pictures\\work\\2\\" + path);
+            File file = new File("C:\\Users\\gt\\Pictures\\work\\3\\" + path);
+            fileByte = Files.readAllBytes(file.toPath());
+            System.out.println("data:image/png;base64," + Base64.encodeBase64String(fileByte));
+        } catch (IOException e) {
+//            e.printStackTrace();
+//            logger.error("错误原因{}：", e);
+        }
+        return "data:image/png;base64," + Base64.encodeBase64String(fileByte);
+    }
+}

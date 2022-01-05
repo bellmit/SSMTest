@@ -1,0 +1,87 @@
+package cn.gtmap.msurveyplat.promanage.web.main;
+
+import cn.gtmap.msurveyplat.common.dto.ReceiveConfigDto;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.promanage.builder.ReceiveConfigViewBuilder;
+import cn.gtmap.msurveyplat.promanage.model.ReceiveConfigModel;
+import cn.gtmap.msurveyplat.promanage.service.ConfigureSystemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+@RestController
+@RequestMapping("/configure")
+public class ConfigureSystemController {
+
+    @Autowired
+    private ConfigureSystemService configureSystemService;
+
+    @GetMapping("")
+    public ResponseMessage findConfigureSystem() {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List resultList = configureSystemService.findConfigure();
+            responseMessage = ResponseUtil.wrapResponseBodyByObjectList(resultList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    @PostMapping("")
+    public ResponseMessage addConfigureSystem(@Valid @RequestBody ReceiveConfigDto receiveConfigDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            ReceiveConfigModel receiveConfigModel = ReceiveConfigViewBuilder.dto2Model(receiveConfigDto);
+            configureSystemService.addConfigure(receiveConfigModel);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseMessage dropConfigureSystem(@PathVariable("id") String id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            configureSystemService.dropConfigure(id);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    @PutMapping("")
+    public ResponseMessage updateConfigureSystem(@Valid @RequestBody ReceiveConfigDto receiveConfigDto) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            ReceiveConfigModel receiveConfigModel = ReceiveConfigViewBuilder.dto2Model(receiveConfigDto);
+            configureSystemService.editConfigure(receiveConfigModel);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+}

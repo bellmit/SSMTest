@@ -1,0 +1,19 @@
+
+Q	java:S125V"<This block of commented-out lines of code should be removed.(ú¾”¸
++
+java:S3457<"Not enough arguments.(ûŒøà
+W
+java:S3457n"AFormat specifiers should be used instead of string concatenation.(‡ØÅâ
+M
+java:S26297"7Use the built-in formatting to construct this argument.(®Ù½¿
+W
+java:S34573"AFormat specifiers should be used instead of string concatenation.(àñ§Ó
+Z
+java:S3252I"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+W
+java:S34577"AFormat specifiers should be used instead of string concatenation.(®Ù½¿
+i
+java:S4719F"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+c
+java:S47196"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+`	java:S112A"FDefine and throw a dedicated exception instead of using a generic one.(ÀÕ¾úÿÿÿÿ

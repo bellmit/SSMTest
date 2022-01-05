@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClsxCzrzMapper">
+
+
+    <!--测量事项操作日志列表-->
+    <select id="queryClsxListByPage" resultType="map">
+       SELECT t.clsxid,z.mc AS ssjd,zd.mc AS clsx,zt.mc AS clzt from DCHY_XMGL_CHXM_CLSX t
+       LEFT JOIN
+       (SELECT s.dm,s.mc,s.fdm FROM DCHY_XMGL_ZD s WHERE zdlx = 'CLSX') zd
+       ON zd.dm = t.clsx
+       LEFT JOIN
+       (SELECT s.dm,s.mc,s.fdm FROM DCHY_XMGL_ZD s WHERE zdlx = 'CLSX') z
+       ON zd.fdm = z.dm
+        LEFT JOIN
+       (SELECT s.dm,s.mc,s.fdm FROM DCHY_XMGL_ZD s WHERE zdlx = 'XMCLZT') zt
+       ON t.clzt = zt.dm
+       WHERE t.chxmid = #{chxmid}
+    </select>
+
+    <!--测量事项操作日志列表-->
+    <select id="queryCzrzListByPage" resultType="map">
+        SELECT t.czrzid,pf.user_name AS czr,zd.mc AS clsx,t.czzt,t.czyy,t.czsj
+        FROM dchy_xmgl_clsx_czrz t
+        LEFT JOIN dchy_xmgl_chxm_clsx x ON x.clsxid = t.clsxid
+        LEFT JOIN (SELECT s.dm,s.mc,s.fdm FROM DCHY_XMGL_ZD s WHERE zdlx = 'CLSX') zd ON zd.dm = x.clsx
+        LEFT JOIN pf_user pf ON pf.user_id = t.czr
+        WHERE t.clsxid = #{clsxid}
+    </select>
+
+</mapper>

@@ -1,0 +1,616 @@
+<template>
+    <div>
+        <Form class="form-edit" @on-validate="validateChecked" :model="projectInfo" ref="project-info" :rules="ruleInline" :label-width="142">
+            <Row class="margin-top-20">
+                <FormItem class="requireStar" prop="clsx" label="测绘事项">
+                    <Row class="select-row-tree">
+                        <div class="stage-tree">
+                            <div class="select-row-tree">
+                                <div v-for="(tree,index) in treeList" :key="index">
+                                    <Tree ref="tree" @on-check-change="checkChangeClsx" :data="tree" show-checkbox></Tree>
+                                </div>
+                            </div>
+                        </div>
+                    </Row>
+                </FormItem>
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem v-model="projectInfo.slbh" prop="slbh" label="备案编号">
+                        <Input :disabled="true" v-model="projectInfo.slbh" class="list-form-width"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="projectInfo.gcbh" prop="gcbh" class="required-link" label="工程编号">
+                        <Input :readonly="readonly" v-model="projectInfo.gcbh" class="list-form-width"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem v-model="projectInfo.gcmc" prop="gcmc" class="required-link" label="工程名称">
+                        <Input :readonly="readonly" v-model="projectInfo.gcmc" class="list-form-width"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <!-- <i-col span="8">
+                    <FormItem v-model="projectInfo.xqfbbh" prop="xqfbbh" label="委托编号">
+                        <Select v-if="!readonly&&type=='gl'" :disabled="readonly" :value="projectInfo.xqfbbh" @on-change="selectGxXq" v-model="projectInfo.xqfbbh" clearable class="list-form-width">
+                            <Option v-for="(item,index) in glxqfbbhList" :key="index" :value="item.XQFBBH">{{item.XQFBBH}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.FBSJ}}</Option>
+                        </Select>
+                        <Input v-else disabled v-model="projectInfo.xqfbbh" class="list-form-width"/>
+                    </FormItem>
+                </i-col> -->
+                <i-col span='16'>
+                    <div class="gcdd-item">
+                        <FormItem v-model="projectInfo.gcdzs" :title="gcddMc" prop="gcdzs" label="工程地点 ">
+                            <Row>
+                                <i-col span="16">
+                                    <Row>
+                                        <i-col span="8">
+                                            <Select :disabled="readonly" v-model="projectInfo.gcdzs" @on-select="selectGcdzs">
+                                                <Option v-for="(item,index) in gcdzsList" :key='index' :value="item.DM">{{item.MC}}</Option>
+                                            </Select>
+                                        </i-col>
+                                        <i-col span="8">
+                                            <Select :disabled="readonly" v-model="projectInfo.gcdzss" @on-select="selectGcdzss">
+                                                <Option v-for="(item,index) in gcdzssList" :key='index' :value="item.DM">{{item.MC}}</Option>
+                                            </Select>
+                                        </i-col>
+                                        <i-col span="8">
+                                            <Select :disabled="readonly" v-model="projectInfo.gcdzqx">
+                                                <Option v-for="(item,index) in gcdzqxList" :key='index' :value="item.DM">{{item.MC}}</Option>
+                                            </Select>
+                                        </i-col>
+                                    </Row>
+                                </i-col>
+                                <i-col span="8">
+                                    <Input :readonly="readonly" v-model="projectInfo.gcdzxx" />
+                                </i-col>
+                            </Row>
+                        </FormItem>
+                    </div>
+                </i-col>
+            </Row>
+        </Form>
+        <div >
+            <Modal
+                class="modal-base"
+                v-model="visible"
+                :title="'设置'"
+                width="400"
+                :mask-closable="false"
+                :footer-hide="true"
+                closable
+            >
+            <Form class="form-setting" :model="projectInfo" :label-width="100" >
+                <FormItem v-model="projectInfo.clsxMc"  label="测绘事项:">
+                        <Input readonly v-model="projectInfo.clsxMc"  style="width: 213px"/>
+                </FormItem>
+                <FormItem label="进场日期:" v-model="projectInfo.jcrq" >
+                        <DatePicker :disabled="readonly" v-model="projectInfo.jcrq" type="date" placeholder="请选择"></DatePicker>
+                </FormItem>
+                <span style="margin-left: 27px">自进场后 
+                    <input :disabled="readonly" class="rq-input" type="text" name="YJJFRQ" v-model="projectInfo.YJJFRQ"/> 个日历日内提交测绘成果资料
+                </span>
+            </Form>
+                <div class="submit-back margin-top-20" >
+                    <Button type="primary" class="btn-h-34 bdc-major-btn" @click="saveChrq()">确认</Button>
+                    <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel()">取消</Button>
+                </div>
+            </Modal>
+        </div>
+    </div>
+</template>
+<script>
+import { getDictInfo, queryInfoByGcbh, getZdClsx } from "../../service/manage"
+import _ from "lodash"
+import moment from "moment"
+export default {
+    props: {
+        projectInfo: {
+            type: Object,
+            default: () => {
+                return {}
+            }
+        },
+        checkedList: { //选中的测绘事项
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        readonly: { // 只读
+            type: Boolean,
+            default: false
+        },
+        glxqfbbhList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        }
+    },
+    data() {
+        const _self = this;
+        return {
+            gcdzsList: [],
+            gcdzssList: [],
+            gcdzqxList: [],
+            type: 'gl',
+            visible: false,
+            selectClsx: null,
+            ruleInline: {
+                gcbh: {
+                    required: false,
+                    trigger: "blur",
+                    validator: (rule,value,callback) => {
+                        if((!value || !value.trim()) && !_self.ruleInline.gcbh.required){
+                            callback()
+                        }else if((!value || !value.trim()) && _self.ruleInline.gcbh.required){
+                            callback("必填项不能为空")
+                        } else {
+                            if(this.unLastSubmit&&!this.readonly){
+                                this.type = 'gl'
+                                this.projectInfo.xqfbbh = "";
+                                queryInfoByGcbh({gcbh: value.trim()}).then(res => {
+                                    res.data.chxmxx&&res.data.chxmxx.forEach(list => {
+                                        list.FBSJ = list.FBSJ ? moment(list.FBSJ).format("YYYY-MM-DD HH:mm:ss") : "";
+                                    })
+                                    this.$emit("select-gxxq",{chxmList: res.data.chxmxx || [],chgcxx: res.data.chgcxx,baClsxList: res.data.baClsxList})
+                                })
+                            }
+                            callback()
+                        }
+                        callback()
+                    }
+                },
+                zdxm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                gcmc: {
+                    required: false,
+                    trigger: "blur",
+                    message: "必填项不能为空"
+                },
+                gcdzs: {
+                    required: true,
+                    trigger: "blur",
+                    message: "必填项不能为空"
+                }
+            },
+            unLastSubmit: true,
+            dictionaryInfo: [],
+            disabledClsx: config.disabledClsx,
+            treeList: [],
+            chxmid: "",
+            dictionaryTeeList: [],
+            selectedNode: [] // 选中的根目录
+        }
+    },
+    // 计算工程地点的名称
+    computed: {
+        gcddMc(){
+            let gcdzs = this.gcdzsList.find(list => list.DM == this.projectInfo.gcdzs) || {};
+            let gcdzss = this.gcdzssList.find(list => list.DM == this.projectInfo.gcdzss) || {};
+            let gcdzqx = this.gcdzqxList.find(list => list.DM == this.projectInfo.gcdzqx) || {};
+            return (gcdzs.MC || "") + (gcdzss.MC || "") + (gcdzqx.MC || "") + (this.projectInfo.gcdzxx || "")
+        }
+    },
+    // 监听选中的测绘事项变化，设置选中状态
+    watch: {
+        checkedList: {
+            deep: true,
+            handler: function(newVal, oldVal){
+                if(!_.isEqual(newVal,oldVal)){
+                    this.renderTreeList();
+                }
+            }
+        }
+    },
+    created() {
+        if(this.$route.query.chxmid){
+            this.chxmid = this.$route.query.chxmid
+        }
+    },
+    mounted() {
+        if(this.$route.query.type != 'add'){
+            this.type = 'edit'
+        }
+        this.getDictInfo()
+    },
+    methods: {
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+        selectGxXq(select){
+            this.$emit("xqfbbh",select)
+        },
+        checkChangeClsx(select,item){
+            this.changeClsx(select,item)
+        },
+        // 修改选中的测绘事项
+        changeClsx(selected,item){
+            let treeList = []
+            // if(!item){
+               
+            // }else if(item&&item.checked){
+            //     this.selectedNode = [];
+            //     selected.forEach(s => {
+            //         let find = treeList.find(clsx => clsx.id == s.id);
+            //         if(!find&&s.children&&s.children.length){
+            //             treeList.push([s])
+            //         } 
+            //         if(!this.selectedNode.includes(s.id)&&s.children){
+            //             this.selectedNode.push(s.id)
+            //         }
+            //     })
+            //     this.changeData(treeList);
+            // } else {
+            //     treeList.forEach((select,index) => {
+            //         if(select.id == item.id){
+            //             treeList.splice(index,1)
+            //         }
+            //     })
+            //     this.selectedNode.forEach((select,index) => {
+            //         if(select == item.id){
+            //             this.selectedNode.splice(index,1)
+            //         }
+            //     })
+            //     if(item.children){
+            //         item.children.forEach(d => {
+            //             treeList.forEach((select,index) => {
+            //                 if(select.id == d.id){
+            //                     treeList.splice(index,1)
+            //                 }
+            //             })
+            //         })
+            //     }
+            //     this.changeData(treeList);
+            // }
+            this.selectedNode = [];
+            this.$nextTick(() => {
+                if(this.$refs["tree"]){
+                    let length  = this.$refs["tree"].length
+                    for(let i = 0; i< length;i++){
+                        let checked = this.$refs["tree"][i].getCheckedNodes();
+                        if(checked&&checked.length){
+                            checked.forEach(check => {
+                                if(check.children&&check.children.length){
+                                    treeList.push([check])
+                                } else {
+                                    let find = treeList.find(t => t[0].id === check.fdm)
+                                    let findNode = find ? find[0].children.map(c => c.id) : []
+                                    if(find){
+                                        treeList.forEach(t => {
+                                            if(t[0].id == check.fdm && !findNode.includes(check.id)){
+                                                t[0].children.push(check)
+                                            }
+                                        })
+                                    } else {
+                                        treeList.push([
+                                            {
+                                                id: check.fdm,
+                                                children: [check]
+                                            }
+                                        ])
+                                    }
+                                }
+                                if(check.children&&!this.selectedNode.includes(check.id)){
+                                    this.selectedNode.push(check.id)
+                                } else if(!this.selectedNode.includes(check.fdm)){
+                                    this.selectedNode.push(check.fdm)
+                                }
+                            })
+                        }
+                    }
+                }
+                this.changeData(treeList);
+                if(selected){
+                    this.$emit("clsx")
+                }
+            })
+        },
+        // 传递数据
+        changeData(treeList){
+            if(this.selectedNode.includes("3") 
+                || this.selectedNode.includes("4") 
+                || this.selectedNode.includes("5")
+            ){
+                this.ruleInline.gcmc.required = true;
+                this.ruleInline.gcbh.required = true;
+                $(".required-link").addClass("requireStar")
+            } else {
+                this.ruleInline.gcmc.required = false;
+                this.ruleInline.gcbh.required = false;
+                $(".required-link").removeClass("requireStar")
+            }
+            this.$emit("change-clsx",treeList)
+        },
+         // 选择省
+        selectGcdzs(select){
+            let gcdzssList = []
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value) && dict.ZDLX=="GCDZ"){
+                    gcdzssList.push(dict)
+                }
+            })
+            this.gcdzssList = [...gcdzssList]
+        },
+        // 选择市
+        selectGcdzss(select){
+            var gcdzqxList = [];
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value)&& dict.ZDLX=="GCDZ"){
+                    gcdzqxList.push(dict)
+                }
+            })
+            this.gcdzqxList = [...gcdzqxList]
+        },
+        // 渲染树方法
+        renderTreeList(){
+            let treeList = []
+            let clsxList = this.dictionaryTeeList
+            let cloneTeeList = _.cloneDeep(this.treeList)
+            clsxList.forEach(list => {
+                if(!list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.push(
+                        {
+                            title: list.MC, 
+                            expand: true,
+                            id: list.DM, 
+                            disabled: this.readonly ? true: this.disabledClsx.includes(list.DM)?true: false,
+                            dm: Number(list.DM),
+                            children: [],
+                            render: (h, { root, node, data }) => {
+                                return h('span', [
+                                    h('span', data.title)
+                                ])
+                            }
+                        }
+                    )
+                }
+            })
+            clsxList.forEach(list => {
+                let select;
+                cloneTeeList.forEach(tree => {
+                    let find = tree[0].children.find(t => t.id == list.DM);
+                    if(find){
+                        select = find;
+                    }
+                })
+                if(list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.forEach(tree => {
+                        if(tree.id == list.FDM){
+                            tree.children.push({
+                                title: list.MC, 
+                                id: list.DM,
+                                fdm: list.FDM,
+                                checked: this.checkedList.includes(list.DM),
+                                disabled: this.readonly ? true: this.disabledClsx.includes(list.DM)?true:false,
+                                chqx: list.JCRQ ? (list.JCRQ + '至' + list.JSRQ) : select ? select.chqx : "",
+                                jcrq: list.JCRQ ? list.JCRQ : select ? select.jcrq : "",
+                                yjjfrq: list.YJJFRQ ? list.YJJFRQ : select ? select.yjjfrq : "",
+                                render: (h, { root, node, data }) => {                                                                                
+                                    return h('span', {
+                                        style: {
+                                            display: 'inline-block',
+                                            width: '100%'
+                                        }
+                                    },  [
+                                        h('span',[
+                                            h('span',{
+                                                style: {
+                                                    marginRight: '20px'
+                                                }
+                                            },  data.title),
+                                            // h('span','测绘期限：'+( data.chqx || '未设置')),
+                                            // h('span',{
+                                            //     style: {
+                                            //         marginLeft: "5px",
+                                            //         color: "#2d5de1"
+                                            //     },
+                                            //     on: {
+                                            //         click: () => { this.addDate(data) }
+                                            //     }
+                                            // }, this.readonly? "" : data.chqx ? "| 修改" : "| 设置" ),
+                                            // h('span',{
+                                            //     style: {
+                                            //         marginLeft: "5px",
+                                            //         color: "#2d5de1"
+                                            //     },
+                                            //     on: {
+                                            //         click: () => { this.deleteDate(data) }
+                                            //     }
+                                            // }, this.readonly? "" : data.chqx ? "| 清除" : "")
+                                        ])
+                                    ])
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+            treeList = _.orderBy(treeList,["dm"],['asc'])
+            this.treeList = []
+            treeList.forEach(tree => {
+                this.treeList.push([tree])
+            })
+            this.changeClsx();
+        },
+        // 获取字典项，渲染树的结构
+        getDictInfo(){
+            let params = {
+                chxmid: this.chxmid,
+                zdlx: ["GCDZ"]
+            }
+            
+            getZdClsx(params).then(res => {
+                this.dictionaryTeeList = res.data.dataList;
+                this.renderTreeList();
+            })
+            getDictInfo(params).then(res => {
+                this.dictionaryInfo = res.data.dataList;
+                res.data.dataList.forEach(list => {
+                    if(!list.FDM&&list.ZDLX=="GCDZ"){
+                        this.gcdzsList.push(list)
+                    }
+               })
+                if(this.projectInfo.gcdzs){
+                    this.selectGcdzs({value: this.projectInfo.gcdzs})
+                }
+                if(this.projectInfo.gcdzss){
+                    this.selectGcdzss({value: this.projectInfo.gcdzss})
+                }
+           })
+        },
+        // 校验
+        validate(){
+            let validate = true
+            this.projectInfo.clsx = this.getSelectedClsx();
+            this.unLastSubmit = false
+            this.$refs["project-info"].validate(valid => {
+                this.unLastSubmit = true
+                validate = valid
+            })
+            return validate
+        },
+        // 获取选中的测绘事项
+        getSelectedClsx(){
+            let clsx = []
+            if(this.$refs["tree"]){
+                let length  = this.$refs["tree"].length
+                for(let i = 0; i< length;i++){
+                    let checked = this.$refs["tree"][i].getCheckedNodes();
+                    if(checked&&checked.length){
+                        checked.forEach(check => {
+                            if(check.children&&check.children.length){
+                                check.children.forEach(tree => {
+                                    clsx.push({
+                                        fdm: tree.fdm,
+                                        clsxdm: tree.id,
+                                        jcrq: tree.JCRQ,
+                                        yjjfrq: tree.yjjfrq
+                                    })
+                                })
+                            } else {
+                                let findNode = clsx ? clsx.map(c => c.clsxdm) : []
+                                if(!findNode.includes(check.id)){
+                                    clsx.push({
+                                        fdm: check.fdm,
+                                        clsxdm: check.id,
+                                        jcrq: check.JCRQ,
+                                        yjjfrq: check.yjjfrq
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+            return clsx
+        },
+        // 删除测绘期限
+        deleteDate(data){
+            let treeList = _.cloneDeep(this.treeList)
+            treeList.forEach(tree => {
+                tree[0].children.forEach(t => {
+                    if(t.id === data.id){
+                        t.JCRQ = null
+                        t.JSRQ = ""
+                        t.yjjfrq = null
+                        t.chqx = ""
+                    }
+                })
+            })
+            this.treeList = _.cloneDeep(treeList)
+        },
+        // 设置测绘期限
+        addDate(data){
+            this.selectClsx = data;
+            this.visible = true;
+            this.projectInfo.clsxMc = data.title || "";
+            this.projectInfo.jcrq = data.JCRQ || "";
+            this.projectInfo.YJJFRQ = data.yjjfrq || "";
+        },
+        // 取消设置
+        cancel(){
+            this.visible = false;
+        },
+        // 确认设置测绘期限
+        saveChrq(){
+            if(this.projectInfo.jcrq && this.projectInfo.YJJFRQ) {
+                let treeList = _.cloneDeep(this.treeList)
+                treeList.forEach(tree => {
+                    tree[0].children.forEach(t => {
+                        if(t.id === this.selectClsx.id){
+                            t.JCRQ = moment(this.projectInfo.jcrq).format("YYYY-MM-DD")
+                            t.JSRQ = moment(this.projectInfo.jcrq).add(parseInt(this.projectInfo.YJJFRQ),"days").format("YYYY-MM-DD")
+                            t.yjjfrq = this.projectInfo.YJJFRQ
+                            t.chqx = t.JCRQ + '至' + t.JSRQ
+                        }
+                    })
+                })
+                this.treeList = _.cloneDeep(treeList)
+                this.visible = false;
+            }else{
+                this.$error.show("请选择进场日期与日历日")
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+    .select-row-tree >>> .ivu-tree-arrow {
+        display: none;
+    }
+    .select-row-tree {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .select-row-tree >>> .ivu-tree {
+        margin-right: 10px;
+    }
+    .select-row-tree >>> .ivu-tree-title .ivu-icon {
+        font-family: "FontAwesome";
+        color: #1d87d1;
+    }
+    .stage-tree {
+        width: 100%;
+        padding: 5px;
+        overflow-x: auto;
+        background-color: #e8f3fa;
+    }
+    .stage-next {
+        flex-grow: 1;
+        overflow-x: auto;
+    }
+    .rq-input {
+        border-bottom: 1px solid #000;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        width: 50px;
+        text-align:center;
+        vertical-align:middle;
+    }
+    .stage-tree >>> .ivu-tree-title-selected {
+        background-color: #e8f3fa;
+    }
+    .select-by-step >>> .ivu-tree-title-selected, 
+    .select-by-step >>> .ivu-tree-title-selected:hover,
+    .select-by-step >>> .ivu-tree-title:hover {
+        background-color: #e8f3fa;
+    }
+    .gcdd-item {
+        width: calc(50% + 442px)
+    }
+    @media (max-width: 1600px) {
+        .gcdd-item {
+            width: calc( 50% + 342px);
+        }
+    }
+</style>

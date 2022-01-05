@@ -1,0 +1,21 @@
+
+S
+java:S1144€"7Remove this unused private "queryFilesbyWjzxid" method.(ùÂ Âşÿÿÿÿ
+m
+java:S3776B"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(÷Ô”¾şÿÿÿÿ
+S
+java:S2589Ÿ"7Remove this expression which always evaluates to "true"(îÁö×üÿÿÿÿ
+_
+java:S1192Á"HDefine a constant instead of duplicating this literal "message" 7 times.(ƒ­Ãš
+M
+java:S1144ë"1Remove this unused private "checkShxxytx" method.(Ñ»ûÌÿÿÿÿÿ
+_
+java:S1192Â"HDefine a constant instead of duplicating this literal "tabName" 3 times.(¤¯„à
+C
+java:S1481D"-Remove this unused "gzljgids" local variable.(óâ¶
+R
+java:S1854D"<Remove this useless assignment to local variable "gzljgids".(óâ¶
+V
+java:S1128"6Remove this unused import 'org.omg.CORBA.OBJ_ADAPTER'.(Çğ¯¹øÿÿÿÿ8…ç§‡š/
+R
+java:S1128"6Remove this unused import 'com.alibaba.fastjson.JSON'.(Ö¢å$8…ç§‡š/

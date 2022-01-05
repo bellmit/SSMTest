@@ -1,0 +1,43 @@
+
+1
+java:S3457ù"Not enough arguments.(ªÇ†ıÿÿÿÿ
+,
+java:S3457œ"Not enough arguments.(ÑçÄù
+A
+java:S1481`"+Remove this unused "result" local variable.(ìş“
+`
+java:S1192"IDefine a constant instead of duplicating this literal "clsxList" 4 times.(¾²úĞ
+n
+java:S3776š"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ûƒ™Ïüÿÿÿÿ
+^
+java:S1192"GDefine a constant instead of duplicating this literal "chxmid" 4 times.(šÿÌì
+N
+java:S2629Ç"7Use the built-in formatting to construct this argument.(è€›
+P
+java:S1854j":Remove this useless assignment to local variable "result".(…äô
+^
+java:S1192­"GDefine a constant instead of duplicating this literal "shjdmc" 3 times.(—ñ¶ô
+,
+java:S3457"Not enough arguments.(ÑçÄù
+_
+java:S1192Ó"HDefine a constant instead of duplicating this literal "gzlslid" 3 times.(ÊÎ¼í
+h
+java:S3776Š"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(Óşå;
+X
+java:S3457Ç"AFormat specifiers should be used instead of string concatenation.(è€›
+c
+java:S1192³"GDefine a constant instead of duplicating this literal "sqxxid" 6 times.(—Ñ‚‰ÿÿÿÿÿ
+0
+java:S3457|"Not enough arguments.(ªÇ†ıÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(ŸÙµÔüÿÿÿÿ
+^
+java:S1192¬"GDefine a constant instead of duplicating this literal "taskid" 4 times.(ÿáÄÊ
+i
+java:S3776Î"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(áŒÄË
+K
+java:S3740ò"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+G
+java:S2629á"$Invoke method(s) only conditionally.(çş«•üÿÿÿÿ8ùå§‡š/
+i
+java:S3252á"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(çş«•üÿÿÿÿ8ùå§‡š/

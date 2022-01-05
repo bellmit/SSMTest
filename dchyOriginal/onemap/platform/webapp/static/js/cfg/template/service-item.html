@@ -1,0 +1,50 @@
+{{#result}}
+<li class="layer-item" id="{{id}}">
+    <div class="item-inner">
+        <div class="col-md-12 column">
+            <div class="row clearfix">
+                <div class="layer-index pull-left pretty-font">
+                    <small>{{getIndex}}</small>
+                </div>
+                <div class="col-md-4">
+                    <div class="thumb pull-left" title="拖动可排序">
+                        <img src="/omp/static/img/map/layer-thumb.png" >
+                    </div>
+                    <div class="layer-title pull-left">
+                        <div style="padding: 4px;">
+                            <label class="title">
+                                <input type="text" class="title-modify" value="{{alias}}" data-sid="{{id}}" title="服务别名"/>
+                                <!--<div class="title-btn-container" data-original-name=""><span class="glyphicon glyphicon-ok form-control-feedback"></span></div>-->
+                            </label>
+                        </div>
+                        <div class="pull-left">
+                            <small class="subtitle" title="服务名称">{{name}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="layer-link pull-left">
+                        <a href="{{url}}" class="btn-normal" title="查看服务" target="_blank"><span class="fa fa-link"></span> 查看服务</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="layer-type">
+                        <small>服务类型 &nbsp;&nbsp; </small><label> {{getType}}</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="layer-opt" data-serviceInfo="{{serviceInfo}}" data-sid="{{id}}">
+                        <small>服务可见性 &nbsp;&nbsp;</small>
+                        <input name="checkBox" type="checkbox"  title="服务可见性" data-on-text="开" data-off-text="关" {{checked}}>
+                        <a class="pull-right close-icon fa fa-close fa-lg" title="删除服务" layer-id="{{id}}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+{{/result}}
+
+
+
+

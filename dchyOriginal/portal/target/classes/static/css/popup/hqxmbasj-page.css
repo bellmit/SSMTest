@@ -1,0 +1,36 @@
+.hqxmbasj-content{
+    padding: 10px;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+ .layui-form-item .layui-inline{
+   width: 45%;
+   padding-left: 40px;
+   margin: 0;
+   box-sizing: border-box;
+}
+.layui-form-label{
+    padding: 9px 10px 9px 0;
+    width: 120px;
+}
+.layui-form-item .layui-input-inline{
+    width: 250px;
+    margin-right: 0;
+}
+.item-btn{
+    text-align: center;
+}
+.bdc-major-btn{
+    background: #1d87d1;
+}
+.bdc-search-btn{
+    height: 34px;
+    line-height: 34px;
+    width: 60px;
+    padding: 0;
+    border-radius: 2px;
+}
+.layui-table-body{
+    height: 170px;
+    overflow-y: scroll;
+}

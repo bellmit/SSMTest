@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglGxYyfxMapper">
+
+
+    <select id="getJsdw" resultType="java.util.Map">
+        SELECT DISTINCT t.wtdw
+        FROM DCHY_XMGL_CHGC t
+        WHERE WTDW IS NOT NULL
+    </select>
+
+
+    <select id="getJsdwWtxmsl" resultType="java.util.Map">
+        SELECT t.WTDW, COUNT(t.SLBH) AS wtsl
+        FROM (select xm.slbh, gc.wtdw
+              from dchy_xmgl_chgc gc
+                       left join dchy_xmgl_chxm xm on xm.chgcid = gc.chgcid
+                       left join dchy_xmgl_chxm_chdwxx xx on xx.chxmid = xm.chxmid
+              WHERE xm.xmzt in ('2', '99')
+              order by xm.slsj desc NULLS LAST) t
+        GROUP BY t.WTDW
+        ORDER BY wtsl desc
+    </select>
+
+
+    <select id="getChdwCjsl" resultType="java.util.Map">
+        SELECT t.CHDWMC, COUNT(t.SLBH) AS cjsl
+        FROM (select xm.slbh, xx.chdwmc
+              from dchy_xmgl_chgc gc
+                       left join dchy_xmgl_chxm xm on xm.chgcid = gc.chgcid
+                       left join dchy_xmgl_chxm_chdwxx xx on xx.chxmid = xm.chxmid
+              WHERE xm.xmzt in ('2', '99')
+              order by xm.slsj desc NULLS LAST) t
+        GROUP BY t.chdwmc
+        ORDER BY cjsl desc
+    </select>
+
+
+    <select id="getXmbajlByPage" parameterType="map" resultType="map">
+        select xm.babh,xm.slbh, gc.gcbh, gc.gcmc, gc.wtdw, xx.chdwmc, xm.xmly,xm.xmzt,to_char(xm.slsj,'yyyy-mm-dd hh24:mi:ss')
+        as slsj,xm.chxmid
+        from dchy_xmgl_chgc gc
+        left join dchy_xmgl_chxm xm
+        on xm.chgcid = gc.chgcid
+        left join dchy_xmgl_chxm_chdwxx xx
+        on xx.chxmid = xm.chxmid
+        <where>
+            AND xm.xmzt in('2','99')
+            <if test="kssj !=null and kssj !=''">
+                AND xm.slsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND xm.slsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="jsdw !=null and jsdw !=''">
+                and wtdw = #{jsdw}
+            </if>
+            <if test="chdw !=null and chdw !=''">
+                and chdwmc = #{chdw}
+            </if>
+        </where>
+        order by xm.slsj desc NULLS LAST
+
+    </select>
+
+</mapper>

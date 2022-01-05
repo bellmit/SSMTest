@@ -1,0 +1,40 @@
+<div class="widget-panel-title">规划分析</div>
+<div id="ghscAnalysisPanel" class="panel-body" style="padding: 1px;">
+    <div id="hideGhDiv">
+        <label class="text-info-o">数据来源：</label>
+        <div id="LOC_QUERY_GH" class="div-dataSource-gh" style="z-index:99;">
+            <div class="div-dataSourceTop-gh"><span code="">数据来源</span>
+                <em><img src="/omp/static/thirdparty/multi-select/multiple-select-diy.png"></em>
+            </div>
+            <ul class="ul-dataSource-gh" id="dataGhTypeUl">
+                <li code="SK_LOC"> 定位信息</li>
+                <li code="SK_QUERY"> 查询属性</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>
+
+<!--结果模板-->
+<script type="x-tpl-handlebars" id="ghRresultPanelTpl">
+  <div id="ghIframeLoading" style="z-index: 949; position: absolute;width: 100%;
+  height: 100%; top: 0px; left: 0px; display:block;text-align: center; margin-top: 40px;">
+   <img src="/omp/static/css/plugins/loading/loading/loading_analysis.gif">
+     分析中...
+   </div>
+<iframe name="ghResultIframe" id="ghResultIframe" frameborder="0" framespacing="0"  width="100" height="100" style="width: 100%; height: 100%;">
+</iframe>
+
+
+</script>

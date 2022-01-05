@@ -1,0 +1,83 @@
+.plan-container {
+    margin-top: 10px;
+    padding: 4px;
+}
+
+/*header*/
+.plan-header {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.plan-header a:first-child {
+    margin-right: 10px;
+}
+
+.plan-header a[class ~="btn"] {
+    color: #0092da;
+    font-size: 16px;
+}
+
+/*footer*/
+.plan-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 24px;
+    text-align: center;
+}
+
+.plan-footer > a:first-child {
+    margin-right: 10px;
+}
+
+.item-content {
+    border: 1px solid #dddddd;
+    padding: 10px 10px 10px 15px;
+    margin: 8px 0px;
+    height: 56px;
+}
+
+.item-content > h4 {
+    color: #333333;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: '微软雅黑 Bold', '微软雅黑';
+    height: auto;
+    width: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 280px;
+    display: block;
+    overflow: hidden;
+}
+
+#planFoldle {
+    padding: 0 10px;
+    margin-top: 15px;
+}
+
+#planList li {
+    border: solid #A2D7FF 1px;
+    border-radius: 4px;
+    margin-bottom: 5px !important;
+}
+
+.plan-change {
+    height: 34px;
+    line-height: 34px;
+}
+
+.plan-change > i {
+    cursor: pointer;
+    font-size: 20px;
+    color: #408fc6;
+}
+
+.plan-change > i:hover {
+    color: #00bb9c;
+}
+
+.plan-change > i:first-child {
+    margin-right: 8px;
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.DchyXmglJsdwXSBFMapper">
+
+    <!--根据项目名称，承揽测绘机构，,受理编号，状态获取测绘项目评价-->
+    <select id="queryXmPjStatusByPage" resultType="map" parameterType="map">
+        select z.chxmid,
+       z.CHGCBH,
+       z.gcmc,
+       xx.chdwmc,
+       z.xmzt,
+       nvl(xx.pjyj, '') pjyj,
+       xx.pjzt,
+       xx.pjsj,
+       xx.fwpj,
+       xx.pjr,
+       xx.chdwxxid
+      from (select xm.chxmid, xm.CHGCBH, gc.gcmc, xm.xmzt
+              from dchy_xmgl_chxm xm
+              left join dchy_xmgl_chgc gc
+                on gc.chgcid = xm.chgcid
+        <where>
+            and xm.xmzt='99'
+            <choose>
+                <when test="yhidList !=null and yhidList.size >0">
+                    AND xm.fbr IN
+                    <foreach collection="yhidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND xm.fbr = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+
+        union all
+        select xm.chxmid, xm.CHGCBH, gc.gcmc, xm.xmzt
+          from dchy_xmgl_chxm xm
+          left join dchy_xmgl_chgc gc
+            on gc.chgcid = xm.chgcid
+         WHERE xm.fbr IS NULL
+           AND gc.wtdw = #{wtdw} and xm.xmzt='99') z
+          LEFT JOIN DCHY_XMGL_CHXM_CHDWXX xx
+            on xx.chxmid = z.chxmid
+            <where>
+                <if test="gcmc != null and gcmc != ''">
+                    and z.gcmc like '%'||#{gcmc}||'%'
+                </if>
+                <if test="chdwmc != null and chdwmc != ''">
+                    and xx.chdwmc like '%'||#{chdwmc}||'%'
+                </if>
+                <if test="pjzt != null and pjzt != ''">
+                    <if test="pjzt==1">
+                        and xx.pjzt = #{pjzt}
+                    </if>
+                    <if test="pjzt==0">
+                        and xx.pjzt = #{pjzt} or xx.pjzt is null
+                    </if>
+                </if>
+            </where>
+        ORDER BY xx.pjzt nulls first,z.gcmc,xx.pjsj DESC NULLS LAST
+    </select>
+
+    <!--根据chdwid获取评价信息详情-->
+    <select id="queryXmPjInfoByChdwId" resultType="map" parameterType="string">
+        select xm.chxmid, xm.CHGCBH, gc.gcmc, xx.chdwmc, xx.fwpj, xx.pjzt,xx.pjyj,xx.chdwxxid,xx.pjr,xx.pjsj
+        from DCHY_XMGL_CHGC gc
+        left join DCHY_XMGL_CHXM xm
+        on xm.chgcid = gc.chgcid
+        left join DCHY_XMGL_CHXM_CHDWXX xx
+        on xx.chxmid = xm.chxmid
+        <where>
+            <if test="chxmid != null and chxmid != ''">
+                and xm.chxmid = #{chxmid}
+            </if>
+            <if test="chdwxxid!=null and chdwxxid != ''">
+                and xx.chdwxxid = #{chdwxxid}
+            </if>
+        </where>
+    </select>
+
+    <!--获取建设单位评论信息(测绘单位)-->
+    <select id="queryJsdwPlXxByPage" parameterType="map" resultType="map">
+        select xm.chgcbh, gc.gcmc, gc.wtdw, xx.fwpj, xx.pjyj, xx.pjsj, xx.mlkid
+        from dchy_xmgl_chgc gc
+        left join dchy_xmgl_chxm xm
+        on xm.chgcid = gc.chgcid
+        left join dchy_xmgl_chxm_chdwxx xx
+        on xx.chxmid = xm.chxmid
+        where xx.pjzt = '1' and mlkid = #{mlkid}
+        <if test="fwpj != null and fwpj != ''">
+            and xx.fwpj = #{fwpj}
+        </if>
+        <if test="pjkssj !=null and pjkssj !=''">
+            AND xx.pjsj <![CDATA[>=]]> to_date(#{pjkssj},'yyyy-mm-dd')
+        </if>
+        <if test="pjjssj !=null and pjjssj !=''">
+            AND xx.pjsj <![CDATA[<]]> to_date(#{pjjssj},'yyyy-mm-dd') + 1
+        </if>
+        order by xx.pjsj DESC NULLS LAST
+    </select>
+
+    <!--获取建设单位对应的评价信息(管理单位)-->
+    <select id="queryJsdwPlInfoByPage" parameterType="string" resultType="map">
+        SELECT gc.gcmc, gc.wtdw, xx.fwpj, xx.pjyj, xx.pjsj, xx.chdwxxid, xx.mlkid
+        from dchy_xmgl_chxm_chdwxx xx
+        LEFT JOIN dchy_xmgl_chxm xm
+        on xm.chxmid = xx.chxmid
+        LEFT JOIN dchy_xmgl_chgc gc
+        ON gc.chgcid = xm.chgcid
+        <where>
+            AND xx.pjzt = '1' and xx.mlkid = #{mlkid}
+            <if test="pjkssj != null and pjkssj != ''">
+                AND xx.pjsj <![CDATA[>=]]> to_date(#{pjkssj},'yyyy-mm-dd')
+            </if>
+            <if test="pjjssj != null and pjjssj != ''">
+                AND xx.pjsj <![CDATA[<]]> to_date(#{pjjssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="fwpj != null and fwpj != ''">
+                and xx.fwpj = #{fwpj}
+            </if>
+        </where>
+        order by xx.pjsj desc nulls last
+    </select>
+
+</mapper>

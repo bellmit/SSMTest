@@ -1,0 +1,613 @@
+<div class="multipleAnalysis">
+    <div class="title">{{label}}功能配置</div>
+    <hr>
+    <form id="zzAnalyssis">
+        <div class="left pull-left">
+            <div style="height: 310px;">
+                <div id="analysisType">
+
+                </div>
+                <div class="text-center addAnalysis" id="addAnalysis"><span
+                        class="glyphicon glyphicon-plus-sign"></span></div>
+            </div>
+            <hr>
+
+            <!--<div class="">-->
+                <!--<button type="button" class="btn btn-primary" style="width: 100%" id="layerBtn">编辑范围图层列表</button>-->
+            <!--</div>-->
+
+        </div>
+
+        <div class="right pull-left">
+            <div class="row">
+                <div class="col-xs-2 text-right">
+                    <label class="lableTitle">标题</label>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                           value="{{label}}"/>
+                </div>
+                <div class="col-xs-2  text-right">
+                    <label class="lableTitle">图标</label>
+                </div>
+                <div class="col-xs-4">
+                    <div class="ui search selection dropdown" id="icons">
+                        <input type="hidden" name="icon" value="{{icon}}">
+                        <i class="dropdown icon"></i>
+
+                        <div class="default text">请选择</div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                    class="tags"> 属性</span></h4>
+
+            <!--<div id="scrollAttr">-->
+            <div id="tplPostion">
+                <form id="analysisForm">
+                    <input type="hidden" name="funid" value="">
+                    <div class="row">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">数据源</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="dataSource" class="form-control" id="dataSource"
+                                   placeholder="请填写数据源"
+                                   value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">分析图层</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="layerName" class="form-control" id="layerName"
+                                   placeholder="请填写分析图层"
+                                   value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">返回字段</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="returnFields" class="form-control" id="returnFields"
+                                   placeholder="请填写返回字段"
+                                   value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">筛选条件</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="whereClouse" class="form-control" id="whereClouse"
+                                   placeholder="请填写筛选条件"
+                                   value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">超链接</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="hyperlink" class="form-control" id="hyperlink"
+                                   placeholder="请填超链接"
+                                   value=""/>
+                        </div>
+                    </div>
+                </form>
+                <!--</div>-->
+                <hr>
+
+                <!--<div class="row">-->
+                    <!--<div class="col-xs-2 text-right">-->
+                        <!--<label class="lableTitle">范围图层列表</label>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-10">-->
+                        <!--<div id="layers">-->
+                            <!--<div class="ui styled fluid accordion">-->
+                                <!--{{#config.query.layers}}-->
+                                <!--<div class="title" style="text-align: left!important;" data-id="{{layerName}}">-->
+                                    <!--<i class="dropdown icon"></i>-->
+                                    <!--{{layerName}}-->
+                                    <!--<span class="glyphicon glyphicon-remove-sign pull-right"></span>-->
+                                <!--</div>-->
+                                <!--<div class="content">-->
+                                    <!--<div class="transition hidden">-->
+                                        <!--<ul class="field-list">-->
+                                            <!--{{#returnFields}}-->
+                                            <!--<li data-id="{{name}}" data-parent="{{layerName}}">-->
+                                                <!--{{alias}}-->
+                                                <!--<span class="glyphicon glyphicon-remove-sign pull-right"></span>-->
+                                            <!--</li>-->
+                                            <!--{{/returnFields}}-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--{{/config.query.layers}}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <hr>
+
+                <div class="row" style="clear: both;">
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">导入类型</label>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="ui search multiple selection dropdown" id="import">
+                            <input name="importType" type="hidden" value="{{config.importType}}">
+                            <i class="dropdown icon"></i>
+
+                            <div class="default text">导入类型</div>
+                            <div class="menu">
+                                <div class="item" data-value="bj">电子报件</div>
+                                <div class="item" data-value="cad">cad文件</div>
+                                <div class="item" data-value="shp">shape文件</div>
+                                <div class="item" data-value="txt">txt文件</div>
+                                <div class="item" data-value="xls">excel文件</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="clear: both;padding-top: 20px;">
+                <button type="button" class="btn btn-success" style="width: 150px;" id="zzAnalysisSaveBtn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!--普通分析-->
+<script id="analysisTpl1" type="x-tpl-mustache">
+<form id="analysisForm">
+<input type="hidden" name="funid" value="">
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">别名</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="alias" class="form-control" id="alias" placeholder="请填写分析别名"
+               value="{{alias}}"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">数据源</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="dataSource" class="form-control" id="dataSource" placeholder="请填写数据源"
+               value="{{dataSource}}"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">分析图层</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="layerName" class="form-control" id="layerName" placeholder="请填写分析图层"
+               value="{{layerName}}"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">返回字段</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="returnFields" class="form-control" id="returnFields"
+               placeholder="请填写返回字段"
+               value=""/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">筛选条件</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="whereClouse" class="form-control" id="whereClouse" placeholder="请填写筛选条件"
+               value=""/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-2 text-right">
+        <label class="lableTitle">超链接</label>
+    </div>
+    <div class="col-xs-10">
+        <input type="text" name="hyperlink" class="form-control" id="hyperlink" placeholder="请填超链接"
+               value=""/>
+    </div>
+</div>
+
+ <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可见性</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="visible"  name="visible" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可导出图形</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="exportable"  name="exportable" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+</form>
+</script>
+<!--现状分析配置内容-->
+<script id="analysisTpl2" type="x-tpl-mustache">
+<form id="analysisForm">
+    <input type="hidden" name="funid" value="">
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">数据源</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="dataSource" class="form-control" id="dataSource" placeholder="请填写数据源"
+                   value="{{dataSource}}"/>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可见性</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="visible"  name="visible">
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+      <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可导出图形</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="exportable"  name="exportable" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">分析图层</label>
+        </div>
+        <div class="col-xs-10">
+            <div class="ui radio checkbox layerRadio">
+                <input type="radio" name="layerRadio" value="year">
+                <label>年份</label>
+            </div>
+            <div class="ui radio checkbox">
+                <input type="radio" name="layerRadio" value="layer">
+                <label>名称</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row hidden">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">图层名称</label>
+        </div>
+        <div class="col-xs-10" id="layerContent">
+
+        </div>
+    </div>
+
+    <div class="row" id="yearRow">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">年份选项</label>
+        </div>
+        <div class="col-xs-10">
+             <div class="ui radio checkbox yearRadio">
+                <input type="radio" name="yearRadio">
+                <label>单一年份</label>
+            </div>
+            <div class="ui radio checkbox">
+                <input type="radio" name="yearRadio">
+                <label>多个年份</label>
+            </div>
+
+            <button id="addMultipleBtn" class="btn btn-primary btn-sm hidden" style="margin-left:10px;"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle"></label>
+        </div>
+        <div class="col-xs-10">
+            <div id="singleYear" class="row">
+
+            </div>
+            <div id="years">
+
+            </div>
+        </div>
+    </div>
+</form>
+
+</script>
+
+<script id="analysisTpl3" type="x-tpl-mustache">
+<form id="analysisForm">
+    <input type="hidden" name="funid" value="">
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">数据源</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="dataSource" class="form-control" id="dataSource" placeholder="请填写数据源"
+                   value="{{dataSource}}"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">分析选择</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="analysisType1">
+              <option value="year">年份</option>
+              <option value="layerType">类型</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle" id="analysisType1Label">年份</label>
+        </div>
+        <div class="col-xs-10">
+             <input type="text" name="year" id="year" class="form-control" placeholder="请填写年份"
+                               value="{{year}}"/>
+
+            <input type="text" name="layerType" id="layerType" class="form-control hidden" placeholder="请填写类型"
+                   value="{{layerType}}"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">返回字段</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="returnFields" class="form-control" id="returnFields"
+                   placeholder="请填写返回字段"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">筛选条件</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="whereClouse" class="form-control" id="whereClouse" placeholder="请填写筛选条件"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">超链接</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="hyperlink" class="form-control" id="hyperlink" placeholder="请填超链接"
+                   value=""/>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可见性</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="visible"  name="visible">
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+      <div class="row">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可导出图形</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="exportable"  name="exportable" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+
+
+</form>
+
+</script>
+
+<script id="analysisList" type="x-tpl-mustache">
+    <div class="list-group">
+    {{#config.jsonParams}}
+        <a href="#" class="list-group-item" data-funid="{{funid}}" data-tpl="" data-info={{analysisConfInfo}}>
+            <span class='analysisAlias'>{{alias}}</span>
+            <span class="glyphicon glyphicon-remove-sign pull-right"></span>
+        </a>
+    {{/config.jsonParams}}
+    </div>
+
+</script>
+
+<script id="addAnalysisTpl" type="x-tpl-mustache">
+<div class="container" style="width:98%;padding:15px;">
+    <form class="form-horizontal" id="addAnalysisForm" method="post" url=''>
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">funid</label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="funid" class="form-control" id="funid" placeholder="请填写funid"
+                   value=""/>
+        </div>
+
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">别名</label>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" name="alias" class="form-control" id="alias" placeholder="请填写别名"
+                   value=""/>
+        </div>
+    </div>
+    <hr>
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">数据源</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="dataSource" class="form-control" id="dataSource" placeholder="请填写数据源"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">分析图层</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="layerName" class="form-control" id="layerName" placeholder="请填写分析图层"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">返回字段</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="returnFields" class="form-control" id="returnFields"
+                   placeholder="请填写返回字段"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">筛选条件</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="whereClouse" class="form-control" id="whereClouse" placeholder="请填写筛选条件"
+                   value=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">超链接</label>
+        </div>
+        <div class="col-xs-10">
+            <input type="text" name="hyperlink" class="form-control" id="hyperlink" placeholder="请填写超链接"
+                   value=""/>
+        </div>
+    </div>
+
+      <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可见性</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="visible" name="visible" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-2 text-right">
+            <label class="lableTitle">可导出图形</label>
+        </div>
+        <div class="col-xs-10">
+            <select class="form-control" id="exportable" name="exportable" >
+                  <option value="true">是</option>
+                  <option value="false">否</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-xs-12 text-center">
+            <button type="submit" class="btn btn-primary" id="addAnalysisBtn">保存</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+</script>
+
+<script id="addYearsTpl" type="x-tpl-mustache">
+<div class="container" style="width:98%;padding:10px;">
+    <form class="form-horizontal" id="addYearsForm">
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">年份</label>
+            </div>
+            <div class="col-xs-10">
+                <input type="text" name="year" class="form-control" placeholder="请填写年份"
+                       value=""/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">线状地物</label>
+            </div>
+            <div class="col-xs-10">
+                <input type="text" name="xzdw" class="form-control" placeholder="请填写线状地物"
+                       value=""/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">地类图斑</label>
+            </div>
+            <div class="col-xs-10">
+                <input type="text" name="dltb" class="form-control" placeholder="请填写地类图斑"
+                       value=""/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" id="addYearsBtn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</script>

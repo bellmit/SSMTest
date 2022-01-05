@@ -1,0 +1,8 @@
+
+]
+java:S11926"GDefine a constant instead of duplicating this literal "chxmid" 5 times.(úÎÀ­
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.( Ã¯È
+g
+java:S3776""RRefactor this method to reduce its Cognitive Complexity from 63 to the 15 allowed.(äÓàC
+b
+java:S1192T"GDefine a constant instead of duplicating this literal "glsxid" 3 times.(ı‚À«úÿÿÿÿ

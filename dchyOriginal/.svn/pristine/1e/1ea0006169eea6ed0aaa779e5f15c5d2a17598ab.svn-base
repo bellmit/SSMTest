@@ -1,0 +1,64 @@
+{
+ "currentVersion": 10.1,
+ "serviceDescription": "",
+ "mapName": "Layers",
+ "description": "",
+ "copyrightText": "",
+ "supportsDynamicLayers": false,
+ "layers": [
+  {
+   "id": 0,
+   "name": "供地地块",
+   "parentLayerId": -1,
+   "defaultVisibility": true,
+   "subLayerIds": null,
+   "minScale": 80000,
+   "maxScale": 0
+  }
+ ],
+ "tables": [],
+ "spatialReference": {
+  "wkid": 2364,
+  "latestWkid": 2364
+ },
+ "singleFusedMapCache": false,
+ "initialExtent": {
+  "xmin": 4.048521239688053E7,
+  "ymin": 3576815.086248809,
+  "xmax": 4.0490768657993056E7,
+  "ymax": 3579089.1845470075,
+  "spatialReference": {
+   "wkid": 2364,
+   "latestWkid": 2364
+  }
+ },
+ "fullExtent": {
+  "xmin": 4.04825550132E7,
+  "ymin": 3561946.2556999996,
+  "xmax": 4.0502268086500004E7,
+  "ymax": 3603409.4800000004,
+  "spatialReference": {
+   "wkid": 2364,
+   "latestWkid": 2364
+  }
+ },
+ "minScale": 0,
+ "maxScale": 0,
+ "units": "esriMeters",
+ "supportedImageFormatTypes": "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP",
+ "documentInfo": {
+  "Title": "GDDK_K_321201_2010",
+  "Author": "Administrator",
+  "Comments": "",
+  "Subject": "",
+  "Category": "",
+  "AntialiasingMode": "None",
+  "TextAntialiasingMode": "Force",
+  "Keywords": ""
+ },
+ "capabilities": "Map,Query,Data",
+ "supportedQueryFormats": "JSON, AMF",
+ "maxRecordCount": 1000,
+ "maxImageHeight": 2048,
+ "maxImageWidth": 2048
+}

@@ -1,0 +1,23 @@
+{{#data}}
+<div class="tpl-item animated bounceInDown">
+    <div class="thumb" title="预览">
+        <a class="t-link" href="/omp/map/{{tpl}}" target="_blank">
+            <img src="{{thumbnail}}" onerror="javascript:this.src='/omp/static/img/map/thumbnail.png'">
+        </a>
+    </div>
+    <div class="content">
+        <label class="tpl-name">{{name}}</label>
+        <div>
+            <small class="tpl-desc"><i class="fa fa-circle-o" aria-hidden="true"></i>&nbsp;{{description}}</small>
+        </div>
+        <div><small class="tpl_fileName"><i class="fa fa-circle-o" aria-hidden="true"></i>&nbsp;{{tpl}}.tpl</small></div>
+    </div>
+    <div class="footer">
+        <ul>
+            <li><a href="{{rootPath}}/map/{{tpl}}" target="_blank" class="t-icon fa fa-eye fa-2x" title="预览地图"></a></li>
+            <li><a href="{{rootPath}}/config/tpl/services?tpl={{tpl}}" class="t-icon fa fa-cog fa-2x" title="修改配置"></a></li>
+            <li><a class="t-icon fa fa-trash fa-2x tpl-remove" data-name="{{name}}" data-tpl="{{tpl}}" title="删除模板"></a></li>
+        </ul>
+    </div>
+</div>
+{{/data}}

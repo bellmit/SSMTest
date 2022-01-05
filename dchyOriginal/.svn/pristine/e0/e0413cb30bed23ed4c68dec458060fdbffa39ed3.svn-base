@@ -1,0 +1,491 @@
+<template>
+    <div class="form-edit" style="width: 100%">
+        <Form ref="formValidate" @on-validate="validateChecked" :model="agencyInfoData" inline :rules="ruleInline" :label-width='142'>
+            <Row>
+                <FormItem v-model="agencyInfoData.mlktp" v-if="!readonly || (readonly&&agencyInfoData.mlktp)" label="头像">
+                    <Upload
+                        ref="upload"
+                        :disabled="readonly"
+                        :show-upload-list="false"
+                        :format="['jpg','jpeg','png']"
+                        :on-format-error="handleFormatError"
+                        :before-upload="handleBeforeUpload"
+                        action="">
+                        <div class="upload-img">
+                            <Icon v-if="!agencyInfoData.mlktp" type="ios-add"></Icon>
+                            <img v-else :src="agencyInfoData.mlktp" alt="">
+                        </div>
+                    </Upload>
+                </FormItem>
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem label="测绘单位名称" :class="{'requireStar': btxyzList.includes('dwmc')}"  prop="dwmc">
+                        <Input readonly class="list-form-width" v-model="agencyInfoData.dwmc"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="法人代表" :class="{'requireStar': btxyzList.includes('frdb')}"  prop="frdb">
+                        <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.frdb"/>
+                    </FormItem>
+                </i-col>
+                 <i-col span="8">
+                    <FormItem label="测绘资质证书编号" :class="{'requireStar': btxyzList.includes('chzzzsbh'),'': true}" prop="chzzzsbh">
+                        <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.chzzzsbh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem label="有效期至" :class="{'requireStar': btxyzList.includes('yxqksrq') || btxyzList.includes('yxqjsrq')}" v-model="agencyInfoData.yxqksrq" prop="yxqksrq">
+                        <span v-if="readonly">
+                            <Input class="list-form-width" readonly v-model="agencyInfoData.yxsj"/>
+                        </span>
+                        <span v-else>
+                            <Row class="list-form-width">
+                                <i-col span="11">
+                                    <DatePicker  @on-change="kssjChange" format="yyyy-MM-dd" :options="ksOptions" v-model="agencyInfoData.yxqksrq" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                                <i-col span="1">
+                                    <div style="text-align:center">-</div>
+                                </i-col>
+                                <i-col span="12">
+                                    <DatePicker @on-change="jssjChange" format="yyyy-MM-dd" :options="jsOptions" v-model="agencyInfoData.yxqjsrq" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                            </Row>
+                        </span>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="统一社会信用代码" :class="{'requireStar': btxyzList.includes('tyshxydm'),'': true}" prop="tyshxydm">
+                        <Input readonly class="list-form-width" v-model="agencyInfoData.tyshxydm"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="单位性质" :class="{'requireStar': btxyzList.includes('dwxz')}" prop="dwxz">
+                        <span v-if="readonly">
+                            <Input readonly class="list-form-width" v-model="agencyInfoData.dwxzmc"/>
+                        </span>
+                        <span v-else>
+                            <Select class="list-form-width" v-model="agencyInfoData.dwxz" @on-select='dwxzSelect'>
+                                <Option v-for="(item,index) in dwxzList" :key="index" :value="item.DM">{{item.MC}}</Option>
+                            </Select>
+                        </span>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem label="办公地址" :class="{'requireStar': btxyzList.includes('bgdz')}" prop="bgdz">
+                        <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.bgdz"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="测绘专业范围" :class="{'requireStar': btxyzList.includes('chzyfw')}" prop="chzyfw">
+                       <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.chzyfw"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="资质等级" :class="{'requireStar': btxyzList.includes('zzdj')}" prop="zzdj">
+                        <span v-if="readonly">
+                            <Input readonly class="list-form-width" v-model="agencyInfoData.zzdjmc"/>
+                        </span>
+                        <span v-else>
+                            <Select class="list-form-width" v-model="agencyInfoData.zzdj" @on-select='zzdjSelect'>
+                                <Option v-for="(item,index) in zzdjList" :key="index" :value="item.DM">{{item.MC}}</Option>
+                            </Select>
+                        </span>
+                    </FormItem>
+                </i-col>   
+            </Row>
+            <Row>
+                <i-col span="8">
+                    <FormItem label="联系人" :class="{'requireStar': btxyzList.includes('lxr')}" prop="lxr">
+                        <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.lxr"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="联系电话" :class="{'requireStar': btxyzList.includes('lxdh')}" prop="lxdh">
+                        <Input :readonly="readonly" class="list-form-width" v-model="agencyInfoData.lxdh"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="8">
+                    <FormItem label="从业人员数量"  prop="cyrynum">
+                        <div class="list-form-width">
+                            <Input :class="!readonly || (showCyryBtn&&readonly && agencyInfoData.cyrynum && agencyInfoData.cyrynum!=0)?'width-130':'list-form-width'" readonly v-model="agencyInfoData.cyrynum"/>
+                            <Button @click="cyryxx()" v-if="!readonly" class="margin-left-10 btn-cancel float-right"><span>录入</span><span v-if="showCyry">从业人员信息</span></Button>
+                            <Button @click="cyryxx()" v-if="showCyryBtn && readonly && agencyInfoData.cyrynum && agencyInfoData.cyrynum!=0" class="margin-left-10 btn-cancel float-right"><span>查看</span><span v-if="showCyry">从业人员信息</span></Button>
+                        </div>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row class="margin-top-10">
+                <FormItem v-model="agencyInfoData.clsx" :class="{'requireStar': btxyzList.includes('clsx')}" prop="clsx" label="可承接测绘阶段">
+                    <div class="stage-tree">
+                        <div class="select-row-tree select-by-step">
+                            <div v-for="(tree,index) in treeList" :key="index">
+                                <Tree @on-check-change="checkChange" :data="tree" show-checkbox></Tree>
+                            </div>
+                        </div>
+                    </div>
+                </FormItem>
+            </Row>
+        </Form> 
+    </div>
+</template>
+<script>
+import moment from "moment";
+import util from "../../service/util"
+import { getDictInfo } from "../../service/mlk" 
+import yz_mixins_common from "../../service/yz_mixins_common"
+import _ from "loadsh"
+export default {
+    name: "AgencyInfo",
+    mixins: [yz_mixins_common],
+    props: {
+        agencyInfoData: { 
+            type: Object,
+            default: function(){
+                return {
+                    dwmc: ""
+                }
+            }
+        },
+        readonly: { //当前表单是只读状态还是编辑状态
+            type: Boolean,
+            default: true
+        },
+        mlkid: {
+            type: String,
+            default: ""
+        },
+        pathType: {
+            type: String,
+            default: ""
+        },
+        status: {
+            type: String,
+            default: ""
+        },
+        editorable: { //从业人员是否可编辑
+            type: Boolean,
+            default: false
+        },
+        showCyryBtn: { // 是否展示查看从业人员的按钮
+            type: Boolean,
+            default: true
+        }
+    },
+    watch: {
+        agencyInfoData: {
+            deep: true,
+            handler: function(newVal,oldVal){
+                if(!_.isEqual(newVal,oldVal)){
+                    this.changeBase64();
+                }
+            }
+        }
+    },
+    computed: {
+        yxqx: function() {
+            return this.agencyInfoData.yxqksrq + " - " + this.agencyInfoData.yxqjsrq
+        }
+    },
+    data() {
+        return {
+            showCyry: true,
+            ksOptions: {},
+            jsOptions: {},
+            dwxzList: [],
+            zzdjList: [],
+            treeList: [],
+            dictionaryList: [],
+            selectedClsx: [],
+            checkedClsxList: [],
+            file: "",
+            ruleInline: {
+                dwmc: {
+                    message: '必填项不能为空'
+                },
+                frdb: {
+                    message: '必填项不能为空'
+                },
+                chzzzsbh: {
+                    message: '必填项不能为空'
+                },
+                tyshxydm: {
+                    message: '必填项不能为空'
+                },
+                dwxz: {
+                    message: '必填项不能为空'
+                },
+                bgdz: {
+                    message: '必填项不能为空'
+                },
+                chzyfw: {
+                    message: '必填项不能为空'
+                },
+                lxr: {
+                    message: '必填项不能为空'
+                },
+                lxdh: {
+                    message: '必填项不能为空'
+                },
+                zzdj: {
+                    message: '必填项不能为空'
+                },
+                yxqksrq: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                clsx: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                lxdh: {
+                    type: 'number',
+                    validator: (rule,value,callback) => {
+                        if((!value || !value.trim())&& this.btxyzList.includes("lxdh")){
+                            callback("必填项不能为空")
+                        } else if(value&&!(/^([0-9]{3,4}-)?[0-9]{7,8}$/).test(value)&&!(/^1\d{10}$/.test(value))){
+                            callback("联系电话格式错误")
+                        }
+                        callback();
+                    },
+                    trigger: "blur"
+                }
+            }
+        }
+    },
+    created() {
+        if(screen.width <= 1600){
+            this.showCyry = false;
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+    },
+    methods: {
+        // 修改图片base64格式
+        changeBase64(){
+            let base64 = ""
+            if(this.agencyInfoData.mlktp){
+                let mlktp = this.agencyInfoData.mlktp;
+                let mlktp1 = mlktp.split("data")
+                let mlktp2 = []
+                if(mlktp1.length>1&&!mlktp1[1].startsWith(":")){
+                    mlktp2 = mlktp1[1].split("base64");
+                    //兼容IE，删除换行和回车
+                    mlktp2[1] = mlktp2[1].replace(/\n/g,``).replace(/\r/g,``);
+                    base64 = "data:" + mlktp2[0] + ";" + "base64," + mlktp2[1]
+                    this.agencyInfoData.mlktp = base64
+                }
+            }
+        },
+        // 图片上传
+        handleFormatError(){
+            layer.msg("仅支持图片格式")
+        },
+        handleBeforeUpload(file){
+            this.file = file
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = () => {
+                const _base64 = reader.result
+                this.$emit("img-change",_base64)
+            }
+            return false
+        },
+        // 获取字典项
+        getDictInfo(){
+            var params = {
+                zdlx: ["DWXZ","ZZDJ","CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryList = res.data.dataList;
+                this.renderClsxList();
+                res.data.dataList.forEach(r => {
+                    if(r.ZDLX == "DWXZ"){
+                        this.dwxzList.push(r)
+                    }else if(r.ZDLX == "ZZDJ"){
+                        this.zzdjList.push(r)
+                    }
+                })
+            })
+        },
+        setClsxList(clsxList){
+            this.checkedClsxList = [...clsxList];
+            clsxList.forEach(clsx => {
+                if(clsx){
+                    this.selectedClsx.push(
+                        {
+                            id: clsx
+                        }
+                    )
+                }
+            })
+            this.renderClsxList();
+        },
+        // 渲染测绘事项
+        renderClsxList(){
+            let treeList = [];
+            this.dictionaryList.forEach(list => {
+                if(!list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.push({
+                        title: list.MC, 
+                        dm: Number(list.DM),
+                        disabled:this.readonly, 
+                        expand: true,
+                        id: list.DM, 
+                        children: [],
+                    })
+                }
+            })
+            this.dictionaryList.forEach(list => {
+                if(list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.forEach(tree => {
+                        if(tree.id == list.FDM){
+                            tree.children.push({
+                                title: list.MC, 
+                                checked: this.checkedClsxList.includes(list.DM), 
+                                disabled:this.readonly, 
+                                id: list.DM
+                            })
+                        }
+                    })
+                }
+            })
+            treeList = _.orderBy(treeList,['dm'],['asc'])
+            this.treeList = [];
+            treeList.forEach(tree => {
+                this.treeList.push([tree])
+            })
+        },
+        // 添加从业人员信息
+        cyryxx(){
+            if(!this.readonly){
+                this.$root.$data.setMlkInfo(this.agencyInfoData);
+            }
+            let mlkid = sessionStorage.getItem("mlkid") || this.mlkid;
+            let fromPath = this.$route.fullPath
+            if(this.status){
+                if(fromPath.includes("&type")){
+                    fromPath = fromPath.split("&type")[0]
+                }
+                fromPath = fromPath + "&type=" + this.status;
+            }
+            this.$router.push({path: "/survey/cyryxx",query: {mlkid: mlkid,editorable: this.editorable,from: fromPath}})
+        },
+        // 资质等级选择
+        zzdjSelect(select){
+            this.agencyInfoData.zzdjmc = select.label;
+        },
+        // 选择测绘事项
+        checkChange(selected,item){
+            if(item.checked){
+                selected.forEach(s => {
+                    let find = this.selectedClsx.find(clsx => clsx.id == s.id);
+                    if(!find&&s.nodeKey!=0){
+                        this.selectedClsx.push(s)
+                    }
+                })
+            } else {
+                this.selectedClsx.forEach((select,index) => {
+                    if(select.id == item.id){
+                        this.selectedClsx.splice(index,1)
+                    }
+                })
+                if(item.children){
+                    item.children.forEach(d => {
+                        this.selectedClsx.forEach((select,index) => {
+                            if(select.id == d.id){
+                                this.selectedClsx.splice(index,1)
+                            }
+                        })
+                    })
+                }
+            }
+            let selectedDm = this.selectedClsx.map(s => s.id);
+            this.checkedClsxList = selectedDm;
+            this.agencyInfoData.clsx = selectedDm.join(",");
+        },
+        // 单位性质选择
+        dwxzSelect(select){
+            this.agencyInfoData.dwxzmc = select.label;
+        },
+        // 表单校验
+        validate(){
+            let validate = true;
+            this.unLastSubmit = false
+            this.$refs["formValidate"].validate((valid) => {
+                validate = valid
+                this.unLastSubmit = true;
+                if(this.btxyzList.includes("yxqjsrq") || this.btxyzList.includes("yxqksrq")){
+                    if(!this.agencyInfoData.yxqksrq || !this.agencyInfoData.yxqjsrq){
+                        this.$error.show("有效期至必填")
+                        validate = false;
+                    }
+                }
+            })
+            return validate;
+        },
+        // 获取验证list
+        getYwljYzList(){
+            return this.ywljyzList
+        },
+        // 控制结束时间可选状态
+        kssjChange(select){
+            this.jsOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select){
+            this.ksOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() > moment(select).unix());
+            }
+        },
+        addCyrysl(){
+            let mlkid = sessionStorage.getItem("mlkid");
+            this.$router.push({path: "/survey/cyryxx",query: {mlkid: mlkid}})
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-edit {
+        padding: 0 20px;
+    }
+    .width-130 {
+        width: 130px;
+    }
+    .select-row-tree >>> .ivu-tree-arrow {
+        display: none;
+    }
+    .select-row-tree {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .stage-tree {
+        width: 100%;
+        padding: 5px;
+        overflow-x: auto;
+        background-color: #e8f3fa;
+    }
+    .upload-img {
+        width: 172px;
+        text-align: center;
+        height: 120px;
+        line-height: 120px;
+        vertical-align: middle;
+        border: 1px dashed #ccc;
+        font-size: 32px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .upload-img > img {
+        max-width: 172px;
+        max-height: 120px;
+        margin-top: -5px;
+    }
+</style>

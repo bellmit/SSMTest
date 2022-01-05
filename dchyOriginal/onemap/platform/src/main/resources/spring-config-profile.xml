@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <beans profile="standard">
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.TokenSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+    <beans profile="egov">
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.EgovSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+    <beans profile="shengtin">
+        <bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.KanqLicenseSsoSessionProviderImpl">
+            <property name="identityService" ref="identityService"/>
+            <property name="authorizationService" ref="authorizationService"/>
+        </bean>
+    </beans>
+
+</beans>

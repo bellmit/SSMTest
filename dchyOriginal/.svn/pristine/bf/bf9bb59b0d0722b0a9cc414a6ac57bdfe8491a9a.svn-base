@@ -1,0 +1,119 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.service;
+
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.JsdwFbxfwModel;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.JsdwFbwtModel;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.MlkxxModel;
+
+import java.util.Map;
+
+public interface PushDataToMqService {
+
+    /**
+     * @param mlkid
+     * @param sqxxid
+     * @return
+     * @description 2020/12/14 名录库办结时进行消息推送
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushMlkMsgToMq(String mlkid, String sqxxid);
+
+    /**
+     * @param mlkid
+     * @return
+     * @description 2020/12/14 管理单位进行考评的时候进行消息推送
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushKpMsgToMq(String mlkid);
+
+    /**
+     * @param chxmid
+     * @return
+     * @description 2020/12/14 建设单位对测绘项目进行评价的时候进行消息推送
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushJsdwPjMsgToMq(String chxmid);
+
+    void pushXmpjMsgToMq(String chxmid);
+
+    /**
+     * @param
+     * @return
+     * @description 2020/12/14
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushJsdwFbfwMsgToMq(String chxmidSaveOrUpdate, JsdwFbxfwModel jsdwFbxfwModel);
+
+    /**
+     * @param
+     * @return
+     * @description 2021/02/24
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     */
+    void pushJsdwFbwtMsgToMq(String chxmidSaveOrUpdate, JsdwFbwtModel jsdwFbwtModel);
+
+    void pushSfdjMlkMsgToMq(String mlkid, MlkxxModel mlkxxModel);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/4/6 推送线上的基础数据申请数据到线下
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+//    void pushJcsjsqMsgToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/3/14 推送成果包文件到线下解析
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushCgjcMsgToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/3/14 推送成果提交数据
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushCgtjToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2020/12/15 线下库同步数据到线上备份库的实现类
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushMsgToMq(String msg);
+
+    /**
+     * 线上办结推线下处理
+     *
+     * @param msg
+     */
+    void pushOnlineCompleteToXx(String msg);
+
+
+    /**
+     * 推送线上文件至线下
+     * @param msg
+     */
+    void pushOnlineWjFileToxx(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/4/12 推送基础数据申请数据
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushJcsjMsgToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/4/12 推送消息提醒数据
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushXxtxMsgToMq(String msg);
+
+
+}

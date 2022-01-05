@@ -1,0 +1,158 @@
+.io-panel{
+    /*padding: 15px 5px;*/
+    /*border-top: 2px solid #0091ff;*/
+}
+
+.io-opt-container{
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #4285f4;
+}
+.io-opt-container >a:first-child{
+    margin-right: 8px;
+}
+.btn-file{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    text-decoration: none;
+    text-indent: 0;
+}
+#io-file-input{
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+.item-content{
+    border: 1px solid #dddddd;
+    padding: 10px 15px;
+    margin: 8px 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.item-content >h4{
+    color: #333333;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: '微软雅黑 Bold', '微软雅黑';
+    height: auto;
+    width: auto;
+}
+
+.item-content:hover{
+    border: 2px solid #0091ff;
+    opacity: .7;
+}
+
+.item-export{
+    font-size: 14px;
+    margin-top: 8px;
+    color: #428bca;
+}
+
+
+.info-content:first-child{
+    text-align: right;
+    margin-right:1em;
+}
+
+.info-content >ul{
+    float: left;
+    list-style-type: none;
+    padding: 3px;
+}
+
+.info-content>ul>li{
+    height: 22px;
+    line-height: 22px;
+}
+
+.io-export-select{
+    text-align: center;
+    margin: 20px;
+}
+
+.io-export-select >select{
+    width: 160px;
+}
+
+.io-footer{
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+.io-footer > a:first-child {
+    margin-right: 15px;
+}
+
+/******* h-ui 样式整理 ********/
+.Huifold .item {
+    position: relative;
+}
+
+.Huifold .item .info {
+    display: none;
+    padding: 10px;
+}
+
+* {
+    word-wrap: break-word;
+}
+
+#ioList ul, #ioList ol{
+    list-style-type: none;
+}
+
+#ioList ul, #ioList ol, #ioList li {
+    margin: 0!important;
+    padding: 0!important;
+}
+
+#ioList{
+    /*margin-top:20px;*/
+}
+
+#ioList li{
+    margin-bottom: 5px!important;
+}
+
+.Huifold .item h4 {
+    margin: 0;
+    font-weight: bold;
+    position: relative;
+    border-top: 1px solid #fff;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 6px 10px;
+    cursor: pointer;
+    padding-right: 30px;
+    /*border-bottom: solid #eee 1px;*/
+    background: none;
+    color: #1D8AFF;
+}
+
+.Huifold .item h4 b {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    right: 10px;
+    top: 7px;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    color: #1D8AFF;
+}
+.item-content-selected{
+    background: #D6D6D6;
+}
+
+.item-content{
+    border: 1px solid #dddddd;
+    padding: 5px 5px;
+    margin:5px;
+    cursor: pointer;
+    border-left: #4285f4 solid 2px;
+}

@@ -1,0 +1,322 @@
+<template>
+    <div>
+        <Header :showUser="false"></Header>
+        <div class="bdc-container register-container">
+            <div class="container">
+                <div class="form-title">
+                    <div class="list-title">请确认注册账户类型</div>
+                </div>
+                <div class="position-relative">
+                    <div class="tab-uer">
+                        <div class="survey-user" @click="swicthTab('survey')">
+                            <img v-if="isSurvey" src="static/images/cehui_hover.png" alt="">
+                            <img v-else src="static/images/cehui.png" alt="">
+                            <div v-if="isSurvey" class="user-active">测绘单位人员</div>
+                            <div v-else class="user-disable">测绘单位人员</div>
+                        </div>
+                        <div class="constrct-user" @click="swicthTab('constrct')">
+                            <img v-if="isSurvey" src="static/images/jianshe.png" alt="">
+                            <img v-else src="static/images/jianshe_hover.png" alt="">
+                            <div v-if="isSurvey" class="user-disable">建设单位人员</div>
+                            <div v-else class="user-active">建设单位人员</div>
+                        </div>
+                    </div>
+                    <div v-if="isSurvey" class="survey-user-core"></div>
+                    <div v-else class="construct-user-core"></div>
+                </div>
+                <div class="user-form form-edit margin-top-20">
+                    <Form :model="registerData" ref="registerForm" @on-validate="validateChecked" :rules="ruleInline" :label-width="142">
+                        <FormItem v-if="isSurvey" label="测绘单位名称 " v-model="registerData.dwmc" prop="dwmc">
+                            <Input v-model="registerData.dwmc"/>
+                        </FormItem>
+                        <FormItem v-else label="建设单位名称" v-model="registerData.dwmc" prop="dwmc">
+                            <Input v-model="registerData.dwmc"/>
+                        </FormItem>
+                        <FormItem label="登录名"  v-model="registerData.loginname" prop="loginname">
+                            <Input v-model="registerData.loginname"/>
+                        </FormItem>
+                        <FormItem label="用户名"  v-model="registerData.username" prop="username">
+                            <Input v-model="registerData.username"/>
+                        </FormItem>
+                        <FormItem label="注册手机号码" v-model="registerData.sjhm" prop="sjhm">
+                            <Input v-model="registerData.sjhm"/>
+                        </FormItem>
+                        <FormItem label="验证码" v-if="flag=='true'" v-model="registerData.yzm" prop="yzm">
+                            <Input style="width: 82%" v-model="registerData.yzm"/>
+                            <Button v-if='!hasYzm&&!timesUp' class="btn-cancel float-right" @click="getYzm">获取验证码</Button>
+                            <Button v-if='hasYzm&&!timesUp' class="float-right">{{yzmTime}}s</Button>
+                            <Button v-if='timesUp' class='btn-cancel float-right' @click="getYzm()">获取验证码</Button>
+                        </FormItem>
+                        <FormItem label="统一社会信用代码" v-model="registerData.tyshxydm" prop="tyshxydm">
+                            <Input v-model="registerData.tyshxydm"/>
+                        </FormItem>
+                        <FormItem :label="isSurvey?'上传测绘资质': '上传营业执照' " v-model="registerData.chzz" prop="chzz">
+                            <Upload multiple :beforeUpload="handlerUpload" action=""><Button class="btn-cancel">选择文件</Button></Upload>
+                        </FormItem>
+                        <FormItem v-if="uploadFile.length">
+                            <div v-for="(item,index) in uploadFile" :key="index">
+                                <span>{{item.name}}</span>
+                                <span class="margin-left-20"><a href="javascript:void(0)" @click="deleteFj(index)">删除</a></span>
+                            </div>
+                        </FormItem>
+                        <FormItem label="登录密码" v-model="registerData.password" prop="password">
+                            <Input type="password" v-model="registerData.password" placeholder="8-16位，由数字、下划线、字母组成"/>
+                        </FormItem>
+                        <FormItem label="确认密码" v-model="registerData.qrmm" prop="qrmm">
+                            <Input type="password" v-model="registerData.qrmm"/>
+                        </FormItem>
+                    </Form>
+                </div>
+                <div class="save-btn">
+                    <Button class="bdc-major-btn btn-height-32" type="primary" @click="submit()">确认</Button>
+                    <Button class="btn-cancel btn-height-32 margin-left-10" @click="toLogin()">取消</Button>
+                </div>
+                <div class="save-btn margin-top-20">
+                    <span>我已注册账号，<a href="javascript:void(0)" @click="toLogin()">立即登录</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { registerUser,querySfqyYzm, queryYzm, login} from "../../service/login"
+import { redirectToCasLosgin } from "../../service/request"
+import util from "../../service/util"
+export default {
+    data() {
+        const _self = this;
+        return {
+            registerData: {
+                dwmc: "",
+                loginname: "",
+                sjhm: "",
+                yzm: "",
+                tyshxydm: "",
+                chzz: "",
+                password: "",
+                qrmm: ""
+            },
+            isSurvey: true,
+            ssmkid: "3",
+            bdid: "3",
+            yzmTime: 60,
+            hasYzm: false,
+            timesUp: false,
+            flag: "",
+            countdownTime: "",
+            uploadFile: [],
+            error: "",
+            ruleInline: {
+                dwmc: { required:true,message: "必填项不能为空",trigger: 'blur'},
+                username: { required:true,message: "必填项不能为空",trigger: 'blur' },
+                loginname: { required:true,message: "必填项不能为空",trigger: 'blur' },
+                sjhm: { required:true,message: "必填项不能为空",trigger: 'blur' },
+                yzm: { required:true,message: "必填项不能为空",trigger: 'blur' },
+                tyshxydm: { required:true,message: "必填项不能为空",trigger: 'blur' },
+                password: {
+                    required:true,
+                    trigger: "blur",
+                    validator: (rule,value,callback) => { 
+                        if(!value||!value.trim()){
+                            callback("必填项不能为空")
+                        }else if(!/^(?=.*\d+.*)(?=.*[a-zA-Z]+.*)(?=.*_.*)[\da-zA-Z_]{8,16}$/.test(value)){
+                            callback("密码格式错误")
+                        }
+                        callback()      
+                    }
+                },
+                qrmm: {
+                    trigger: "blur",
+                    required: true,
+                    validator: (rule,value,callback) => { 
+                        if(!value||!value.trim()){
+                            callback("必填项不能为空")
+                        }else if(value!=_self.registerData.password){
+                            callback("确认密码错误")
+                        }
+                        callback()      
+                    }
+                }
+            }
+        }
+    },
+    mounted() {
+        this.querySfqyYzm();
+    },
+    beforeDestroy() {
+        clearInterval(this.countdownTime)
+    },
+    methods: {
+        // 获取是否需要验证码的配置
+        querySfqyYzm(){
+            querySfqyYzm().then(res => {
+                this.flag = res.data.flag;
+            })
+        },
+        resetForm(){
+            this.registerData = {
+                dwmc: "",
+                dwmc: "",
+                loginname: "",
+                sjhm: "",
+                yzm: "",
+                username: "",
+                tyshxydm: "",
+                chzz: "",
+                password: "",
+                qrmm: ""
+            }
+            this.uploadFile = [];
+        },
+        getYzm(){
+            this.timesUp = false;
+            let params = {
+                phones: [
+                    {
+                        phone: this.registerData.sjhm
+                    }
+                ]
+            }
+            this.$loading.show("发送中...")
+            queryYzm(params).then(res => {
+                this.$loading.close();
+                this.hasYzm = true;
+                this.countdownTime = setInterval(()=>{
+                    this.yzmTime--;
+                    if(this.yzmTime <= 0){
+                        this.timesUp = true;
+                        clearInterval(this.countdownTime);
+                    }
+                },1000)
+            })
+        },
+        swicthTab(type){
+            this.resetForm();
+            if(type == "survey"){
+                this.isSurvey = true;
+            }else {
+                this.isSurvey = false
+            }
+        },
+        handlerUpload(file){
+            this.uploadFile.push(file)
+            return false
+        },
+        deleteFj(index){
+            this.uploadFile.splice(index,1)
+        },
+        toLogin(){
+            this.$router.push("/login")
+            // redirectToCasLosgin()
+        },
+        submit(){
+            this.$refs["registerForm"].validate(valid => {
+                if(valid){
+                    let formData = new FormData();
+                    this.uploadFile.forEach(file => {
+                        formData.append("files", file)
+                    })
+                    formData.append("dwmc", this.registerData.dwmc)
+                    formData.append("loginname", this.registerData.loginname)
+                    formData.append("yzm", this.registerData.yzm)
+                    formData.append("sjhm", this.registerData.sjhm)
+                    formData.append("tyshxydm", this.registerData.tyshxydm)
+                    formData.append("password", this.registerData.password)
+                    formData.append("username", this.registerData.username)
+                    formData.append("ssmkid", "3")
+                    formData.append("cllx", "1")
+                    formData.append("glsxid", util.createUUID())
+                    let yhlx = this.isSurvey ? "2":"1"
+                    formData.append("yhlx",yhlx)
+                    this.$loading.show("注册中...")
+                    registerUser(formData).then(res => {
+                        this.$loading.close();
+                        layer.msg("注册成功");
+                        setTimeout(() => {
+                            if (!location.origin) {
+                                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                            }
+                            location.href = location.origin + "/portal-ol/yhdwZc/autoLogin?username=" + this.registerData.username + "&password=" + this.registerData.password;
+                        },1000)
+                    })
+                }
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            this.error = error
+            if(error&&this.error){
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = ""
+                    this.$error.close();
+                },1500)
+            }
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        min-height: calc(100vh - 70px);
+    }
+    .register-container {
+        margin: 10px auto 0;
+    }
+    .survey-user-core {
+        position: absolute;
+        bottom: -10px;
+        left: calc(25% - 10px);
+        transform: rotate(-45deg);
+        width: 20px;
+        height: 20px;
+        background-color: #f3f4f6;
+    }
+    .user-form {
+        padding: 20px 180px!important;
+    }
+    .construct-user-core {
+        position: absolute;
+        bottom: -10px;
+        left: calc(75% - 10px);
+        transform: rotate(-45deg);
+        width: 20px;
+        height: 20px;
+        background-color: #f3f4f6;
+    }
+    .tab-uer {
+        z-index: 1;
+        height: 180px;
+        padding: 20px;
+        background-color: #f3f4f6;
+        display: flex;
+        position: relative;
+        justify-content: flex-start;
+        > div {
+            width: 50%;
+            cursor: pointer;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .survey-user {
+            border-right: 1px solid #ccc;
+        }
+        .user-active {
+            margin-top: 10px;
+            color: #1d87d1;
+            font-weight: bold;
+        }
+        .user-disable {
+            margin-top: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+    }
+</style>
+<style scoped>
+    .user-form >>> .ivu-form-item {
+        margin-bottom: 15px!important;
+    }
+</style>

@@ -1,0 +1,473 @@
+<template>
+    <div class="review-file">
+        <Header></Header>
+        <div class="bdc-container content">
+            <div class="content-left">
+                <div class="left-tree">
+                    <div class="tree-header">
+                        <span>成果树</span>
+                        <span></span>
+                    </div>
+                    <div class="tree-content">
+                        <Tree @on-toggle-expand="toggleTree" @on-select-change="selectTreeChange" :data="treeData"></Tree>
+                    </div>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="file-operation">
+                    <div></div>
+                    <div class="opr-right">
+                        <span class="cursor-pointer file-opr" title="下载" @click="downloadFile()">
+                            <Icon type="md-download" />
+                        </span>
+                    </div>
+                </div>
+                <div class="file-detail" @click="handlerBgClick">
+                    <div v-for="(file,index) in showFileData" @dblclick="dbClickHandler(file)" @click.stop="clickHandler(file,index)" :class="file.active?'file-item file-item-active':'file-item'" :key="index">
+                        <div>
+                            <img v-if="file.type=='0' || !file.type" src="static/images/file.png" class="icon-file" alt="">
+                            <i v-else class="fa fa-file-text-o icon-file-detail" aria-hidden="true"></i>
+                        </div>
+                        <div class="margin-top-10" style="word-break: break-all">
+                            {{file.name}} <span v-if="file.childCount">({{file.childCount}})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import _ from "lodash";
+import { queryGcTree, getFileNums,queryDetailFile } from "../../service/review"
+export default {
+    data() {
+        return {
+            backData: [],
+            aheadData: [],
+            treeData: [],
+            viewType: ["png","jpg","jpeg","txt","pdf","json","excel"],
+            selectTree: null,
+            showFileData: [],
+            fileData: [],
+            preStep: 0,
+            nextStep: 0,
+            lastSelectFile: null,
+            selectFile: null,
+            currentTree: {},
+            sjr: "",
+            xmid: "",
+            sjsj: "",
+            rootNodeId: "",
+            chxmid: ""
+        }
+    },
+    mounted() {
+        this.chgcid = this.$route.query.chgcid
+        this.queryGcTree();
+    },
+    methods: {
+        queryGcTree(){
+            let params = {
+                chgcid: this.chgcid
+            }
+            queryGcTree(params).then(res => {
+                this.$loading.close();
+                this.treeData = _.cloneDeep(this.setNodeTeeData(res.data.clcgByChxmList,res.data.chgcxx));
+                this.treeData[0].selected = true;
+                this.treeData[0].expand = true;
+                this.selectTree = this.treeData[0];
+                this.selectTreeChange([]);
+            })
+        },
+        setNodeTeeData(treeData,chgcxx){
+            let treeList = [{
+                name: chgcxx.gcbh,
+                id: "0",
+                type: '0',
+                children: [],
+                render: (h, { root, node, data }) => {
+                    return h('span', [
+                        h('Icon', {
+                            props: {
+                                type: 'icon fa fa-folder'
+                            },
+                            style: {
+                                marginRight: '8px'
+                            }
+                        }),
+                        h('span', data.name)
+                    ])
+                }
+            }]
+            treeData.forEach(tree => {
+                let newTree = {
+                    ...tree.node,
+                    children: [],
+                    render: (h, { root, node, data }) => {
+                        return h('span', [
+                            h('Icon', {
+                                props: {
+                                    type: 'icon fa fa-folder'
+                                },
+                                style: {
+                                    marginRight: '8px'
+                                }
+                            }),
+                            h('span', data.name)
+                        ])
+                    }
+                }
+                tree.items.forEach(item => {
+                    newTree.children.push({
+                        ...item,
+                        chxmid: tree.node.chxmid,
+                        children: [],
+                        render: (h, { root, node, data }) => {
+                            return h('span', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'icon fa fa-folder'
+                                    },
+                                    style: {
+                                        marginRight: '8px'
+                                    }
+                                }),
+                                h('span', data.name)
+                            ])
+                        }
+                    })
+                })
+                treeList[0].children.push(newTree)
+            })
+            return treeList
+        },
+        // 根据节点信息获取该节点下的数据
+        queryDetailFile(item,show,isFile){
+            let params = {
+                id: item.id,
+                chgcid: this.chgcid,
+                chxmid: item.chxmid
+            }
+            queryDetailFile(params).then(res => {
+                item.children = _.cloneDeep(this.setTreeData(res.data.dataList.items,item.chxmid));
+                if(show){
+                    this.$nextTick(() => {
+                        this.fileData = _.cloneDeep(res.data.dataList.items)
+                        this.showFileData = _.cloneDeep(res.data.dataList.items)
+                        if(!isFile){
+                            this.selectTree = _.cloneDeep(item)
+                        }
+                    })
+                }
+            })
+        },
+        // 修改树图标
+        setTreeData(treeData,chxmid){
+            let data = []
+            treeData.forEach(tree => {
+                if(tree.childCount > 0 && !tree.children){
+                    tree.children = [{}]
+                }
+                tree.chxmid = chxmid;
+                if(tree.type == '0' || !tree.type){
+                    tree.render = (h, { root, node, data }) => {
+                        return h('span', [
+                            h('Icon', {
+                                props: {
+                                    type: 'icon fa fa-folder'
+                                },
+                                style: {
+                                    marginRight: '8px'
+                                }
+                            }),
+                            h('span', data.name)
+                        ])
+                    }
+                } else {
+                    tree.render = (h, { root, node, data }) => {
+                        return h('span', [
+                            h('Icon', {
+                                props: {
+                                    type: 'icon fa fa-file-text-o'
+                                },
+                                style: {
+                                    marginRight: '8px'
+                                }
+                            }),
+                            h('span', data.name)
+                        ])
+                    } 
+                }
+                if(tree.children && tree.children.length){
+                    tree.children = _.cloneDeep(this.setTreeData(tree.children,chxmid))
+                }
+                data.push(tree)
+            })
+            return data;
+        },
+        // 树的展开和收起
+        toggleTree(tree){
+            if(tree.expand){
+                if(tree.id != "0"){
+                    this.queryDetailFile(tree)
+                }
+                tree.render = (h, { root, node, data }) => {
+                    return h('span', [
+                        h('Icon', {
+                            props: {
+                                type: 'icon fa fa-folder-open'
+                            },
+                            style: {
+                                marginRight: '8px'
+                            }
+                        }),
+                        h('span', data.name)
+                    ])
+                }
+                
+            } else {
+                tree.render = (h, { root, node, data }) => {
+                    return h('span', [
+                        h('Icon', {
+                            props: {
+                                type: 'icon fa fa-folder'
+                            },
+                            style: {
+                                marginRight: '8px'
+                            }
+                        }),
+                        h('span', data.name)
+                    ])
+                }
+            }
+        },
+        // 修改树的选中
+        selectTreeChange(tree){
+            if(tree[0]){
+                this.preStep = 0;
+                this.nextStep = 0;
+                this.aheadData = [];
+                this.backData = [];
+                this.selectFile = null;
+                if(tree[0].id != "0"){
+                    this.queryDetailFile(tree[0],true)
+                } else {
+                    this.showFileData = _.cloneDeep(tree[0].children);
+                    this.selectTree = tree[0];
+                }
+            } else if(this.selectTree){
+                this.preStep = 0;
+                this.nextStep = 0;
+                this.aheadData = [];
+                this.backData = [];
+                this.selectFile = null;
+                this.showFileData = _.cloneDeep(this.selectTree.children);
+                this.treeData = _.cloneDeep(this.findTree(this.treeData,this.selectTree));
+            }
+        },
+        // 修改第二次点击树时选中状态不变
+        findTree(tree,select){
+            tree.forEach(t => {
+                if(t.id === select.id){
+                    t.selected= true;
+                } else if(t.children && t.children.length){
+                    this.findTree(t.children,select)
+                }
+            })
+            return tree
+        },
+        // 后退
+        backToPre(){
+            let length = this.backData.length;
+            this.preStep += 1;
+            if(length > 0 && this.backData[length - this.preStep]){
+                this.aheadData.push(_.cloneDeep(this.showFileData));
+                this.showFileData = _.cloneDeep(this.backData[length - this.preStep])
+                this.selectFile = this.findSelectFile(this.showFileData)
+            } else {
+                this.preStep -= 1;
+            }
+        },
+        // 获取向上一级的数据
+        getUpTree(treeData){
+            let upTree = []
+            this.showFileData.forEach(file => {
+                delete file.active
+            })
+            treeData.forEach(tree => {
+                if(tree.children && tree.children.length){
+                    tree.children.forEach(t => {
+                        if(_.isEqual(this.showFileData,t.children)){
+                            upTree = _.cloneDeep(tree.children)
+                        }
+                    })
+                    if(!upTree.length){
+                        upTree = this.getUpTree(tree.children)
+                    }
+                }
+            })
+            return upTree
+        },
+        // 向上
+        upToPre(){
+            let upTree = _.cloneDeep(this.getUpTree(this.treeData));
+            this.selectFile = null;
+            this.showFileData = upTree.length ? upTree: this.showFileData;
+        },
+        // 前进
+        goAheadToNext(){
+            let length = this.aheadData.length;
+            this.nextStep += 1;
+            if(length > 0 && this.aheadData[length - this.nextStep]){
+                this.backData.push(_.cloneDeep(this.showFileData))
+                this.showFileData = _.cloneDeep(this.aheadData[length - this.nextStep])
+                this.selectFile = this.findSelectFile(this.showFileData)
+            } else {
+                this.nextStep -= 1;
+            }
+        },
+        // 双击打开
+        dbClickHandler(file){
+            if(file.type == '0' || !file.type){
+                this.aheadData = [];
+                this.nextStep = 0;
+                if(!this.backData[this.backData.length - this.preStep - 1]){
+                    this.backData = [];
+                    this.preStep = 0;
+                }
+                this.selectFile = null;
+                this.backData.push(_.cloneDeep(this.showFileData))
+                this.queryDetailFile(file,true,true)
+            } else{
+                this.viewFile(file)
+            }
+        },
+        // 获取选中项
+        findSelectFile(fileData){
+            let select = null;
+            fileData.forEach(file => {
+                if(file.active){
+                    select = file
+                } else if(file.children&&file.children.length&&!select){
+                    select = this.findSelectFile(file.children)
+                }
+            })
+            return select
+        },
+        // 点击整体body,取消选中
+        handlerBgClick(){
+            let showFileData = _.cloneDeep(this.showFileData)
+            showFileData.forEach((f,i) => {
+                f.active = false
+            })
+            this.selectFile = null;
+            this.showFileData = _.cloneDeep(showFileData)
+        },
+        // 单击选中
+        clickHandler(file,index){
+            this.selectFile = _.cloneDeep(file);
+            let showFileData = _.cloneDeep(this.showFileData)
+            showFileData.forEach((f,i) => {
+                f.active = false
+                if(index === i){
+                    f.active = true
+                }
+            })
+            this.showFileData = _.cloneDeep(showFileData)
+        },
+        // 下载文件
+        downloadFile(){
+            let select = this.selectFile ? this.selectFile : this.selectTree
+            if(select){
+                if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                let params = {
+                    wjzxid: select.id
+                }
+                if(select.id == "0"){
+                    params = {
+                        gcbh: select.name
+                    }
+                }
+                getFileNums(params).then(res => {
+                    location.href=location.origin + config.msurveyplatContext + '/fileoperation/download?wjzxid=' + res.data.wjzxid + '&xzlx=clcg';
+                })
+            } else {
+                layer.msg("暂无数据")
+            }
+        },
+        // 预览文件
+        viewFile(file){
+            let fileType = file.name.split(".")[1]
+           if (!location.origin) {
+                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            this.selectFile = file;
+            this.downloadFile();
+            // if(this.viewType.includes(fileType)){
+            //     let href = location.origin + config.msurveyplatContext + encodeURI('/fileoperation/onlinepreview?wjzxid=' + file.id + "&fileName=" + file.name);
+            //     window.open(href);
+            // } else {
+                
+            // }
+        },
+        // 查看
+        viewDetail(){
+            let select = this.selectFile ? this.selectFile : ""
+            if(select){
+                if(select.type == '0' || !select.type){
+                    this.dbClickHandler(select)
+                } else {
+                    this.viewFile(select)
+                }
+            } else {
+                layer.msg("未选择数据")
+            }
+        },
+    },
+}
+</script>
+<style scoped>
+    @import "./review-fj.css";
+    .content {
+        margin-top: 10px!important;
+    }
+    .content-left >>> .ivu-icon-ios-arrow-forward {
+        font-family: "FontAwesome";
+    }
+    .content-left >>> .ivu-icon-ios-arrow-forward:before {
+        content: "\f0da";
+    }
+    .content-left >>> .ivu-tree-title {
+        width: calc(100% - 32px);
+        height: 32px;
+        line-height: 32px;
+        border-radius: 0;
+    }
+    .content-left >>> .ivu-tree-title .ivu-icon {
+        font-family: "FontAwesome";
+        color: #1d87d1;
+    }
+    .content-left >>> .ivu-tree-title {
+         overflow: hidden;
+        text-overflow:ellipsis; 
+        white-space: nowrap;
+    }
+    .content-left >>> .ivu-tree-arrow {
+        height: 32px;
+        line-height: 32px;
+    }
+    .content-left >>> .ivu-tree-title-selected, 
+    .content-left >>> .ivu-tree-title-selected:hover,
+    .content-left >>> .ivu-tree-title:hover {
+        background-color: #f3f4f6;
+    }
+    .left-tree {
+        height: 100%;
+    }
+    .tree-content {
+        height: calc(100% - 60px);
+    }
+</style> 

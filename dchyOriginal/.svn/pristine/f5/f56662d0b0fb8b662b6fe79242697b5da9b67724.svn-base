@@ -1,0 +1,161 @@
+/*按钮样式*/
+.a-opt-container {
+    text-align: center;
+    padding: 8px 6px 2px 6px;
+    border-bottom: 1px solid #4285f4;
+}
+
+.a-opt-container > a {
+    margin-right: 8px;
+    margin-bottom: 6px;
+}
+
+.a-list-container {
+    padding: 8px;
+}
+
+.a-list-container .card .content .header {
+    color: #333 !important;
+    font-weight: normal !important;
+}
+
+.a-list-card {
+    width: 100%;
+    margin: 0.85em 0em;
+    padding: 0em;
+    background-color: #d9e7fd;
+    border: 1px solid #89afec;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.a-list-card:hover {
+    border-color: #d9e7fd;
+}
+
+.a-list-card:first-child {
+    margin-top: 0em;
+}
+
+.a-list-card:last-child {
+    margin-bottom: 0em;
+}
+.a-list-card .content {
+    padding: 0.65em 1em;
+    font-size: 1em;
+    box-shadow: none;
+}
+
+.a-list-card .content .header {
+    font-size: 1.08em;
+    line-height: 1.08em;
+}
+
+.a-list-card .content .meta {
+    font-size: 0.85em;
+    margin-top: 0.28em;
+    color: #999;
+}
+
+.a-r-btn {
+    margin-right: 8px;
+}
+
+.a-draw-content {
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 5px;
+    width: 95%;
+}
+
+.a-draw-content > a {
+    margin-right: 10px;
+}
+
+.select-label {
+    font-size: 16px;
+    margin-top: 4px
+}
+
+/*file input*/
+.file {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    text-decoration: none;
+    text-indent: 0;
+}
+
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+.file:hover {
+    text-decoration: none;
+}
+
+.gh-ana-content {
+    font-size: 15px;
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 2px solid #0091ff;
+}
+
+.pro-info {
+    float: left;
+    font-weight: 700;
+    margin-top: -25px;
+}
+
+.pro-info-unit {
+    float: right;
+    margin: -25px 15px 0 0;
+}
+
+.detailPanel > table {
+    width: 70%;
+}
+
+.detailPanel > table > tr > th,
+.detailPanel > table > tr > td {
+    min-width: 60px;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.location-gra > a {
+    color: black !important;
+}
+
+.analysis-point-select {
+    cursor: pointer;
+    height: 33px;
+    width: 33px;
+    background: url("./img/point-select.png") no-repeat;
+    display: inline-block;
+}
+
+.analysis-point-select:hover {
+   background: url("./img/point-select-hover.png") no-repeat;
+}
+
+.analysis-extent-select {
+    cursor: pointer;
+    height: 33px;
+    width: 33px;
+    background: url("./img/extent-select.png") no-repeat;
+    display: inline-block;
+}
+
+.analysis-extent-select:hover {
+    background: url("./img/extent-select-hover.png") no-repeat;
+}
+

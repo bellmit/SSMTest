@@ -1,0 +1,43 @@
+
+E
+java:S3740Q"/Provide the parametrized type for this generic.(Ç£Ü¯
+K
+java:S3740Â"/Provide the parametrized type for this generic.(ŞãëÎüÿÿÿÿ
+K
+java:S3740“"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+[
+java:S1192O"FDefine a constant instead of duplicating this literal "MLKID" 3 times.(Å˜«9
+]
+java:S1192S"HDefine a constant instead of duplicating this literal "clsxMcs" 3 times.(†¼
+\
+java:S1192V"FDefine a constant instead of duplicating this literal "MLKTP" 3 times.(ı´ÁÑ
+c
+java:S1192R"HDefine a constant instead of duplicating this literal "clsxDms" 3 times.(ğ”ôÈûÿÿÿÿ
+\
+java:S1192}"FDefine a constant instead of duplicating this literal "mlkid" 9 times.(Ş¸‰
+3
+java:S1643Ÿ"Use a StringBuilder instead.(Òñ—«
+8
+java:S1643¢"Use a StringBuilder instead.(ÈÉÎ–úÿÿÿÿ
+L
+java:S1143Õ"5Remove this return statement from this finally block.(¥¹ï
+N
+java:S2589€"7Remove this expression which always evaluates to "true"(›Ãì†
+N
+java:S2589Á"7Remove this expression which always evaluates to "true"(š¦•
+z
+java:S2229T"_"getKpResultByMlkId's" @Transactional requirement is incompatible with the one for this method.(µó€Óúÿÿÿÿ
+R	java:S125„"<This block of commented-out lines of code should be removed.(ï·ùÎ
+W	java:S125‘"<This block of commented-out lines of code should be removed.(ñÀà—øÿÿÿÿ
+W
+java:S3252§"@Use static access with "com.alibaba.fastjson.JSON" for "toJSON".(ïÚÃƒ
+i
+java:S3776†"RRefactor this method to reduce its Cognitive Complexity from 31 to the 15 allowed.(ŠÃğ
+=
+java:S1168Ê"&Return an empty array instead of null.(¥¹ï
+=
+java:S1168Õ"&Return an empty array instead of null.(¥¹ï
+F
+java:S2093¶"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+=
+java:S1168Ù"&Return an empty array instead of null.(¥¹ï

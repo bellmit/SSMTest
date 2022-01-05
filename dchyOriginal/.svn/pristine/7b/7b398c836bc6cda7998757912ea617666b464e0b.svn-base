@@ -1,0 +1,77 @@
+package cn.gtmap.msurveyplat.serviceol.service;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSjclpz;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+public interface ConfigureSystemService {
+
+    /**
+     * add Configure
+     *
+     * @param receiveConfigDo ReceiveConfigModel
+     * @return Boolean
+     */
+    Boolean addConfigure(DchyXmglSjclpz receiveConfigDo);
+
+    /**
+     * edit Configure info
+     *
+     * @param receiveConfigDo ReceiveConfigModel
+     * @return Boolean
+     */
+    Boolean editConfigure(DchyXmglSjclpz receiveConfigDo);
+
+    /**
+     * drop Configure
+     *
+     * @param id String
+     * @return boolean
+     */
+    boolean dropConfigure(String id);
+
+    /**
+     * findConfigure
+     *
+     * @return List<ReceiveConfigModel>
+     */
+    List<Map<String, Object>> findConfigure();
+
+    /**
+     * drop Configure By Ids
+     *
+     * @param ids List<String>
+     * @return boolean
+     */
+    boolean dropConfigureByIds(List<String> ids);
+
+    /**
+     * save Or Update List
+     *
+     * @param receiveConfigDoList List<ReceiveConfigModel>
+     * @return boolean
+     */
+    boolean saveOrUpdateList(List<DchyXmglSjclpz> receiveConfigDoList);
+
+    /**
+     * query Clsx
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryClsx();
+
+    /**
+     * query Ssmk
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> querySsmk();
+
+}

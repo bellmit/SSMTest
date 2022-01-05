@@ -1,0 +1,106 @@
+.shxx-page-contanier .layui-form-item label{
+	width: 140px;
+}
+.shxx-page-contanier .layui-table th {
+	text-align: center;
+}
+
+.shxx-page-contanier .layui-table .detail-item {
+	width: 12%;
+	text-align: center;
+	background: #f2f2f2;
+}
+
+.shxx-page-contanier .layui-table td {
+	height: 80px;
+	line-height: 80px;
+	overflow: hidden;
+	padding: 0 10px;
+}
+
+.shxx-page-contanier .layui-table .signature-item {
+	width: 19%;
+}
+.shxx-page-contanier .layui-table .signature-item .signature-img-box{
+	width: 100%;
+	height: 80px;
+	text-align: center;
+    padding-right: 70px;
+    box-sizing: border-box;
+	overflow: hidden;
+}
+.shxx-page-contanier .layui-table .signature-item .signature-img-box img{
+	width: 100%;
+}
+.shxx-page-contanier .layui-table .date-item {
+	width: 15%;
+	text-align: center;
+}
+.shxx-page-contanier .layui-table .audit-department{
+	text-align: center;
+}
+.shxx-page-contanier .layui-table td .handle-btn-box {
+	width: 70px;
+	height:100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 5px 0;
+	box-sizing: border-box;
+}
+
+.shxx-page-contanier .layui-table td .handle-btn-box p {
+	height: 35px;
+    line-height: 35px;
+}
+
+.shxx-page-contanier .layui-table td .handle-btn-box p i {
+	font-size: 16px;
+}
+
+ .shxx-page-contanier .layui-table td .opinion {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: none;
+} 
+.shxx-page-contanier .layui-table tbody tr:hover{
+	background: #FFFFFF;
+}
+.shxx-page-contanier .layui-table td .handle-btn-box p:hover{
+	cursor: pointer;
+	color: #999;
+}
+.shxx-page-contanier .layui-table td .handle-btn-box p:active{
+	cursor: pointer;
+	color: #000;
+}
+#zjradioForm .layui-form-radio{
+	width: 150px;
+}
+.jgpd {
+	display: none;
+}
+.shxx-table{
+	padding-right: 20px;
+	box-sizing: border-box;
+}
+.layui-table{
+	margin-bottom: 20px;
+}
+/* 工程建设项目审批 */
+.gcjsxmsp-table{
+   display: none;
+}
+/* 隐藏按钮 */
+#bdc-son-gcjsxmsp-btn{
+	display: none;
+}
+/* 单选按钮样式 */
+.layui-form-radio>i:hover, .layui-form-radioed>i {
+    color: #1d87d1;
+}
+/* 去掉IE中input有焦点时的×删除图标 */
+::-ms-clear{display: none;}
+::-ms-reveal{display: none;}
+::-o-clear{display: none;}

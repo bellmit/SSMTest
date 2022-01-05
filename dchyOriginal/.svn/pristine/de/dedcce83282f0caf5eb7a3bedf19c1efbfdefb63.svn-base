@@ -1,0 +1,50 @@
+plats:
+- name: 320300
+  platType: hw
+  userName: xzgtjqly@gt.xz.qly
+  password: Xz2016
+  server: 172.0.0.132
+  ptzServer: http://172.18.2.219:6003
+- name: 320500
+  platType: hw
+  userName: szgtjqly@gt.sz.jsqly
+  password: Sz2016
+  server: 172.110.0.205
+  ptzServer: http://172.18.2.219:6005
+- name: 320600
+  platType: hw
+  userName: ntgtjqly@gt1.nt.qly
+  password: Nt2016
+  server: 172.0.0.13
+  ptzServer: http://172.18.2.219:6006
+- name: 320800
+  platType: hw
+  userName: hagtjqly@ha.gt.qly
+  password: Ha2016
+  server: 172.0.0.132
+  ptzServer: http://172.18.2.219:6008
+- name: 321100
+  platType: hw
+  userName: zjgtjqly@gt.zj.jsqly
+  password: Zj2016
+  server: 172.110.0.205
+  ptzServer: http://172.18.2.219:6008
+- name: 321200
+  platType: hw
+  userName: tzgtjqly@gt.tz.qly
+  password: Tz2016
+  server: 172.0.0.13
+  ptzServer: http://172.18.2.219:6012
+- name: 321300
+  platType: hw
+  userName: sqgtjqly@gt.sq.js
+  password: Sq2016
+  server: 172.0.0.13
+  ptzServer: http://172.18.2.219:6013
+
+
+
+
+
+
+

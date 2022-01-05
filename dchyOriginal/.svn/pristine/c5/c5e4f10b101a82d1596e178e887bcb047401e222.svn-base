@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglTjfxMapper">
+    <select id="getXmsl" resultType="java.util.Map">
+        SELECT COUNT(SLBH) AS xmsl, t.chjd
+        FROM (SELECT xm.slbh,
+        zd1.mc AS chjd
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx
+        ON xx.chxmid = xm.chxmid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX clsx
+        ON xx.chxmid = clsx.chxmid
+        LEFT JOIN dchy_xmgl_zd zd
+        ON zd.dm = clsx.clsx
+        AND zd.zdlx = 'CLSX'
+        LEFT JOIN dchy_xmgl_zd zd1
+        ON zd1.dm = zd.fdm
+        AND zd1.zdlx = 'CLSX'
+        <where>
+            and xm.xmzt IN ('2', '99')
+            <if test="kssj !=null and kssj !=''">
+                AND xm.slsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND xm.slsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="chdwmc!=null and chdwmc != ''">
+                AND xx.chdwmc = #{chdwmc}
+            </if>
+        </where>
+        GROUP BY xm.slbh,
+        zd1.mc,
+        xm.slsj
+        ORDER BY xm.slsj DESC) t
+        WHERE chjd IS NOT NULL
+        GROUP BY t.chjd
+        order by xmsl desc
+    </select>
+
+    <select id="getXmbajlByPage" parameterType="java.util.Map" resultType="map">
+        SELECT xm.slbh as babh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw as jsdwmc,
+        xx.chdwmc,
+        wm_concat(DISTINCT zd1.mc) AS chjd,
+        to_char(xm.slsj, 'yyyy-mm-dd hh24:mi:ss') AS SLSJ,
+        xm.xmzt,
+        xm.xmly,
+        xm.chxmid
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx
+        ON xx.chxmid = xm.chxmid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX clsx
+        ON xx.chxmid = clsx.chxmid
+        LEFT JOIN dchy_xmgl_zd zd
+        ON zd.dm = clsx.clsx
+        AND zd.zdlx = 'CLSX'
+        LEFT JOIN dchy_xmgl_zd zd1
+        ON zd1.dm = zd.fdm
+        AND zd1.zdlx = 'CLSX'
+        <where>
+            and xm.xmzt IN ('2', '99')
+            <if test="kssj !=null and kssj !=''">
+                AND xm.slsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND xm.slsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="chdwmc!=null and chdwmc != ''">
+                AND xx.chdwmc = #{chdwmc}
+            </if>
+        </where>
+        GROUP BY xm.slbh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        xx.chdwmc,
+        gc.xmxz,
+        xm.xmly,
+        xm.slsj,
+        xm.xmzt,
+        xm.chxmid
+        ORDER BY xm.slsj DESC
+    </select>
+
+
+    <select id="getXmslByQx" resultType="java.util.Map">
+        SELECT p.QXMC,p.XMZT, NVL(q.XMSL, 0) AS XMSL FROM (
+        SELECT s.MC as QXMC, (SELECT CASE WHEN t.MC ='已备案' THEN '进行中' END AS MC FROM DCHY_XMGL_ZD t WHERE t.ZDLX =
+        'XMZT' AND t.DM = '2') as XMZT FROM
+        DCHY_XMGL_ZD s WHERE s.ZDLX = 'GCDZ' AND s.FDM = '02'
+        UNION ALL
+        SELECT s.MC as QXMC, (SELECT CASE WHEN t.MC ='已办结' THEN '已完成' END AS MC FROM DCHY_XMGL_ZD t WHERE t.ZDLX =
+        'XMZT' AND t.DM = '99') as XMZT FROM
+        DCHY_XMGL_ZD s WHERE s.ZDLX = 'GCDZ' AND s.FDM = '02'
+        ) p LEFT JOIN (
+        select t.qxmc,t.xmzt,count(t.babh) as xmsl from (SELECT xm.slbh as babh,
+        zd2.mc AS QXMC,
+        case
+        when xm.xmzt ='2' then '进行中'
+        when xm.xmzt = '99' then '已完成' end as xmzt
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx
+        ON xx.chxmid = xm.chxmid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX clsx
+        ON xx.chxmid = clsx.chxmid
+        LEFT JOIN dchy_xmgl_zd zd
+        ON zd.dm = clsx.clsx
+        AND zd.zdlx = 'CLSX'
+        LEFT JOIN dchy_xmgl_zd zd1
+        ON zd1.dm = zd.fdm
+        AND zd1.zdlx = 'CLSX'
+        left join dchy_xmgl_zd zd2
+        on zd2.dm = gc.gcdzqx and zd2.zdlx = 'GCDZ'
+        <where>
+            and xm.xmzt IN ('2', '99') AND GC.GCDZQX IS NOT NULL
+            <if test="kssj !=null and kssj !=''">
+                AND xm.slsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND xm.slsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY xm.slbh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        xx.chdwmc,
+        gc.xmxz,
+        zd2.mc,
+        xm.xmly,
+        xm.slsj,
+        xm.xmzt,
+        gc.gcdzqx,
+        xm.chxmid
+        ORDER BY xm.slsj DESC) t group by t.qxmc,t.xmzt order by qxmc
+        )q ON p.QXMC = q.QXMC AND p.xmzt = q.xmzt ORDER BY QXMC,xmzt
+    </select>
+
+    <select id="getXmwtfsByQx" resultType="java.util.Map">
+        SELECT p.QXMC,p.XMLY, NVL(q.XMSL, 0) AS XMSL FROM (
+        SELECT s.MC as QXMC, (SELECT t.MC FROM DCHY_XMGL_ZD t WHERE t.ZDLX = 'XMLY' AND t.DM = '2') as XMLY FROM
+        DCHY_XMGL_ZD s WHERE s.ZDLX = 'GCDZ' AND s.FDM = '02'
+        UNION ALL
+        SELECT s.MC as QXMC, (SELECT t.MC FROM DCHY_XMGL_ZD t WHERE t.ZDLX = 'XMLY' AND t.DM = '3') as XMLY FROM
+        DCHY_XMGL_ZD s WHERE s.ZDLX = 'GCDZ' AND s.FDM = '02'
+        )p LEFT JOIN(
+        select t.qxmc, t.xmly, count(t.babh) as xmsl
+        from (SELECT xm.slbh as babh,
+        zd2.mc AS QXMC,
+        case
+        when xm.xmly = '2' then
+        '线下登记'
+        when xm.xmly = '3' then
+        '线上委托'
+        end as xmly
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx
+        ON xx.chxmid = xm.chxmid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX clsx
+        ON xx.chxmid = clsx.chxmid
+        LEFT JOIN dchy_xmgl_zd zd
+        ON zd.dm = clsx.clsx
+        AND zd.zdlx = 'CLSX'
+        LEFT JOIN dchy_xmgl_zd zd1
+        ON zd1.dm = zd.fdm
+        AND zd1.zdlx = 'CLSX'
+        left join dchy_xmgl_zd zd2
+        on zd2.dm = gc.gcdzqx
+        and zd2.zdlx = 'GCDZ'
+        <where>
+            AND xm.xmzt IN ('2', '99')
+            AND xm.xmly in ('2', '3')
+            AND xm.xmly is not null
+            AND GC.GCDZQX IS NOT NULL
+            <if test="kssj !=null and kssj !=''">
+                AND xm.slsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND xm.slsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY xm.slbh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        xx.chdwmc,
+        gc.xmxz,
+        zd2.mc,
+        xm.xmly,
+        xm.slsj,
+        xm.xmzt,
+        gc.gcdzqx,
+        xm.chxmid
+        ORDER BY xm.slsj DESC) t
+        group by t.qxmc, t.xmly
+        order by qxmc
+        ) q ON p.QXMC = q.QXMC AND p.XMLY = q.XMLY ORDER BY QXMC,XMLY
+    </select>
+
+</mapper>

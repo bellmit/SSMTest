@@ -1,0 +1,91 @@
+package cn.gtmap.msurveyplat.promanage.service.impl;
+
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglDyhzdMapper;
+import cn.gtmap.msurveyplat.promanage.service.ExportPdfService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.utils.PdfUtils;
+import cn.gtmap.msurveyplat.promanage.utils.UserUtil;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/12/18
+ * @description 打印回执单
+ */
+@Service
+public class ExportPdfServiceImpl implements ExportPdfService {
+
+    @Autowired
+    private DchyXmglChxmMapper dchyXmglChxmMapper;
+
+    @Autowired
+    private DchyXmglDyhzdMapper dchyXmglDyhzdMapper;
+
+    @Override
+    public byte[] exportPdf(String chxmid) throws IOException {
+        Map<String, Object> map = Maps.newHashMap();
+        Map<String, String> param = Maps.newHashMap();
+        Map<String, String> paramMap = Maps.newHashMap();
+        paramMap.put("chxmid", chxmid);
+
+        List<Map<String, Object>> baxxList = dchyXmglChxmMapper.queryBaxxByChxmid(paramMap);
+
+        List<Map<String, Object>> htxxList = dchyXmglDyhzdMapper.getHtxxList(paramMap);
+
+        if (CollectionUtils.isNotEmpty(baxxList)) {
+            Map<String, Object> baxx = baxxList.get(0);
+            String slr = MapUtils.getString(baxx, "SLR");
+
+            param.put("slr", UserUtil.getUserNameById(slr));
+            param.put("slsj", MapUtils.getString(baxx, "SLSJ").substring(0, 19));
+            param.put("sqdw", MapUtils.getString(baxx, "WTDW"));
+            param.put("jbr", UserUtil.getCurrentUser().getUsername());
+        }
+
+        if (CollectionUtils.isNotEmpty(htxxList)) {
+            String htcl = "";
+            for (Map<String, Object> map1 : htxxList) {
+                String cllx = MapUtils.getString(map1, "CLLX");
+                String fs = MapUtils.getString(map1, "FS");
+                htcl = htcl + convertCllx(cllx) + ":" + fs + "份;";
+            }
+            param.put("htcl", htcl);
+        }
+        map.put("datemap", param);
+        return PdfUtils.pdfout(map);
+    }
+
+    public String convertCllx(String cllx) {
+        String cllxMC = "";
+        switch (cllx) {
+            case "1":
+                cllxMC = Constants.DCHY_XMGL_CLLX_YJZB;
+                break; //可选
+            case "2":
+                cllxMC = Constants.DCHY_XMGL_CLLX_ZBFYJ;
+                break; //可选
+            case "3":
+                cllxMC = Constants.DCHY_XMGL_CLLX_YJFB;
+                break; //可选
+            case "4":
+                cllxMC = Constants.DCHY_XMGL_FBFYJ_FBFYJ;
+                break; //可选
+            case "5":
+                cllxMC = Constants.DCHY_XMGL_CLLX_QT;
+                break; //可选
+            default: //可选
+                cllxMC = Constants.DCHY_XMGL_CLLX_QT;
+        }
+        return cllxMC;
+    }
+}

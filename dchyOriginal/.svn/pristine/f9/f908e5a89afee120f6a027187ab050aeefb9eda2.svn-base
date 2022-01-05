@@ -1,0 +1,21 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import cn.gtmap.msurveyplat.promanage.model.ErrorInfoModel;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipInputStream;
+
+public interface CheckZipFileService {
+
+    public static final String DCHY_XMGL_CGSC_MSXX_WJCF = "文件重复";
+    public static final String DCHY_XMGL_CGSC_MSXX_WJQS = "文件缺失";
+    public static final String DCHY_XMGL_CGSC_MSXX_GSCW = "格式错误";
+    public static final String DCHY_XMGL_CGSC_MSXX_GDWWYQWJ = "规定外未要求文件";
+
+    List<ErrorInfoModel> checkZipFiles(ZipInputStream zin, String bh, Map mlMap, String slbh, String gcbh, String chxmid) throws IOException;
+
+    String getCode();
+
+}

@@ -1,0 +1,22 @@
+package cn.gtmap.msurveyplat.portalol.core.platmapper;
+
+import org.springframework.stereotype.Repository;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/1/12
+ * @description 平台库操作mapper
+ */
+@Repository
+public interface PlatFormMapper {
+
+    /**
+     * @param map
+     * @return
+     * @description 2021/1/14 用户管理台账分页 当roleid为空时,为超级管理员,不展示任何内容
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map queryUserByUsernameByPage(Map map);
+}

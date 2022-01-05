@@ -1,0 +1,144 @@
+package cn.gtmap.msurveyplat.serviceol.web.main;
+
+import cn.gtmap.msurveyplat.common.annotion.CheckInterfaceAuth;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.CommonUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.PortalolFeignUtil;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections.MapUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/1/6
+ * @description 用户操作
+ */
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    @Autowired
+    PortalolFeignUtil portalolFeignUtil;
+
+    private Logger logger = Logger.getLogger(UserController.class);
+
+    /**
+     * @param param
+     * @return
+     * @description 2021/1/6 用户管理台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping("/queryUserByUsername")
+    @CheckInterfaceAuth
+    public ResponseMessage queryUserByUsername(@RequestBody Map<String, Object> param) {
+        ResponseMessage message;
+        if (null != param && param.containsKey("data")) {
+            Map data = MapUtils.getMap(param, "data");
+            String username = CommonUtil.formatEmptyValue(MapUtils.getString(data, "username"));
+            String lxr = CommonUtil.formatEmptyValue(MapUtils.getString(data, "lxr"));
+            String page = CommonUtil.formatEmptyValue(MapUtils.getString(data, "page"));
+            String size = CommonUtil.formatEmptyValue(MapUtils.getString(data, "size"));
+            message = portalolFeignUtil.queryUser(page, size, username, lxr);
+        } else {
+            Map<String, String> mapResult = Maps.newHashMap();
+            mapResult.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            mapResult.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+            message = ResponseUtil.wrapResponseBodyByCodeMap(mapResult);
+        }
+        return message;
+    }
+
+    /**
+     * @param param
+     * @return
+     * @description 2021/1/5 修改密码
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping("/changePassword")
+    public ResponseMessage changePassword(@RequestBody Map<String, Object> param) {
+        if (null != param && param.containsKey("data")) {
+            Map data = MapUtils.getMap(param, "data");
+            String username = MapUtils.getString(data, "username");
+            String password = MapUtils.getString(data, "password");
+            String passwordNew = MapUtils.getString(data, "passwordNew");
+            return portalolFeignUtil.changePassword(username, password, passwordNew);
+        } else {
+            Map<String, String> mapResult = Maps.newHashMap();
+            mapResult.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            mapResult.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+            return ResponseUtil.wrapResponseBodyByCodeMap(mapResult);
+        }
+    }
+
+    /**
+     * @param param
+     * @return
+     * @description 2021/1/5 启用或者暂用用户
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping("/changeUserState")
+    @CheckInterfaceAuth
+    public ResponseMessage changeUserState(@RequestBody Map<String, Object> param) {
+        if (null != param && param.containsKey("data")) {
+            Map data = MapUtils.getMap(param, "data");
+            String userid = MapUtils.getString(data, "userid");
+            String state = MapUtils.getString(data, "state");
+            return portalolFeignUtil.changeUserState(userid, state);
+        } else {
+            Map<String, String> mapResult = Maps.newHashMap();
+            mapResult.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            mapResult.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+            return ResponseUtil.wrapResponseBodyByCodeMap(mapResult);
+        }
+
+    }
+
+    /**
+     * @param
+     * @return
+     * @description 2021/1/6 获取所有角色
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @GetMapping(value = "/queryAllRole")
+    @CheckInterfaceAuth
+    public ResponseMessage queryAllRole() {
+        return portalolFeignUtil.queryAllRole();
+    }
+
+    /**
+     * @param param
+     * @return
+     * @description 2021/3/9 给用户授予角色
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping("/distributionRoleAuthority")
+    @CheckInterfaceAuth
+    public ResponseMessage distributionRoleAuthority(@RequestBody Map<String, Object> param) {
+        ResponseMessage message;
+        Map resultMap = Maps.newHashMap();
+        if (null != param && param.containsKey("data")) {
+            Map data = MapUtils.getMap(param, "data");
+            String userid = MapUtils.getString(data, "userid");
+            String roles = MapUtils.getString(data, "roles");
+            try {
+                message = portalolFeignUtil.distributionRoleAuthority(userid, roles);
+            } catch (Exception e) {
+                logger.error("错误原因{}" + e);
+                resultMap.put("code", ResponseMessage.CODE.SYSTEM_WRONG.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.SYSTEM_WRONG.getMsg());
+                message = ResponseUtil.wrapResponseBodyByCodeMap(resultMap);
+            }
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+            message = ResponseUtil.wrapResponseBodyByCodeMap(resultMap);
+        }
+        return message;
+
+    }
+}

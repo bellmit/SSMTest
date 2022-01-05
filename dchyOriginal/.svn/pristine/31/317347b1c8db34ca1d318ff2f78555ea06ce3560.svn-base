@@ -1,0 +1,52 @@
+package cn.gtmap.msurveyplat.common.domain;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/4/21
+ * @description TODO
+ */
+public class DchyXmglTjfxDto {
+
+    private String key;
+
+    private String kssj;
+
+    private String jssj;
+
+    private List<Map> xmslbyqxList;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getKssj() {
+        return kssj;
+    }
+
+    public void setKssj(String kssj) {
+        this.kssj = kssj;
+    }
+
+    public String getJssj() {
+        return jssj;
+    }
+
+    public void setJssj(String jssj) {
+        this.jssj = jssj;
+    }
+
+    public List<Map> getXmslbyqxList() {
+        return xmslbyqxList;
+    }
+
+    public void setXmslbyqxList(List<Map> xmslbyqxList) {
+        this.xmslbyqxList = xmslbyqxList;
+    }
+}

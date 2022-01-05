@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglXmMapper">
+    <!-- 根据项目ID查询成果管理系统项目信息 -->
+    <select id="queryDchyCgglXmByXmid" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglXmDO">
+        select t.* from dchy_cggl_xm t
+        <where>
+            <if test="xmid !=null and xmid !=''">
+                and t.xmid=#{xmid}
+            </if>
+        </where>
+    </select>
+    <!--获取项目备案数据-->
+    <select id="ObtainXmBanSjByPage" parameterType="map" resultType="map">
+        SELECT a.GCBH AS XMHTBH,a.GCMC AS XMMC,a.GCDZXX AS XMDZ,a.LXR AS JSDWLXR,a.LXDH AS JSDWLXDH,b.CHXMID,WTDW AS
+        JSDW,CHDWMC AS CHDW,C.CHDWXXID,c.CHDWLX,C.MLKID,b.chgcbh AS CHGCBH  FROM DCHY_XMGL_CHGC a
+        LEFT JOIN  (select * from DCHY_XMGL_CHXM where xmly='2')
+         b on a.CHGCID = b.CHGCID
+        LEFT JOIN
+        DCHY_XMGL_CHXM_CHDWXX c on b.CHXMID=c.CHXMID
+        <where>
+            <if test="xmhtbh !=null and xmhtbh !=''">
+                and a.gcbh like #{xmhtbh}||'%'
+            </if>
+            <if test="xmmc !=null and xmmc !=''">
+                and a.gcmc  like #{xmmc}||'%'
+            </if>
+            <if test="jsdw !=null and jsdw !=''">
+                and a.wtdw like  #{jsdw}||'%'
+            </if>
+            <if test="chdw !=null and chdw !=''">
+                and c.chdwmc like #{chdw}||'%'
+            </if>
+        </where>
+    </select>
+
+
+<!--        通过chdwlx 查询测绘单位联系人和电话-->
+    <select id="queryNamePhone"  parameterType="Map" resultType="Map" >
+          select   lxr,lxdh   from ${tableName}
+          where 1=1
+           <if test="chdwlx !=null and chdwlx ==1">
+            and  mlkid= #{chdwid}
+           </if>
+
+           <if test="chdwlx !=null and chdwlx ==2">
+            and  chdwid= #{chdwid}
+           </if>
+    </select>
+
+<!--      查询出所有的测绘单位代码和名称为前端赋值需要-->
+    <select id="queryChdwMc" resultType="Map">
+        select DM,MC from  dchy_zd_chdw
+    </select>
+
+       <!--    查询项目地址 查出来的结果是dm并非显示在页面的值-->
+    <select id="queryXmdz" resultType="Map" parameterType="Map">
+          select    GCDZQX,GCDZSS,GCDZXX from dchy_xmgl_chgc
+            where   gcbh =#{gcbh}
+    </select>
+
+
+    <!--      查询项目地址  从配置表中读取并非代码 -->
+    <select id="queryXmdzmc" resultType="String" parameterType="String">
+             select mc from DCHY_XMGL_ZD t where zdlx='GCDZ'
+              and dm in
+            <foreach collection="list" item="dm" index="index" open="(" close=")" separator=",">-->
+                #{dm}
+             </foreach>
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,86 @@
+package cn.gtmap.msurveyplat.common.domain.dchyxmgl;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * @author <a href="mailto:lijun1@gtmap.cn">lijun1</a>
+ * @version 1.0, 2020/11/27 11:12
+ * @description 多测合一用户单位
+ */
+@Table(name = "DCHY_XMGL_YHDW")
+public class DchyXmglYhdw {
+    @Id
+    private String yhdwid; //用户单位id
+    private String yhid; //用户id
+    private String dwmc; //单位名称
+    private String tyshxydm; //统一社会信用代码
+    private String jsdwm; //统一社会信用代码
+    private String dwbh; //单位编号
+    private String yhlx; //用户类型
+    private String wjzxid;//文件中心id
+
+    public String getWjzxid() {
+        return wjzxid;
+    }
+
+    public void setWjzxid(String wjzxid) {
+        this.wjzxid = wjzxid;
+    }
+
+    public String getYhdwid() {
+        return yhdwid;
+    }
+
+    public void setYhdwid(String yhdwid) {
+        this.yhdwid = yhdwid;
+    }
+
+    public String getYhid() {
+        return yhid;
+    }
+
+    public void setYhid(String yhid) {
+        this.yhid = yhid;
+    }
+
+    public String getDwmc() {
+        return dwmc;
+    }
+
+    public void setDwmc(String dwmc) {
+        this.dwmc = dwmc;
+    }
+
+    public String getTyshxydm() {
+        return tyshxydm;
+    }
+
+    public void setTyshxydm(String tyshxydm) {
+        this.tyshxydm = tyshxydm;
+    }
+
+    public String getDwbh() {
+        return dwbh;
+    }
+
+    public void setDwbh(String dwbh) {
+        this.dwbh = dwbh;
+    }
+
+    public String getYhlx() {
+        return yhlx;
+    }
+
+    public void setYhlx(String yhlx) {
+        this.yhlx = yhlx;
+    }
+
+    public String getJsdwm() {
+        return jsdwm;
+    }
+
+    public void setJsdwm(String jsdwm) {
+        this.jsdwm = jsdwm;
+    }
+}

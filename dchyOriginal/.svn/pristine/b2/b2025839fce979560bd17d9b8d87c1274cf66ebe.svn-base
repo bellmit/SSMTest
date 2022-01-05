@@ -1,0 +1,97 @@
+body,html{
+			height: 100%;
+			background-color: white;
+		}
+		.container{
+			width : 1024px;
+		}
+		#fullscreen{
+			height: 100%;
+			background: #fff;
+		}
+		.floor{
+			height: 50%;
+		}
+		.floor .container{
+			height: 100%;
+			position: relative;
+		}
+		.floor.top{
+			background:#0B3A6F url(../img/login/map.gif) center center no-repeat;
+			box-shadow:inset 0 -2px 5px rgba(0,0,0,.3);
+			position: relative;
+		}
+		.floor.top h1{
+			display: block;
+			position: absolute;
+			width: 596px;
+			height: 42px;
+			overflow: hidden;
+			text-indent: -9999999px;
+			background: url(../img/login/logo.png) 0 0 no-repeat;
+			bottom: 130px;
+			left: 180px;
+		}
+		.footer{
+			width: 1024px;
+			text-align: center;
+			color: grey;
+			margin-top: -60px;
+		}
+		.banner{
+			width: 689px;
+			height: 458px;
+			background: url(../img/login/banner.png) 0 0 no-repeat;
+			margin-top: -120px;
+			position: absolute;
+			z-index: 1000;
+		}
+		.form-wrap{
+			position: absolute;
+			right: 0;
+			z-index: 1000;
+			background-color: white;
+			padding: 20px 20px 70px ;
+			top: -180px;
+			width: 230px;
+			border: 1px solid #cdcdcd;
+			border-radius: 4px;
+			box-shadow: 0 2px 5px rgba(0,0,0,.3)
+		}
+		.form-wrap legend{
+			font-family: "microsoft yahei","黑体","宋体";
+			font-weight: normal;
+			text-align: center;
+			font-size: 18px;
+		}
+		.form-wrap input[type="text"],
+		.form-wrap input[type="password"]{
+			padding: 5px;
+			width: 160px;
+			height: 35px;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			margin: 0;
+		}
+		.form-wrap .alert{
+			margin: 0;
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.form-wrap .btn{
+			height: 35px;
+			line-height: 28px;
+		}
+		.form-wrap .control-group{
+			padding: 2px 0;
+		}
+		.f16{
+		    font-size:16px;
+		}
+	    .f22{
+		    font-size:22px;
+		}
+		.fsbh{
+			font-family:"黑体";
+			font-weight: bold;
+		}

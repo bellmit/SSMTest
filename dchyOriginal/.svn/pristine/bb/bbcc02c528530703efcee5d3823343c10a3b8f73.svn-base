@@ -1,0 +1,16 @@
+jobs:
+  - name: 'capture'
+    clazz: 'cn.gtmap.onemap.platform.service.impl.VideoManagerImpl'
+    method: 'runCaptureTask'
+    enable: false
+
+#    class: 'cn.gtmap.onemap.platform.service.impl.VideoManagerImpl'
+#    method: 'updateStatus'
+#    time: '0 37 09 * * ?'
+
+  - name: 'autoShot'
+    clazz: 'cn.gtmap.onemap.platform.service.impl.VideoManagerImpl'
+    method: 'autoShot'
+    args: ~
+    time: '0 38 14 * * ?'
+    enable: false

@@ -1,0 +1,13 @@
+
+z
+java:S1104#"_Make pushDataToMqService a static final constant or non-public and provide accessors if needed.(şÎÉÜûÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(šÁ·ğùÿÿÿÿ
+T
+java:S1444#"9Make this "public static pushDataToMqService" field final(şÎÉÜûÿÿÿÿ
+w
+java:S1128"URemove this unused import 'cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglHtxx'.(åàÁ‘şÿÿÿÿ8›è§‡š/
+{
+java:S1128"[Remove this unused import 'cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglDyhzdMapper'.(î¡“Úüÿÿÿÿ8›è§‡š/
+~
+java:S1128"aRemove this unused import 'cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper'.(ş‡Ò…8›è§‡š/

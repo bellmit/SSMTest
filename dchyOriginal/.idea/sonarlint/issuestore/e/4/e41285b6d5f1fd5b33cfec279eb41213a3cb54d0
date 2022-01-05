@@ -1,0 +1,33 @@
+
+N
+java:S2755b"3Disable access to external entities in XML parsing.(—â±òúÿÿÿÿ
+_
+java:S11920"IDefine a constant instead of duplicating this literal "errormsg" 5 times.(‘‚„ë
+X
+java:S22597"BA "NullPointerException" could be thrown; "json" is nullable here.(‘‚„ë
+n
+java:S1128"SRemove this unused import 'cn.gtmap.msurveyplat.portalol.utils.ServiceOlFeignUtil'.(Åñ»­ùÿÿÿÿ
+z
+java:S1128"dRemove this unused import 'cn.gtmap.msurveyplat.portalol.web.main.DchyXmglYhdwRegisteredController'.(ò¤É
+w
+java:S1128"aRemove this unused import 'cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper'.(ş‡Ò…
+m
+java:S3776'"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(Ÿí‘øÿÿÿÿÿ
+[
+java:S3252."EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(¹¾ª
+N	java:S106/"9Replace this use of System.out or System.err by a logger.(øŒ¼Æ
+W
+java:S34573"AFormat specifiers should be used instead of string concatenation.(Œîâ‰
+\
+java:S34579"AFormat specifiers should be used instead of string concatenation.(úç±ßøÿÿÿÿ
+N	java:S106;"9Replace this use of System.out or System.err by a logger.(øŒ¼Æ
+`
+java:S3252<"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÛÕÎØüÿÿÿÿ
+Q	java:S125["<This block of commented-out lines of code should be removed.(‡ÙÌÓ
+c
+java:S4719c"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(« ±~
+d
+java:S4719d"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(ğÌëó
++
+java:S3457h"Not enough arguments.(ı—’´
+V	java:S125o"<This block of commented-out lines of code should be removed.(Áç–´üÿÿÿÿ

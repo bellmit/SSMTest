@@ -1,0 +1,24 @@
+
+F
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
+`
+java:S2095#"EUse try-with-resources or close this "ZipFile" in a "finally" clause.(Ü‡Ó¡ıÿÿÿÿ
+D
+java:S1481 ")Remove this unused "gcbh" local variable.(‰‘ôúúÿÿÿÿ
+F
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ
+N	java:S106."9Replace this use of System.out or System.err by a logger.(¤ï¼à
+c
+java:S5361("HReplace this call to "replaceAll()" by a call to the "replace()" method.(–İı£ÿÿÿÿÿ
+E
+java:S3740$"/Provide the parametrized type for this generic.(½×®»
+M
+java:S1135"2Complete the task associated to this TODO comment.(Â“Œùÿÿÿÿ
+S
+java:S1854 "8Remove this useless assignment to local variable "gcbh".(‰‘ôúúÿÿÿÿ
+V	java:S1258"<This block of commented-out lines of code should be removed.(»•ûÿÿÿÿ
+N	java:S1065"9Replace this use of System.out or System.err by a logger.(Œ¾ÉÑ
+Q	java:S125V"<This block of commented-out lines of code should be removed.(†€éˆ
+S	java:S106T"9Replace this use of System.out or System.err by a logger.(ƒ…Âšøÿÿÿÿ
+V	java:S125P"<This block of commented-out lines of code should be removed.(€ëÄ–üÿÿÿÿ
+M	java:S106*"9Replace this use of System.out or System.err by a logger.(˜¾Î

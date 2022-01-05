@@ -1,0 +1,47 @@
+html, body{
+	height: 100%;
+}
+#_loadingWrap{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
+#_loadingWrap ._inner{
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+#_loadingWrap ._cover{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9000;
+	overflow: hidden;
+	background-color: #000;
+	opacity: .8;
+	filter: alpha(opacity=80);
+}
+#_loadingWrap ._main{
+	background: #FFF url('loading/loading.gif') -60px -70px no-repeat;
+	height: 60px;
+	position: absolute;
+	z-index: 10000;
+	top: 50%;
+	left: 50%;
+	line-height: 60px;
+	padding-left: 80px;
+	padding-right: 30px;
+	margin-top: -30px;
+	border: 2px solid #222;
+	border-radius: 3px;
+	color: #332F2D;
+	box-shadow: 0 0 20px rgba(0,0,0,.8);
+	font-size: 14px;
+}
+
+

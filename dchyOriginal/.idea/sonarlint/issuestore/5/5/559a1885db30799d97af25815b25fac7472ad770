@@ -1,0 +1,23 @@
+
+e
+java:S4719‰"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(¾…òþ
+e
+java:S1192Ñ"NDefine a constant instead of duplicating this literal "ISSUESCONTENT" 3 times.(œÕ˜É
+b
+java:S3252Ë"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(¼à†ˆúÿÿÿÿ
+_
+java:S1192n"IDefine a constant instead of duplicating this literal "issuesid" 4 times.(îè†Æ
+e
+java:S4719ë"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(ñè÷Õ
+j
+java:S1192Ë"NDefine a constant instead of duplicating this literal "ANSWERCONTENT" 3 times.(µò„äùÿÿÿÿ
+1
+java:S3457×"Not enough arguments.(äÇÕªùÿÿÿÿ
+e
+java:S4719Í"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(÷×ëš
+e
+java:S4719Í"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(®»¡¨
+e
+java:S4719Ó"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(÷×ëš
+b
+java:S3252Ì"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(”šÅ8äìí—£/

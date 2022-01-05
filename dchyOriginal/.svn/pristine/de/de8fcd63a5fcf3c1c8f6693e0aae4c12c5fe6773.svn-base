@@ -1,0 +1,44 @@
+package cn.gtmap.msurveyplat.common.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/6/10
+ * @description 共享申请统计信息参数对象
+ */
+@ApiModel(value = "GxsqtjxxDto", description = "共享申请统计信息参数对象")
+public class GxsqtjxxDto {
+
+    @ApiModelProperty(value = "当前页数")
+    private Integer page;
+    @ApiModelProperty(value = "每页展示条数")
+    private Integer size;
+    @ApiModelProperty(value = "审核结果")
+    private String shzt;
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public String getShzt() {
+        return shzt;
+    }
+
+    public void setShzt(String shzt) {
+        this.shzt = shzt;
+    }
+}

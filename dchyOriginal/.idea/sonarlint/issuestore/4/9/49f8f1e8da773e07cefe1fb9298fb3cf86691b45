@@ -1,0 +1,11 @@
+
+D
+java:S1481Â".Remove this unused "httpState" local variable.(¡ØšE
+K
+java:S3740µ"/Provide the parametrized type for this generic.(šç…Šøÿÿÿÿ
+e
+java:S1192•"IDefine a constant instead of duplicating this literal "dataList" 3 times.(ŠÞÛîúÿÿÿÿ
+Y
+java:S1854Ö"=Remove this useless assignment to local variable "httpState".(º³¨Çûÿÿÿÿ
+}
+java:S1128"[Remove this unused import 'cn.gtmap.msurveyplat.promanage.core.service.MessagePushService'.(¬û¤ìúÿÿÿÿ8¥è§‡š/

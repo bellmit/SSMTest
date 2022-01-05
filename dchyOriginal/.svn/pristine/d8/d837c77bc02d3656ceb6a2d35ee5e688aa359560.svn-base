@@ -1,0 +1,339 @@
+package cn.gtmap.msurveyplat.promanage.core.service.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClsxHtxxGxMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglHtxxChdwxxGxMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclpzMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglMlkService;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglSjclService;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.promanage.utils.UserUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class DchyXmglSjclServiceImpl implements DchyXmglSjclService {
+
+    @Autowired
+    private DchyXmglSjclMapper dchyXmglSjclMapper;
+    @Autowired
+    private EntityMapper       entityMapper;
+    @Autowired
+    DchyXmglClsxHtxxGxMapper   dchyXmglClsxHtxxGxMapper;
+    @Autowired
+    DchyXmglHtxxChdwxxGxMapper dchyXmglHtxxChdwxxGxMapper;
+    @Autowired
+    DchyXmglSjclService        dchyXmglSjclService;
+    @Autowired
+    DchyXmglMlkService         dchyXmglMlkService;
+    @Autowired
+    DchyXmglZdService          dchyXmglZdService;
+    @Autowired
+    DchyXmglSjclpzMapper       dchyXmglSjclpzMapper;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /**
+     * 获取到收件材料信息
+     *
+     * @param glsxid
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getHtxxSjclXx(String glsxid) {
+        List<Map<String, Object>> htxxList = dchyXmglSjclMapper.getHtxxSjclXx(glsxid);
+        for (Map<String, Object> htxxLists : htxxList) {
+            if (StringUtils.isNotEmpty(MapUtils.getString(htxxLists, "HTXXID"))) {
+                String                    htxxid     = MapUtils.getString(htxxLists, "HTXXID");
+                List<Map<String, Object>> clsxList   = dchyXmglClsxHtxxGxMapper.getClsxByChxmid(htxxid);
+                List<Map<String, Object>> chdwxxList = dchyXmglHtxxChdwxxGxMapper.getChdwxxByChxmid(htxxid);
+
+                if (CollectionUtils.isNotEmpty(clsxList)) {
+                    htxxLists.put("CLSX", clsxList);
+                }
+                if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                    htxxLists.put("CHDWXX", chdwxxList);
+                }
+            }
+        }
+        return htxxList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getSjclList(Map<String, Object> map) {
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        try {
+            Map<String, Object> data     = (Map<String, Object>) map.get("data");
+            List<Object>        clsxList = (List<Object>) data.get("clsxList");
+            String              ssmkId   = CommonUtil.ternaryOperator(data.get("ssmkid"));
+            String              glsxid   = CommonUtil.ternaryOperator(data.get("glsxid"));
+            Map                 paramMap = Maps.newHashMap();
+            paramMap.put("clsxList", clsxList);
+            paramMap.put("ssmkId", ssmkId);
+            paramMap.put("glsxid", glsxid);
+            if (StringUtils.isNotBlank(glsxid) && CollectionUtils.isNotEmpty(clsxList)) {
+                //根据clsx匹配收件材料配置
+                //List<String> clsxParam     = (List<String>) data.get("clsxList");
+                //Example      exampleSjclpz = new Example(DchyXmglSjclpz.class);
+                // exampleSjclpz.createCriteria().andIn("ssclsx", clsxList).andEqualTo("ssmkid", ssmkId);
+                // List<DchyXmglSjclpz> dchyXmglSjclpzList = entityMapper.selectByExampleNotNull(exampleSjclpz);
+                List<DchyXmglSjclpz> dchyXmglSjclpzList = getSjclpzList(clsxList, ssmkId);
+                //收件材料配置关联对应的sjxxid,sjclid
+                if (CollectionUtils.isNotEmpty(dchyXmglSjclpzList)) {
+                    for (DchyXmglSjclpz dchyXmglSjclpz : dchyXmglSjclpzList) {
+                        Map<String, Object> resultMap = Maps.newHashMap();
+                        resultMap.put("SJCLPZID", dchyXmglSjclpz.getSjclpzid());
+                        resultMap.put("SSMKID", dchyXmglSjclpz.getSsmkid());
+                        resultMap.put("CLLX", dchyXmglSjclpz.getCllx());
+                        resultMap.put("CLMC", dchyXmglSjclpz.getClmc());
+                        resultMap.put("FS", BigDecimal.valueOf(dchyXmglSjclpz.getMrfs()));
+                        resultMap.put("NEED", dchyXmglSjclpz.getNeed());
+                        resultMap.put("SSCLSX", dchyXmglSjclpz.getSsclsx());
+                        if (StringUtils.isNotBlank(dchyXmglSjclpz.getSsclsx())) {
+                            DchyXmglZd dchyXmglZd = dchyXmglZdService.getDchyXmglByZdlxAndDm("CLSX", dchyXmglSjclpz.getSsclsx());
+                            if (null != dchyXmglZd) {
+                                resultMap.put("SSCLSXMC", dchyXmglZd.getMc());
+                            }
+                        }
+                        String ssclsx = dchyXmglSjclpz.getSsclsx();
+                        if (StringUtils.isNotBlank(ssclsx)) {
+                            Example exampleSjxx = new Example(DchyXmglSjxx.class);
+                            exampleSjxx.createCriteria().andEqualTo("glsxid", glsxid);
+                            List<DchyXmglSjxx> dchyXmglSjxxList = entityMapper.selectByExample(exampleSjxx);
+                            if (CollectionUtils.isNotEmpty(dchyXmglSjxxList)) {
+                                for (DchyXmglSjxx dchyXmglSjxx : dchyXmglSjxxList) {
+                                    String  sjxxid      = dchyXmglSjxx.getSjxxid();
+                                    Example exampleSjcl = new Example(DchyXmglSjcl.class);
+                                    exampleSjcl.createCriteria().andEqualTo("sjxxid", sjxxid).andEqualTo("clsx", ssclsx);
+                                    List<DchyXmglSjcl> dchyXmglSjclList = entityMapper.selectByExample(exampleSjcl);
+                                    if (CollectionUtils.isNotEmpty(dchyXmglSjclList)) {
+                                        for (DchyXmglSjcl dchyXmglSjcl : dchyXmglSjclList) {
+                                            resultMap.put("SJXXID", sjxxid);
+                                            resultMap.put("SJCLID", dchyXmglSjcl.getSjclid());
+                                            mapList.add(resultMap);
+                                        }
+                                    } else {
+                                        resultMap.put("SJXXID", sjxxid);
+                                        resultMap.put("SJCLID", UUIDGenerator.generate18());
+                                        resultMap = this.initSjclxx(glsxid, ssmkId, ssclsx, resultMap);
+                                        mapList.add(resultMap);
+                                    }
+                                }
+                            } else {
+                                resultMap.put("SJXXID", UUIDGenerator.generate18());
+                                resultMap.put("SJCLID", UUIDGenerator.generate18());
+                                resultMap = this.initSjclxx(glsxid, ssmkId, ssclsx, resultMap);
+                                mapList.add(resultMap);
+                            }
+                        }
+                    }
+                }
+
+                for (Iterator<Map<String, Object>> it = mapList.iterator(); it.hasNext(); ) {
+                    Map<String, Object> maps   = it.next();
+                    String              sjclid = MapUtils.getString(maps, "SJCLID");
+                    if (org.apache.commons.lang3.StringUtils.isBlank(sjclid)) {
+                        it.remove();
+                    }
+
+                    String clsxdm = MapUtils.getString(maps, "SSCLSX");
+                    if (StringUtils.isNotBlank(clsxdm)) {
+                        DchyXmglZd dchyXmglZd = dchyXmglZdService.getDchyXmglByZdlxAndDm("CLSX", clsxdm);
+                        if (dchyXmglZd != null) {
+                            maps.put("SSCLSXMC", dchyXmglZd.getMc());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+        }
+        return mapList;
+    }
+
+    private List<DchyXmglSjclpz> getSjclpzList(List<Object> clsxList, String ssmkId) {
+        //在dchy_xmgl_ssclsx_gx 表中按照clsxList查询 sjclpzid
+        List<Object> sjclpzIdStrList = dchyXmglSjclpzMapper.getSjclpzIds(clsxList);
+        Example      exampleSjclpz   = new Example(DchyXmglSjclpz.class);
+        exampleSjclpz.createCriteria().andIn("sjclpzid", sjclpzIdStrList).andEqualTo("ssmkid", ssmkId);
+        List<DchyXmglSjclpz> dchyXmglSjclpzList = entityMapper.selectByExampleNotNull(exampleSjclpz);
+        return dchyXmglSjclpzList;
+    }
+
+    private Map<String, Object> initSjclxx(String glsxid, String ssmkId, String clsx, Map<String, Object> resultMap) {
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        //收件材料信息为空，获取clsxmc作为材料名称进行初始化材料
+        if (StringUtils.isNotEmpty(clsx)) {
+            //Map<String, Object> sjclxxMap = Maps.newHashMap();
+            if (StringUtils.isNotBlank(clsx)) {
+                if (StringUtils.isNotBlank(MapUtils.getString(resultMap, "CLMC"))) {
+                    resultMap.put("CLMC", MapUtils.getString(resultMap, "CLMC"));
+                } else {
+                    DchyXmglZd dchyXmglZd = dchyXmglZdService.getDchyXmglByZdlxAndDm("CLSX", clsx);
+                    if (dchyXmglZd != null) {
+                        resultMap.put("CLMC", dchyXmglZd.getMc());
+                    }
+                }
+            }
+            mapList.add(resultMap);
+        }
+        if (CollectionUtils.isNotEmpty(mapList)) {
+            /*初始化收件信息*/
+            dchyXmglMlkService.initSjxxAndClxx(glsxid, ssmkId, mapList);
+        }
+        return resultMap;
+    }
+
+    /**
+     * 初始化合同信息与收件信息
+     *
+     * @param glsxid
+     * @param ssmkId
+     * @param mapList
+     */
+    @Override
+    @Transactional
+    public void initHtxxSjxxAndClxx(String glsxid, String ssmkId, List<Map<String, Object>> mapList) {
+        if (CollectionUtils.isNotEmpty(mapList)) {
+            /*合同信息*/
+            for (Map<String, Object> map : mapList) {
+                String       htxxid = UUIDGenerator.generate18();
+                DchyXmglHtxx htxx   = new DchyXmglHtxx();
+                htxx.setHtxxid(htxxid);
+                htxx.setChxmid(glsxid);
+                entityMapper.saveOrUpdate(htxx, htxx.getHtxxid());
+
+                String       sjxxId = UUIDGenerator.generate18();
+                Date         sjsj   = new Date();
+                String       sjr    = UserUtil.getCurrentUserId();
+                String       tjr    = "";
+                DchyXmglSjxx sjxx   = new DchyXmglSjxx();
+                sjxx.setSjxxid(sjxxId);
+                sjxx.setGlsxid(htxxid);
+                sjxx.setSsmkid(ssmkId);
+                sjxx.setSjsj(sjsj);
+                sjxx.setTjr(tjr);
+                sjxx.setSjr(sjr);
+                entityMapper.saveOrUpdate(sjxx, sjxx.getSjxxid());
+
+                String sjclid = UUIDGenerator.generate18();
+                map.put("SJCLID", sjclid);
+                map.put("SJXXID", sjxxId);
+                map.put("HTXXID", htxxid);
+                int          fs   = map.containsKey("FS") ? (((BigDecimal) map.get("FS")).intValue()) : 1;
+                String       mlmc = (String) map.get("CLMC");
+                DchyXmglSjcl sjcl = new DchyXmglSjcl();
+                sjcl.setSjclid(sjclid);
+                sjcl.setSjxxid(sjxxId);
+                sjcl.setClmc(mlmc);
+                sjcl.setCllx(CommonUtil.formatEmptyValue(map.get("CLLX")));
+                sjcl.setFs(fs);
+                sjcl.setClrq(new Date());
+                sjcl.setYs(1);
+                entityMapper.saveOrUpdate(sjcl, sjcl.getSjclid());
+            }
+        }
+    }
+
+    /**
+     * 新增收件材料配置
+     */
+    @Override
+    @Transactional
+    public Map saveSjclpz(Map<String, Object> map) {
+        String code = ResponseMessage.CODE.OPERA_FAIL.getCode();
+        String msg  = ResponseMessage.CODE.OPERA_FAIL.getMsg();
+        try {
+            Map<String, Object> data       = (Map<String, Object>) map.get("data");
+            String              clmc       = CommonUtil.formatEmptyValue(data.get("clmc"));
+            String              cllx       = CommonUtil.formatEmptyValue(data.get("cllx"));
+            String              ssmkid     = CommonUtil.formatEmptyValue(data.get("ssmkid"));
+            String              mrfs       = CommonUtil.formatEmptyValue(data.get("fs"));
+            List<String>        ssclsxlist = (List<String>) data.get("ssclsxlist");
+
+            if (CollectionUtils.isNotEmpty(ssclsxlist)) {
+                for (String ssclsx : ssclsxlist) {
+                    DchyXmglSjclpz dchyXmglSjclpz = new DchyXmglSjclpz();
+                    dchyXmglSjclpz.setSjclpzid(UUIDGenerator.generate18());
+                    dchyXmglSjclpz.setClmc(clmc);
+                    dchyXmglSjclpz.setCllx(cllx);
+                    dchyXmglSjclpz.setSsclsx(ssclsx);
+                    dchyXmglSjclpz.setSsmkid(ssmkid);
+                    if (StringUtils.isNotBlank(mrfs)) {
+                        dchyXmglSjclpz.setMrfs(Integer.parseInt(mrfs));
+                    }
+                    dchyXmglSjclpz.setNeed(0);
+                    String xh = dchyXmglSjclpzMapper.queryMaxXhBySsmkid(ssmkid);
+                    if (StringUtils.isNotBlank(xh)) {
+                        dchyXmglSjclpz.setXh(Integer.parseInt(xh));
+                    } else {
+                        dchyXmglSjclpz.setXh(1);
+                    }
+                    entityMapper.saveOrUpdate(dchyXmglSjclpz, dchyXmglSjclpz.getSjclpzid());
+                }
+                code = ResponseMessage.CODE.SUCCESS.getCode();
+                msg = ResponseMessage.CODE.SUCCESS.getMsg();
+            }
+
+        } catch (Exception e) {
+            logger.error("errorMsg:", e);
+            code = ResponseMessage.CODE.OPERA_FAIL.getCode();
+            msg = ResponseMessage.CODE.OPERA_FAIL.getMsg();
+        }
+        Map resultMap = Maps.newHashMap();
+        resultMap.put("code", code);
+        resultMap.put("msg", msg);
+        return resultMap;
+    }
+
+    /**
+     * 删除收件材料配置
+     */
+    @Override
+    @Transactional
+    public Map deleteSjclpz(Map<String, Object> map) {
+        String code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+        String msg  = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        try {
+            Map<String, Object> data     = (Map<String, Object>) map.get("data");
+            String              sjclpzid = CommonUtil.formatEmptyValue(data.get("sjclpzid"));
+            if (StringUtils.isNotBlank(sjclpzid)) {
+                int result = entityMapper.deleteByPrimaryKey(DchyXmglSjclpz.class, sjclpzid);
+                if (result > 0) {
+                    code = ResponseMessage.CODE.SUCCESS.getCode();
+                    msg = ResponseMessage.CODE.SUCCESS.getMsg();
+                }
+            }
+        } catch (Exception e) {
+            logger.error("errorMsg:", e);
+            code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+            msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        }
+        Map resultMap = Maps.newHashMap();
+        resultMap.put("code", code);
+        resultMap.put("msg", msg);
+        return resultMap;
+    }
+
+
+}

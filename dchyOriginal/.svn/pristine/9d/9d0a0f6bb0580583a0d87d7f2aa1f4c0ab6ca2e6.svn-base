@@ -1,0 +1,101 @@
+<div class="widget-Statistics">
+    <!-- 左侧 -->
+    <div class="bdc-table-box left">
+        <!-- 总览开始 -->
+        <div class="statistics-table overview-content">
+            <h3 class="title">总览</h3>
+            <div class="top">
+                <div class="applied-item">
+                    <p class="top-item-title"> 已申请</p>
+                    <div class="top-item-info">
+                        <span>156</span>
+                        <i class="fa fa-plus-square"></i>
+                    </div>
+                </div>
+                <div class="finished-item">
+                    <p class="top-item-title"> 已完成</p>
+                    <div class="top-item-info">
+                        <span>115</span>
+                        <i class="fa fa-check-square-o"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <ul>
+                    <li class="item applying-info">
+                        <p class="item-num">41</p>
+                        <p class="item-title">办理中</p>
+                    </li>
+                    <li class="item testing-info">
+                        <p class="item-num">15</p>
+                        <p class="item-title">质检中</p>
+                    </li>
+                    <li class="item reviewing-info">
+                        <p class="item-num">9</p>
+                        <p class="item-title">审核中</p>
+                    </li>
+                    <li class="item inputing-info">
+                        <p class="item-num">17</p>
+                        <p class="item-title">入库中</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 总览结束 -->
+        <!-- 实时动态更新统计开始 -->
+        <div class="statistics-table ssdtgxtj-content">
+            <h3 class="title">实时动态更新统计</h3>
+            <ul>
+                <li>
+                    <span class="ssdtgxtj-item-sfyd">商服用地</span>
+                    <span>12 个</span>
+                    <span>1610.66 平方米</span>
+                </li>
+                <li>
+                    <span class="ssdtgxtj-item-zzyd">住宅用地</span>
+                    <span>45 个</span>
+                    <span>3680.76 平方米</span>
+                </li>
+                <li>
+                    <span class="ssdtgxtj-item-gkccyd">工矿仓储用地</span>
+                    <span>15 个</span>
+                    <span>1260.13 平方米</span>
+                </li>
+                <li>
+                    <span class="ssdtgxtj-item-ggfwyd">公共服务用地</span>
+                    <span>19 个</span>
+                    <span>2210.16 平方米</span>
+                </li>
+            </ul>
+        </div>
+        <!-- 实时动态更新统计结束 -->
+    </div>
+    <!-- 中间 -->
+    <div class="bdc-table-box center">
+        <ul class="statistics-count">
+            <li class="item ghjgrk-num">
+                <p class="item-num">41个</p>
+                <p class="item-title">规划竣工测入库个数</p>
+            </li>
+            <li class="item djclrk-num">
+                <p class="item-num">40个</p>
+                <p class="item-title">地籍测量入库个数</p>
+            </li>
+            <li class="item fcclrk-num">
+                <p class="item-num">34个</p>
+                <p class="item-title">房产测量入库个数</p>
+            </li>
+        </ul>
+    </div>
+    <!-- 右侧 -->
+    <div class="bdc-table-box right">
+        <div class="statistics-table">
+            <h3 class="title">各类型测量项月完成数</h3>
+            <div class="bdc-eahcrts" id="eahrts1"></div>
+        </div>
+        <div class="statistics-table">
+            <h3 class="title">各区域完成测绘项</h3>
+            <div class="bdc-eahcrts" id="eahrts2"></div>
+        </div>
+    </div>
+</div>

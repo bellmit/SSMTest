@@ -1,0 +1,513 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-13T11:21:51Z</Created>
+  <LastSaved>2018-10-18T10:37:55Z</LastSaved>
+  <Version>15.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>12435</WindowHeight>
+  <WindowWidth>28800</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>0</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s63">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+  <Style ss:ID="s65">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s66">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+  </Style>
+ </Styles>
+
+ <#assign report=data.report>
+ <#assign compareReport=compareData.report/>
+ <#assign totalResult=data.totalResult/>
+ <#assign compareTotalResult=compareData.totalResult/>
+ <#assign unit=data.unit/>
+ <#assign totB=totalResult.categoryB/>
+ <#assign totA=totalResult.categoryA/>
+ <#assign compareTotB = compareTotalResult.categoryB/>
+ <#assign compareTotA = compareTotalResult.categoryA/>
+
+ <#assign fixed>
+ <#switch unit>
+ <#case 'SQUARE'>0.####<#break>
+ <#case 'ACRES'>0.####<#break>
+ <#case 'HECTARE'>0.####<#break>
+ <#default>0.####
+</#switch>
+        </#assign>
+<Worksheet ss:Name="土地利用现状分析结果展示及对比">
+<Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="66" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="153.75" ss:Span="5"/>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:MergeAcross="5" ss:StyleID="s63"><Data ss:Type="String">${year!}年度土地利用现状分析结果展示及对比</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:Index="2"><Data ss:Type="String">上报面积 </Data></Cell>
+  <Cell><Data ss:Type="String">分析面积 </Data></Cell>
+  <Cell><Data ss:Type="String">结果</Data></Cell>
+  <Cell><Data ss:Type="String">误差</Data></Cell>
+  <Cell ss:StyleID="s64"><Data ss:Type="String">2009年误差</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell><Data ss:Type="String">总面积</Data></Cell>
+  <Cell><Data ss:Type="String">${report.rArea!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${totalResult.sumArea!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if (report.sumResult &gt;0)>多&nbsp;<#elseif (report.sumResult &lt;0)>少&nbsp;</#if>${report.sumResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+ <Cell><Data ss:Type="String">${report.sumMistake!?string(fixed)}</Data></Cell>
+ <Cell><Data ss:Type="String">${compareReport.sumMistake!?string(fixed)}</Data></Cell>
+</Row>
+<Row ss:AutoFitHeight="0">
+ <Cell><Data ss:Type="String">集体面积</Data></Cell>
+ <Cell><Data ss:Type="String">${report.rJtArea!?string(fixed)}</Data></Cell>
+ <Cell><Data ss:Type="String">${totalResult.sumAreaJt!?string(fixed)}</Data></Cell>
+ <Cell><Data ss:Type="String"><#if (report.rJtResult &gt;0)>多&nbsp;<#elseif (report.rJtResult &lt;0)>少&nbsp;</#if>${report.rJtResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String">${report.jtMistake!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String">${compareReport.jtMistake!?string(fixed)}</Data></Cell>
+</Row>
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">国有面积</Data></Cell>
+<Cell><Data ss:Type="String">${report.rGyArea!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String">${totalResult.sumAreaGy!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String"><#if (report.rGyResult &gt;0)>多&nbsp;<#elseif (report.rGyResult &lt;0)>少&nbsp;</#if>${report.rGyResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String"><#if report.gyMistake!?is_number>${report.gyMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareReport.gyMistake!?is_number>${compareReport.gyMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">农用地</Data></Cell>
+<Cell><Data ss:Type="String">${report.rNydArea!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('农用地') >${totB["农用地"]!?string(fixed)}</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if (report.nydResult &gt;0)>多&nbsp;<#elseif (report.nydResult &lt;0)>少&nbsp;</#if>${report.nydResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String"><#if report.nydMistake!?is_number>${report.nydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareReport.nydMistake!?is_number>${compareReport.nydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">其中耕地</Data></Cell>
+<Cell><Data ss:Type="String">${report.rGdArea!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('01') >${totB["01"]!?string(fixed)}</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if (report.gdResult &gt;0)>多&nbsp;<#elseif (report.gdResult &lt;0)>少&nbsp;</#if>${report.gdResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String"><#if report.gdMistake!?is_number>${report.gdMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareReport.gdMistake!?is_number>${compareReport.gdMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">建设用地</Data></Cell>
+<Cell><Data ss:Type="String">${report.rJsydArea!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('建设用地') >${totB["建设用地"]!?string(fixed)}</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if (report.jsydResult &gt;0)>多&nbsp;<#elseif (report.jsydResult &lt;0)>少&nbsp;</#if>${report.jsydResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String"><#if report.jsydMistake!?is_number>${report.jsydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareReport.jsydMistake!?is_number>${compareReport.jsydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell><Data ss:Type="String">未利用地</Data></Cell>
+<Cell><Data ss:Type="String">${report.rWlydArea!?string(fixed)}</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('未利用地') >${totB["未利用地"]!?string(fixed)}</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if (report.wlydResult &gt;0)>多&nbsp;<#elseif (report.wlydResult &lt;0)>少&nbsp;</#if>${report.wlydResult!?string(fixed)}m<sup>2</sup></Data></Cell>
+<Cell><Data ss:Type="String"><#if report.wlydMistake!?is_number>${report.wlydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareReport.wlydMistake!?is_number>${compareReport.wlydMistake!?string(fixed)}<#else>∞</#if></Data></Cell>
+        </Row>
+
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<Print>
+ <ValidPrinterInfo/>
+ <PaperSizeIndex>9</PaperSizeIndex>
+ <HorizontalResolution>200</HorizontalResolution>
+ <VerticalResolution>200</VerticalResolution>
+</Print>
+<Selected/>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveRow>2</ActiveRow>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+<Worksheet ss:Name="分析结果展示">
+<Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="35" x:FullColumns="1"
+       x:FullRows="1" ss:StyleID="s66" ss:DefaultColumnWidth="49.5"
+       ss:DefaultRowHeight="13.5">
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="57"/>
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="72"/>
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="97.5"/>
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="108.75" ss:Span="2"/>
+ <Column ss:Index="7" ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="105"/>
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="73.5"/>
+ <Column ss:StyleID="s66" ss:AutoFitWidth="0" ss:Width="90.75"/>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:MergeAcross="2" ss:MergeDown="2"/>
+  <Cell ss:MergeAcross="2"><Data ss:Type="String">${year!}年度分析</Data></Cell>
+  <Cell ss:MergeAcross="2"><Data ss:Type="String">2009年度分析</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:Index="4" ss:MergeDown="1"><Data ss:Type="String">合计</Data></Cell>
+  <Cell ss:MergeAcross="1"><Data ss:Type="String">其中</Data></Cell>
+  <Cell ss:MergeDown="1"><Data ss:Type="String">合计</Data></Cell>
+  <Cell ss:MergeAcross="1"><Data ss:Type="String">其中</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:Index="5"><Data ss:Type="String">国有面积</Data></Cell>
+  <Cell><Data ss:Type="String">集体面积</Data></Cell>
+  <Cell ss:Index="8"><Data ss:Type="String">国有面积</Data></Cell>
+  <Cell><Data ss:Type="String">集体面积</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:MergeDown="31"><Data ss:Type="String">拟占用土地总面积</Data></Cell>
+  <Cell ss:MergeAcross="1"><Data ss:Type="String">总面积</Data></Cell>
+  <Cell><Data ss:Type="String">${totalResult.sumArea!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${totalResult.sumAreaGy!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${totalResult.sumAreaJt!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${compareTotalResult.sumArea!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${compareTotalResult.sumAreaGy!?string(fixed)}</Data></Cell>
+  <Cell><Data ss:Type="String">${compareTotalResult.sumAreaJt!?string(fixed)}</Data></Cell>
+ </Row>
+ <Row ss:AutoFitHeight="0">
+  <Cell ss:Index="2" ss:MergeDown="10"><Data ss:Type="String">农用地</Data></Cell>
+  <Cell><Data ss:Type="String">小计</Data></Cell>
+  <Cell><Data ss:Type="String"><#if totB?keys?seq_contains('农用地') >${totB["农用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if totB?keys?seq_contains('农用地_gy') >${totB["农用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('农用地_jt') >${totB["农用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('农用地') >${compareTotB["农用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('农用地_gy') >${compareTotB["农用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('农用地_jt') >${compareTotB["农用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">耕地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('01') >${totB["01"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('01_gy') >${totB["01_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('01_jt') >${totB["01_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('01') >${compareTotB["01"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('01_gy') >${compareTotB["01_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('01_jt') >${compareTotB["01_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">园地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('02') >${totB["02"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('02_gy') >${totB["02_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('02_jt') >${totB["02_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('02') >${compareTotB["02"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('02_gy') >${compareTotB["02_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('02_jt') >${compareTotB["02_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">林地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('03') >${totB["03"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('03_gy') >${totB["03_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('03_jt') >${totB["03_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('03') >${compareTotB["03"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('03_gy') >${compareTotB["03_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('03_jt') >${compareTotB["03_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">天然牧草地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('041') >${totB["041"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('041_gy') >${totB["041_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('041_jt') >${totB["041_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('041') >${compareTotB["041"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('041_gy') >${compareTotB["041_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('041_jt') >${compareTotB["041_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">人工牧草地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('042') >${totB["042"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('042_gy') >${totB["042_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('042_jt') >${totB["042_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('042') >${compareTotB["042"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('042_gy') >${compareTotB["042_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('042_jt') >${compareTotB["042_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">农村道路</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('104') >${totB["104"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('104_gy') >${totB["104_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('104_jt') >${totB["104_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('104') >${compareTotB["104"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('104_gy') >${compareTotB["104_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('104_jt') >${compareTotB["104_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">坑塘水面</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('114') >${totB["114"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('114_gy') >${totB["114_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('114_jt') >${totB["114_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('114') >${compareTotB["114"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('114_gy') >${compareTotB["114_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('114_jt') >${compareTotB["114_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沟渠</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('117') >${totB["117"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('117_gy') >${totB["117_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('117_jt') >${totB["117_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('117') >${compareTotB["117"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('117_gy') >${compareTotB["117_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('117_jt') >${compareTotB["117_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">设施农用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('122') >${totB["122"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('122_gy') >${totB["122_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('122_jt') >${totB["122_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('122') >${compareTotB["122"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('122_gy') >${compareTotB["122_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('122_jt') >${compareTotB["122_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">田坎</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('123') >${totB["123"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('123_gy') >${totB["123_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('123_jt') >${totB["123_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('123') >${compareTotB["123"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('123_gy') >${compareTotB["123_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('123_jt') >${compareTotB["123_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="2" ss:MergeDown="8"><Data ss:Type="String">建设用地</Data></Cell>
+<Cell><Data ss:Type="String">小计</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('建设用地') >${totB["建设用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('建设用地_gy') >${totB["建设用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('建设用地_jt') >${totB["建设用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('建设用地') >${compareTotB["建设用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('建设用地_gy') >${compareTotB["建设用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('建设用地_jt') >${compareTotB["建设用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">城镇及工矿用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('20') >${totB["20"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('20_gy') >${totB["20_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('20_jt') >${totB["20_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('20') >${compareTotB["20"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('20_gy') >${compareTotB["20_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('20_jt') >${compareTotB["20_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">铁路用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('101') >${totB["101"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('101_gy') >${totB["101_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('101_jt') >${totB["101_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('101') >${compareTotB["101"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('101_gy') >${compareTotB["101_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('101_jt') >${compareTotB["101_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">公路用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('102') >${totB["102"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('102_gy') >${totB["102_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('102_jt') >${totB["102_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('102') >${compareTotB["102"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('102_gy') >${compareTotB["102_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('102_jt') >${compareTotB["102_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">机场用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('105') >${totB["105"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('105_gy') >${totB["105_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('105_jt') >${totB["105_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('105') >${compareTotB["105"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('105_gy') >${compareTotB["105_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('105_jt') >${compareTotB["105_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">港口码头用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('106') >${totB["106"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('106_gy') >${totB["106_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('106_jt') >${totB["106_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('106') >${compareTotB["106"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('106_gy') >${compareTotB["106_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('106_jt') >${compareTotB["106_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">管道运输用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('107') >${totB["107"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('107_gy') >${totB["107_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('107_jt') >${totB["107_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('107') >${compareTotB["107"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('107_gy') >${compareTotB["107_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('107_jt') >${compareTotB["107_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">水库水面</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('113') >${totB["113"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('113_gy') >${totB["113_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('113_jt') >${totB["113_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('113') >${compareTotB["113"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('113_gy') >${compareTotB["113_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('113_jt') >${compareTotB["113_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">水工建筑用地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('118') >${totB["118"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('118_gy') >${totB["118_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('118_jt') >${totB["118_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('118') >${compareTotB["118"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('118_gy') >${compareTotB["118_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('118_jt') >${compareTotB["118_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="2" ss:MergeDown="10"><Data ss:Type="String">未利用地</Data></Cell>
+<Cell><Data ss:Type="String">小计</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('未利用地') >${totB["未利用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('未利用地_gy') >${totB["未利用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('未利用地_jt') >${totB["未利用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('未利用地') >${compareTotB["未利用地"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('未利用地_gy') >${compareTotB["未利用地_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('未利用地_jt') >${compareTotB["未利用地_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">河流水面</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('111') >${totB["111"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('111_gy') >${totB["111_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('111_jt') >${totB["111_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('111') >${compareTotB["111"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('111_gy') >${compareTotB["111_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('111_jt') >${compareTotB["111_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">湖泊水面</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('112') >${totB["112"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('112_gy') >${totB["112_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('112_jt') >${totB["112_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('112') >${compareTotB["112"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('112_gy') >${compareTotB["112_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('112_jt') >${compareTotB["112_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沿海滩涂</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('115') >${totB["115"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('115_gy') >${totB["115_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('115_jt') >${totB["115_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('115') >${compareTotB["115"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('115_gy') >${compareTotB["115_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('115_jt') >${compareTotB["115_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">内陆滩涂</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('116') >${totB["116"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('116_gy') >${totB["116_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('116_jt') >${totB["116_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('116') >${compareTotB["116"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('116_gy') >${compareTotB["116_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('116_jt') >${compareTotB["116_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">冰川及永久冰雪</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('119') >${totB["119"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('119_gy') >${totB["119_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('119_jt') >${totB["119_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('119') >${compareTotB["119"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('119_gy') >${compareTotB["119_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('119_jt') >${compareTotB["119_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">其他草地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('043') >${totB["043"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('043_gy') >${totB["043_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('043_jt') >${totB["043_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('043') >${compareTotB["043"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('043_gy') >${compareTotB["043_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('043_jt') >${compareTotB["043_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">盐碱地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('124') >${totB["124"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('124_gy') >${totB["124_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('124_jt') >${totB["124_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('124') >${compareTotB["124"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('124_gy') >${compareTotB["124_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('124_jt') >${compareTotB["124_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沼泽地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('125') >${totB["125"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('125_gy') >${totB["125_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('125_jt') >${totB["125_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('125') >${compareTotB["125"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('125_gy') >${compareTotB["125_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('125_jt') >${compareTotB["125_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沙地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('126') >${totB["126"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('126_gy') >${totB["126_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('126_jt') >${totB["126_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('126') >${compareTotB["126"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('126_gy') >${compareTotB["126_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('126_jt') >${compareTotB["126_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">裸地</Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('127') >${totB["127"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('127_gy') >${totB["127_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if totB?keys?seq_contains('127_jt') >${totB["127_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('127') >${compareTotB["127"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('127_gy') >${compareTotB["127_gy"]!?string(fixed)}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if compareTotB?keys?seq_contains('127_jt') >${compareTotB["127_jt"]!?string(fixed)}<#else>0</#if></Data></Cell>
+        </Row>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Unsynced/>
+<Print>
+ <ValidPrinterInfo/>
+ <PaperSizeIndex>9</PaperSizeIndex>
+ <HorizontalResolution>200</HorizontalResolution>
+ <VerticalResolution>200</VerticalResolution>
+</Print>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveRow>3</ActiveRow>
+  <ActiveCol>3</ActiveCol>
+  <RangeSelection>R4C4:R35C9</RangeSelection>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </Workbook>

@@ -1,0 +1,22 @@
+
+G
+java:S1481"+Remove this unused "glsxid" local variable.(®ÇÙ¹üÿÿÿÿ
+D
+java:S1481".Remove this unused "httpState" local variable.(¡ØšE
+R	java:S125È"<This block of commented-out lines of code should be removed.(†€éˆ
+F
+java:S3740ç"/Provide the parametrized type for this generic.(ŸëĞ
+R	java:S125Ö"<This block of commented-out lines of code should be removed.(†€éˆ
+F
+java:S2093 "*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+Q
+java:S1854ç":Remove this useless assignment to local variable "result".(ŸëĞ
+R	java:S125·"<This block of commented-out lines of code should be removed.(µÊï¿
+b
+java:S1192;"GDefine a constant instead of duplicating this literal "ssmkid" 5 times.( ©Ø²ûÿÿÿÿ
+B
+java:S1481ç"+Remove this unused "result" local variable.(ŸëĞ
+Y
+java:S2259Â"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+B
+java:S1481"+Remove this unused "ssmkid" local variable.(æ›Øó

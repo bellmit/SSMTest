@@ -1,0 +1,47 @@
+.route-container{
+    padding: 4px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.route-btn-container{
+    text-align: center;
+    bottom: 40px;
+    position: absolute;
+    padding: 6px 8px;
+    width: 100%;
+}
+
+.route-btn-container>a:first-child{
+    margin-right: 15px;
+}
+
+.route-list-container{
+    margin: 10px;
+}
+
+.route-list-container ul{
+    list-style: none;
+    margin:0px;
+    padding:0px
+}
+.route-list-container ul li{
+    height: 32px;
+    line-height: 32px;
+    margin-bottom: 12px;
+    padding: 0px 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 315px;
+    display: block;
+    overflow: hidden;
+}
+
+.route-list-container ul li[data-type~="plan"]{
+    border-left: solid #009cbb;
+}
+
+.route-list-container ul li[data-type~="actual"]{
+    border-left: solid #bb8f0c;
+}

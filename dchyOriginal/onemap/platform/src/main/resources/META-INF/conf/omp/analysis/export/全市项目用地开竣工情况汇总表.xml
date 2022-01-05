@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2015-07-18T04:15:57Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8010</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>105</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s20">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="14" ss:Color="#000000"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="sheet">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="${3+count}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:Index="5" ss:Width="66"/>
+   <Column ss:Index="9" ss:Width="66"/>
+   <Row ss:AutoFitHeight="0" ss:Height="30">
+    <Cell ss:MergeAcross="13" ss:StyleID="s20"><Data ss:Type="String">全市项目用地开竣工情况汇总表</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:MergeDown="1" ss:StyleID="s16"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:MergeDown="1" ss:StyleID="s16"><Data ss:Type="String">土地用途</Data></Cell>
+    <Cell ss:MergeAcross="3" ss:StyleID="s16"><Data ss:Type="String">开工</Data></Cell>
+    <Cell ss:MergeAcross="3" ss:StyleID="s22"><Data ss:Type="String">竣工</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s16"><Data ss:Type="String">未到期开工</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s16"><Data ss:Type="String">合计</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="17.25">
+    <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">到期开工</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">到期未开工</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">到期竣工</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">到期未竣工</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">宗数</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">宗数</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">面积</Data></Cell>
+   </Row>
+   <#list data?keys as key>
+   <#assign list = data[key]!/>
+       <#list list as item>
+           <Row>
+               <#if item_index==0><Cell ss:MergeDown="5" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${item["tdyt"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["kg"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["kgmj"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wkg"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wkgmj"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["jg"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["jgmj"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wjg"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wjgmj"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wdkg"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["wdkgmj"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["count"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${item["sumArea"]!}</Data></Cell>
+               </Row>
+       </#list>
+   </#list>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C14</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

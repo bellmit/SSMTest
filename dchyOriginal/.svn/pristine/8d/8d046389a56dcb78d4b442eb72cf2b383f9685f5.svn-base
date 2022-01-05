@@ -1,0 +1,10 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import java.io.IOException;
+
+public interface ExportPdfService {
+
+    byte[] exportPdf(String chxmid) throws IOException;
+
+    byte[] tyjfdPdf(String chxmid);
+}

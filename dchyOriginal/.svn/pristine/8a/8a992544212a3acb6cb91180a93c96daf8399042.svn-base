@@ -1,0 +1,103 @@
+.mlk-container {
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #d0d5da;
+    min-height: calc(100vh - 100px);
+    margin-top: 0px!important;
+    .list-title {
+        height: 14px;
+        line-height: 14px;
+        border-left-width: 3px;
+    }
+    .guide-items {
+        margin-top: 20px;
+        .guide-item {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px dotted #ccc;
+            .guide-title {
+                font-size: 16px;
+            }
+        }
+    }
+}
+.mlk-page {
+    margin: 20px 10px;
+}
+
+.news-col {
+    margin-top: 20px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #f5f5f5 ;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.news-col-detail {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f5f5f5 ;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.news-col-title {
+    width: 70%;
+    text-align: center;
+}
+.news-col-date {
+    width: 20%;
+    text-align: center;
+}
+.news-col-date-detail {
+    width: 12%;
+    text-align: center;
+}
+.news-col-type {
+    width: 10%;
+    text-align: center;
+}
+.notice-header {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;
+}
+.news-details {
+    margin: 10px 10px 0px;
+}
+.news-items {
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #d0d5da;
+}
+.news-title {
+    width: 70%;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.news-date {
+    width: 30%;
+    text-align: right;
+    color: #999;
+}
+.news-type {
+    width: 10%;
+    text-align: center;
+    color: #01AAED;
+    font-size: 16px;
+}
+.mlk-title {
+    padding: 5px 5px 0;
+    display: flex;
+    justify-content: flex-start;
+}
+.mlk-search {
+    display: flex;
+    justify-content: space-between;
+    background-color: #EAEDF1;
+}

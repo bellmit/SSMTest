@@ -1,0 +1,77 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.model;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+
+import java.util.List;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/11/28
+ * @description TODO 名录库入驻数据实体
+ */
+public class MlkxxModel {
+
+    private String mlkTp;
+
+    //多测合一名录库
+    private List<DchyXmglMlk> dchyXmglMlkList;
+
+    //多测合一从业人员
+    private List<DchyXmglCyry> dchyXmglCyryList;
+
+    //多测合一收件材料
+    private List<DchyXmglSjcl> dchyXmglSjclList;
+
+    //多测合一收件信息
+    private List<DchyXmglSjxx> dchyXmglSjxxList;
+
+    private List<DchyXmglMlkClsxGx> dchyXmglMlkClsxGxList;
+
+    public String getMlkTp() {
+        return mlkTp;
+    }
+
+    public void setMlkTp(String mlkTp) {
+        this.mlkTp = mlkTp;
+    }
+
+    public List<DchyXmglMlk> getDchyXmglMlkList() {
+        return dchyXmglMlkList;
+    }
+
+    public void setDchyXmglMlkList(List<DchyXmglMlk> dchyXmglMlkList) {
+        this.dchyXmglMlkList = dchyXmglMlkList;
+    }
+
+    public List<DchyXmglCyry> getDchyXmglCyryList() {
+        return dchyXmglCyryList;
+    }
+
+    public void setDchyXmglCyryList(List<DchyXmglCyry> dchyXmglCyryList) {
+        this.dchyXmglCyryList = dchyXmglCyryList;
+    }
+
+    public List<DchyXmglSjcl> getDchyXmglSjclList() {
+        return dchyXmglSjclList;
+    }
+
+    public void setDchyXmglSjclList(List<DchyXmglSjcl> dchyXmglSjclList) {
+        this.dchyXmglSjclList = dchyXmglSjclList;
+    }
+
+    public List<DchyXmglSjxx> getDchyXmglSjxxList() {
+        return dchyXmglSjxxList;
+    }
+
+    public void setDchyXmglSjxxList(List<DchyXmglSjxx> dchyXmglSjxxList) {
+        this.dchyXmglSjxxList = dchyXmglSjxxList;
+    }
+
+    public List<DchyXmglMlkClsxGx> getDchyXmglMlkClsxGxList() {
+        return dchyXmglMlkClsxGxList;
+    }
+
+    public void setDchyXmglMlkClsxGxList(List<DchyXmglMlkClsxGx> dchyXmglMlkClsxGxList) {
+        this.dchyXmglMlkClsxGxList = dchyXmglMlkClsxGxList;
+    }
+}

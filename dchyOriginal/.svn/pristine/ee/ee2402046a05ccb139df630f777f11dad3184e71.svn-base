@@ -1,0 +1,320 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">名录库列表</div>
+            <div>
+                <Button class="btn-h-34 btn-cancel" @click="backToPre">返回</Button>
+            </div>
+        </div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+               <Row>
+                    <i-col span="6">
+                        <FormItem label="测绘单位 " class="form-list-search" prop="dwmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getMlkList(1,formInline.pageSize)" v-model="formInline.dwmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="资质等级 " class="form-list-search" prop="zzdj">
+                            <Select v-model="formInline.zzdj" clearable class="form-search-item">
+                                <Option v-for="item in zzdjList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="评价等级 " class="form-list-search" prop="pjdj">
+                            <Select v-model="formInline.pjdj" clearable class="form-search-item">
+                                <Option v-for="item in pjdjList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='20'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getMlkList(1,formInline.pageSize)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+               </Row>
+            </Form>
+        </div>
+        <div class="mlk-items margin-left-20">
+            <div class="mlk-item cursor-pointer" v-for="(item,index) in mlkList" @click="toMlkDetail(item)" :key="index">
+                <div class="freeze-item" v-if="item.SFDJ&&item.SFDJ=='1'">
+                    已冻结
+                </div>
+                <div class="mlk-img" style="cursor:pointer;">
+                    <img v-if="!item.MLKTP" src="static/images/fz.png" alt="">
+                    <img v-else :src="item.MLKTP" alt="">
+                </div>
+                <div class="mlk-detail">
+                    <div><span :class="!item.SFDJ||item.SFDJ=='0'?'mlk-name':'font-color-666'" style="cursor:pointer;font-size:16px">{{item.DWMC}}</span></div>
+                    <div class="mlk-grade line-height-28"><span class="font-color-666">资质等级:</span> {{item.ZZDJ}}</div>
+                    <div class="mlk-judge line-height-28"><span class="font-color-666">评价等级:</span> <Rate disabled allow-half :class="item.SFDJ&&item.SFDJ=='1'?'color-disabled':''" v-model="item.PJDJ" /></div>
+                    <div class="mlk-phone line-height-28"><span class="font-color-666">联系电话:</span> {{item.LXDH}}</div>
+                    <div class="mlk-phone line-height-28"><span class="font-color-666">可承接测绘阶段:</span> {{getClsxjd(item)}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="mlk-page margin-left-20">
+            <Page 
+                :total="totalNum" 
+                size="small" 
+                :page-size='formInline.size' 
+                :page-size-opts="pageOpts" 
+                show-elevator 
+                show-sizer 
+                show-total
+                @on-change="changePage"
+                @on-page-size-change="changeSize"
+            />
+        </div>
+    </div>
+</template>
+<script>
+import { getDictInfo } from "../../../service/commission"
+import { queryMlkList } from "../../../service/mlk"
+export default {
+    data() {
+        return {
+            formInline: {
+                dwmc: "",
+                pjdj: "",
+                zzdj: "",
+                page: 1,
+                size: 10
+            },
+            totalNum: 0,
+            pageOpts: [5,10,20,50],
+            pjdjList: [
+                {
+                    MC: "全部",
+                    DM: ""
+                },
+                {
+                    MC: "五星",
+                    DM: "5"
+                },
+                {
+                    MC: "四星",
+                    DM: "4"
+                },
+                {
+                    MC: "三星",
+                    DM: "3"
+                },
+                {
+                    MC: "二星",
+                    DM: "2"
+                },
+                {
+                    MC: "一星",
+                    DM: "1"
+                },
+
+            ],
+            zzdjList: [],
+            mlkList: [],
+            dictionaryList: [],
+            ruleInline: {}
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.getMlkList();
+    },
+    methods: {
+        // 去名录库详情页面
+        toMlkDetail(data){
+            this.$router.push({
+                path: "/construction/mlk/view",
+                query: {
+                    mlkid: data.MLKID
+                }
+            })
+        },
+        getDictInfo(){
+            let params = {
+                zdlx: ["ZZDJ","CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryList = res.data.dataList
+                this.dictionaryList.forEach(list => {
+                    if(list.ZDLX == "ZZDJ"){
+                        this.zzdjList.push(list)
+                    }
+                })
+                this.zzdjList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        getClsxjd(item){
+            let clsxDms = []
+            let fdmList = []
+            let fdmMcList = []
+            if(item.CLSXDMS){
+                clsxDms = item.CLSXDMS.split(";");
+                this.dictionaryList.forEach(list => {
+                    if(list.ZDLX == "CLSX"){
+                        if(clsxDms.includes(list.DM) && !fdmList.includes(list.FDM)){
+                            fdmList.push(list.FDM)
+                        }
+                    }
+                })
+                this.dictionaryList.forEach(list => {
+                    if(list.ZDLX == "CLSX" && fdmList.includes(list.DM)){
+                        fdmMcList.push(list.MC)
+                    }
+                })
+            }
+            return fdmMcList.join(";")
+        },
+        changePage(page){
+            this.formInline.page = page
+            this.getMlkList()
+        },
+        changeSize(size){
+            this.formInline.size = size
+            this.getMlkList()
+        },
+        getMlkList(){
+            this.$loading.show("加载中...")
+            queryMlkList(this.formInline).then(res => {
+                this.$loading.close();
+                res.data.dataList&&res.data.dataList.forEach(mlk => {
+                    mlk.PJDJ = parseInt(mlk.PJDJ)
+                })
+                this.mlkList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+                this.$nextTick(() => {
+                    let width = $(".mlk-img img").width();
+                    $(".mlk-detail").height(width/1.4)
+                })
+            })
+        },
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                size: this.formInline.size
+            }
+        },
+        backToPre(){
+            this.$router.go(-1)
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<style lang="less" scoped>
+.mlk-page {
+    padding-left: 30px;
+}
+.mlk-items {
+    padding: 30px;
+    padding-top: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .mlk-item {
+        width: 49%;
+        line-height: 28px;
+        box-sizing: border-box;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        display: flex;
+        margin-top: 20px;
+        justify-content: flex-start;
+        position: relative;
+        .freeze-item {
+            position: absolute;
+            color: #fff;
+            background-color: #666;
+            line-height: 24px;
+            padding: 0 5px;
+            right: -1px;
+            top: -1px;
+            z-index: 10;
+        }
+        .mlk-img {
+            height: 100%;
+            margin-right: 20px;
+            width: 35%;
+            text-align: center;
+            img {
+                width: 100%;
+                height: auto;
+                margin-top: 10px;
+            }
+        }
+        .mlk-name {
+            font-size: 16px;
+            color: #1d87d1;
+            line-height: 36px;
+        }
+    }
+}
+</style>
+<style scoped>
+    .color-disabled >>> .ivu-rate-star-half .ivu-rate-star-content:before,
+    .color-disabled >>> .ivu-rate-star-full:before {
+        color: #666;
+    }
+    .mlk-detail {
+        overflow: auto;
+        margin: 10px 0;
+        width: 65%;
+    }
+    /* IE 浏览器 */
+    .mlk-detail {
+        /*三角箭头的颜色*/
+        scrollbar-arrow-color: #fff;
+        /*滚动条滑块按钮的颜色*/
+        scrollbar-face-color: #c1c1c1;
+        /*滚动条整体颜色*/
+        scrollbar-highlight-color: #c1c1c1;
+        /*滚动条阴影*/
+        scrollbar-shadow-color: #c1c1c1;
+        /*滚动条轨道颜色*/
+        scrollbar-track-color: #f1f1f1;
+        /*滚动条3d亮色阴影边框的外观颜色——左边和上边的阴影色*/
+        scrollbar-3dlight-color:#c1c1c1;
+        /*滚动条3d暗色阴影边框的外观颜色——右边和下边的阴影色*/
+        scrollbar-darkshadow-color: #c1c1c1;
+        /*滚动条基准颜色*/
+        scrollbar-base-color: #c1c1c1;
+    }
+
+    /* chrome & safari 浏览器 */
+    /*滚动条整体部分,必须要设置*/
+    .mlk-detail::-webkit-scrollbar{
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+    }
+    /*滚动条的轨道*/
+    .mlk-detail::-webkit-scrollbar-track{
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+    /*滚动条的滑块按钮*/
+    .mlk-detail::-webkit-scrollbar-thumb{
+        border-radius: 5px;
+        background-color: #c1c1c1;
+        box-shadow: inset 0 0 5px #c1c1c1;
+    }
+    /*滚动条的上下两端的按钮*/
+    .mlk-detail::-webkit-scrollbar-button{
+        height: 0;
+        background-color: #f1f1f1;
+    }
+    .mlk-item:hover {
+        box-shadow: 0 0 5px #d0d5da;
+    }
+</style>

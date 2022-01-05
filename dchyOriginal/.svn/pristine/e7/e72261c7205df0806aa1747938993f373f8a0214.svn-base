@@ -1,0 +1,259 @@
+#spatialQueryPanel{
+    /*border-top: 2px solid #eee;*/
+    height: 85px;
+    /*position: absolute;*/
+    width: 100%;
+    background: url("./img/kj_bg.png");
+    padding-top: 10px;
+    /*bottom: 30px;*/
+}
+
+.esriPopup .sizer{
+    width:155% !important;
+}
+
+.contentPane>span{
+    display: inline-block;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+}
+
+#spatialQueryPanel>div{
+    padding-left: 15px;
+}
+
+.spatial-geo-icon{
+    cursor: pointer;
+}
+
+.choose-title {
+    line-height: normal;
+    font-size: 14px;
+    color: #333333;
+    width: 44px;
+    text-align: center;
+    cursor: default!important;
+}
+
+.spatial-geo {
+    cursor: pointer;
+    font-size: 35px;
+    width: 70px;
+    height: 100%;
+    line-height: 70px;
+    display: block;
+    text-align: center;
+}
+
+.spatial-geo > i {
+    font-size: inherit;
+}
+
+.search-input {
+    width: 70% !important;
+    min-width: 180px;
+}
+
+.search-select, .layer-input {
+    /*width: 190px !important;*/
+}
+
+.range-select {
+    width: 43%!important;
+    min-width: 65px;
+}
+
+.btn-opt {
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: solid #F0F0F0 1px;
+}
+
+.q-content {
+    margin-top: 15px;
+}
+
+.result-info {
+    margin: auto 10px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 13px;
+}
+
+.s_item {
+    margin-top: 10px;
+    padding: 10px 5px;
+    border: solid #F0F0F0 1px;
+}
+
+.s_item:hover {
+    background: #F7F7F7;
+    cursor: pointer;
+    border: solid #ECECEC 2px !important;
+}
+
+.s_item .info {
+    width: 90%;
+    float: left;
+}
+
+.s_item .icon {
+    width: 10%;
+    float: left;
+    font-size: 25px;
+    color: #ABD6FF;
+}
+
+.s_item .icon_hover {
+    width: 10%;
+    float: left;
+    font-size: 28px;
+    color: #428BCA;
+}
+
+.s_item .title {
+    width: 100%;
+    font-size: 16px;
+    color: #007AFF;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.s_item .subtitle {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+}
+
+.info-content:first-child {
+    text-align: right;
+    margin-right: 1em;
+}
+
+.info-content > ul {
+    list-style-type: none;
+    padding: 3px;
+}
+
+.info-content>ul>li{
+    height: 22px;
+    line-height: 22px;
+    /*border-bottom: 1px solid #E8E6E6;*/
+    width: 250px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+
+}
+.info-content > ul > li .left {
+    float: left;
+    /*width: 45%;*/
+    /*text-align: right;*/
+    display: block;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 85%;
+}
+
+.info-content > ul > li .right {
+    float: left;
+    width: 55%;
+    text-align: left;
+    display: block;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 85%;
+}
+
+.query-page {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#layersSelect option {
+    font-size: 14px;
+}
+
+.layer-input-date{
+    width: 43% !important;
+}
+
+#layerCondition {
+    max-height: 280px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.panel-title .title-icon{
+    width: 42px;
+    height: 30px;
+    background: url("./img/title_icon.png") no-repeat;
+    display: inline-block;
+    float: left;
+}
+
+.point-choose{
+    width: 44px;
+    height:44px;
+    background: url("./img/dian.png") no-repeat;
+    display: inline-block;
+}
+
+.point-choose:hover {
+    background: url("./img/dian_hover.png") no-repeat;
+}
+
+.line-choose{
+    width: 44px;
+    height:44px;
+    background: url("./img/line.png") no-repeat;
+    display: inline-block;
+}
+
+.line-choose:hover {
+    background: url("./img/line_hover.png") no-repeat;
+}
+
+.frame-choose{
+    width: 44px;
+    height:44px;
+    background: url("./img/kuang.png") no-repeat;
+    display: inline-block;
+}
+
+.frame-choose:hover{
+    background: url("./img/kuang_hover.png") no-repeat;
+}
+
+.polygon-choose{
+    width: 44px;
+    height:44px;
+    background: url("./img/duobian.png") no-repeat;
+    display: inline-block;
+}
+
+.polygon-choose:hover{
+    background: url("./img/duobian_hover.png") no-repeat;
+}
+
+#layerForm{
+    padding-top: 14px;
+    background: url("./img/shuxing_bg.png") ;
+}
+#spatialQueryResultPanel .slimScrollDiv{
+   width: 100% !important;
+   padding-right: 20px;
+}
+#attr_result{
+    width: 100% !important;
+}

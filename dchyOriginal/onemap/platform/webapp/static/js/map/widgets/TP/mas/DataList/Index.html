@@ -1,0 +1,51 @@
+<div class="widget-panel-title">数据列表</div>
+<div id="dataListContainer">
+
+</div>
+<script id="mixingTree" type="x-tpl-mustache">
+    <div class="ztreeContainer">
+        <ul id="dirTree" class="ztree"></ul>
+    </div>
+</script>
+
+<script id="classificationTree" type="x-tpl-mustache">
+    <div class="om-tab-content">
+        <div id="currentData" role="tabpanel" class="om-tab-panel tab-content-active">
+            <div class="ztreeContainer">
+                <ul id="currentDataTree" class="ztree"></ul>
+            </div>
+        </div>
+        <div id="historicalData" role="tabpanel" class="om-tab-panel">
+            <div class="ztreeContainer">
+                <ul id="historicalDataTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <!--nav-tab-->
+    <ul class="om-nav om-nav-tabs data-list-nav" data-role="tablist">
+        <li role="presentation" class="data-list-tab tab-active" data-id="currentData"><a href="javascript:void(0)" role="tab" data-toggle="tab">现势数据</a></li>
+        <li role="presentation" class="data-list-tab" data-id="historicalData"><a href="javascript:void(0)" role="tab" data-toggle="tab">历史数据</a></li>
+    </ul>
+</script>
+
+<script id="listContent" type="x-tpl-mustache">
+    <div id="scroll_{{id}}"style="width:160px;line-height:40px;"></div>
+</script>
+
+<!--layer menu tpl-->
+<script id="layerMenuTpl" type="x-tpl-mustache">
+ <span id="compareBtn_{{id}}" class="fa fa-clone layer-compare" title="对比"></span>
+</script>
+
+
+<script id="zfjc-tpl" type="x-handlebars-template">
+    <div class="layui-row" style="height: 100%">
+        <div class="layui-col-xs6 layui-col-md6" style="height: 100%">
+
+            <iframe id="img" style="height: 100%;width: 99%;" src="{{imgUrl}}"></iframe>
+        </div>
+        <div  class="layui-col-xs6 layui-col-md6" style="height: 100%">
+            <iframe id="video"  style="height:100%;width:99%;" src="{{videoUrl}}"></iframe>
+        </div>
+    </div>
+</script>

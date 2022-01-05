@@ -1,0 +1,287 @@
+package cn.gtmap.msurveyplat.promanage.utils;
+
+import com.gtis.config.AppConfig;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Constants {
+    public static final String LOG_URL = AppConfig.getProperty("log.url");
+
+    public static final String CGTJ_MODE_CHGC = "chgcCgtj";
+    public static final String CGTJ_MODE_CHXM = "chxmCgtj";
+
+    //字符串分割符
+    public static final String PLATFORM_SPLIT_STR = "$";
+
+    // mq 消息队列和交换机配置
+    public static final String EXCHANGE_TYPE_DIRECT = "direct";
+
+    public static final String BSDT_XMGL_DIRECT_EXCHANGE = "bsdt_xmgl";
+    public static final String XMGL_BSDT_DIRECT_EXCHANGE = "xmgl_bsdt";
+
+    public static final String XMGL_BSDT_SLXX_QUEUE = "xmgl_bsdt_slxx";
+    public static final String BSDT_XMGL_XMFB_QUEUE = "bsdt_xmgl_xmfb";
+    public static final String BSDT_XMGL_FWPJ_QUEUE = "bsdt_xmgl_fwpj";
+    public static final String BSDT_XMGL_MLKRZ_QUEUE = "bsdt_xmgl_mlkrz";
+    public static final String BSDT_XMGL_CGJC_QUEUE = "bsdt_xmgl_cgjc";
+    public static final String BSDT_XMGL_CGTJ_QUEUE = "bsdt_xmgl_cgtj";
+    public static final String BSDT_XMGL_ZXBJ_QUEUE = "bsdt_xmgl_zxbj";
+    public static final String BSDT_XMGL_TSWJ_QUEUE = "bsdt_xmgl_tswj";
+    public static final String XMGL_BSDT_CGJC_QUEUE = "xmgl_bsdt_cgjc";
+    public static final String XMGL_BSDT_CGTJ_QUEUE = "xmgl_bsdt_cgtj ";
+    public static final String XMGL_BSDT_CGCC_QUEUE = "xmgl_bsdt_cgcc ";
+    public static final String XMGL_BSDT_ZXBJ_QUEUE = "xmgl_bsdt_zxbj ";
+    public static final String XMGL_BSDT_JCSJ_QUEUE = "xmgl_bsdt_jcsj ";
+    public static final String XMGL_BSDT_TSWJ_QUEUE = "xmgl_bsdt_tswj ";
+
+    public static final String XMGL_BSDT_SLXX_QUEUE_ROUTINGKEY = "xmgl_bsdt_slxx";
+    public static final String BSDT_XMGL_XMFB_QUEUE_ROUTINGKEY = "bsdt_xmgl_xmfb";
+    public static final String BSDT_XMGL_FWPJ_QUEUE_ROUTINGKEY = "bsdt_xmgl_fwpj";
+    public static final String BSDT_XMGL_MLKRZ_QUEUE_ROUTINGKEY = "bsdt_xmgl_mlkrz";
+    public static final String BSDT_XMGL_CGJC_QUEUE_ROUTINGKEY = "bsdt_xmgl_cgjc";
+    public static final String BSDT_XMGL_CGTJ_QUEUE_ROUTINGKEY = "bsdt_xmgl_cgtj";
+    public static final String BSDT_XMGL_ZXBJ_QUEUE_ROUTINGKEY = "bsdt_xmgl_ZXBJ";
+    public static final String BSDT_XMGL_TSWJ_QUEUE_ROUTINGKEY = "bsdt_xmgl_tswj";
+    public static final String XMGL_BSDT_CGJC_QUEUE_ROUTINGKEY = "xmgl_bsdt_cgjc";
+    public static final String XMGL_BSDT_CGTJ_QUEUE_ROUTINGKEY = "xmgl_bsdt_cgtj ";
+    public static final String XMGL_BSDT_CGCC_QUEUE_ROUTINGKEY = "xmgl_bsdt_cgcc ";
+    public static final String XMGL_BSDT_ZXBJ_QUEUE_ROUTINGKEY = "xmgl_bsdt_ZXBJ ";
+    public static final String XMGL_BSDT_JCSJ_QUEUE_ROUTINGKEY = "xmgl_bsdt_jcsj ";
+    public static final String XMGL_BSDT_TSWJ_QUEUE_ROUTINGKEY = "xmgl_bsdt_tswj ";
+
+
+    //多测合一测绘项目项目状态
+    public static final String DCHY_XMGL_CHXM_XMZT_WSL = "1"; //待备案
+    public static final String DCHY_XMGL_CHXM_XMZT_YSL = "2"; //已备案
+    public static final String DCHY_XMGL_CHXM_XMZT_YBJ = "99"; //已办结
+
+    //字典表   字段类型
+    public static final String DCHY_XMGL_CHXM_TZGG = "GGLX";
+    public static final String DCHY_XMGL_CHXM_YHDW = "YHLX";
+    public static final String DCHY_XMGL_CHXM_DWXZ = "DWXZ";
+    public static final String DCHY_XMGL_CHXM_ZZDJ = "ZZDJ";
+    public static final String DCHY_XMGL_CHXM_KPJG = "KPJG";
+    public static final String DCHY_XMGL_CHXM_CGZL = "CGZL";
+    public static final String DCHY_XMGL_CHXM_MYD = "MYD";
+    public static final String DCHY_XMGL_CHXM_XYD = "XYD";
+    public static final String DCHY_XMGL_CHXM_FWPJ = "FWPJ";
+    public static final String DCHY_XMGL_CHXM_XMXZ = "XMXZ";
+    public static final String DCHY_XMGL_CHXM_GCDZ = "GCDZ";
+    public static final String DCHY_XMGL_CHXM_CLSX = "CLSX";
+    public static final String DCHY_XMGL_CHXM_XMCGZT = "XMCGZT";
+    public static final String DCHY_XMGL_CHXM_XMZT = "XMZT";
+    public static final String DCHY_XMGL_CHXM_PJZT = "PJZT";
+
+    //分页查询 默认的page 和 size
+    public static final String DCHY_XMGL_PAGINATION_PAGE = "1";
+    public static final String DCHY_XMGL_PAGINATION_SIZE = "10";
+
+    //申请状态
+    public static final String DCHY_XMGL_SQZT_DSH = "1";
+    public static final String DCHY_XMGL_SQZT_CS = "2";
+    public static final String DCHY_XMGL_SQZT_FS = "3";
+    public static final String DCHY_XMGL_SQZT_TH = "97";
+    public static final String DCHY_XMGL_SQZT_SHTG = "98";
+    public static final String DCHY_XMGL_SQZT_YGD = "99";
+
+    //审核状态
+    public static final String DCHY_XMGL_SHZT_DSH = "1";
+    public static final String DCHY_XMGL_SHZT_SHZ = "2";
+    public static final String DCHY_XMGL_SHZT_TH = "98";
+    public static final String DCHY_XMGL_SHZT_SHTG = "99";
+
+    //成果交付状态
+    public static final String DCHY_XMGL_XMCGZT_WTJ = "0";//未提交
+    public static final String DCHY_XMGL_XMCGZT_DSH = "1";//已提交待审核
+    public static final String DCHY_XMGL_XMCGZT_SHZ = "2";//审核中
+    public static final String DCHY_XMGL_XMCGZT_YRK = "3";//已入库
+    public static final String DCHY_XMGL_XMCGZT_YTH = "4";//已退回
+    public static final String DCHY_XMGL_XMCGZT_WWT = "5";//未委托
+
+
+    //测绘项目状态
+    public static final String DCHY_XMGL_XMZT = "99";//已办结
+
+    public static final String SUCCESS = "0000"; // 成功
+    public static final String FAIL = "1000"; // 数据查询失败
+    public static final String ERROR = "2000"; //用户名密码验证错误
+    public static final String SECURITY_ERROR = "2010"; //安全token错误
+    public static final String USER_NOT_LOGGED = "2020";// 用户未登录
+
+    public static final String SUCCESS_MSG = "成功";
+    public static final String FAIL_MSG = "数据查询失败";
+    public static final String ERROR_MSG = "用户名密码验证错误";
+    public static final String SECURITY_ERROR_MSG = "安全token错误";
+    public static final String USER_NOT_LOGGED_MSG = "用户未登录";
+
+    public static final String LONG_TERM = "1";//长期有效
+
+    public static final boolean WWSHARE_FILEIMPORT_NODENAMEBYXMID = AppConfig.getBooleanProperty("wwshare.fileImport.nodeNameByXmid");
+
+    //文件中心
+    public static final String WORK_FLOW_STUFF = "WORK_FLOW_STUFF";
+
+    public static final String SHI = "是";
+
+    public static final String SSMKID_MLK = "1";
+
+    public static final String SSMKID_FBXQ = "6";
+
+    public static final String SSMKID_XCSLDJ = "2";
+
+    public static final String SSMKID_JCSJSQ = "20";
+
+    public static final String BLSX_MLKRZ = "1";
+
+    public static final String VALID = "1";// 有效
+
+    public static final String INVALID = "0";//无效
+
+    public static final String XMLY_XSFB = "1";//线上发布
+
+    public static final String XMLY_XXFB = "2";//线下发布
+
+    //合同登记备案
+    public static final String HTDJBA = "2";
+
+    //多测合一 测量事项操作状态
+    public static final String DCHY_XMGL_CLSX_CZZT_ZT = "暂停";
+    public static final String DCHY_XMGL_CLSX_CZZT_HF = "恢复";
+    public static final String DCHY_XMGL_CLSX_CZZT_TZ = "停止";
+
+    //多测合一 测量事项测量状态
+    public static final String DCHY_XMGL_CLSX_CLZT_ZT = "2";
+    public static final String DCHY_XMGL_CLSX_CLZT_ZC = "1";
+    public static final String DCHY_XMGL_CLSX_CLZT_TZ = "3";
+
+    public static final String DCHY_XMGL_CLSX_MRCLZT_ZC = "1";
+
+
+    public static final String DCHY_XMGL_CLSX_SEPARATOR = ";";
+
+
+    public static final String LIKE_QUERY = "like";
+
+    public static final String EQUAL_QUERY = "equal";
+
+    //回执单名称
+    public static final String DCHY_XMGL_HZDMC = "多测合一项目合同备案登记受理回执单";
+
+
+    public static final String DCHY_XMGL_CLLX_YJZB = "原件正本";
+    public static final String DCHY_XMGL_CLLX_ZBFYJ = "正本复印件";
+    public static final String DCHY_XMGL_CLLX_YJFB = "原件副本";
+    public static final String DCHY_XMGL_FBFYJ_FBFYJ = "副本复印件";
+    public static final String DCHY_XMGL_CLLX_QT = "其他";
+
+    //成果上传所属模块
+    public static final String DCHY_XMGL_SSMKID_CGSC = "8";
+
+    //成果上传描述信息
+    public static final String DCHY_XMGL_CGSC_MSXX_WJCF = "文件重复";
+    public static final String DCHY_XMGL_CGSC_MSXX_WJQS = "文件缺失";
+    public static final String DCHY_XMGL_CGSC_MSXX_GSCW = "格式错误";
+    public static final String DCHY_XMGL_CGSC_MSXX_GDWWYQWJ = "规定外未要求文件";
+
+    //测量成果审核状态
+    public static final String DCHY_XMGL_CLCG_SHZT_DSH = "待审核";
+    public static final String DCHY_XMGL_CLCG_SHZT_TH = "退回";
+    public static final String DCHY_XMGL_CLCG_SHZT_SHTG = "审核通过";
+
+    //cache的唯一标识
+    public static final String CACHE_DEF = "accessZipUpload";
+
+    //成果包是否提交
+    public static final String DCHY_XMGL_CLCG_SFTJ_FALSE = "0";
+    public static final String DCHY_XMGL_CLCG_SFTJ_TRUE = "1";
+
+    //消息提醒消息类型
+    public static final String DCHY_XMGL_ZD_MLK = "1";//名录库入驻审核结果
+    public static final String DCHY_XMGL_ZD_JP = "2";//评价
+    public static final String DCHY_XMGL_ZD_CHGZJD = "3";//测绘工作进度
+    public static final String DCHY_XMGL_ZD_CHTJCGSH = "4";//测绘提交成果审核
+    public static final String DCHY_XMGL_ZD_YCMLK = "5";//移出名录库
+    public static final String DCHY_XMGL_ZD_HTBASL = "6";//合同备案受理
+
+    //消息提醒消息内容
+    public static final String DCHY_XMGL_ZD_XXNR_MLKRZ_TG = "1";//名录库入驻审核结果通过
+    public static final String DCHY_XMGL_ZD_XXNR_MLKRZ_BTG = "2";//名录库入驻审核结果不通过
+    public static final String DCHY_XMGL_ZD_XXNR_JSDWPJ = "3";//建设单位评价
+    public static final String DCHY_XMGL_ZD_XXNR_GLDWPJ = "4";//管理单位评价
+    public static final String DCHY_XMGL_ZD_XXNR_JFQX = "5";//测绘工作进度，交付期限前15天
+    public static final String DCHY_XMGL_ZD_XXNR_CQ = "6";//测绘工作进度超期
+    public static final String DCHY_XMGL_ZD_XXNR_CGSH_TG = "7";//测绘提交成果审核通过
+    public static final String DCHY_XMGL_ZD_XXNR_CGSH_BTG = "8";//测绘提交成果审核不通过
+    public static final String DCHY_XMGL_ZD_XXNR_MLKYC = "9";//名录库移出
+    public static final String DCHY_XMGL_ZD_XXNR_HTBAYTG = "10"; //合同备案通过
+    public static final String DCHY_XMGL_ZD_XXNR_HTBAYBTG = "20"; //合同备案不通过
+    public static final String DCHY_XMGL_ZD_XXNR_SLDBJ = "11";//受理单办结
+    public static final String DCHY_XMGL_ZD_XXNR_GCXMBJ = "12";//项目工程办结
+    public static final String DCHY_XMGL_ZD_XXNR_XSWTSHTG = "18";//线上委托审核通过
+    public static final String DCHY_XMGL_ZD_XXNR_XSWTSHBTG = "19";//线上委托审核不通过
+
+    //跳转
+    public static final String XXTX_SFTZ_BTZ = "0"; //不跳转
+    public static final String XXTX_SFTZ_MLKTZ = "1"; //名录库入驻跳转
+    public static final String XXTX_SFTZ_PJTZ = "2"; //建设单位评价记录跳转
+    public static final String XXTX_SFTZ_KPTZ = "3"; //管理单位考评记录跳转
+
+    public static final int RETURN_SUCCESS = 1;
+    public static final int RETURN_FAIL = 0;
+
+    public static final String WTZT_YBA = "5"; //委托状态 已备案
+    public static final String WTZT_DBA = "6"; //委托状态 待备案
+    public static final String WTZT_YTH = "7"; //委托状态 已退回
+    public static final String WTZT_CXBA = "8"; //委托状态 重新备案
+
+    public static final String XMLY_XSWT = "3"; //项目来源 线上委托
+    public static final String WTZT_XXDJ = "2"; //委托状态 线下登记
+
+    public static final String DQJD_SH = "1";  //当前节点 审核
+
+    public static final String SHTG = "1";  //审核通过
+    public static final String SHBTG = "0";  //审核不通过
+
+    public static final String BLSX_FBWT = "4";  //办理事项
+
+    public static final String DCHY_XMGL_JCSJSQ_CLMC = "数据范围";  //基础数据申请数据范围
+
+    public static final Integer DCHY_XMGL_JCSJSQ_MRFS = 1;  //基础数据申请默认页数
+
+    public static final Integer DCHY_XMGL_JCSJSQ_MRYS = 1;  //基础数据申请默认份数
+
+    public static final String DCHY_XMGL_SJCL_CLLX_QT = "5";  //收件材料材料类型其他
+
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_SHZ = "1";  //基础数据申请当前状态审核中
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_DZZ = "2";  //基础数据申请当前状态待制作
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_ZZZ = "3";  //基础数据申请当前状态制作中
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_DJF = "4";  //基础数据申请当前状态待交付
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_YJF = "98";  //基础数据申请当前状态已交付
+    public static final String DCHY_XMGL_JCSJSQ_DQSQZT_YTH = "99";  //基础数据申请当前状态已退回
+
+
+    public static final String DCHY_XMGL_JCSJSQ_PJZT_DCC = "2";  //基础数据申请当前状态待抽查
+    public static final String DCHY_XMGL_JCSJSQ_PJZT_YPJ = "1";  //已评价
+    public static final String DCHY_XMGL_JCSJSQ_PJZT_DPJ = "0";  //待评价
+
+    public static final String DCHY_XMGL_ZDLX_XMZT = "XMZT";  //字典表字段类型项目状态
+    public static final String DCHY_XMGL_ZDLX_GCDZ = "GCDZ";  //字典表字段类型工程地址
+
+
+    public static final String DCHY_XMGL_CGCC_MRTS = "10";  //成果抽查默认条数
+
+    public static final String DCHY_XMGL_CGCC_SFSD_YES = "0";  //成果抽查是否首单  是
+    public static final String DCHY_XMGL_CGCC_SFSD_NO = "1";  //成果抽查是否首单  不是
+
+    public static final String EMPTYPARAM_VALUE = "emptyParamValue";
+
+    public static final String GUEST = "028f212f4f6990dba77b05056df92a49";
+
+    public static final String DCHY_XMGL_SQFS_XS = "1";
+    public static final String DCHY_XMGL_SQFS_XX = "2";
+
+    //基础数据申请流程
+    public static final String DCHY_XMGL_JCSJSQ_LCMC = "基础数据管理";
+    public static final String DCHY_XMGL_JCSJSQ_HJ_SH = "审核";
+
+}

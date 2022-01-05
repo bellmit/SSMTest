@@ -1,0 +1,94 @@
+<div class="print container-fluid">
+    <div class="title">{{label}}功能配置</div>
+
+    <form class="form-horizontal" id="printForm">
+        <div class="row lineSpacing">
+            <div class="col-xs-2 text-right">
+            </div>
+            <div class="col-xs-1 text-right">
+                <label class="lableTitle">标题</label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                       value="{{label}}"/>
+            </div>
+            <div class="col-xs-1  text-right">
+                <label class="lableTitle">图标</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="ui search selection dropdown" id="icons">
+                    <input type="hidden" name="icon" value="{{icon}}">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">请选择</div>
+                </div>
+            </div>
+            <div class="col-xs-2 text-right">
+            </div>
+        </div>
+
+        <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                class="tags"> 属性配置</span></h4>
+
+        <!--<div id="scrollContent">-->
+            <div class="row lineSpacing">
+                <div class="col-xs-3 text-right">
+                    <label class="lableTitle">打印服务地址</label>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <input type="text" name="url" class="form-control" id="url" placeholder="请填写打印服务地址"
+                           value="{{config.url}}"/>
+                </div>
+            </div>
+
+            <div class="row lineSpacing">
+                <div class="col-xs-3 text-right">
+                    <label class="lableTitle">打印标题</label>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="请填写打印标题"
+                           value="{{config.title}}"/>
+                </div>
+            </div>
+
+            <div class="row lineSpacing">
+                <div class="col-xs-3 text-right">
+                    <label class="lableTitle">制图作者</label>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <input type="text" name="author" class="form-control" id="author" placeholder="请填写打印服务地址"
+                           value="{{config.author}}"/>
+                </div>
+            </div>
+
+            <div class="row lineSpacing">
+                <div class="col-xs-3 text-right">
+                    <label class="lableTitle">版权信息</label>
+                </div>
+                <div class="col-xs-7 text-right">
+                    <input type="text" name="copyright" class="form-control" id="copyright" placeholder="请填写打印服务地址"
+                           value="{{config.copyright}}"/>
+                </div>
+            </div>
+            <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                    class="tags"> 自定义属性配置</span></h4>
+
+            <div class="row lineSpacing">
+                <div id="addCustomProps" class="col-xs-3 text-right" style="color: #2ea8e5;cursor: pointer;">
+                    <span class="glyphicon glyphicon-plus">添加属性</span>
+                </div>
+            </div>
+
+            <div id="customItems" class="clearfix">
+
+            </div>
+        <!--</div>-->
+
+        <div class="row lineSpacing" style="margin-top: 25px;">
+            <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-success" style="width: 150px;" id="printSaveBtn">保存</button>
+            </div>
+
+        </div>
+    </form>
+</div>

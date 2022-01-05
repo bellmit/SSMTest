@@ -1,0 +1,69 @@
+package cn.gtmap.msurveyplat.serviceol.core.mapper;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+@Repository
+public interface DchyXmglSjclpzMapper {
+
+    /**
+     * query DISTINCT SsmkId
+     *
+     * @return List<String>
+     */
+    List<String> querySsmkId();
+
+    /**
+     * query Result List<Map>
+     *
+     * @return List<Map   <   String ,   Object>>
+     */
+    List<Map<String, Object>> queryResultListMap();
+
+    /**
+     * query Clsx List<Map>
+     *
+     * @return List<Map   <   String ,   Object>>
+     */
+    List<Map<String, Object>> queryClsxListMap();
+
+    /**
+     * query Csmk List<Map>
+     *
+     * @return List<Map   <   String ,   Object>>
+     */
+    List<Map<String, Object>> queryCsmkListMap();
+
+    /**
+     * query LCGPZ Children
+     *
+     * @param pclcgpzid String
+     * @return List<Map   <   String ,   Object>>
+     */
+    List<Map<String, Object>> queryChildrenLcgpz(String pclcgpzid);
+
+    /**
+     * 清空表内所有数据
+     */
+    void dropAllRecount();
+
+    /**
+     * @description 获取序号最大值
+     */
+    String queryMaxXhBySsmkid(@Param(value = "ssmkid") String ssmkid);
+
+    /**
+     * @description 根据ssmkid,测量事项获取对应需要上传的材料信息
+     */
+    List<Map<String, Object>> querySjclpzBySsmkIdAndClsx(Map<String,Object> map);
+
+}

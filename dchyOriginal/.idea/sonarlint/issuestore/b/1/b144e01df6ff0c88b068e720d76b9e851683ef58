@@ -1,0 +1,71 @@
+
+\
+java:S3457K"AFormat specifiers should be used instead of string concatenation.(Ï‘ÉÓüÿÿÿÿ
+c
+java:S1192ê"GDefine a constant instead of duplicating this literal "htxxid" 3 times.(½‹ï¡øÿÿÿÿ
+X
+java:S3457Û"AFormat specifiers should be used instead of string concatenation.(˜ùÜÙ
+e
+java:S1192ã"IDefine a constant instead of duplicating this literal "folderId" 3 times.(îŠ¤ëıÿÿÿÿ
+D
+java:S1144e".Remove this unused private "basicNACK" method.(¤´Àÿ
+j
+java:S4719€"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(öˆÌÿÿÿÿÿ
+X
+java:S3457ä"AFormat specifiers should be used instead of string concatenation.(Àæ¨¢
+c
+java:S1192Ò"GDefine a constant instead of duplicating this literal "sjclid" 3 times.(šÈ²“ùÿÿÿÿ
+U
+java:S4973ì"9Use the "equals" method if value comparison was intended.(ô¥¼›øÿÿÿÿ
+]
+java:S3457×"AFormat specifiers should be used instead of string concatenation.(ş®ïÅúÿÿÿÿ
+P
+java:S2864ê"4Iterate over the "entrySet" instead of the "keySet".(½Ö²’ûÿÿÿÿ
+c
+java:S4719N"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+K
+java:S3740˜"/Provide the parametrized type for this generic.(Ì®¤úÿÿÿÿ
+\
+java:S3457T"AFormat specifiers should be used instead of string concatenation.(šî¢šşÿÿÿÿ
+F
+java:S3740à"/Provide the parametrized type for this generic.(ùª“Š
+F
+java:S3740 "/Provide the parametrized type for this generic.(ËŸ¤¼
+X
+java:S3457ó"AFormat specifiers should be used instead of string concatenation.(·¦’£
+W	java:S125™"<This block of commented-out lines of code should be removed.(ıâœùÿÿÿÿ
+]
+java:S3457"AFormat specifiers should be used instead of string concatenation.(°”û–ûÿÿÿÿ
+1
+java:S3457ó"Not enough arguments.(à¼´†ÿÿÿÿÿ
+`	java:S112y"FDefine and throw a dedicated exception instead of using a generic one.(ÀÕ¾úÿÿÿÿ
+n
+java:S3776y"SRefactor this method to reduce its Cognitive Complexity from 616 to the 15 allowed.(ÀÕ¾úÿÿÿÿ
+n
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Âä‘Äøÿÿÿÿ
+
+java:S1192Æ"wDefine a constant instead of duplicating this literal "************å¤šæµ‹åˆä¸€åˆåŒæ”¶ä»¶ä¿¡æ¯å…¥åº“æˆåŠŸ" 3 times.(Àæ¨¢
+W
+java:S3457û"AFormat specifiers should be used instead of string concatenation.(Ò´ø!
+[	java:S112ß"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+W	java:S125›"<This block of commented-out lines of code should be removed.(•ƒ¶§ûÿÿÿÿ
+W
+java:S3457Ö"AFormat specifiers should be used instead of string concatenation.(¢›®`
+]
+java:S3457„"AFormat specifiers should be used instead of string concatenation.(•Öİøÿÿÿÿ
+F
+java:S1144È"/Remove this unused private "uploadFile" method.(ÑÒÒ
+X
+java:S3457Æ"AFormat specifiers should be used instead of string concatenation.(Àæ¨¢
+d
+java:S1192ğ"GDefine a constant instead of duplicating this literal "glsxid" 3 times.(ûŠÓ^8øıí—£/
+š
+java:S1192è"wDefine a constant instead of duplicating this literal "************å¤šæµ‹åˆä¸€æµ‹ç»˜æ”¶ä»¶ææ–™å…¥åº“æˆåŠŸ" 3 times.(Ÿ¥Êııÿÿÿÿ8øıí—£/
+_
+java:S1854•"ARemove this useless assignment to local variable "stringListMap".(’ıê¸8øıí—£/
+b
+java:S3252ƒ"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW8øıí—£/
+P
+java:S1481•"2Remove this unused "stringListMap" local variable.(’ıê¸8øıí—£/

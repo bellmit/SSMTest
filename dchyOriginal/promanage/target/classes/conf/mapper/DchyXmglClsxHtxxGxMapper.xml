@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClsxHtxxGxMapper">
+
+    <select id="getClsxByChxmid" parameterType="map" resultType="map">
+        SELECT g.clsxid ,x.mc AS clsxmc,x.dm AS clsxdm
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        LEFT JOIN DCHY_XMGL_HTXX x ON g.htxxid = x.htxxid
+        LEFT JOIN (SELECT dm,mc FROM dchy_xmgl_zd WHERE zdlx='CLSX' ) x ON x.dm=l.clsx
+        <where>
+            <if test="htxxid != null and htxxid !=''">
+                AND g.htxxid = #{htxxid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getClsxByChxmids" parameterType="map" resultType="map">
+        SELECT g.clsxid,l.clsx,l.cgtjzt,l.yjjfrq,l.jcrq,l.cgjfrq
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND g.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getClsxByChxmidlist" parameterType="map" resultType="map">
+        SELECT z.chxmid,z.clsx,z.cgtjzt,z.yjjfrq,z.jcrq,z.cgjfrq,z.rowss1 FROM
+        (SELECT g.chxmid,l.clsx,l.cgtjzt,l.yjjfrq,l.jcrq,l.cgjfrq,ROW_NUMBER() OVER(PARTITION BY
+        l.clsx ORDER BY l.cgjfrq DESC) rowss1
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND g.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND g.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>) z
+        WHERE z.rowss1='1'
+
+    </select>
+
+    <!--根据CLSXID获取对应的测绘单位信息-->
+    <select id="getChdwxxByCLsx" parameterType="map" resultType="map">
+        SELECT DISTINCT dw.chdwmc
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        LEFT JOIN DCHY_XMGL_HTXX_CHDWXX_GX x on x.htxxid = g.htxxid
+        LEFT JOIN Dchy_Xmgl_Chxm_Chdwxx dw on dw.chdwxxid = x.chdwxxid
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND g.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                    <if test="clsx != null and clsx != ''">
+                        AND l.clsx = #{clsx}
+                    </if>
+                </when>
+
+                <otherwise>
+                    AND l.clsx = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

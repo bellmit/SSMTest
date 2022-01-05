@@ -1,0 +1,54 @@
+<div class="widget-panel-title">综合分析</div>
+<div id="multipleAnalysisPanel" class="panel-body" style="padding: 1px;">
+    <div id="hideMuDiv">
+        <label class="text-info-o">数据来源：</label>
+        <div id="LOC_QUERY_Mu" class="div-dataSource-mu" style="z-index:99;">
+            <div class="div-dataSourceTop-mu"><span code="">数据来源</span>
+                <em><img src="/omp/static/thirdparty/multi-select/multiple-select-diy.png"></em>
+            </div>
+            <ul class="ul-dataSource-mu" id="dataMuTypeUl">
+                <li code="SK_LOC"> 定位信息</li>
+                <li code="SK_QUERY"> 查询属性</li>
+            </ul>
+        </div>
+    </div>
+    <div class="text-center" id="xzYearKo" data-bind="if: xzYears().length &gt; 0">
+        <label class="text-info">现状年度：</label>
+        <select data-bind="foreach: xzYears, event: { change: changeXzYear } ">
+            <option data-bind="value: $data, text: $data + '&nbsp;年', attr: {'data-dltb': 'DLTB_H_' + $data, 'data-xzdw': 'XZDW_H_' + $data}">
+            </option>
+        </select>
+    </div>
+</div>
+
+<!--分析选择模板-->
+<script id="lyrsChosenTpl" type="x-tpl-handlebars">
+ <div class="col-xs-12 m-t-10">
+    {{#each layers}}
+       <div class="omp-checkbox multi-layer-chose {{#if visible}}omp-checked{{/if}}" data-funid="{{funid}}">
+        <span>{{alias}}</span><i class="iconfont">&#xe70d;</i>
+       </div>
+    {{/each}}
+    <div class="m-t-5 text-right">
+        <a class="btn btn-xs btn-info m-r-5 btn-lyr-sel" data-opt="all">全选</a>
+        <a class="btn btn-xs btn-info btn-lyr-sel" data-opt="reverse">反选</a>
+    </div>
+</div>
+
+
+
+</script>
+
+<!--结果模板-->
+<script type="x-tpl-handlebars" id="resultPanelTpl">
+  <div id="iframeLoading" style="z-index: 949; position: absolute;width: 100%;
+  height: 100%; top: 0px; left: 0px; display:block;text-align: center; margin-top: 40px;">
+   <img src="/omp/static/css/plugins/loading/loading/loading_analysis.gif">
+     分析中...
+   </div>
+<iframe name="resultIframe" id="resultIframe" frameborder="0" framespacing="0"  width="100" height="100" style="width: 100%; height: 100%;">
+  <p>分析中...</p>
+</iframe>
+
+
+</script>

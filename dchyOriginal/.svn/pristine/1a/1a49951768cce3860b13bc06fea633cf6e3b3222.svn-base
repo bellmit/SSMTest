@@ -1,0 +1,227 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form :model="recordForm" ref="search-form" :rules="recordRule" inline :label-width="120">
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="受理编号" class="form-list-search" v-model="recordForm.slbh">
+                            <Input v-model="recordForm.slbh" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="项目代码" class="form-list-search" v-model="recordForm.gcbh">
+                            <Input v-model="recordForm.gcbh" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称" class="form-list-search" v-model="recordForm.gcmc">
+                            <Input v-model="recordForm.gcmc" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="建设单位" class="form-list-search" v-model="recordForm.wtdw">
+                            <Input v-model="recordForm.wtdw" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="测绘单位" class="form-list-search" v-model="recordForm.chdwmc">
+                            <Input v-model="recordForm.chdwmc" @keydown.enter.native.prevent="queryList(1,recordForm.size)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="50">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryList(1,recordForm.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <div>
+            <Table
+                ref="tableRef"
+                :cols="tableCols"
+                :data="htbadjList"
+                :count="totalNum"
+                :tool="tool"
+                :page="recordForm.page"
+                :size="recordForm.size"
+                :func="queryList"
+                :operation="operationList"
+                :showHeadCheckBox="false"
+                @view="recordData"
+                @deleteOpr="deleteOpr"
+                @edit="edit"
+                @check="radioCheck"
+                @btn1="addDjd"
+                @btn2="stopAndRestore"
+            ></Table>
+        </div>
+    </div>
+</template>
+<script>
+import moment from "moment";
+import { queryHtbadjList, initDjdData } from "../../service/manage"
+export default {
+    data() {
+        return {
+            recordForm: {
+                page: 1,
+                size: 10,
+                gcbh: "",
+                gcmc: "",
+                slbh: "",
+                wtdw: "",
+                chdwmc: ""
+            },
+            recordRule: {},
+            totalNum: 0,
+            operationList: ["view"],
+            htbadjList: [],
+            tool: '<div>' +
+                    '<span class="layui-btn main-btn-a" lay-event="btn1">新增备案</span>' +
+                    // '<span class="layui-btn bdc-btn-second margin-left-10" lay-event="btn2">暂停恢复终止</span>'+
+                '</div>',
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "SLBH",
+                    title: "受理编号",
+                    align: "center"
+                },
+                {
+                    field: "GCBH",
+                    title: "项目代码",
+                    align: "center",
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center",
+                },
+                {
+                    field: "WTDW",
+                    title: "建设单位",
+                    align: "center"
+                },
+                {
+                    field: "CHDWMC",
+                    title: "测绘单位",
+                    align: "center"
+                },
+                {
+                    field: "XMLY",
+                    title: "委托方式",
+                    align: "center",
+                    width: 120,
+                    templet: function(d){
+                        return d.XMLY == "2" ? "线下" : "线上"
+                    }
+                },
+                {
+                    field: "FBSJ",
+                    title: "申请时间",
+                    align: "center",
+                    templet: function(d){
+                        return d.FBSJ ? moment(d.FBSJ).format("YYYY-MM-DD HH:mm:ss") : ""
+                    }
+                }, 
+                {
+                    title: "操作",
+                    align: "center",
+                    width: 150,
+                    toolbar: "#operation",
+                }
+            ]
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/changzhou/htbadj/add")&&to.query.type!="add"){
+            this.pageInfo["htbadjPageInfo"] = {...this.recordForm}
+        } else {
+            this.pageInfo["htbadjPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["htbadjPageInfo"]){
+            this.recordForm = {...this.pageInfo["htbadjPageInfo"]}
+        }
+    },
+    mounted() {
+        this.queryList();
+    },
+    methods: {
+        // 重置查询项
+        resetForm(){
+            this.recordForm = {
+                page: this.recordForm.page,
+                size: this.recordForm.size
+            }
+        },      
+        // 查询
+        queryList(page,size){
+            if(page){
+                this.recordForm.page = page;
+                this.recordForm.size = size;
+            }
+            this.$loading.show("加载中...");
+            queryHtbadjList(this.recordForm).then(res => {
+                this.$loading.close();
+                this.htbadjList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        // 查看操作
+        viewDetail(data){
+            this.$router.push({ path: '/changzhou/htbadj/add', query: {type: "view", chxmid:data.CHXMID,slbh: data.SLBH} });
+        },
+        // 编辑操作
+        edit(data){
+            this.$router.push({ path: '/changzhou/htbadj/add', query: {type: "edit",chxmid:data.CHXMID,slbh: data.SLBH} });
+        },
+        // 新增登记单
+        addDjd(){
+            initDjdData().then(res => {
+                this.$router.push({path: '/changzhou/htbadj/add', query: {slbh: res.data.slbh,xqfbbh:res.data.xqfbbh,chxmid:res.data.chxmid,slsj: res.data.slsj, type: "add"}})
+            })
+        },
+        deleteOpr(){
+            this.htbadjList.forEach((list, index) => {
+                if (list.XMZTMC == "已办结") {
+                    list.disabled = true;
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").next().prop("disabled",true);
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").next().addClass("layui-btn-disabled");
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").prop("disabled",true);
+                } 
+            });
+        },
+        // 暂停恢复终止
+        radioCheck(item){
+            let data = item[0]
+            this.$router.push({path: "/manage/htbadj/stop", query: {chxmid: data.CHXMID,gcmc: data.GCMC, chdwmc: data.CHDWMC}})
+        },
+        // 备案
+        recordData(data){
+            this.$router.push({ path: '/changzhou/htbadj/add', query: {type: "record",chxmid:data.CHXMID,slbh: data.SLBH, xmly: data.XMLY} });
+        },
+        // 暂停恢复终止
+        stopAndRestore(){
+            this.tableCols[0].type = "checkbox";
+            this.$refs["tableRef"].renderTable();
+        }
+    },
+}
+</script>
+<style scoped>
+    
+</style>

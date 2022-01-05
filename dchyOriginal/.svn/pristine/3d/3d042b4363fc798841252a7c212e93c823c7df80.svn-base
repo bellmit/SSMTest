@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.portalol.core.mapper.DchyXmglMlkMapper">
+
+    <!--获取所有从业人员-->
+    <select id="getAllCyrysList" resultType="map">
+        select t.ryxm,
+           t.zc,
+           t.zsmc,
+           t.zsbh,
+           to_char(t.zsyxksrq, 'yyyy-MM-dd') || ' 至 ' ||
+           to_char(t.zsyxjsrq, 'yyyy-MM-dd')
+        from DCHY_XMGL_CYRY t
+    </select>
+
+    <!--根据dwmc模糊查询-->
+    <select id="queryMlsLikeMcByPage" resultType="map">
+        select * from dchy_xmgl_mlk m
+        <where>
+            and m.sfyx = '1'
+            <if test="dwmc != null and dwmc != ''">
+                and m.dwmc like '%'||#{dwmc}||'%'
+            </if>
+        </where>
+        order by m.pjdj desc  NULLS LAST ,m.dwmc
+    </select>
+
+    <!--根据mlkid获取对应从业人员信息-->
+    <select id="queryCyryByMlkId" parameterType="string" resultType="map">
+        select t.cyryid,t.ryxm,
+        t.zc,
+        t.zsmc,
+        t.zsbh,
+        to_char(t.zsyxksrq,'yyyy-MM-dd') || ' 至 ' || case
+        when to_char(t.zsyxjsrq, 'yyyy-MM-dd') is not null then
+        to_char(t.zsyxjsrq, 'yyyy-MM-dd')
+        when t.cqyx = '是' then
+        '长期有效'
+        end jsrq
+        from dchy_xmgl_cyry t
+        <where>
+            <if test="mlkid != null and mlkid != ''">
+                and t.mlkid = #{mlkid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据所属模块id获取对应需要上传的材料信息-->
+    <select id="queryUploadFileBySsmkId" parameterType="string" resultType="map">
+        select z.clmc, z.cllx, z.mrfs fs, null ys,null wjzxid
+        from DCHY_XMGL_SJCLPZ z
+        <where>
+            <choose>
+                <when test="ssmkid != null and ssmkid!=''">
+                    and z.ssmkid = #{ssmkid}
+                </when>
+                <otherwise>
+                    and z.ssmkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getMlkYxztByUserid" parameterType="string" resultType="map">
+        SELECT A.SFYX sfyx,a.mlkid
+          FROM DCHY_XMGL_MLK A
+         INNER JOIN DCHY_XMGL_YHDW B
+            ON A.DWBH = B.DWBH
+         WHERE B.YHID = #{userid} and a.sfyx = '1'
+    </select>
+
+    <select id="getMlkSqztByUserid" parameterType="string" resultType="map">
+        SELECT B.SQR,
+                CASE
+                  WHEN C.YHID = B.SQR THEN
+                   '是'
+                  ELSE
+                   '否'
+                END SFBRSQ,
+                ZD.MC SQZTMC,
+                CASE
+                  WHEN B.SQZT = '97' THEN
+                   '是'
+                  ELSE
+                   '否'
+                END SFTH,
+                b.sqxxid,
+                a.mlkid
+           FROM DCHY_XMGL_MLK A
+          INNER JOIN DCHY_XMGL_SQXX B ON A.MLKID = B.GLSXID
+          INNER JOIN DCHY_XMGL_YHDW C ON C.DWBH = A.DWBH
+           LEFT JOIN DCHY_XMGL_ZD ZD ON ZD.DM = B.SQZT AND ZD.ZDLX = 'SQZT'
+          WHERE C.YHID = #{userid}
+          order by B.SQZT desc
+    </select>
+
+    <select id="getSjclXx" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <choose>
+                <when test="mlkid != null and mlkid != ''">
+                    and sj.glsxid = #{mlkid}
+                </when>
+                <otherwise>
+                    and sj.glsxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--根据sjxxid清空对应clxx-->
+    <select id="clearClxxBySjxxId" parameterType="string">
+        delete from dchy_xmgl_sjcl t
+        <where>
+            <if test="sjxxid != null">
+                and t.sjxxid = #{sjxxid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据mlkid获取对应从业人员信息-->
+    <select id="queryCyryXxByMlkidByPage" resultType="map" parameterType="map">
+        select c.ryxm,c.zc,c.zsmc,c.zsbh from dchy_xmgl_cyry c
+        <where>
+            <choose>
+                <when test="mlkid != null and mlkid != ''">
+                    and c.mlkid = #{mlkid}
+                </when>
+                <otherwise>
+                    and c.mlkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

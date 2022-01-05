@@ -1,0 +1,486 @@
+<template>
+    <div class="upload-info">
+        <uploadTable
+            :data="uploadList" 
+            :showDefaultTool="showDefaultTool"
+            :deleteColumns="deleteColumns"
+            :ssmkid="ssmkid"
+            :SSCLSXList="SSCLSXList"
+            @upload="uploadFile"
+            @radio="selectOne"
+            @select="selectType"
+            @tooladd="add"
+            @tooldelete="deleteFile"
+            @selectall="selectAll"
+            @deleteFj="deleteFj"
+        ></uploadTable>
+        <Modal
+            class="modal-base"
+            v-model="visible"
+            :title="'新增收件材料'"
+            width="500"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <Form class="form-edit" ref="file-form" :model="newFileForm" @on-validate="validateChecked" :rules="fileRule" :label-width="114" >
+                <FormItem v-model="newFileForm.CLMC" label="材料名称" prop="CLMC">
+                    <Input v-model="newFileForm.CLMC" style="width: 300px" placeholder=""/>
+                </FormItem>
+                <FormItem v-model="newFileForm.SSCLSX" v-if="ssmkid=='18'" label="所属测量事项" prop="SSCLSX">
+                    <Select v-model="newFileForm.SSCLSX" multiple style="width: 300px" filterable>
+                        <Option v-for="(opt) in selectSSCLSXList" :key="opt.DM" :value="opt.DM">{{opt.MC}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem v-model="newFileForm.FS" label="份数" prop="FS">
+                    <Input v-model="newFileForm.FS" style="width: 300px" placeholder=""/>
+                </FormItem>
+                <FormItem v-model="newFileForm.CLLX" label="类型">
+                    <Select v-model="newFileForm.CLLX" style="width: 300px" placeholder="请选择">
+                        <Option v-for="(type,index) in fileTypeList" :key="index" :value="type.value">{{type.label}}</Option>
+                    </Select>
+                </FormItem>
+            </Form>
+            <div class="submit-back margin-top-20" >
+                <Button type="primary" class="btn-h-34 bdc-major-btn" @click="addFile()">确认</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancelAdd()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import uploadTable from "../table/upload-table"
+import util from "../../service/util"
+import { getUploadList, getDictInfo,saveUploadFile, deleteFile, deleteFold, saveFjList } from "../../service/mlk";
+export default {
+    name: "uploadFile",
+    components: {
+        uploadTable
+    },
+    props: {
+        showDefaultTool: { //是否显示表格选择列
+            type: Boolean,
+            default: false
+        },
+        ssmkid: {
+            type: String,
+            default: ""
+        },
+        glsxid: {
+            type: String,
+            default: ""
+        },
+        deleteColumns: { // 需要隐藏的列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        deleteFileList: { // 不需要展示的文件名称
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        needclsx: {
+            type: Boolean,
+            default: false
+        },
+        clsxList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        needsave: { //新增时是否需要调用保存接口
+            type: Boolean,
+            default: false
+        },
+        url: {
+            type: String,
+            default: "/fileoperation/uploadfiles"
+        },
+        sjclurl: {
+            type: String,
+            default: "/fileoperation/getsjcl"
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            uploadList: [],
+            unLastSubmit: true,
+            newFileForm: {
+                YS: 1,
+                FS: 1,
+                CLMC: "",
+                SSCLSX: "",
+                CLLX: "2"
+            },
+            fileRule: {
+                CLMC: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                SSCLSX: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                FS: {
+                    required: true,
+                    validator: (rule,value,callback) => {
+                        if(!value){
+                            callback("必填项不能为空")
+                        } else if(!/^\d*$/.test(value)){
+                            callback("份数必须为数字")
+                        }
+                        callback()
+                    }
+                }
+            },
+            SSCLSXList: [],
+            selectSSCLSXList: [],
+            chooseUploadFile: [],
+            curSjxxid: "",
+            deleteAll: false,
+            fileTypeList: [
+                {
+                    value: "1",
+                    label: "原件正本"
+                },
+                {
+                    value: "2",
+                    label: "正本复印件"
+                },
+                {
+                    value: "3",
+                    label: "原件副本"
+                },
+                {
+                    value: "4",
+                    label: "副本复印件"
+                },
+                {
+                    value: "5",
+                    label: "其他"
+                }
+            ]
+        }
+    },
+    watch: {
+        glsxid: function(newVal,oldVal){
+            if(newVal != oldVal){
+                this.getUploadList();
+            }
+        }
+    },
+    mounted() {
+        if(!this.needclsx&&this.glsxid){
+            this.getUploadList();
+        }
+        if(this.needclsx){
+            this.getDictInfo()
+        }
+    },
+    methods: {
+        getDictInfo(){
+            let params= {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    if(list.FDM && list.ZDLX == "CLSX"){
+                        this.SSCLSXList.push(list)
+                    }
+                })
+                if(this.glsxid&&this.clsxList.length){
+                    this.getUploadList();
+                }
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+        // 获取需要上传的文件
+        getUploadList(){
+            let params = {
+                ssmkid: this.ssmkid,
+                glsxid: this.glsxid,
+                chxmid: this.glsxid,
+                clsxList: this.clsxList
+            }
+            this.selectSSCLSXList = [];
+            this.SSCLSXList.forEach(clsx => {
+                if(this.clsxList.includes(clsx.DM)){
+                    this.selectSSCLSXList.push(clsx)
+                }
+            })
+            this.uploadList = [];
+            getUploadList(this.sjclurl,params).then(res => {
+                let uploadList = res.data.dataList || [];
+                this.curSjxxid = uploadList.length?uploadList[0].SJXXID:"";
+                uploadList.forEach((list,index) => {
+                    list.CLLX = "2";
+                    list.YS = list.YS || 1;
+                    list.children = [];
+                    list.clid = 'name'+index;
+                    list.CLMC = list.SJCLPZCLMC || list.CLMC || "";
+                    if(list.CLSXLIST){
+                        list.SSCLSXMC = "";
+                        let selectC = [];
+                        list.CLSXLIST.forEach(clsx => {
+                            if(this.clsxList.includes(clsx.DM)){
+                                selectC.push(clsx)
+                            }
+                        })
+                        list.SSCLSXMC = selectC.map(s => s.MC).join('、')
+                    }
+                    if(!this.deleteFileList.includes(list.CLMC)){
+                        this.uploadList.push(list)
+                    }
+                })
+            })
+        },
+        // 校验必传材料
+        validate(){
+            let errorMsg = '';
+            this.uploadList.forEach(upload => {
+                if(upload.NEED == 1 && !upload.WJZXID){
+                    errorMsg = upload.CLMC + "未上传材料"
+                }
+            })
+            if(errorMsg){
+                this.$error.show(errorMsg)
+            }
+            return errorMsg
+        },
+        // 获取uploadList
+        queryUploadList(){
+            return this.uploadList;
+        },
+        // 上传附件
+        uploadFile(data){
+            this.chooseUploadFile = [];
+            this.uploadList[data.index] = this.uploadList[data.index] ? this.uploadList[data.index] : {};
+            this.uploadList[data.index].children = [];
+            this.uploadList[data.index].FS = 0;
+            for(let i=0;i < data.files.length;i++) {
+                data.files[i].glsxid = this.glsxid;
+                this.chooseUploadFile.push(data.files[i])
+            }
+            let formData = new FormData();
+            let sjclidStr = [];
+            for(let i = 0;i < this.chooseUploadFile.length; i++){
+                formData.append('files', this.chooseUploadFile[i]);  
+                this.uploadList[data.index].FS += 1;
+                this.uploadList[data.index].YS = this.uploadList[data.index].FS;
+            }
+            formData.append('sjclid', this.uploadList[data.index].SJCLID || "");
+            formData.append('glsxid', this.glsxid);
+            formData.append('fs', this.uploadList[data.index].FS);
+            formData.append('ys', this.uploadList[data.index].YS);
+            formData.append('cllx', this.uploadList[data.index].CLLX);
+            formData.append('clmc', this.uploadList[data.index].CLMC);
+            formData.append('sjxxid', this.uploadList[data.index].SJXXID || "");
+            formData.append('sjclpzid', this.uploadList[data.index].SJCLPZID || "");
+            formData.append('ssmkid', this.ssmkid);
+             let ssclsx = [];
+            this.uploadList[data.index].CLSXLIST&&this.uploadList[data.index].CLSXLIST.forEach(clsx => {
+                if(this.clsxList.includes(clsx.DM)){
+                    ssclsx.push(clsx.DM)
+                }
+            });
+            formData.append('ssclsx', ssclsx.join(",") || "");
+            formData.append('xh', data.index);
+            this.$loading.show("上传中...")
+            saveUploadFile(this.url,formData).then(res => {
+                this.$loading.close();
+                if(res){
+                    for(let i=0;i < data.files.length;i++) {
+                        let uploadList = [...this.uploadList];
+                        uploadList[data.index].children.push(data.files[i]);
+                        uploadList[data.index].open = true;
+                        uploadList[data.index].WJZXID = res.data.wjzxid
+                        this.uploadList = [...uploadList]
+                    }
+                } else {
+                    this.$Message.error("上传文件失败")
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        // 选择一个文件
+        selectOne(file){
+            if(file.checked){
+                this.selectedFile.push(file);
+            }else {
+                this.selectedFile.forEach((select,index) => {
+                    if(select.clid == file.clid){
+                        this.selectedFile.splice(index,1)
+                    }
+                })
+            }
+        },
+        // 选择文件类型
+        selectType(data){
+            this.uploadList[data.index].CLLX = data.CLLX;
+        },
+        add(){
+            this.visible = true;
+        },
+        // 重置新增文件的表单
+        resetFileForm() {
+            this.$refs["file-form"].resetFields();
+        },
+        // 确认添加附件
+        addFile(){
+            this.unLastSubmit = false;
+            this.$refs["file-form"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true
+                },500)
+                if(valid){
+                    let uploadList = [...this.uploadList];
+                    this.newFileForm.clid = util.createUUID();
+                    this.newFileForm.SJCLID = util.createUUID();
+                    this.newFileForm.SJXXID = this.curSjxxid;
+                    let params = {
+                        clmc: this.newFileForm.CLMC,
+                        cllx: this.newFileForm.CLLX,
+                        ssclsxlist: this.newFileForm.SSCLSX || [],
+                        fs: this.newFileForm.FS,
+                        ys: this.newFileForm.FS,
+                        xh: this.uploadList.length + 1,
+                        sjxxid: this.curSjxxid
+                    }
+                    if(this.needsave){
+                        this.$loading.show("保存中...")
+                        saveFjList(params).then(res => {
+                            this.$loading.close();
+                            this.getUploadList();
+                            this.resetFileForm();
+                            this.visible = false;
+                        })
+                    } else {
+                        uploadList.push({...this.newFileForm,children: []});
+                        this.uploadList = [...uploadList];
+                        this.resetFileForm();
+                        this.visible = false;
+                    }
+                    
+                }
+            })
+        },
+        cancelAdd(){
+            this.visible = false;
+        },
+        // 删除文件
+        deleteFile(){
+            // 删除上传材料
+            if(!this.selectedFile.length){
+                this.layer.msg("请先选择一项");
+                return;
+            }
+            layer.confirm("确认删除？",(index) => {
+                if(this.deleteAll){
+                    let deleteFile = [];
+                    this.uploadList.forEach(upload => {
+                        if(upload.NEED!=1) {
+                            deleteFile.push({sjclid: upload.SJCLID,wjzxid: upload.WJZXID})
+                        }
+                    })
+                    this.$loading.show("删除中...")
+                    deleteFold(deleteFile).then(res => {
+                        this.$loading.close()
+                        this.selectedFile = [];
+                        this.deleteAll = false;
+                        let uploadList = [];
+                        this.uploadList.forEach(upload => {
+                            if(upload.NEED == 1){
+                                uploadList.push(upload)
+                            }
+                        })
+                        this.uploadList = _.cloneDeep(uploadList);
+                        layer.close(index)
+                    })
+                }else {
+                    let deleteFile = this.selectedFile.map(upload => {return {sjclid: upload.SJCLID,wjzxid: upload.WJZXID}})
+                    this.$loading.show("删除中...")
+                    deleteFold(deleteFile).then(res => {
+                        this.$loading.close();
+                        let uploadList = [...this.uploadList];
+                        this.selectedFile.forEach(selected => {
+                            uploadList.forEach((upload,i) => {
+                                if(upload.clid == selected.clid){
+                                    uploadList.splice(i,1)
+                                }
+                            })
+                        })
+                        this.uploadList = [...uploadList];
+                        this.selectedFile = [];
+                        layer.close(index)
+                    })
+                }
+            })
+        },
+        // 选择所有附件
+        selectAll(select){
+            let uploadList = this.uploadList;
+            uploadList.forEach(upload => {
+                if(select&&upload.NEED!=1){
+                    upload.checked = true;
+                }else {
+                    upload.checked = false;
+                }
+                
+            })
+            this.uploadList = [...uploadList];
+            this.selectedFile = [...this.uploadList];
+            this.deleteAll = true;
+        },
+        getWjzxid(){
+            let wjzxid = this.uploadList.length ? this.uploadList[0].WJZXID : ""
+            return wjzxid
+        },
+        // 删除上传的附件
+        deleteFj(select){
+            let WJZXID = select.file.WJZXID
+            deleteFile({sjclId: select.file.SJCLID, wjzxid: WJZXID}).then(res => {
+                // 删除文件
+                let uploadList = [...this.uploadList];
+                uploadList.forEach((upload,index) => {
+                    if(upload.clid == select.file.clid){
+                        upload.children = [];
+                        upload.WJZXID = "";
+                    }
+                })
+                this.uploadList = [...uploadList]
+            })
+        }
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

@@ -1,0 +1,16 @@
+package cn.gtmap.msurveyplat.promanage.core.service;
+
+import org.springframework.data.domain.Page;
+
+import java.util.Map;
+
+public interface ResultsManagementService {
+
+    /**
+     * 成果管理台账
+     * @return
+     */
+    Page<Map<String, Object>> queryResultsManagement(Map<String, Object> map);
+
+
+}

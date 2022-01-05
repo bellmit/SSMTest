@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.JcsjsqMapper">
+
+    <!--随机抽查指定几数据-->
+    <select id="queryBasicDataApplicationInfoByPage" resultType="map" parameterType="int">
+        SELECT m.*
+        FROM (SELECT gc.chgcid,xm.chxmid,xx.chdwxxid,xm.slbh, gc.gcbh, gc.gcmc, xx.chdwmc, xm.sfsd, xm.ccnum,gc.wtdw
+        FROM dchy_xmgl_chgc gc
+        left join dchy_xmgl_chxm xm
+        on xm.chgcid = gc.chgcid
+        left join dchy_xmgl_chxm_chdwxx xx
+        on xx.chxmid = xm.chxmid
+        where
+        xm.sfsd is null or xm.sfsd = '0'
+        and xm.xmzt = '99'
+        order by sys_guid()
+        ) m
+        <where>
+            <choose>
+                <when test="ccnum != null and ccnum != ''">
+                    and rownum <![CDATA[<=]]> #{ccnum}
+                </when>
+                <otherwise>
+                    and rownum <![CDATA[<=]]> -1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--根据chxmid找出最早的一条抽查记录-->
+    <select id="queryEarliyCgccsByChxmid" parameterType="string" resultType="map">
+        select cc.*
+        from dchy_xmgl_cgcc cc
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    and cc.chxmid = {chxmid}
+                </when>
+                <otherwise>
+                    and cc.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        order by cc.cjsj
+    </select>
+
+    <select id="querySjclListByBabhByPage" resultType="map" parameterType="map">
+        SELECT DISTINCT sjxx.glsxid AS babh,t.clmc,t.fs FROM dchy_xmgl_sjcl t
+        LEFT JOIN dchy_xmgl_sjxx sjxx
+        ON sjxx.sjxxid= t.sjxxid
+        <where>
+            <if test="babhs !=null and babhs.size >0">
+                AND sjxx.glsxid IN
+                <foreach collection="babhs" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="querBaxxByChxmid" parameterType="map" resultType="map">
+        SELECT xm.slbh,
+        xm.babh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        gc.gcdzs,
+        gc.gcdzqx,
+        gc.gcdzxx,
+        gc.xmxz,
+        xm.xmzt,
+        xm.chxmid,
+        xm.chgcid,
+        wm_concat(chdwxx.chdwmc) AS chdwmc
+        from dchy_xmgl_chxm xm
+        left join dchy_xmgl_chgc gc
+        on gc.chgcid = xm.chgcid
+        left join dchy_xmgl_chxm_chdwxx chdwxx
+        on chdwxx.chxmid = xm.chxmid
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    AND xm.chxmid = #{chxmid}
+                </when>
+                <otherwise>
+                    AND xm.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        group by xm.slbh,
+        xm.babh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        gc.gcdzs,
+        gc.gcdzqx,
+        gc.gcdzxx,
+        gc.xmxz,
+        xm.xmzt,
+        xm.chxmid,
+        xm.chgcid
+    </select>
+
+    <select id="querySqxxListByPage" resultType="map" parameterType="map">
+        SELECT t.jcsjsqxxid,
+        t.SQSJ,
+        t.BABH,
+        t.XMBABH,
+        t.GCBH,
+        t.GCMC,
+        t.JSDW,
+        t.CHXMID,
+        t.CHDWMC,
+        sqfsZd.mc SQFS,
+        dqztZd.mc AS DQZT,
+        t.SQFS AS SQFSDM,
+        t.DQZT AS DQZTDM
+        FROM DCHY_XMGL_JCSJSQXX t
+        left join DCHY_XMGL_ZD sqfsZd
+        on sqfsZd.dm = t.SQFS
+        AND sqfsZd.ZDLX = 'XMLY'
+        left join DCHY_XMGL_ZD dqztZd
+        on dqztZd.dm = t.DQZT
+        AND dqztZd.ZDLX = 'DQSQZT'
+        <where>
+            <if test="jcsjsqxxid != null and jcsjsqxxid != ''">
+                AND t.JCSJSQXXID = #{jcsjsqxxid}
+            </if>
+            <if test="babh != null and babh != ''">
+                AND t.BABH LIKE '%'||#{babh}|| '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                AND t.GCMC LIKE '%'||#{gcmc}|| '%'
+            </if>
+            <if test="gcbh != null and gcbh != ''">
+                AND t.GCBH LIKE '%'||#{gcbh}|| '%'
+            </if>
+            <if test="jsdw != null and jsdw != ''">
+                AND t.JSDW LIKE '%'||#{jsdw}|| '%'
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                AND t.CHDWMC LIKE '%'||#{chdwmc}|| '%'
+            </if>
+            <if test="dqzt != null and dqzt != ''">
+                AND t.DQZT = #{dqzt}
+            </if>
+        </where>
+        ORDER BY t.SQSJ DESC
+    </select>
+
+    <select id="queryBaxxByBabh" resultType="map" parameterType="map">
+        SELECT xm.slbh,xm.babh,
+        gc.gcmc,
+        gc.gcbh,
+        gc.wtdw,
+        xm.xmly,
+        xm.slsj,
+        xm.chxmid,
+        chdwxx.chdwmc,
+        xm.xmzt
+        FROM dchy_xmgl_chxm xm
+        LEFT JOIN dchy_xmgl_chgc gc
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx chdwxx
+        ON xm.chxmid = chdwxx.chxmid
+
+        WHERE xm.xmly <![CDATA[<> ]]> '1'
+        AND xm.xmzt IS NOT NULL
+        AND TRIM(xm.xmzt) <![CDATA[<> ]]> '0'
+        <choose>
+            <when test="babh != null and babh != ''">
+                and xm.babh = #{babh}
+            </when>
+            <otherwise>
+                and xm.babh = 'emptyParamValue'
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="queryBaClsxListByGcbh" resultType="map" parameterType="map">
+        SELECT DISTINCT cl.clsx AS dm,z.mc FROM dchy_xmgl_chxm_clsx cl
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chxmid = cl.chxmid
+        LEFT JOIN
+        (SELECT zd.dm,zd.mc FROM dchy_xmgl_zd zd WHERE zd.zdlx='CLSX') z
+        on z.dm = cl.clsx
+        <where>
+            <choose>
+                <when test="gcbh != null and gcbh != ''">
+                    AND xm.chgcbh = #{gcbh}
+                </when>
+                <otherwise>
+                    and xm.chgcbh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--获取抽查列表台账-->
+    <select id="queryResultsSpotCheckListByPage" resultType="map" parameterType="map">
+        SELECT t.cgccid,
+        t.ccsj,
+        t.babh,
+        t.gcbh,
+        t.gcmc,
+        t.jsdw,
+        t.chxmid,
+        t.chdwmc,
+        t.cgpj,
+        t.pjyj,
+        t.sfsd,
+        t.pjzt,
+        chxm.babh AS xmbabh
+        FROM DCHY_XMGL_CGCC t LEFT JOIN DCHY_XMGL_CHXM chxm ON t.chxmid = chxm.chxmid
+        <where>
+            <if test="babh != null and babh != ''">
+                AND t.babh LIKE '%'||#{babh}|| '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                AND t.gcmc LIKE '%'||#{gcmc}|| '%'
+            </if>
+            <if test="gcbh != null and gcbh != ''">
+                AND t.gcbh LIKE '%'||#{gcbh}|| '%'
+            </if>
+            <if test="chdw != null and chdw != ''">
+                AND t.chdwmc LIKE '%'||#{chdw}|| '%'
+            </if>
+            <if test="pjzt != null and pjzt != ''">
+                AND t.pjzt = #{pjzt}
+            </if>
+            <if test="xmbabh != null and xmbabh != ''">
+                AND chxm.babh = #{xmbabh}
+            </if>
+        </where>
+        ORDER BY t.ccsj DESC
+    </select>
+
+
+</mapper>

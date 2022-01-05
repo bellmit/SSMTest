@@ -1,0 +1,31 @@
+<div style="padding: 5px;">
+    <div class="pull-left" style="width: 30%;">
+        <div class="searchContent input-group">
+            <span class="input-group-addon">检索</span>
+            <input id="serviceSearchInput" class="form-control" placeholder="服务名">
+        </div>
+
+        <div id="serviceItem">
+
+        </div>
+    </div>
+
+    <div class="service-split"></div>
+
+    <div id="serviceList" class="pull-left" style="width: 68%;height: 100%">
+        <table class="table table-hover" style="margin: 0">
+            <thead>
+            <td style="width: 10%" class="text-center">#序号</td>
+            <td style="width: 70%" class="text-center">图层名</td>
+            <td style="width: 20%" class="text-center">操作</td>
+            </thead>
+        </table>
+        <div id="layersContainer">
+            <table class="table table-hover">
+                <tbody id="layers">
+                <tr><td>请选择服务!</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

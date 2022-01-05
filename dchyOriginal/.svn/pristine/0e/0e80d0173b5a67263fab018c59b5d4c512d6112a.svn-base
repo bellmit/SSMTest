@@ -1,0 +1,187 @@
+<template>
+    <div class="upload-info">
+        <uploadTableCommon
+            :data="uploadList" 
+            :columns="columns"
+            @upload="uploadFile"
+            @deleteFj="deleteFj"
+        ></uploadTableCommon>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import uploadTableCommon from "../table/upload-table-common"
+import util from "../../service/util"
+import { deleteFile } from "../../service/mlk";
+import { uploadBaseData } from "../../service/myproject"
+export default {
+    name: "uploadFile",
+    components: {
+        uploadTableCommon
+    },
+    props: {
+        ssmkid: { // 所属模块
+            type: String,
+            default: ""
+        },
+        mlkid: { // 关联事项id
+            type: String,
+            default: ""
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            uploadList: [],
+            newFileForm: {
+                YS: 1,
+                FS: 1,
+                CLLX: "2"
+            },
+            fileRule: {},
+            chooseUploadFile: [],
+            curSjxxid: "",
+            deleteAll: false,
+            columns: [
+                {
+                    title: "备案编号",
+                    field: "BABH"
+                },
+                {
+                    title: "材料名称",
+                    field: "CLMC"
+                },
+                {
+                    title: "份数",
+                    field: "FS"
+                },
+                {
+                    title: "操作",
+                    field: "operation",
+                    type: "operation"
+                }
+            ]
+        }
+    },
+    methods: {
+        // 获取uploadList
+        queryUploadList(){
+            return this.uploadList;
+        },
+        // 清空文件中心
+        clearFileList(){
+            this.uploadList = []
+        },
+        // 上传附件
+        uploadFile(data){
+            this.chooseUploadFile = [];
+            this.uploadList[data.index].children = [];
+            for(let i=0;i < data.files.length;i++) {
+                data.files[i].mlkid = this.mlkid;
+                this.chooseUploadFile.push(data.files[i])
+            }
+            let formData = new FormData();
+            let sjclidStr = [];
+            for(let i = 0;i < this.chooseUploadFile.length; i++){
+                formData.append('files', this.chooseUploadFile[i]);  
+            }
+            formData.append('fs', this.uploadList[data.index].FS);
+            formData.append('ys', this.uploadList[data.index].YS);
+            formData.append('cllx', this.uploadList[data.index].CLLX);
+            formData.append('clmc', this.uploadList[data.index].CLMC);
+            formData.append('babh', this.uploadList[data.index].BABH);
+            formData.append('xh', data.index);
+            this.$loading.show("上传中...")
+            uploadBaseData(formData).then(res => {
+                this.$loading.close();
+                if(res){
+                    for(let i=0;i < data.files.length;i++) {
+                        let uploadList = [...this.uploadList];
+                        uploadList[data.index].children.push(data.files[i]);
+                        uploadList[data.index].open = true;
+                        uploadList[data.index].WJZXID = res.data.wjzxid
+                        this.uploadList = [...uploadList]
+                    }
+                }else {
+                    this.$Message.error("上传文件失败")
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        // 重置新增文件的表单
+        resetFileForm() {
+            this.newFileForm = {
+                YS: 1,
+                FS: 1
+            }
+        },
+        validate(){
+            let errorMsg = '';
+            this.uploadList.forEach(upload => {
+                if(upload.NEED == 1 && !upload.children.length){
+                    errorMsg = upload.CLMC + "未上传材料"
+                }
+            })
+            if(errorMsg){
+                this.$error.show(errorMsg)
+            }
+            return errorMsg
+        },
+        // 确认添加附件
+        addFile(select){
+            let uploadList = [...this.uploadList];
+            this.newFileForm.clid = util.createUUID();
+            this.newFileForm.SJCLID = util.createUUID();
+            this.newFileForm.SJXXID = this.curSjxxid;
+            this.newFileForm.CLMC = select.fileName || "数据范围";
+            this.newFileForm.CLLX = select.CLLX || "1";
+            this.newFileForm.NEED = select.NEED;
+            this.newFileForm.BABH = select ? select.SLBH || select.BABH : "";
+            this.newFileForm.GLSXID = select ? select.GLSXID : "";
+            uploadList.push({...this.newFileForm,children: []});
+            this.uploadList = [...uploadList];
+            this.resetFileForm();
+            this.visible = false;
+        },
+        getWjzxid(){
+            let wjzxid = this.uploadList.length ? this.uploadList[0].WJZXID : ""
+            return wjzxid
+        },
+        // 删除上传的附件
+        deleteFj(select){
+            let WJZXID = select.file.WJZXID
+            deleteFile({sjclId: select.file.SJCLID, wjzxid: WJZXID}).then(res => {
+                // 删除文件
+                let uploadList = [...this.uploadList];
+                uploadList.forEach((upload,index) => {
+                    if(upload.clid == select.file.clid){
+                        upload.children = [];
+                        upload.WJZXID = "";
+                    }
+                })
+                this.uploadList = [...uploadList]
+            })
+        }
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

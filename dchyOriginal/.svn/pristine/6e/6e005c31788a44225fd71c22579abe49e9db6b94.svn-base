@@ -1,0 +1,431 @@
+<template>
+    <div>
+        <div class="line-height-32 apply-tip margin-bottom-20" v-if="type=='view'&&sfbrsq!='否'&&sfyx!='是'">
+            <div class="mlkrz-tip">
+                <img src="static/images/message-tip.png" style="vertical-align:middle" alt="">
+            </div>
+            <div class="margin-left-20">
+                <div class="font-size-16">申请已提交</div>
+                <span>
+                    您好，您的名录库入驻申请已提交，请等待审核完成。
+                    <Button type="primary" class="bth-h-32 btn-cancel" @click="moveBack()">取回</Button>
+                </span>
+            </div>
+        </div>
+        <div class="line-height-32 apply-tip margin-bottom-20" v-if="sfyx=='是'">
+            <div class="mlkrz-tip">
+                <img src="static/images/message-tip.png" style="vertical-align:middle;width: 60px" alt="">
+            </div>
+             <div class="margin-left-20 sh-pass-tip">
+                <span v-if="flag=='true'">
+                    您好，您的测绘单位已成功入驻名录库
+                </span>
+                <span v-else>
+                    您好，您的名录库申请已通过审核，已成功入驻测绘名录库
+                </span>
+            </div>
+        </div>
+        <div v-if="type=='view'&&sfbrsq!='否'&&sfyx!='是'" class="line-dashed margin-top-10 margin-bottom-10"></div>
+        <Tabs :value="tabSelect">
+            <TabPane label="机构信息" name="applyInfo">
+                <div class="form-title">
+                    <div class="list-title">机构基本信息</div>
+                </div>
+                <agencyInfo 
+                    ref="agencyInfo" 
+                    :ssmkid="ssmkid" 
+                    :bdid="bdid" 
+                    :readonly="readonly" 
+                    :editorable="editorable" 
+                    :agencyInfoData="agencyInfoData" 
+                    :pathType="type" 
+                    :from="$route.query.from">
+                </agencyInfo>
+                <div class="line-dashed margin-top-10"></div>
+                <div class="form-title margin-top-10">
+                    <div class="list-title">附件材料</div>
+                </div>
+                <uploadFileInfo 
+                    ref="upload-file-info"
+                    v-if="readonly"
+                    :ssmkid="'1'" 
+                    :deleteColumns="deleteColumns" 
+                    :mlkid="mlkid">
+                </uploadFileInfo>
+                <uploadFile 
+                    v-else
+                    ref="upload-file"
+                    :showDefaultTool="true"
+                    :ssmkid="'1'"
+                    :mlkid="mlkid"
+                ></uploadFile>
+            </TabPane>
+            <!-- <TabPane label="进度查看" name="process">
+                <Table :id="'processTable'" :cols="processCols" :data='processList'  :showPage='false' :count="processTotal"></Table>
+            </TabPane> -->
+            <Button type="primary" class="btn-h-32 bdc-major-btn" v-if="readonly" @click="viewFj" slot="extra">附件材料</Button>
+            <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" v-if="readonly" @click="editMlk" slot="extra">名录库变更</Button>
+            <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" v-if="readonly" @click="editRecord" slot="extra">变更记录</Button>
+            <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" v-if="readonly" @click="mlkDestroy" slot="extra">名录库注销</Button>
+            <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" v-if="!readonly" @click="save" slot="extra">提交</Button>
+            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" v-if="!readonly" @click="cancelEdit" slot="extra">取消</Button>
+            <Button class="btn-h-32 margin-left-10 btn-cancel" slot="extra" v-if="$route.query.from" @click="cancel()">关闭</Button>
+        </Tabs>
+        <Modal
+            class="modal-base form-remove"
+            v-model="visible"
+            :title="'注销原因'"
+            width="700"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <Form class="form-edit" ref="remove-form" @on-validate="validateChecked" :model="removeForm" :rules="fileRule" :label-width="114" >
+                <!-- <FormItem v-model="removeForm.ycyy" prop="ycyy" label="注销原因：">
+                    <Select v-model="removeForm.ycyy" multiple style="width: 500px">
+                        <Option v-for="list in ycyyList" :key="list.DM" :value="list.MC">{{list.MC}}</Option>
+                    </Select>
+                </FormItem> -->
+                <FormItem v-model="removeForm.ycyy" prop="ycyy" label="注销原因：">
+                    <Input v-model="removeForm.ycyy" style="width: 500px" :rows="4" type="textarea" placeholder=""/>
+                </FormItem>
+            </Form>
+            <div class="save-btn">
+                <Button type="primary" class="bdc-major-btn" @click="confirmRemove()">确认</Button>
+                <Button class="margin-left-10 btn-cancel" @click="cancelAdd()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import agencyInfo from "../../../components/survey/agency-info"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import uploadFile from "../../../components/survey/upload-file"
+import processChart from "../../../components/survey/process-chart"
+import { reviewCheck } from "../../../service/review"
+import { moveSq, queryReviewConfig } from "../../../service/mlk"
+import { getDictInfo, mlkDestroy, mlkDestroyCheck, yzYwlj, alterMlkInfo } from "../../../service/mlk"
+import { getProcessList } from "../../../service/completed"
+import moment from "moment"
+export default {
+    components: {
+        agencyInfo,
+        uploadFileInfo,
+        processChart,
+        uploadFile
+    },
+    data() {
+        return {
+            tabSelect: "applyInfo",
+            visible: false,
+            readonly: true,
+            editorable: false,
+            ssmkid: "1",
+            bdid: "1",
+            removeForm: {
+                ycyy: ""
+            },
+            ycyyList: [],
+            agencyInfoData: {
+                yxqksrq: "",
+                yxqjsrq: "",
+            },
+            fileRule: {
+                ycyy: {
+                    required: true,
+                    message: "移除原因不能为空"
+                }
+            },
+            deleteColumns: ["opeartion"],
+            processCols: [
+                {
+                    type: "numbers",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "DQJD",
+                    title: "环节",
+                    align: "center"
+                },
+                {
+                    field: "BLRYMC",
+                    title: "审批人",
+                    align: "center"
+                },
+                {
+                    field: "SPSJ",
+                    title: "审批时间",
+                    align: "center"
+                },
+                {
+                    field: "SPZT",
+                    title: "审批状态",
+                    align: "center"
+                },
+                {
+                    field: "BLJG",
+                    title: "审批结果",
+                    align: "center"
+                },
+                {
+                    field: "BLYJ",
+                    title: "备注",
+                    align: "center"
+                }
+            ],
+            table: "",
+            flag: "",
+            type: "detail",
+            processTotal: 0,
+            processList: [],
+            sfbrsq: "是",
+            sfyx: "否",
+            unLastSubmit: true,
+            sqid: "",
+            sqrid: "",
+            mlkid: "",
+            error: "",
+            sqxxid: ""
+        }
+    },
+    created() {
+        if(this.$route.query.type == "view"){
+            this.type = "view"
+        }
+        if(this.$route.query.mlkid){
+            this.mlkid = this.$route.query.mlkid;
+            this.getMlkInfo()
+        }
+        if(sessionStorage.getItem("sqid")){
+            this.sqid = sessionStorage.getItem("sqid");
+        }else if(this.$route.query.sqid){
+            this.sqid = this.$route.query.sqid;
+        }
+        this.sfyx = sessionStorage.getItem("sfyx")
+        this.sfbrsq = sessionStorage.getItem("sfbrsq")
+        this.queryReviewConfig();
+    },
+    mounted() {
+        if(sessionStorage.getItem("userInfo")){
+            this.sqrid = JSON.parse(sessionStorage.getItem("userInfo")).id
+        }
+        this.getDictInfo();
+        if(this.$root.$data.getMlkInfo()){
+            this.editMlk();
+        }
+    },
+    methods: {
+        // 获取字典项
+        getDictInfo(){
+            var params = {
+                zdlx: ["YCMLKYY"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(r => {
+                    if(r.ZDLX == "YCMLKYY"){
+                        this.ycyyList.push(r)
+                    }
+                })
+            })
+        },
+        // 获取是否需要审核的配置项
+        queryReviewConfig(){
+            queryReviewConfig().then(res => {
+                this.flag = res.data.flag
+            })
+        },
+         // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&this.error!=error&&!this.unLastSubmit){
+                this.error = error
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = ""
+                },1500)
+            }
+        },
+        // 取消
+        cancelAdd(){
+            this.$refs["remove-form"].resetFields();
+            this.visible = false;
+        },
+        //确认移出
+        confirmRemove(){
+            this.unLastSubmit = false
+            this.$refs["remove-form"].validate(valid => {
+                this.unLastSubmit = true
+                if(valid){
+                    let params = {
+                        mlkid: this.mlkid,
+                        ycyy: this.removeForm.ycyy
+                    }
+                    this.$loading.show("加载中...")
+                    mlkDestroy(params).then(res => {
+                        this.$loading.close();
+                        layer.msg("注销成功")
+                        this.visible = false;
+                        // 跳到编辑页面
+                        this.$router.push({path: "/survey/application"})
+                    })
+                }
+            })
+        },
+        resetRemoveForm(){
+            this.removeForm = {
+                ycyy: "",
+                ycbcsm: ""
+            }
+        },
+        // 附件查看
+        viewFj(){
+            const {href} = this.$router.resolve({
+                path: '/review/fj',
+                query: {mlkid: this.mlkid}
+            })
+            window.open(href);
+        },
+        // 名录库注销
+        mlkDestroy(){
+            let params = {
+                mlkid: this.mlkid
+            }
+            mlkDestroyCheck(params).then(res => {
+                layer.confirm("确认注销该名录库?", (index) => {
+                    layer.close(index)
+                    this.visible = true;
+                })
+            })
+        },
+        // 变更记录
+        editRecord(){
+            this.$router.push({
+                path: "/survey/edit/record",
+                query: {
+                    mlkid: this.mlkid,
+                    dwmc: this.agencyInfoData.dwmc,
+                    from: this.$route.fullPath
+                }
+            })
+        },
+        // 取消变更
+        cancelEdit(){
+            this.readonly = true;
+            this.editorable = false;
+            this.$root.$data.setMlkInfo()
+            this.getMlkInfo();
+        },
+        save(){
+            let valid = this.$refs["agencyInfo"].validate();
+            if(valid){
+                if(!this.agencyInfoData.clsx){
+                    this.$error.show("可承接测绘阶段不能为空")
+                    return
+                }
+                let uploadList =  this.$refs["upload-file"] ? this.$refs["upload-file"].queryUploadList() : [];
+                if(this.$refs["upload-file"]){
+                    let validate = this.$refs["upload-file"].validate();
+                    if(validate){
+                        return;
+                    }
+                }
+                uploadList =  this.$refs["upload-file-info"] ? this.$refs["upload-file-info"].queryUploadList() : uploadList;
+                this.agencyInfoData.yxqksrq = this.agencyInfoData.yxqksrq ? moment(this.agencyInfoData.yxqksrq).format("YYYY-MM-DD") : "";
+                this.agencyInfoData.yxqjsrq = this.agencyInfoData.yxqjsrq ? moment(this.agencyInfoData.yxqjsrq).format("YYYY-MM-DD") : "";
+                this.agencyInfoData.sqxxid = this.sqid;
+                this.agencyInfoData.mlkid = this.mlkid;
+                this.agencyInfoData.uploadList = uploadList;
+                this.$loading.show("加载中...")
+                alterMlkInfo(this.agencyInfoData).then(res => {
+                    this.$loading.close();
+                    if(res.data){
+                        sessionStorage.removeItem("thyj");
+                        this.$root.$data.setMlkInfo()
+                        this.cancelEdit();
+                    }
+                })
+            }
+        },
+        // 名录库变更
+        editMlk(){
+            this.readonly = false;
+            this.editorable = true;
+            this.$nextTick(() => {
+                this.$refs["agencyInfo"].renderClsxList();
+            })
+        },
+        getMlkInfo(){
+            reviewCheck({mlkid: this.mlkid}).then(res => {
+                if(res.data.dataList && res.data.dataList.length){
+                    let info = {...this.agencyInfoData}
+                    info = res.data.dataList && res.data.dataList.length ? res.data.dataList[0] : {};
+                    for(let key in info){
+                        info[_.toLower(key)] = info[key];
+                    }
+                    let clsxList = [];
+                    if(info.clsxdms){
+                        clsxList = info.clsxdms.split(";");
+                        this.$refs["agencyInfo"].setClsxList(clsxList)
+                    }
+                    info.clsx = clsxList.join(",")
+                    if(!this.sqid){
+                        this.sqid = info.sqxxid;
+                    }
+                    if(info.sfyx == "1"){
+                        this.sfyx = "是"
+                    }
+                    this.agencyInfoData = {...info}
+                    if(this.$root.$data.getMlkInfo()){
+                        let mlkInfo = this.$root.$data.getMlkInfo()
+                        this.agencyInfoData = {...info,...mlkInfo}
+                        if(sessionStorage.getItem("cyrynum")){
+                            this.agencyInfoData.cyrynum = sessionStorage.getItem("cyrynum")
+                        }
+                        if(mlkInfo.clsx){
+                            let clsxList = mlkInfo.clsx.split(",")
+                            this.$refs["agencyInfo"].setClsxList(clsxList)
+                        }
+                        this.$root.$data.setMlkInfo()
+                    }
+                    // this.getProcess()
+                }
+            })
+        },
+        getProcess(){
+            getProcessList({sqxxid: this.sqid}).then(res => {
+                this.processList = res.data.dataList
+            }) 
+        },
+        cancel(){
+            let from = this.$route.query.from;
+            this.$router.push(from)
+        },
+        // 取回操作
+        moveBack(){
+            let params = {
+                sqrid: this.sqrid,
+                sqxxid: this.sqid
+            }
+            layer.confirm("确认取回?",(index) => {
+                layer.close(index)
+                moveSq(params).then(res => {
+                    this.$router.push({path: "/survey/mlkapply", query: {mlkid: this.mlkid, type:"draft"}})
+                })
+            })
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import "./application.less";
+    .sh-pass-tip {
+        line-height: 60px;
+        color: #1d87d1;
+        font-size: 16px;
+    }
+    .modal-base .form-edit {
+        padding: 0!important;
+    }
+</style>

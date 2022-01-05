@@ -1,0 +1,94 @@
+<div class="location">
+    <div class="title location-title">定位配置
+    </div>
+    <div class="row location-content">
+        <div class="col-xs-3">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" class="locationCheck" name="display" {{isDisplay}} id="display">
+                <label>默认打开</label>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" class="locationCheck" name="videoSwitch" {{enableVideo}} id="videoSwitch">
+                <label>定位后打开视频</label>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" id="showInfo" class="locationCheck" {{enableShowInfo}} name="showInfo"/>
+                <label>定位后打开信息窗</label>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" id="showResult" class="locationCheck" {{enableShowInfo}} name="showResult"/>
+                <label>定位后打开结果列表</label>
+            </div>
+        </div>
+    </div>
+    <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span class="tags">图层配置</span>
+    </h4>
+    <div class="location-content">
+        <div class="pull-left location-service-tree">
+            <div class="location-service-tree">
+                <div>
+                    <button class="btn btn-primary" style="width: 100%;margin-bottom: 5px;" id="addService"><span
+                            class="glyphicon glyphicon-plus-sign"></span>&nbsp;添加定位图层
+                    </button>
+                </div>
+                <div id="locationLayers">
+                    <div class="list-group">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="right pull-left col-xs-8 return-field-border">
+            <div>
+                <div class="row">
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">比例尺</label>
+                    </div>
+                    <form id="locationForm">
+                        <input type="text" class="hidden" name="layerAlias" id="layerAlias">
+                        <input type="text" class="hidden" name="layerName" id="layerName">
+                        <input type="text" class="hidden" name="layerIndex" id="layerIndex">
+                        <input type="text" class="hidden" name="serviceId" id="serviceId">
+                    <div class="col-xs-10">
+                        <input type="text" name="scale" class="form-control" id="scale" placeholder="请填写比例尺" value="">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 text-right">
+                    <label class="lableTitle">返回字段</label>
+                </div>
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <select id="selectL" name="selectL" multiple="multiple" class="form-control location-select" >
+                            </select>
+                        </div>
+                        <div class="col-xs-2">
+                            <button id="toRight" type="button" class="btn btn-primary  btn-block" style="margin-top: 55px;">
+                                <span class="glyphicon glyphicon-forward"></span>
+                            </button>
+                            <button id="toLeft" type="button" class="btn btn-primary btn-block">
+                                <span class="glyphicon glyphicon-backward"></span>
+                            </button>
+                        </div>
+                        <div class="col-xs-5">
+                            <select id="selectR" name="returnFields" multiple="multiple" class="form-control location-select">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="">
+                <button type="button" class="btn btn-success disabled1 location-save-btn" id="locationSaveBtn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

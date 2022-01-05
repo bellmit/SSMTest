@@ -1,0 +1,38 @@
+package cn.gtmap.msurveyplat.promanage.core.mapper;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijun1@gtmap.cn">lijun1</a>
+ * @version 1.0, 2020/11/27 16:08
+ * @description 名录库
+ */
+@Repository
+public interface DchyXmglMlkMapper {
+
+    /**
+     * 根据所属模块id获取对应需要上传的材料信息
+     * @return
+     */
+    List<Map<String,Object>> queryUploadFileBySsmkId(@Param(value = "ssmkid") String ssmkid);
+
+    /**
+     * 获取到收件材料信息
+     * @param glsxid
+     * @return
+     */
+    List<Map<String,Object>> getSjclXx(@Param(value = "glsxid") String glsxid,@Param(value = "ssmkId") String ssmkId);
+
+    /**
+     * 获取到合同信息
+     * @param mlkid
+     * @return
+     */
+    List<Map<String,Object>> getHtxx(@Param(value = "mlkid") String mlkid);
+
+
+}

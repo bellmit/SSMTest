@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-13T11:21:51Z</Created>
+  <LastSaved>2014-10-20T06:29:46Z</LastSaved>
+  <Version>15.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>12435</WindowHeight>
+  <WindowWidth>28800</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>0</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12" ss:Color="#000000"/>
+  </Style>
+ </Styles>
+ <#assign fixed>
+ <#switch unit>
+ <#case 'SQUARE'>0.##<#break>
+ <#case 'ACRES'>0.####<#break>
+ <#case 'HECTARE'>0.####<#break>
+ <#default>0.##
+</#switch>
+        </#assign>
+ <Worksheet ss:Name="违法用地情况分析结果">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="10" x:FullColumns="1"
+         x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="152.25"/>
+   <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="90.75"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:MergeDown="3" ss:StyleID="s62"><Data ss:Type="String">符合土地总体规划面积</Data></Cell>
+    <Cell ss:MergeDown="3" ss:StyleID="s62"><Data ss:Type="Number">${fh总面积!?string(fixed)}</Data></Cell>
+    <Cell ss:MergeDown="3" ss:StyleID="s62"><Data ss:Type="String">地类</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="String">建设用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${fh建设用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:StyleID="s62"><Data ss:Type="String">耕地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${fh耕地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:StyleID="s62"><Data ss:Type="String">其他农用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${fh其他农用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:StyleID="s62"><Data ss:Type="String">未利用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${fh未利用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:MergeDown="4" ss:StyleID="s62"><Data ss:Type="String">不符合土地总体规划面积</Data></Cell>
+    <Cell ss:MergeDown="4" ss:StyleID="s62"><Data ss:Type="Number">${bfh总面积!?string(fixed)}</Data></Cell>
+    <Cell ss:MergeDown="4" ss:StyleID="s62"><Data ss:Type="String">地类</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="String">建设用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${bfh建设用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:MergeDown="1" ss:StyleID="s62"><Data ss:Type="String">耕地</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="String">其中基本农田</Data></Cell>
+    <Cell><Data ss:Type="Number">${基本农田保护区!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="5" ss:StyleID="s62"><Data ss:Type="String">总计</Data></Cell>
+    <Cell><Data ss:Type="Number">${bfh耕地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:StyleID="s62"><Data ss:Type="String">其他农用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${bfh其他农用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="4" ss:StyleID="s62"><Data ss:Type="String">未利用地</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${bfh未利用地!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">合计</Data></Cell>
+    <Cell><Data ss:Type="Number">${zmj!?string(fixed)}</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s64"><Data ss:Type="String">合计</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="Number">${zmj!?string(fixed)}</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>200</HorizontalResolution>
+    <VerticalResolution>200</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>4</ActiveCol>
+     <RangeSelection>R1C5:R1C6</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

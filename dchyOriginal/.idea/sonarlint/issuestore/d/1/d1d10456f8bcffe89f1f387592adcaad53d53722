@@ -1,0 +1,45 @@
+
+N
+java:S2629‹"7Use the built-in formatting to construct this argument.(ùÎÌÛ
+X
+java:S3457‹"AFormat specifiers should be used instead of string concatenation.(ùÎÌÛ
+]
+java:S3457"AFormat specifiers should be used instead of string concatenation.(«áóŞúÿÿÿÿ
+\
+java:S3457R"AFormat specifiers should be used instead of string concatenation.(é±ÿØşÿÿÿÿ
+X
+java:S3457‰"AFormat specifiers should be used instead of string concatenation.(Ğü¶æ
+X
+java:S3457“"AFormat specifiers should be used instead of string concatenation.(ˆ÷äï
+D
+java:S1144d".Remove this unused private "basicNACK" method.(¤´Àÿ
+1
+java:S3457Ù"Not enough arguments.(à¼´†ÿÿÿÿÿ
+Z
+java:S3252}"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+S
+java:S2629”"7Use the built-in formatting to construct this argument.(äÄõõùÿÿÿÿ
+[	java:S112w"FDefine and throw a dedicated exception instead of using a generic one.(ß›ş‚
+T
+java:S4719|"9Replace charset name argument with StandardCharsets.UTF_8(ÇÒú±ùÿÿÿÿ
+\
+java:S3457J"AFormat specifiers should be used instead of string concatenation.(˜îÒÿıÿÿÿÿ
+o
+java:S2139¥"XEither log this exception and handle it, or rethrow it with some contextual information.(”ı¾
+]
+java:S3457”"AFormat specifiers should be used instead of string concatenation.(äÄõõùÿÿÿÿ
+F
+java:S1066ƒ"/Merge this if statement with the enclosing one.(¯ Ì
+N
+java:S2629‰"7Use the built-in formatting to construct this argument.(Ğü¶æ
+c
+java:S4719N"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+x
+java:S2629"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(«áóŞúÿÿÿÿ
+N
+java:S2629“"7Use the built-in formatting to construct this argument.(ˆ÷äï
+h
+java:S3776v"RRefactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.(ß›ş‚
+K
+java:S3740"/Provide the parametrized type for this generic.(ãİ–ûÿÿÿÿ
+a	java:S112¬"FDefine and throw a dedicated exception instead of using a generic one.(Ïã¡İşÿÿÿÿ

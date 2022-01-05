@@ -1,0 +1,395 @@
+<style type="text/css">
+    .warnUl li{
+        padding: 2px;
+    }
+
+    .warnUl li a{
+        text-align: center;
+    }
+</style>
+<div class="proWarnSearch" style="margin:10px 20px 10px 20px">
+    <div class="row">
+        <ul class="nav nav-tabs warnUl" class="row" >
+            <li class="col-md-4 active"  role="presentation">
+                <a href="#"  role="tab" data-toggle="tab" class="warnTab" id="proWarnTab">预警项目</a>
+            </li>
+            <li role="presentation" class="col-md-4">
+                <a href="#" role="tab"  data-toggle="tab" class="warnTab" id="zzjsTab">正在建设</a>
+            </li>
+            <li role="presentation" class="col-md-4">
+                <a href="#" role="tab"  data-toggle="tab" class="warnTab" id="wfydTab">违法用地</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content" style="margin: 0px 10px 0px 10px">
+        <div id="proWarn" class="tab-pane active">
+            <div class="row panel default-panel">
+                <table id="warn_table" lay-filter="warn_table">
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="imgTool" type="text/html">
+    <div style="margin-bottom: 20px">
+        {{#if isWarning}}
+        <button class="btn btn-primary release">解除预警</button>
+        <button class="btn btn-primary illegal">疑似违法</button>
+        <button class="btn btn-primary building">正在建设</button>
+        {{/if}}
+        {{#if isBuilding}}
+        <button class="btn btn-primary releaseBuilding">解除</button>
+        {{/if}}
+        {{#if isIllegal}}
+        <button class="btn btn-primary releaseIllegal">解除疑似违法</button>
+        {{/if}}
+    </div>
+
+    <button class="btn btn-primary prevPage">上一页</button>
+    <button class="btn btn-primary prev">上一张</button>
+    <span>当前为{{currentPage}}页,共{{total}}页</span>
+    <button class="btn btn-primary after">下一张</button>
+    <button class="btn btn-primary afterPage">下一页</button>
+
+</script>
+
+<script type="text/html" id="warnToolBar">
+    <!--<a class="layui-btn layui-btn-primary  layui-btn-xs"  value="{{d.proid}}" lay-event="locationPro">定位</a>-->
+    <a class="layui-btn layui-btn-primary layui-btn-xs"  value="{{d.proid}}" lay-event="viewPro">查看图片</a>
+</script>
+
+
+
+<script type="text/javascript" >
+    //初始化预警表格
+    var HbarsUtils = window.Global.HbarsUtils;
+    var viewerOBJ;
+    var currentStatus=0;//
+    
+
+
+    (function() {
+
+
+        var tableOption={
+            elem: '#warn_table'
+            , limits: [10, 20, 30]
+            , limit: 10
+            , height: 350
+            , cols: [[ //表头
+                {field: 'proName', title: '项目名称', width: '30%', sort: true}
+                , {field: 'proType', title: '项目类型', width: '20%', sort: true}
+                , {field: 'updatedTime', title: '创建日期', width: '30%', sort: true}
+                , {fixed: 'right', width: '20%', title:'操作',align: 'center', toolbar: '#warnToolBar'}
+
+            ]]
+            ,async:false
+            , url:root+'/project/warningPage'
+            , page:true //开启分页
+            , request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+            }
+            , response: {
+                statusName: 'status' //数据状态的字段名称，默认：code
+                , statusCode: null //成功的状态码，默认：0
+                 ,msgName: '' //状态信息的字段名称，默认：msg
+                , countName: 'total' //数据总数的字段名称，默认：count
+                , dataName: 'content' //数据列表的字段名称，默认：data
+            },
+            done: function (res, curr, count) {
+                console.log(res);
+            }
+        };
+        var table;
+        layui.use(["table","form"],function () {
+            table = layui.table;
+            loadTab($("#proWarnTab"));
+            bindEvent();
+        });
+        function bindEvent() {
+            $(".warnTab").click(loadTab);
+            table.on('tool(warn_table)', function(obj){ //注：tool是工具条事件名，cameraTable是table原始容器的属性 lay-filter="对应的值"
+                toolbarEventsFactory(obj);
+            });
+        }
+        function loadTab(dom) {
+            var id= $(dom.target).attr("id");
+            switch (id){
+                case "proWarnTab":
+                    currentStatus=0;
+                    break;
+                case "zzjsTab":
+                    currentStatus=1;
+                    break;
+                case "wfydTab":
+                    currentStatus=2;
+                    break;
+            }
+            tableOption.where={status:currentStatus};
+            table.render(tableOption);
+        }
+    })();
+    //绑定表格事件
+    function toolbarEventsFactory(obj) {
+        var photoHtml = $("#phtoHtml").html();
+        switch (obj.event){
+            case "viewPro":
+                try {
+                    initPhotoPage(obj,currentStatus);
+                }catch (er){
+                    console.log(er);
+                }
+                break;
+            case "locationPro":
+
+                break;
+        }
+    }
+    //初始化图片查询
+    function initPhotoPage(obj,status) {
+        if($("#viewerContainer").length==0){
+            var containerHtml = $("#viewerContainerSc").html();
+            $("body").append($(containerHtml));
+        }
+        var param={};
+        param["requestParam"] = {
+            proId:obj["data"]["proId"],
+            status:status
+        };
+        param["url"]=root+"/file/rocords/getWarnFile";
+        param["status"] =status;
+        if(viewerOBJ){
+            viewerOBJ.destroy();
+        }
+        viewerOBJ = new imgManager("#viewer",param);
+
+    //param
+    //data  id/fileid;origfile/图片地址
+    function imgManager(selector,param) {
+        this.viewer =null;
+        var pageCount;
+
+        var total;
+        var that =this;
+        var request = param["requestParam"];
+        var option={
+            url:"data-original",
+            zIndex:layer.zIndex+10,
+            toolbar: {
+                prev: function() {
+                    that.viewer.viewer("prev");
+                },
+                next: function() {
+                    that.viewer.viewer("next");
+                },
+
+            },
+        };
+        init();
+        //修改页数
+        function modefyPage(pageIndex) {
+            var currentPage= request["page"];
+            if(!currentPage){
+                currentPage=1;
+            }
+            if(typeof pageIndex =="boolean"){
+                if(pageIndex){
+                    currentPage++;
+                }else {
+                    currentPage--;
+                }
+            }
+            if(typeof pageIndex=="number"){
+                currentPage = pageIndex;
+            }
+            request["page"] =currentPage;
+        }
+        
+        function init() {
+            initOrRefresh(1);
+            bindEvents();
+        }
+        
+        function initOrRefresh(page) {
+            modefyPage(page);
+            $.ajax({
+                url:param["url"],
+                data:request,
+                success:function (data) {
+                    //成功后刷新
+                    if(data["content"]&&data["content"].length){
+                        renderView(data);
+                        bindEvents();
+                        //控制按钮显示
+                        initButtonStatus(data);
+                    }
+
+                }
+            });
+        }
+        //修改按钮状态
+        function initButtonStatus(data) {
+            $(".afterPage").removeClass("layui-btn-disabled");
+            $(".prevPage").removeClass("layui-btn-disabled");
+
+            if(data["number"]==data["totalPages"]){
+                $(".afterPage").addClass("layui-btn-disabled");
+            }
+            if(data["number"]==1){
+                $(".prevPage").addClass("layui-btn-disabled");
+            }
+        }
+        
+        function bindEvents() {
+            $(".release").click(function () {
+                //解除预警
+                var fileID =getCurrentImgID();
+                layer.confirm('确定要解除预警吗？', {
+                    btn: ['是', '否'] //按钮
+                    ,zIndex: layer.zIndex+4
+                }, function(){
+                    $.ajax({
+                        url:root+"/video/releaseWarning",
+                        data:{fileId:fileID},
+                        success:function (e) {
+                            if(e["success"]){
+                                layer.msg("更新成功！", {icon: 1, time: 1000});
+                                that.viewer.viewer("destroy");
+                                initOrRefresh(request["page"]);
+                            }else {
+                                layer.msg("该图片已解除预警！", {icon: 2, time: 1000});
+                            }
+                        }
+                    });
+                });
+
+            });
+            $(".illegal").click(function () {
+                //违法
+                var fileID =getCurrentImgID();
+                changeCameraClassfy({fileId:fileID,status:2});
+            });
+            $(".building").click(function () {
+                var fileID =getCurrentImgID();
+                changeCameraClassfy({fileId:fileID,status:1});
+            });
+
+            $(".releaseIllegal").click(function () {
+                var fileID =getCurrentImgID();
+                changeCameraClassfy({fileId:fileID,status:0});
+            });
+
+            $(".releaseBuilding").click(function () {
+                var fileID =getCurrentImgID();
+                changeCameraClassfy({fileId:fileID,status:0});
+            });
+
+            $(".prev").click(function () {
+                that.viewer.viewer("prev");
+            });
+            $(".after").click(function () {
+                that.viewer.viewer("next");
+            });
+            $(".prevPage").click(function () {
+                //刷新
+                if($(this).hasClass("layui-btn-disabled")){
+                    return;
+                }
+                modefyPage(false);
+                that.viewer.viewer("destroy");
+                initOrRefresh();
+            });
+            $(".afterPage").click(function () {
+                //刷新
+                if($(this).hasClass("layui-btn-disabled")){
+                    return;
+                }
+                modefyPage(true);
+                that.viewer.viewer("destroy");
+                initOrRefresh();
+            });
+        }
+        
+        function getCurrentImgID() {
+            var dom = $(".viewer-active");
+			 var fileID;
+
+           //var fileID;
+            //if(dom){
+            //    fileID=dom.find("img").attr("alt");
+            //}
+            //return fileID; 
+			if(dom){
+                var src=dom.find("img").attr("src");
+				if(src){
+					var strList = src.split("/");
+					fileID = strList[strList.length-1];
+				}
+            }
+			return fileID;
+        }
+
+        function renderView(data) {
+            var html ="{{#each data}}" +
+                "<li><img id='{{originFile}}' src='/omp/file/thumb/{{originFile}}'  data-original= '/omp/file/original/{{resultFile}}'></li>" +
+            "{{/each}}";
+            var viewerHtml= HbarsUtils.renderTpl(html, {data: data.content});
+            $(selector).empty().html(viewerHtml);
+            //初始化树
+            $(selector).viewer(option);
+            that.viewer =$(selector);
+            $(selector).viewer('show');
+            //判断是否是违法用地
+            var isWarning=false;
+            var isIllegal=false;
+            var isBuilding=false;
+            switch(param["status"]){
+                case 0:
+                    isWarning=true;
+                    break;
+                case 1:
+                    isBuilding=true;
+                    break;
+                case  2:
+                    isIllegal=true;
+                    break;
+            }
+            var toolbarHtml = $("#imgTool").html();
+
+            var renderParam={page:request["page"],isWarning:isWarning,isIllegal:isIllegal,isBuilding:isBuilding};
+            var toolBarHtml= HbarsUtils.renderTpl(toolbarHtml, renderParam);
+            $(".viewer-toolbar").empty().html(toolBarHtml);
+        }
+
+        function changeCameraClassfy(data) {
+            $.ajax({
+                url:root+"/video/changeCameraStatus",
+                data:data,
+                success:function (e) {
+                    if(e["success"]){
+                        layer.msg("更新成功！", {icon: 1, time: 1000});
+                        that.viewer.viewer('destroy');
+                        initOrRefresh(request["page"]);
+                    }else {
+                        layer.msg("该图片已移动！", {icon: 2, time: 1000});
+                    }
+                }
+            });
+        }
+        
+        this.initOrRefresh=initOrRefresh;
+        
+        function destroy() {
+            try{
+                that.viewer.viewer('destroy');
+            }catch (er){
+                console.log(er);
+            }
+        }
+
+        this.destroy =destroy;
+    }}
+</script>

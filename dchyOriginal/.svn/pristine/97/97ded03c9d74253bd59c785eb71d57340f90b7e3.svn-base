@@ -1,0 +1,136 @@
+package cn.gtmap.msurveyplat.serviceol.web.main;
+
+import cn.gtmap.msurveyplat.common.annotion.CheckInterfaceAuth;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglCyry;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglMlkDto;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.serviceol.core.service.DchyXmglCyryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijun1@gtmap.cn">lijun1</a>
+ * @version 1.0, 2020/12/7 14:50
+ * @description 从业人员
+ */
+@RestController
+@RequestMapping(value = "/cyry")
+public class DchyXmglCyryController {
+
+    @Autowired
+    private DchyXmglCyryService cyrwServer;
+
+    /**
+     * 根据cyryid获取对应从业人员信息
+     * @param param
+     * @return
+     */
+    @PostMapping(value = "/getcyrybyid")
+    @CheckInterfaceAuth
+    public ResponseMessage getCyryXxById(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            Map<String, Object> data = (Map<String, Object>) param.get("data");
+            String cyryId = CommonUtil.ternaryOperator(data.get("cyryid"));
+            DchyXmglCyry cryrXx = cyrwServer.getCyryXxById(cyryId);
+            if (null != cryrXx) {
+                message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+                message.getData().put("dataList", cryrXx);
+            } else {
+                message.getHead().setMsg(ResponseMessage.CODE.QUERY_NULL.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.QUERY_NULL.getCode());
+            }
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.EXCEPTION_MGS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.EXCEPTION_MGS.getCode());
+        }
+        return message;
+    }
+
+
+    /**
+     * 点击“新增”时，初始化从业人员信息
+     * @param param
+     * @return
+     */
+    @PostMapping(value = "/initcyry")
+    @CheckInterfaceAuth
+    public ResponseMessage initCyryXx(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            Map<String, Object> data = (Map<String, Object>) param.get("data");
+            String mlkId = CommonUtil.ternaryOperator(data.get("mlkid"));
+            DchyXmglCyry xmglCyry = cyrwServer.initCyry(mlkId);
+            if (null != xmglCyry) {
+                message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+                message.getData().put("cyryid", xmglCyry.getCyryid());
+            } else {
+                message.getHead().setMsg(ResponseMessage.CODE.INIT_FAIL.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.INIT_FAIL.getCode());
+            }
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.EXCEPTION_MGS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.EXCEPTION_MGS.getCode());
+        }
+        return message;
+    }
+
+    /**
+     * 新增从业人员信息
+     *
+     * @param param
+     * @return
+     */
+    @PostMapping(value = "/savecyry")
+    @CheckInterfaceAuth
+    public ResponseMessage saveCyryXx(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        Map<String, Object> data = (Map<String, Object>) param.get("data");
+        try {
+            DchyXmglMlkDto xmglMlkDto = cyrwServer.generateMlkDto4Cyry(data);
+            DchyXmglCyry xmglCyry = cyrwServer.saveCyry(xmglMlkDto,data);
+            if (null != xmglCyry) {
+                message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+                message.getData().put("dataList", xmglCyry);
+            } else {
+                message.getHead().setMsg(ResponseMessage.CODE.INIT_FAIL.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.INIT_FAIL.getCode());
+            }
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.EXCEPTION_MGS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.EXCEPTION_MGS.getCode());
+        }
+        return message;
+    }
+
+    /**
+     * 根据cyryid删除对应信息
+     * @param param
+     * @return
+     */
+    @PostMapping(value = "/delcyrybyid")
+    public ResponseMessage delCyryById(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        Map<String, Object> data = (Map<String, Object>) param.get("data");
+        try {
+            /*删除前记录下删除记录推送到es*/
+            DchyXmglMlkDto dchyXmglMlkDto = cyrwServer.generateCyry4Del(data);
+            cyrwServer.delCyryById(dchyXmglMlkDto,data);
+            message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.EXCEPTION_MGS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.EXCEPTION_MGS.getCode());
+        }
+        return message;
+    }
+}

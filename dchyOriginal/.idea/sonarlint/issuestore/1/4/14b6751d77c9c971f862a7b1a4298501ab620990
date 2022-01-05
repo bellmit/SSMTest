@@ -1,0 +1,17 @@
+
+m
+java:S3776;"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(üÕŠ†ÿÿÿÿÿ
+o
+java:S3012L"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(ß½µ×
+F
+java:S3740Œ"/Provide the parametrized type for this generic.(Ÿõ¾
+K
+java:S3740"/Provide the parametrized type for this generic.(ñİÓˆûÿÿÿÿ
+L
+java:S1144Œ"5Remove this unused private "removeDuplicates" method.(Ÿõ¾
+F
+java:S3740Œ"/Provide the parametrized type for this generic.(Ÿõ¾
+E
+java:S3740]"/Provide the parametrized type for this generic.(üÊÊ…
+P
+java:S1128".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ8çæ§‡š/

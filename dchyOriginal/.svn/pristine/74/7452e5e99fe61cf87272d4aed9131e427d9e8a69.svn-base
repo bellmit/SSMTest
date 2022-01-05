@@ -1,0 +1,73 @@
+package cn.gtmap.msurveyplat.common.domain;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/4/1
+ * @description TODO
+ */
+public class DchyXmglJcsjsqDto {
+
+    private DchyXmglJcsjSqxx dchyXmglJcsjSqxx;
+
+    private List<DchyXmglCzrz> dchyXmglCzrzList;
+
+    private List<DchyXmglJcsjShjl> dchyXmglJcsjShjlList;
+
+    private DchyXmglSqxx dchyXmglSqxx;
+
+    private Map sjfw;
+    private Map jcsj;
+
+    public DchyXmglJcsjSqxx getDchyXmglJcsjSqxx() {
+        return dchyXmglJcsjSqxx;
+    }
+
+    public void setDchyXmglJcsjSqxx(DchyXmglJcsjSqxx dchyXmglJcsjSqxx) {
+        this.dchyXmglJcsjSqxx = dchyXmglJcsjSqxx;
+    }
+
+    public Map getSjfw() {
+        return sjfw;
+    }
+
+    public void setSjfw(Map sjfw) {
+        this.sjfw = sjfw;
+    }
+
+    public Map getJcsj() {
+        return jcsj;
+    }
+
+    public void setJcsj(Map jcsj) {
+        this.jcsj = jcsj;
+    }
+
+    public List<DchyXmglCzrz> getDchyXmglCzrzList() {
+        return dchyXmglCzrzList;
+    }
+
+    public void setDchyXmglCzrzList(List<DchyXmglCzrz> dchyXmglCzrzList) {
+        this.dchyXmglCzrzList = dchyXmglCzrzList;
+    }
+
+    public List<DchyXmglJcsjShjl> getDchyXmglJcsjShjlList() {
+        return dchyXmglJcsjShjlList;
+    }
+
+    public void setDchyXmglJcsjShjlList(List<DchyXmglJcsjShjl> dchyXmglJcsjShjlList) {
+        this.dchyXmglJcsjShjlList = dchyXmglJcsjShjlList;
+    }
+
+    public DchyXmglSqxx getDchyXmglSqxx() {
+        return dchyXmglSqxx;
+    }
+
+    public void setDchyXmglSqxx(DchyXmglSqxx dchyXmglSqxx) {
+        this.dchyXmglSqxx = dchyXmglSqxx;
+    }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglDbrwMapper">
+
+    <!--获取线上委托待办任务列表-->
+    <select id="queryCommissionTaskByPage" resultType="map" parameterType="map">
+        SELECT db.dbrwid,gc.gcbh,gc.gcmc,gc.wtdw AS jsdwmc,xm.fbsj AS basj,xm.wtzt,xm.slbh ,xm.xqfbbh AS babh,dw.chdwmc,dw.mlkid,xm.chxmid FROM dchy_xmgl_dbrw db
+        LEFT JOIN dchy_xmgl_sqxx sq ON db.sqxxid=sq.sqxxid
+        LEFT JOIN dchy_xmgl_chxm xm ON xm.chxmid=sq.glsxid
+        LEFT JOIN dchy_xmgl_chgc gc ON gc.gcbh=xm.chgcbh
+        LEFT JOIN dchy_xmgl_chxm_chdwxx dw ON dw.chxmid=xm.chxmid
+        <where>
+            AND xm.xmly='3'
+            <if test="gcbh != null and gcbh !=''">
+                AND gc.gcbh LIKE '%' || #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND gc.gcmc LIKE '%' || #{gcmc}|| '%'
+            </if>
+            <if test="wtdw != null and wtdw !=''">
+                AND gc.wtdw LIKE '%' || #{wtdw} || '%'
+            </if>
+            <if test="chdwmc != null and chdwmc !=''">
+                AND dw.chdwmc LIKE '%' || #{chdwmc} || '%'
+            </if>
+            <if test="xqfbbh != null and xqfbbh !=''">
+                AND xm.xqfbbh = #{xqfbbh}
+            </if>
+
+        </where>
+        ORDER BY xm.fbsj DESC
+    </select>
+
+
+</mapper>

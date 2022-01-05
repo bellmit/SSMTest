@@ -1,0 +1,151 @@
+html{
+    background-color: #ffffff;
+}
+
+.layui-form-item .layui-inline {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    width: 24%;
+    padding-bottom: 10px;
+    white-space: nowrap;
+}
+
+.pf-secondary-btn {
+    background-color: #f3f4f6;
+    color: #666;
+    border: 1px solid #d0d5da;
+}
+
+.layui-form-item .layui-input-inline {
+    min-width: 190px;
+    width: 60%;
+}
+
+.layui-laydate .layui-this {
+    background-color: #1d87d1 !important;
+    color: #fff !important;
+}
+
+.layui-form-checkbox[lay-skin=primary]:hover i {
+    border-color: #1d87d1;
+    color: #fff;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #1d87d1;
+    background-color: #1d87d1;
+    color: #fff;
+}
+
+.layui-form-select dl dd.layui-this {
+    background-color: #1d87d1;
+    color: #fff;
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    padding: 1px;
+    width: 100%;
+    height: 100%;
+    background-color: #1d87d1;
+}
+
+.pf-secondary-btn:hover {
+    color: #666;
+}
+
+.layuiFormItem .layui-inline {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    padding-bottom: 10px;
+    white-space: nowrap;
+}
+
+
+.layui-layer-page .layui-layer-content {
+    position: relative;
+    overflow: inherit;
+}
+
+.layui_show_table{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+
+#search {
+    height: 33px;
+    line-height: 33px;
+    background-color: #1d87d2 !important;
+}
+
+#reset {
+    height: 33px;
+    line-height: 33px;
+}
+
+#detail, #browse {
+    height: 22px !important;
+    line-height: 22px !important;
+    background-color: #1d87d2 !important;
+    font-size: 14px !important;
+}
+.layui-layer-btn .layui-layer-btn0{
+    background-color: #1d87d2 !important;
+    margin-bottom: 30px;
+}
+.layui-btn-table {
+    background-color: #1d87d2;
+    line-height: 28px;
+}
+.bdc-major-btn {
+    background-color: #1d87d2;
+}
+.layui-btn-modal {
+    margin-top: 100px;
+}
+.layui-btn-modal .layui-input-block{
+    margin-left: 400px;
+}
+.layui-inline {
+    width: 24%
+}
+.layui-input, .layui-select, .layui-textarea {
+    height: 32px;
+}
+.layui-form-label {
+    padding: 6px 15px;
+}
+.layui-table, .layui-table-view {
+    margin: 10px 0 0 0;
+}
+#xmxx_params {
+    border:  1px solid #e6e6e6;
+    border-top: none;
+    padding: 0 10px;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i {
+    color: #1d87d1 ;
+}
+.layui-layer-btn {
+    text-align: center;
+}
+.layui-layer-btn .layui-layer-btn0 {
+    background-color: #1d87d1;
+}
+.layui-form-item .layui-select-input {
+    width: 48%
+}
+.layui-select-input .layui-form-select {
+    width: 17%;
+    display: inline-block;
+}
+.layui-form-item .layui-input-own {
+    width: 50%;
+    display: inline-block;
+}
+.layui-select-input .layui-input-inline {
+    width: 80%
+}

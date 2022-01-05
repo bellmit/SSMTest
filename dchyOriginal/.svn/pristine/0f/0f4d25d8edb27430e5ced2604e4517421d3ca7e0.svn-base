@@ -1,0 +1,97 @@
+package cn.gtmap.msurveyplat.portalol.web.rest;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.portalol.service.user.UserManagementService;
+import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+/**
+ * @param
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @return
+ * @description 2021/1/12 平台接口
+ */
+@RestController
+@Api(tags = "平台接口")
+@RequestMapping("/rest/v1.0/platform")
+public class PlatformController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PlatformController.class);
+
+    @Autowired
+    private UserManagementService userManagementService;
+
+    /**
+     * @param map
+     * @return
+     * @description 2021/1/6 用户管理台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping(value = "/user/queryUser")
+    public ResponseMessage queryUser(@RequestBody Map<String, String> map) {
+        return ResponseUtil.wrapResponseBodyByPage(userManagementService.queryUserByUsername(map));
+    }
+
+    /**
+     * @param username
+     * @param password
+     * @return
+     * @description 2021/1/5 修改密码
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping(value = "/user/changePassword/{username}/{password}/{passwordNew}")
+    public ResponseMessage changePassword(@PathVariable("username") String username, @PathVariable("password") String password, @PathVariable("passwordNew") String passwordNew) {
+        return ResponseUtil.wrapResponseBodyByCodeMap(userManagementService.changePassword(username, password, passwordNew));
+    }
+
+    /**
+     * @param userid
+     * @param state
+     * @return
+     * @description 2021/1/5 启用或停用用户
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping(value = "/user/changeUserState/{userid}/{state}")
+    public ResponseMessage changeUserState(@PathVariable("userid") String userid, @PathVariable("state") String state) {
+        return ResponseUtil.wrapResponseBodyByCodeMap(userManagementService.changeUserState(userid, state));
+    }
+
+    /**
+     * @param userid
+     * @param roles
+     * @return
+     * @description 2021/1/5 用户分配权限
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @PostMapping(value = "/user/distributionRoleAuthority/{userid}/{roles}")
+    public ResponseMessage distributionRoleAuthority(@PathVariable("userid") String userid, @PathVariable("roles") String roles) {
+        return ResponseUtil.wrapResponseBodyByCodeMap(userManagementService.distributionRoleAuthority(userid, roles));
+    }
+
+    /**
+     * @param
+     * @return
+     * @description 2021/1/6 获取所有角色
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @GetMapping(value = "/user/queryAllRole")
+    public ResponseMessage queryAllRole() {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            message = userManagementService.queryAllRole();
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.SYSTEM_WRONG.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.SYSTEM_WRONG.getCode());
+            logger.error("错误信息:{}", e);
+        }
+        return message;
+    }
+
+
+}

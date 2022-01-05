@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name="lib-css">
+        <css>/static/css/bootstrap.css</css>
+        <css>/static/css/bootstrap-responsive.css</css>
+        <css>/static/css/plugin/select2.css</css>
+        <css>/static/css/plugin/uniform.css</css>
+        <css>/static/css/plugin/morris.min.css</css>
+        <css>/static/css/plugin/jquery-ui.css</css>
+        <css>/static/css/plugin/gridtree.css</css>
+    </group>
+    <group name="main-css">
+        <css>/static/css/global.css</css>
+        <css>/static/css/unicorn.blue.css</css>
+    </group>
+    <group name="lib-js">
+        <js>/static/js/jquery/jquery-1.8.3.js</js>
+        <js>/static/js/jquery/plugins/jquery.uniform.js</js>
+        <js>/static/js/jquery/plugins/jquery.validationEngine-zh_CN.js</js>
+        <js>/static/js/jquery/plugins/jquery.validationEngine.js</js>
+        <js>/static/js/jquery/plugins/jquery.ajaxfileupload.js</js>
+        <js>/static/js/jquery/plugins/jquery.gridtree.js</js>
+        <js>/static/js/bootstrap/bootstrap.js</js>
+        <js>/static/js/other/select2.min.js</js>
+        <js>/static/js/jquery/jquery-ui.min.js</js>
+        <js>/static/js/jquery/jquery-ui-timepicker-addon.js</js>
+        <js>/static/js/jquery/plugins/chart/raphael-min.js</js>
+        <js>/static/js/jquery/plugins/chart/morris.js</js>
+        <js>/static/js/chart/highstock.js</js>
+    </group>
+    <group name="main-js">
+        <js>/static/js/main.js</js>
+    </group>
+    <group name="console">
+        <group-ref>lib-css</group-ref>
+        <group-ref>main-css</group-ref>
+        <group-ref>lib-js</group-ref>
+        <group-ref>main-js</group-ref>
+    </group>
+</groups>

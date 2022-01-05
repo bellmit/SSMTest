@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       	http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/data/jpa 
+		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/cache
+		http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:annotation-config/>
+
+    <bean class="com.gtis.config.AppConfigPlaceholderConfigurer">
+        <property name="location" value="${egov.conf}/omp/application.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.platform.support.spring.ApplicationContextHelper"/>
+
+    <context:component-scan base-package="cn.gtmap.onemap.platform.*"/>
+
+    <context:component-scan base-package="cn.gtmap.onemap.platform">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames" value="classpath:message/messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="useCodeAsDefaultMessage" value="false"/>
+    </bean>
+
+    <bean id="dataSource" class="com.gtis.support.JndiSupportBasicDataSource" destroy-method="close">
+        <property name="jndiName" value="java:comp/env/jdbc/onemap"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="entityManagerFactory"
+          class="cn.gtmap.onemap.platform.support.hibernate.PopulatorEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="cn.gtmap.onemap.platform.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="false"/>
+                <property name="database">
+                    <util:constant static-field="org.springframework.orm.jpa.vendor.Database.ORACLE"/>
+                </property>
+            </bean>
+        </property>
+        <property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.default_schema">${db.username}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.default_batch_fetch_size">16</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">25</prop>
+                <prop key="use_streams_for_binary">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <prop key="hibernate.archive.autodetection">class</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.show_sql">${hibernate.debug}</prop>
+                <prop key="hibernate.format_sql">${hibernate.debug}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.debug}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
+            </props>
+        </property>
+        <property name="defaultDbPopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts">
+                    <array>
+                        <value>${egov.conf}/omp/sql/dict.sql</value>
+                    </array>
+                </property>
+                <property name="sqlScriptEncoding" value="utf-8"/>
+                <property name="continueOnError" value="false"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+    </bean>
+
+    <!-- spring thread pool executor -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 线程池维护线程的最少数量 -->
+        <property name="corePoolSize" value="2" />
+        <!-- 允许的空闲时间 -->
+        <property name="keepAliveSeconds" value="1000" />
+        <!-- 线程池维护线程的最大数量 -->
+        <property name="maxPoolSize" value="5" />
+        <!-- 缓存队列 -->
+        <property name="queueCapacity" value="500" />
+        <!-- 对拒绝task的处理策略 -->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+
+    <jpa:repositories base-package="cn.gtmap.onemap.platform.dao" transaction-manager-ref="transactionManager"
+                      repository-impl-postfix="Impl" entity-manager-factory-ref="entityManagerFactory"/>
+
+    <cache:annotation-driven cache-manager="cacheManager"/>
+
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+        <property name="shared" value="true"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcache"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="error"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">error</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="templateService" class="cn.gtmap.onemap.platform.service.impl.TemplateServiceImpl" init-method="init">
+        <property name="location" value="${egov.conf}/omp/"/>
+    </bean>
+
+    <bean id="fileCacheDaoService" class="cn.gtmap.onemap.platform.dao.impl.FileCacheDaoImpl">
+        <property name="location" value="${egov.conf}omp/"/>
+    </bean>
+
+    <bean id="fileStore" class="cn.gtmap.onemap.platform.service.impl.FileStoreServiceImpl">
+        <property name="baseLocation" value="${egov.data}"/>
+        <property name="location" value="${egov.data}/omp/filestore"/>
+        <property name="tempFile" value="${egov.data}/omp/temp"/>
+        <property name="maxSize" value="1073741824"/>
+    </bean>
+
+    <bean id="geometryService" class="cn.gtmap.onemap.platform.service.impl.GeometryServiceImpl">
+        <property name="regionSet" value="${egov.conf}/omp/regions.json"/>
+    </bean>
+
+    <bean id="gisService" class="cn.gtmap.onemap.platform.service.impl.GISServiceImpl">
+        <property name="analysisSet" value="${egov.conf}/omp/analysis.json"/>
+    </bean>
+
+    <bean id="searchService" class="cn.gtmap.onemap.platform.service.impl.SearchServiceImpl">
+        <property name="indexDir" value="${egov.data}/omp/search/index"/>
+        <property name="maxCacheSize" value="80"/>
+        <property name="config" value="${egov.conf}/omp/search.json"/>
+        <property name="stopWord" value="${egov.conf}/omp/stopwords.txt"/>
+        <property name="update" value="${search.update}"/>
+        <property name="useRamDir" value="false"/>
+    </bean>
+
+    <bean id="documentService" class="cn.gtmap.onemap.platform.service.impl.DocumentServiceImpl">
+        <property name="location" value="${egov.conf}omp/docs/"/>
+    </bean>
+
+    <!--video缓存管理类-->
+    <bean id="videoCacheManager" class="cn.gtmap.onemap.platform.support.cache.DefaultSingleCacheManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="videoCache"/>
+    </bean>
+
+
+
+    <!--默认视频平台配置-->
+    <bean id="defaultVideoPlat" class="cn.gtmap.onemap.platform.entity.video.VideoPlats.Plat">
+        <property name="platType" value="${video.platform}"/>
+        <property name="userName" value="${video.userName}"/>
+        <property name="password" value="${video.userPwd}"/>
+        <property name="server" value="${video.server}"/>
+        <property name="wsuServer" value="${video.server}"/>
+        <property name="port" value="${video.port}"/>
+        <property name="ptzServer" value="${ptz.server}"/>
+    </bean>
+
+    <!--视频管理service-->
+    <bean id="videoManager" class="cn.gtmap.onemap.platform.service.impl.VideoManagerImpl" init-method="initEngine">
+        <property name="videoPlats" value="${egov.conf}/omp/videoPlats.yml"/>
+        <property name="defaultPlat" ref="defaultVideoPlat"/>
+    </bean>
+
+
+    <bean id="ffmpegManagerService" class="cn.gtmap.onemap.platform.service.impl.FFmpegManagerServiceImpl">
+        <property name="config" value="${egov.conf}/omp/ffmpeg.yml"/>
+    </bean>
+
+    <bean id="videoMetadataService" class="cn.gtmap.onemap.platform.service.impl.VideoMetadataServiceImpl">
+        <property name="layerCache" value="${egov.conf}/omp/layerCache.yml"/>
+    </bean>
+
+    <!--全景-->
+    <bean id="panoramaService" class="cn.gtmap.onemap.platform.service.impl.PanoramaServiceImpl">
+        <property name="baseLocation" value="${egov.data}"/>
+        <property name="location" value="${egov.data}/omp/panorama"/>
+    </bean>
+
+    <!-- 智能识别  -->
+    <bean id="videoRecogService" class="cn.gtmap.onemap.platform.service.impl.VideoRecognizeServiceImpl">
+        <property name="provider" value="hk_V2"/>
+        <property name="detectUrl" value="http://192.168.251.199:7075/cmp/api"/>
+    </bean>
+
+
+
+    <bean id="httpClient" class="cn.gtmap.onemap.core.support.http.HttpClientFactoryBean"/>
+
+    <bean id="httpInvokerRequestExecutor"
+          class="org.springframework.remoting.httpinvoker.HttpComponentsHttpInvokerRequestExecutor">
+        <constructor-arg ref="httpClient"/>
+    </bean>
+
+    <bean id="metadataService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/metadataService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.MetadataService"/>
+    </bean>
+
+    <bean id="regionService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/regionService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.RegionService"/>
+    </bean>
+
+    <bean id="geoService" class="cn.gtmap.onemap.platform.service.impl.GeoServiceImpl"/>
+
+    <bean id="identityService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/identityService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.security.IdentityService"/>
+    </bean>
+
+    <bean id="authorizationService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/authorizationService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.security.AuthorizationService"/>
+    </bean>
+
+    <bean id="sysUserService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${platform.url}/userservice.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysUserService"/>
+        <!--<property name="serviceInterface" value="cn.gtmap.onemap.service.UserService"/>-->
+    </bean>
+
+    <bean id="fileService" class="com.gtis.fileCenter.service.impl.FileServiceImpl">
+        <property name="nodeService" ref="nodeService"/>
+        <property name="fileCenterUrl" value="${fileCenter.url}"/>
+    </bean>
+
+    <bean id="nodeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${fileCenter.url}/http/nodeService"/>
+        <property name="serviceInterface" value="com.gtis.fileCenter.service.NodeService"/>
+    </bean>
+
+    <bean id="workFlowInstanceService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/workFlowInstanceService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysWorkFlowInstanceService"/>
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="springDataSourceBeanPostProcessor" class="net.bull.javamelody.SpringDataSourceBeanPostProcessor"/>
+
+    <!--zoom map for ptz-->
+    <bean id="zoomMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="z0" value="1"></entry>
+                <entry key="z1" value="1"></entry>
+                <entry key="z2" value="1"></entry>
+                <entry key="z3" value="1"></entry>
+                <entry key="z4" value="1"></entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="ntXzqMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="320621" value="海安县"/>
+                <entry key="320623" value="如东县"/>
+                <entry key="320602" value="崇川区"/>
+                <entry key="320604" value="经济技术开发区"/>
+                <entry key="320611" value="港闸区"/>
+                <entry key="320681" value="启东市"/>
+                <entry key="320682" value="如皋市"/>
+                <entry key="320683" value="通州区"/>
+                <entry key="320684" value="海门市"/>
+                <entry key="320699" value="滨海园区"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="blQsxzMap" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="10" value="国有土地所有权"/>
+                <entry key="20" value="国有土地所有权"/>
+                <entry key="30" value="集体土地所有权"/>
+                <entry key="31" value="村民小组"/>
+                <entry key="32" value="村集体经济组织"/>
+                <entry key="33" value="乡集体经济组织"/>
+                <entry key="34" value="其它农民集体经济组织"/>
+                <entry key="40" value="集体土地使用权"/>
+
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <import resource="spring-config-task.xml"/>
+    <import resource="spring-config-insight.xml"/>
+    <import resource="applicationContext.xml"/>
+    <import resource="app-servlet.xml"/>
+</beans>

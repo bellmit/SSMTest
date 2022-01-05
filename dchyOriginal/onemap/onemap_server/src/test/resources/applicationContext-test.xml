@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean class="com.gtis.config.AppConfigPlaceholderConfigurer">
+        <property name="location" value="${egov.conf}/oms/application.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+         <property name="basenames" value="classpath:message/errors,classpath:message/messages"/>
+         <property name="defaultEncoding" value="UTF-8"/>
+     </bean>
+
+     <bean class="cn.gtmap.onemap.core.message.NLS">
+         <property name="messageProvider">
+             <bean class="cn.gtmap.onemap.core.message.SpringMessageProvider">
+                 <property name="messageSource" ref="messageSource"/>
+             </bean>
+         </property>
+     </bean>
+
+    <bean id="spatialReferenceManager" class="cn.gtmap.onemap.core.gis.SpatialReferenceManagerImpl">
+        <property name="crsLocations" value="classpath:crs/*.prj"/>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.core.gis.GeoUtils">
+        <property name="srManager" ref="spatialReferenceManager"/>
+    </bean>
+
+    <bean id="httpClient" class="cn.gtmap.onemap.core.support.http.HttpClientFactoryBean"/>
+
+    <bean id="httpInvokerRequestExecutor" class="org.springframework.remoting.httpinvoker.HttpComponentsHttpInvokerRequestExecutor">
+        <constructor-arg ref="httpClient"/>
+    </bean>
+
+    <bean id="metadataService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/metadataService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.MetadataService"/>
+    </bean>
+
+
+    <bean id="authorizationService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="httpInvokerRequestExecutor" ref="httpInvokerRequestExecutor"/>
+        <property name="serviceUrl" value="${oms.url}/authorizationService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.security.AuthorizationService"/>
+    </bean>
+
+    <bean id="userClient" class="cn.gtmap.onemap.server.thirdparty.kanq.user.UserPortType" factory-bean="userClientFactory" factory-method="create"/>
+
+    <bean id="userClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.user.UserPortType"/>
+        <property name="address" value="${kanq.server.url}/user"/>
+    </bean>
+
+    <bean id="orgClient" class="cn.gtmap.onemap.server.thirdparty.kanq.org.OrgPortType" factory-bean="orgClientFactory" factory-method="create"/>
+
+    <bean id="orgClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.org.OrgPortType"/>
+        <property name="address" value="${kanq.server.url}/org"/>
+    </bean>
+
+    <bean id="ssoClient" class="cn.gtmap.onemap.server.thirdparty.kanq.sso.SsoPortType" factory-bean="ssoClientFactory" factory-method="create"/>
+
+    <bean id="ssoClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="cn.gtmap.onemap.server.thirdparty.kanq.sso.SsoPortType"/>
+        <property name="address" value="${kanq.server.url}/sso"/>
+    </bean>
+</beans>

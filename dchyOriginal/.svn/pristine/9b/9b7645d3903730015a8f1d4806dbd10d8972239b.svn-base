@@ -1,0 +1,278 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form :model="recordForm" ref="search-form" inline :label-width="120">
+                <Row>
+                    <i-col span="12">
+                        <FormItem label="备案时间" style="width: 100%">
+                            <Row class="form-list-search">
+                                <i-col span="11">
+                                    <DatePicker class="form-search-item"  @on-change="kssjChange" format="yyyy-MM-dd" :options="ksOptions" v-model="recordForm.kssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                                <i-col span="1">
+                                    <div style="text-align:center">-</div>
+                                </i-col>
+                                <i-col span="12">
+                                    <DatePicker class="form-search-item" @on-change="jssjChange" format="yyyy-MM-dd" :options="jsOptions" v-model="recordForm.jssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                            </Row>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="测绘单位" class="form-list-search" v-model="recordForm.chdwmc">
+                            <Select filterable clearable v-model="recordForm.chdwmc">
+                                <Option v-for="(item) in chdwList" :key="item.dwmc" :value="item.dwmc">{{item.dwmc}}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="50">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryAllData(1,recordForm.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <div class="project-statistic">
+            <div class="xmsl-statistic">
+                <div class="form-title">
+                    <div class="list-title">各阶段项目数量统计</div>
+                </div>
+                <div>
+                    <div id="xmsl" style="width: 100%;height: 300px"></div>
+                </div>
+            </div>
+            <div class="xmzb-statistic">
+                <div class="form-title">
+                    <div class="list-title">各阶段项目占比统计</div>
+                </div>
+                <div>
+                    <div id="xmzb" style="width: 100%;height: 300px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="line-dashed"></div>
+        <div>
+            <div class="form-title">
+                <div class="list-title">项目备案记录</div>
+            </div>
+            <div>
+                <Table
+                    ref="tableRef"
+                    :cols="tableCols"
+                    :data="bajlList"
+                    :count="totalNum"
+                    :page="recordForm.page"
+                    :size="recordForm.size"
+                    :func="queryXmbajlData"
+                    :showHeadCheckBox="false"
+                ></Table>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import * as echarts from 'echarts';
+import moment from "moment";
+import { queryChdwList, queryXmslData, queryXmbajlData } from "../../service/statistics"
+export default {
+    data() {
+        return {
+            recordForm: {
+                kssj: "",
+                jssj: "",
+                chdwmc: "",
+                page: 1,
+                size: 10
+            },
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "BABH",
+                    title: "备案编号",
+                    align: "center"
+                },
+                {
+                    field: "GCBH",
+                    title: "工程编号",
+                    align: "center"
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center"
+                },
+                {
+                    field: "JSDWMC",
+                    title: "建设单位",
+                    align: "center"
+                },
+                {
+                    field: "CHDWMC",
+                    title: "测绘单位",
+                    align: "center"
+                },
+                {
+                    field: "CHJD",
+                    title: "测绘阶段",
+                    align: "center"
+                },
+                {
+                    field: "SLSJ",
+                    title: "备案时间",
+                    align: "center"
+                },
+            ],
+            bajlList: [],
+            totalNum: 0,
+            ksOptions: {},
+            jsOptions: {},
+            chdwList: [],
+            xmslOptions:  {
+                color: ["#a80000"],
+                tooltip: {
+                    trigger: 'item'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: [],
+                    axisLabel: {
+                        show: true,
+                        width: 100,
+                        overflow: "breakAll",
+                        interval: 0,
+                        color: "#333",
+                    }
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [],
+                    type: 'bar'
+                }]
+            },
+            xmzbOptions:  {
+                color: ["#a54339","#759cd1","#a80000","#385152","#b3dba5"],
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {d}%'
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '60%',
+                        data: [],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            },
+            xmslEcharts: "",
+            xmzbEcharts: ""
+        }
+    },
+    mounted() {
+        this.xmslEcharts = echarts.init(document.getElementById("xmsl"))
+        this.xmzbEcharts = echarts.init(document.getElementById("xmzb"))
+        this.queryAllData();
+        this.queryChdwList();
+    },
+    methods: {
+        queryChdwList(){
+            queryChdwList().then(res => {
+                this.chdwList = res.data.data;
+            })
+        },
+        // 各阶段项目数量统计
+        queryXmslData(){
+            this.$loading.show("加载中...")
+            this.recordForm.kssj = this.recordForm.kssj ? moment(this.recordForm.kssj).format("YYYY-MM-DD") : ""
+            this.recordForm.jssj = this.recordForm.jssj ? moment(this.recordForm.jssj).format("YYYY-MM-DD") : ""
+            queryXmslData(this.recordForm).then(res => {
+                this.$loading.close();
+                let xAxisData = [];
+                let xmslData = [];
+                let xmzbData = [];
+                res.data.data.forEach(list => {
+                    xAxisData.push(list.CHJD);
+                    xmslData.push(list.XMSL);
+                    xmzbData.push({
+                        name: list.CHJD,
+                        value: list.XMSL
+                    })
+                })
+                this.xmslOptions.xAxis.data = xAxisData;
+                this.xmslOptions.series[0].data = xmslData;
+                this.xmzbOptions.series[0].data = xmzbData;
+                this.xmslEcharts.setOption(this.xmslOptions)
+                this.xmzbEcharts.setOption(this.xmzbOptions)
+            })
+        },
+        // 项目备案记录
+        queryXmbajlData(page,size){
+            if(page){
+                this.recordForm.page = page
+                this.recordForm.size = size
+            }
+            this.recordForm.kssj = this.recordForm.kssj ? moment(this.recordForm.kssj).format("YYYY-MM-DD") : ""
+            this.recordForm.jssj = this.recordForm.jssj ? moment(this.recordForm.jssj).format("YYYY-MM-DD") : ""
+            this.$loading.show("加载中...")
+            queryXmbajlData(this.recordForm).then(res => {
+                this.$loading.close();
+                this.bajlList = res.data.data.content || [];
+                this.totalNum = res.data.data.totalElements || 0;
+            })
+        },
+        // 获取所有数据
+        queryAllData(){
+            this.queryXmslData();
+            this.queryXmbajlData();
+        },
+        resetForm(){
+            this.recordForm = {
+                ...this.recordForm,
+                kssj: "",
+                jssj: "",
+                chdwmc: ""
+            }
+        },
+        // 控制结束时间可选状态
+        kssjChange(select){
+            this.jsOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select){
+            this.ksOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() > moment(select).unix());
+            }
+        },
+    },
+}
+</script>
+<style scoped>
+    .project-statistic {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .project-statistic > div {
+        width: 50%;
+        padding-top: 10px;
+    }
+</style>

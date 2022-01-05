@@ -1,0 +1,193 @@
+<template>
+  <div>
+    <div class="section">
+      <div class="section-title">
+        <img src="static/images/bank_apply_home.png" alt="" />
+        <span>审核</span>
+      </div>
+    </div>
+    <ReviewStep :steps="steps" class="step-review" :current="current"></ReviewStep>
+    <div v-if="current == 1">
+      <div class="form-title margin-top-10">
+        <div class="list-title">机构基本信息</div>
+      </div>
+      <agencyInfo ref="agencyInfo" :agencyInfoData="agencyInfoData"></agencyInfo>
+      <div class="form-title margin-top-20 upload-btn">
+        <div class="list-title">附件材料</div>
+        <div>
+          <Button type="primary" @click="viewFj" class="bdc-major-btn">查看附件</Button>
+        </div>
+      </div>
+      <uploadFileInfo :completeFiles="uploadList" :mlkid="mlkid" :ssmkid="'10'"></uploadFileInfo>
+    </div>
+    <div v-if="current == 2">
+      <reviewInfo ref="review-info" :reviewData="reviewData" @shjgchange="shjgChange"></reviewInfo>
+    </div>
+    <div class="submit-back">
+      <Button
+        v-if="current == 1"
+        type="primary"
+        class="width-100 btn-h-36 bdc-major-btn"
+        @click="nextStep()"
+        >下一步</Button
+      >
+      <Button
+        v-if="current == 2"
+        type="primary"
+        class="width-100 btn-h-36 btn-cancel"
+        @click="preStep()"
+        >上一步</Button
+      >
+      <Button
+        v-if="current == 2"
+        type="primary"
+        class="width-100 btn-h-36 bdc-major-btn margin-left-10"
+        @click="save()"
+        >确认办结</Button
+      >
+    </div>
+  </div>
+</template>
+<script>
+import agencyInfo from "../../../components/survey/agency-info";
+import uploadFileInfo from "../../../components/survey/upload-file-info";
+import reviewInfo from "../../../components/admin/review-info";
+import { reviewCheck } from "../../../service/review";
+import { getCyryList, getDictInfo } from "../../../service/mlk";
+import { checkOver } from "../../../service/review";
+import _ from "lodash"
+export default {
+  components: {
+    agencyInfo,
+    uploadFileInfo,
+    reviewInfo,
+  },
+  data() {
+    return {
+      form: {
+        page: 1,
+        size: 10,
+      },
+      agencyInfoData: {
+        yxqjsrq: "",
+        yxqksrq: "",
+      },
+      uploadList: [],
+      reviewData: {
+        shjg: 'pass',
+        blyj: '通过'
+      },
+      shyjList: [],
+      steps: [
+        {
+          orderNumber: 1,
+          stepName: "机构申请信息",
+        },
+        {
+          orderNumber: 2,
+          stepName: "审核意见确认、办结",
+        },
+      ],
+      current: 1,
+      mlkid: "",
+      dbrwid:"",
+      savedata:{
+        rwid:"",
+        shyj:"",
+        sfth:""
+      }
+      
+    };
+  },
+  created() {
+    this.mlkid = this.$route.query.mlkid;
+  },
+  mounted() {
+    this.savedata.rwid = this.$route.query.dbrwid;
+    this.getInfo();
+    this.getShyjList();
+  },
+  methods: {
+    // 获取审核意见字典项
+    getShyjList(){
+      let params = {
+        zdlx: ["SHYJ"]
+      }
+      getDictInfo(params).then(res => {
+        this.shyjList = res.data.dataList || []
+        this.reviewData.blyj = this.findShyj('1')
+      })
+    },
+    // 附件查看
+    viewFj(){
+      const {href} = this.$router.resolve({
+        path: '/review/fj',
+        query: {mlkid: this.mlkid,rwid: this.rwid}
+      })
+      window.open(href);
+    },
+    findShyj(type){
+      let find = this.shyjList.find(shyj => shyj.DM == type)
+      return find ? find.MC : ""
+    },
+    // 获取基本信息
+    getInfo() {
+      this.form.mlkid = this.mlkid;
+      this.$loading.show("加载中...");
+      reviewCheck(this.form).then((res) => {
+        let info = {...this.agencyInfoData}
+        info = res.data.dataList&&res.data.dataList.length?res.data.dataList[0] : {};
+          for(let key in info){
+            info[_.toLower(key)] = info[key];
+            delete info[key]
+          }
+          if(info.clsxdms){
+              let clsxList = info.clsxdms.split(";");
+              this.$refs["agencyInfo"].setClsxList(clsxList)
+          }
+          this.agencyInfoData = {...info}
+      });
+    },
+    // 下一步
+    nextStep() {
+      this.current += 1;
+    },
+    // 上一步
+    preStep() {
+      this.current -= 1;
+    },
+    // 修改审核结果
+    shjgChange(select){
+      if(select == 'pass'){
+        this.reviewData.blyj = this.findShyj('1')
+      } else {
+        this.reviewData.blyj = this.findShyj('0')
+      }
+    },
+    // 提交审核
+    save() {
+      let valid = this.$refs["review-info"].validate();
+      if (valid) {
+        this.savedata.shyj = this.reviewData.blyj;
+        if(this.reviewData.shjg == "pass"){
+          this.savedata.sfth = 0
+        }else if(this.reviewData.shjg == "back"){
+          this.savedata.sfth = 1
+        }
+        this.layer.confirm("是否确认办结？", (index) => {
+            checkOver(this.savedata).then((res) => {
+                this.$router.push("/admin/review");
+                this.layer.close(index);
+            })
+        });
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+.upload-btn {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

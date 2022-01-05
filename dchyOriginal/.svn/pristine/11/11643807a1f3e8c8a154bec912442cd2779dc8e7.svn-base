@@ -1,0 +1,29 @@
+package cn.gtmap.msurveyplat.serviceol.core.mapper;
+
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijun1@gtmap.cn">lijun1</a>
+ * @version 1.0, 2020/11/27 16:08
+ * @description 收件材料
+ */
+public interface DchyXmglSjclMapper {
+
+
+    /**
+     * 通过材料类型获取对应上传材料
+     * @return
+     */
+    List<Map<String,Object>> querySjclBycllx(@Param(value = "cllx") String cllx);
+
+    /**
+     * 获取到收件材料附件列表，并过滤
+     *
+     * @param paramMap
+     * @return
+     */
+    List<Map<String, Object>> getSjclList(Map<String, Object> paramMap);
+}

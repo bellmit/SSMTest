@@ -1,0 +1,36 @@
+{
+  "BusinessServer": {
+    "Description": "业务数据",
+    "Url": "http://192.168.2.113:6080/arcgis/rest/services/dchy/DCHYFW/MapServer"
+  },
+  "BaseServer": {
+    "Description": "基础数据",
+    "Url": "http://192.168.2.113:6080/arcgis/rest/services/dchy/JCSJ/MapServer"
+  },
+  "ImageServer": {
+    "Description": "影像数据",
+    "Url": "http://192.168.2.113:6080/arcgis/rest/services/dchy/DTFW/MapServer"
+  },
+  "AddError": {
+    "Description": "新增错误接口",
+    "Url": "http://192.168.2.113:6080/arcgis/rest/services/dchy/DCHYFW/MapServer/exts/DataCheckOtherRESTSOE/executeCheck"
+  },
+  "LayerConfig": {
+    "GHJG": {
+      "规划竣工范围": "GHJG_JGFW",
+      "规划竣工基底面积图": "GHJG_JDMJ",
+      "规划竣工分层房屋面": "GHJG_FCFW",
+      "规划竣工地下室": "GHJG_DXS",
+      "规划竣工绿地面积图": "GHJG_LDMJ",
+      "规划竣工内部道路": "GHJG_NBDL"
+    },
+    "DJCH": {
+      "界址点": "DJCH_JZD",
+      "宗地": "DJCH_ZD"
+    },
+    "FCCH": {
+      "房屋基底范围": "FCCH_FWJD",
+      "地下室范围": "FCCH_DXS"
+    }
+  }
+}

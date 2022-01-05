@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglZdMapper">
+    <select id="getDchyZdBlsxList"
+            resultType="map">
+        SELECT dm,mc FROM dchy_xmgl_zd t
+    </select>
+
+    <select id="getAllDchyXmglZdList" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglZd">
+         SELECT dm,fdm,mc,zdlx FROM dchy_xmgl_zd t
+    </select>
+
+    <select id="getZdClsx" parameterType="map" resultType="map">
+        SELECT z.fdm,z.dm,z.mc,z.zdlx,to_char(t.jcrq,'yyyy-mm-dd') jcrq,t.yjjfrq FROM
+        (SELECT fdm,dm,mc,zdlx FROM dchy_xmgl_zd WHERE zdlx='CLSX' ) z
+        LEFT JOIN
+        (SELECT clsx,jcrq,yjjfrq FROM dchy_xmgl_chxm_clsx WHERE chxmid=#{chxmid}) t
+        ON z.dm = t.clsx
+        ORDER BY z.dm
+    </select>
+</mapper>

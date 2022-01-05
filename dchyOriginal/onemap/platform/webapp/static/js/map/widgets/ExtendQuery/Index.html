@@ -1,0 +1,82 @@
+<div class="widget-panel-title">业务查询</div>
+
+<div class="panel-body">
+    <div class="e-search-box" >
+        <div id="layerSelectPanel" class="form-group" style="margin: 0 0 50px 0">
+
+        </div>
+        <div class="input-group" >
+            <input type="text" id="eSearchTxt" class="form-control" placeholder="输入信息搜索">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" id="eSearchBtn"><i class="iconfont">&#xe62b;</i></button>
+            </span>
+        </div>
+    </div>
+    <!-- keywords start-->
+    <div class="e-search-keys-wrapper">
+        <!--<div class="kw-attr">-->
+            <!--<div class="kw-attr-key">类型</div>-->
+            <!--<div class="kw-attr-values">-->
+                <!--<ul class="kw-av-collapse" data-atp="{loc},{i},,,{f},4,{c},">-->
+                    <!--<li><a href="" data-i="122216586:4043538">国有</a></li>-->
+                    <!--<li><a href="" data-i="122216586:4043538">集体</a></li>-->
+                    <!--<li><a href="" data-i="122216586:4043538">个人</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <!-- keywords end-->
+    <!-- datagrid-->
+    <table id="extendQueryDG"/>
+</div>
+
+<!--单个查询主题的datagrid-->
+<script id="singleGridTpl" type="x-tpl-handlebars">
+    <table id="extendQueryDG"/>
+</script>
+
+<!--多个查询主题的datagrid-->
+<script id="multiGridsTpl" type="x-tpl-handlebars">
+    <ul class="nav nav-tabs">
+        {{#each subs}}
+        <li role="presentation" {{#if @first}} class="nav-tab active"{{else}} class="nav-tab" {{/if}} >
+            <a href="#e_{{name}}_tab" role="tab" data-toggle="tab">{{alias}}</a>
+        </li>
+        {{/each}}
+    </ul>
+    <div class="tab-content">
+        {{#each subs}}
+            <div class="tab-pane {{#if @first}}active{{/if}}" id="e_{{name}}_tab" data-subname="{{name}}">
+                <table id="dg_{{name}}"></table>
+            </div>
+        {{/each}}
+    </div>
+</script>
+<!--查询的关键字模板-->
+<script id="keywordsTpl" type="x-tpl-handlebars">
+    {{#each keywords}}
+         <div class="kw-attr" data-field="{{field}}">
+             <div class="kw-attr-key">{{title}}</div>
+             <div class="kw-attr-values">
+                 <ul class="kw-av-collapse">
+                     {{#each values}}
+                         <li>
+                             <a href="javascript:;" data-val="{{.}}" title="添加筛选条件">{{.}}</a>
+                         </li>
+                     {{/each}}
+                 </ul>
+             </div>
+         </div>
+    {{/each}}
+</script>
+
+<script id="searchLayerTpl" type="x-tpl-handlebars">
+    <label class="col-xs-5 control-label text-right">查询图层：</label>
+    <div class="col-xs-7">
+    <select id="layersSelect" class="form-control input-sm search-select chosen-select">
+    {{#each layers}}
+    <option value="{{name}}">{{alias}}</option>
+    {{/each}}
+    </select>
+    </div>
+</script>

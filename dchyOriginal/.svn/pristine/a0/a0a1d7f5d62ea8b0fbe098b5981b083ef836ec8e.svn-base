@@ -1,0 +1,79 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.model;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+
+import java.util.List;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/11/28
+ * @description 建设单位发布新服务信息实体
+ */
+public class JsdwFbxfwModel {
+
+    //多测合一测绘工程
+    private List<DchyXmglChgc> dchyXmglChgcList;
+
+    //多测合一测绘项目
+    private List<DchyXmglChxm> dchyXmglChxmList;
+
+    //多测合一测绘项目测量事项
+    private List<DchyXmglChxmClsx> dchyXmglClsxList;
+
+    //多测合一测量事项与测绘单位关系
+    private List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxList;
+
+    //多测合一收件材料
+    private List<DchyXmglSjcl> dchyXmglSjclList;
+
+    //多测合一收件信息
+    private List<DchyXmglSjxx> dchyXmglSjxxList;
+
+    public List<DchyXmglChgc> getDchyXmglChgcList() {
+        return dchyXmglChgcList;
+    }
+
+    public void setDchyXmglChgcList(List<DchyXmglChgc> dchyXmglChgcList) {
+        this.dchyXmglChgcList = dchyXmglChgcList;
+    }
+
+    public List<DchyXmglChxm> getDchyXmglChxmList() {
+        return dchyXmglChxmList;
+    }
+
+    public void setDchyXmglChxmList(List<DchyXmglChxm> dchyXmglChxmList) {
+        this.dchyXmglChxmList = dchyXmglChxmList;
+    }
+
+    public List<DchyXmglChxmClsx> getDchyXmglClsxList() {
+        return dchyXmglClsxList;
+    }
+
+    public void setDchyXmglClsxList(List<DchyXmglChxmClsx> dchyXmglClsxList) {
+        this.dchyXmglClsxList = dchyXmglClsxList;
+    }
+
+    public List<DchyXmglClsxChdwxxGx> getDchyXmglClsxChdwxxGxList() {
+        return dchyXmglClsxChdwxxGxList;
+    }
+
+    public void setDchyXmglClsxChdwxxGxList(List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxList) {
+        this.dchyXmglClsxChdwxxGxList = dchyXmglClsxChdwxxGxList;
+    }
+
+    public List<DchyXmglSjcl> getDchyXmglSjclList() {
+        return dchyXmglSjclList;
+    }
+
+    public void setDchyXmglSjclList(List<DchyXmglSjcl> dchyXmglSjclList) {
+        this.dchyXmglSjclList = dchyXmglSjclList;
+    }
+
+    public List<DchyXmglSjxx> getDchyXmglSjxxList() {
+        return dchyXmglSjxxList;
+    }
+
+    public void setDchyXmglSjxxList(List<DchyXmglSjxx> dchyXmglSjxxList) {
+        this.dchyXmglSjxxList = dchyXmglSjxxList;
+    }
+}

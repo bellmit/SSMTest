@@ -1,0 +1,15 @@
+
+D
+java:S1144L".Remove this unused private "basicNACK" method.(¤´Àÿ
+Z	java:S112v"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+`	java:S112`"FDefine and throw a dedicated exception instead of using a generic one.(¶µÃñüÿÿÿÿ
+V
+java:S34572"AFormat specifiers should be used instead of string concatenation.(¯ÂÔF
+Z
+java:S3252h"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+c
+java:S47195"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñÞZ
+i
+java:S4719e"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+\
+java:S3457;"AFormat specifiers should be used instead of string concatenation.(©³úÝùÿÿÿÿ

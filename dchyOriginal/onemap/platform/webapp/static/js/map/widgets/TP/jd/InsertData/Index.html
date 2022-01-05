@@ -1,0 +1,57 @@
+<div class="widget-panel-title">
+    数据录入
+</div>
+<div class="panel-body">
+    <div class="row tools-wrapper">
+        <label class="col-xs-4 control-label text-right">录入图层</label>
+        <div class="col-md-7 col-xs-7">
+            <span class="text-muted pull-left" style="width: 100%;" id="iDescInsertSpan">无信息</span>
+        </div>
+    </div>
+    <div class="row tools-wrapper row-top">
+        <label class="col-xs-4 control-label text-right">坐标系</label>
+        <div class="col-md-7 col-xs-7">
+            <span class="pull-left text-primary" style="width: 100%;"></span>
+            <select id="coordinateSystem" style="margin-left: 15px;" class="form-control input-sm">
+                <option value="project">投影坐标系</option>
+                <option value="geographic">地理坐标系</option>
+            </select>
+        </div>
+    </div>
+    <div class="row-input">
+        <label class="col-xs-2 text-right">x坐标</label>
+        <input id="xCood" class="col-xs-4  input-sm" type="text" value=""/>
+        <label class="col-xs-2 text-right">y坐标</label>
+        <input id="yCood" class="col-xs-4 input-sm" type="text" value=""/>
+    </div>
+    <div>
+        <div class="col-sm-3 col-xs-3">
+            <button id="insertIdentifyBtn" class="btn btn-primary btn-primary xy-search-btn">
+                <i class="iconfont">&#xe634</i>定位
+            </button>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+            <button id="insertClearBtn" class="btn btn-primary btn-primary xy-search-btn">
+                <i class="iconfont">&#xe605;</i>清除
+            </button>
+        </div>
+        <div class="col-sm-3 col-xs-3" id="drawDiv">
+            <div class=" display pointDiv">
+                <div class="spatial-geo-icon point-choose " data-type="point"></div>
+                <div class="choose-title">点</div>
+            </div>
+            <div class=" display polygonDiv">
+                <div class="spatial-geo-icon polygon-choose" data-type="polygon"></div>
+                <div class="choose-title">多边形</div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+

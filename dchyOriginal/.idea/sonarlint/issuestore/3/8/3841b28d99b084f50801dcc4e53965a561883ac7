@@ -1,0 +1,13 @@
+
+ˆ
+java:S13198"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(ØÂúúÿÿÿÿ
+‚
+java:S1319E"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(¯ÀÑ`
+ƒ
+java:S1319]"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(ŸïËÌ
+ˆ
+java:S1319i"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(ƒ…»¿ıÿÿÿÿ
+k
+java:S1192K"PDefine a constant instead of duplicating this literal "WorkFlowXmlUtil" 6 times.(¸®Æÿÿÿÿÿ
+t
+java:S2293="YReplace the type specification in this constructor call with the diamond operator ("<>").(‘²¾øÿÿÿÿ

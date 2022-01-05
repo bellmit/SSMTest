@@ -1,0 +1,21 @@
+
+c
+java:S47197"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñÞZ
+\
+java:S3457;"AFormat specifiers should be used instead of string concatenation.(úàãÅþÿÿÿÿ
+D
+java:S1144K".Remove this unused private "basicNACK" method.(¤´Àÿ
+h
+java:S3776_"RRefactor this method to reduce its Cognitive Complexity from 57 to the 15 allowed.(ØÐ¬è
+Z
+java:S3252f"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+[	java:S112`"FDefine and throw a dedicated exception instead of using a generic one.(ØÐ¬è
+[	java:S112¯"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+T
+java:S4719e"9Replace charset name argument with StandardCharsets.UTF_8(ÇÒú±ùÿÿÿÿ
+f
+java:S1128"MRemove this unused import 'cn.gtmap.msurveyplat.promanage.model.XmxgxxModel'.(¯Ýñ‚ýÿÿÿÿ
+\
+java:S34573"AFormat specifiers should be used instead of string concatenation.(‰°Ô«øÿÿÿÿ
+E
+java:S1128"*Remove this unused import 'java.util.Map'.(¼è½Òþÿÿÿÿ

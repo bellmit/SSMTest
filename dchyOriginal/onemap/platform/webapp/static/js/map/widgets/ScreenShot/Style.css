@@ -1,0 +1,20 @@
+/*在这里编写css模块*/
+#fullView{
+    display:block;
+    margin:0 auto
+}
+#handChoose{
+    display:block;
+    margin:0 auto
+}
+#decide{
+    float: left;
+    margin-left: 70px;
+}
+#reChoose{
+    float: right;
+    margin-right: 70px;
+}
+#chosen{
+    padding: 10px;
+}

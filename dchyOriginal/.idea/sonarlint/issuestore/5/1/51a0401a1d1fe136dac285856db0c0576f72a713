@@ -1,0 +1,62 @@
+
+c
+java:S1192–"GDefine a constant instead of duplicating this literal "htxxid" 4 times.(¢ê¿¶øÿÿÿÿ
+A
+java:S1481§"+Remove this unused "glsxid" local variable.(â€í
+b
+java:S1192o"GDefine a constant instead of duplicating this literal "sjxxid" 4 times.(‚£‡Þûÿÿÿÿ
+_
+java:S1192q"IDefine a constant instead of duplicating this literal "sjclpzid" 4 times.(Í½¶¿
+d
+java:S1871Û"MThis branch's code block is the same as the block for the branch on line 600.(©ÜÒò
+c
+java:S1192h"HDefine a constant instead of duplicating this literal "ssmkid" 10 times.( ©Ø²ûÿÿÿÿ
+R	java:S125 "<This block of commented-out lines of code should be removed.(µÊï¿
+P
+java:S1854§":Remove this useless assignment to local variable "glsxid".(â€í
+^
+java:S1192i"HDefine a constant instead of duplicating this literal "glsxid" 11 times.(Ž¹«¡
+p
+java:S1192Ù"YDefine a constant instead of duplicating this literal "application/octet-stream" 3 times.(™ŒþÀ
+c
+java:S1192Ç"GDefine a constant instead of duplicating this literal "wjzxid" 4 times.(„”ç¸ýÿÿÿÿ
+u
+java:S1192Ù"YDefine a constant instead of duplicating this literal "text/html; charset=UTF-8" 4 times.(­„£ûÿÿÿÿ
+Y
+java:S2259«"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+i
+java:S3776é"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(¡ù½Õ
+^	java:S125Ø"<This block of commented-out lines of code should be removed.(Û·ãôþÿÿÿÿ8åäãº˜/
+]
+java:S1192m"GDefine a constant instead of duplicating this literal "sjclid" 4 times.(Í£Èî
+b
+java:S1192r"GDefine a constant instead of duplicating this literal "ssclsx" 4 times.(³æÈ¤üÿÿÿÿ
+i
+java:S3776à"RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(ßêÁ
+F
+java:S2093ù"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+G
+java:S1481­"+Remove this unused "ssmkId" local variable.(×¾«Ôûÿÿÿÿ
+R	java:S125Í"<This block of commented-out lines of code should be removed.(µÊï¿
+D
+java:S1481ö".Remove this unused "httpState" local variable.(¡ØšE
+V
+java:S1854­":Remove this useless assignment to local variable "ssmkId".(×¾«Ôûÿÿÿÿ
+k
+java:S1192ñ"TDefine a constant instead of duplicating this literal "Content-Disposition" 3 times.(¡®ÅÓ
+^
+java:S1192ù"GDefine a constant instead of duplicating this literal "HTXXID" 3 times.(ƒœñ·
+i
+java:S1871á"MThis branch's code block is the same as the block for the branch on line 606.(šÑ„Úúÿÿÿÿ
+E
+java:S1066ê"/Merge this if statement with the enclosing one.(©ŠÐy
+q
+java:S1192”"SDefine a constant instead of duplicating this literal "é”™è¯¯åŽŸå› ï¼š{}" 10 times.(Æê¡º8›õí—£/
+r
+java:S1192Z"PDefine a constant instead of duplicating this literal "é”™è¯¯ä¿¡æ¯:{}" 3 times.(§ê‰øÿÿÿÿ8›õí—£/
+f
+java:S1192’"IDefine a constant instead of duplicating this literal "dataList" 6 times.(†ëÊ8›õí—£/
+h
+java:S1764Ê"KCorrect one of the identical sub-expressions on both sides of operator "&&"(›‘÷8›õí—£/
+p
+java:S3776Ñ"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ÃËŒ 8›õí—£/

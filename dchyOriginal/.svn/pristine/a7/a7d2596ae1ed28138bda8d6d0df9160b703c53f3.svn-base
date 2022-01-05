@@ -1,0 +1,50 @@
+<div id="jctbAnalysisTitle" class="widget-panel-title">监测图斑分析</div>
+<div id="jctbAnalysisPanel" class="panel-body jctb-panel">
+
+
+</div>
+
+<!--现状年度-->
+<script id="tdlyxzTpl"  type="x-handlebars-template">
+    <div class="text-center">
+        <span class="text-info">现状年度&nbsp;</span>
+        <select id="tdlyxzSelector" class="input-sm">
+            {{#each years}}
+            <option value="{{year}}" data-xzdw="{{xzdw}}" data-dltb="{{dltb}}">{{year}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>
+
+<!--图斑年度-->
+<script id="jctbQueryTpl" type="x-handlebars-template">
+<div class="text-center">
+    <span class="text-info">图斑年度&nbsp;</span>
+    <select id="jctbYearSelector" class="input-sm">
+       {{#each layers}}
+            <option value="{{year}}" data-layerUrl="{{url}}">{{year}}</option>
+       {{/each}}
+    </select>
+</div>
+</script>
+
+<!--字段查询-->
+<script id="jctbFieldsQueryTpl" type="x-handlebars-template">
+    <form id="layerForm" class="form-horizontal">
+    {{#each fields}}
+    <div class="text-center">
+        <span class="text-info">{{alias}}&nbsp;</span>
+        {{#if defaultValue}}
+        <select name="{{name}}" class="input-sm querySelector">
+            {{#each defaultValue}}
+            <option value="{{value}}">{{name}}</option>
+            {{/each}}
+        </select>
+        {{else}}
+        <input type="text" name="{{name}}" class="input-sm querySelector layer-input"
+               placeholder="请输入查询条件" value="{{defaultValue}}">
+        {{/if}}
+    </div>
+    {{/each}}
+        </form>
+</script>

@@ -1,0 +1,11 @@
+
+J
+java:S3740-"/Provide the parametrized type for this generic.(Ð§¨Öþÿÿÿÿ
+E
+java:S3740O"/Provide the parametrized type for this generic.(ýÉ™»
+z
+java:S1149P"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(Þ­¨Áÿÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(ë¥÷ùþÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(—°……þÿÿÿÿ
+N	java:S106*"9Replace this use of System.out or System.err by a logger.(øãØà
+h	java:S100J"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(à´µ©ûÿÿÿÿ

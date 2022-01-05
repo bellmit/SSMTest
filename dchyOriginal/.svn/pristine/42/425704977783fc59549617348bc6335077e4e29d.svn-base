@@ -1,0 +1,90 @@
+.e-search-box {
+    text-align: center;
+    padding: 5px 0px;
+}
+.e-title{
+    color: #333333;
+    margin: 10px 0 10px 8px;
+    font-family: '微软雅黑 Regular', '微软雅黑';
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.e-search-keys-wrapper{
+    padding: 10px 0px;
+}
+
+.kw-av-collapse{
+    overflow: hidden;
+    height: 25px;
+    margin: 0px 10px;
+}
+.kw-av-collapse>li{
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 15px 10px 0;
+    font-size: 12px;
+}
+
+.kw-av-collapse>li a{
+    color: #806F66;
+    display: inline-block;
+    padding: 1px 3px 1px 4px;
+    line-height: 20px;
+    height: 20px;
+    white-space: nowrap;
+}
+
+.kw-av-collapse>li a:hover{
+    /*color: #C10001;*/
+    color: #0099FF;
+    text-decoration: none;
+}
+
+.kw-attr-key{
+    display: block;
+    height: 25px;
+    line-height: 18px;
+    overflow: hidden;
+    float: left;
+    padding: 7px 0 0;
+    width: 20%;
+    color: #B0A59F;
+    text-indent: 6px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.kw-attr{
+    background-color: #F7F5F5;
+    border-color: #E6E2E1 #E6E2E1 #D1CCC7;
+    border-style: solid solid dotted;
+    border-width: 0 1px 1px;
+}
+
+.kw-attr-values{
+    background-color: #FFF;
+    padding: 4px 0 0;
+    overflow: hidden;
+}
+
+.kw-sel-attr{
+    padding-right: 2px;
+    border-radius: 2px;
+    /*border: 1px dotted #c40000;*/
+    border: 1px dotted #0099CC;
+}
+.kw-sel-attr:hover{
+     border-style: solid;
+}
+
+.kw-sel-attr>a{
+    color: #0099FF !important;
+}
+
+.kw-sel-attr>span{
+    color: #0099FF !important;
+    cursor: pointer;
+}

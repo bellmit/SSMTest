@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="portal-ol:war">
+    <output-path>$PROJECT_DIR$/portal-ol/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>portal-ol</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="portal-ol-1.0.0.war">
+      <element id="artifact" artifact-name="portal-ol:war exploded" />
+    </root>
+  </artifact>
+</component>

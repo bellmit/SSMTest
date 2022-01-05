@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglShxxMapper">
+    <!-- 根据项目ID查询成果管理系统审核信息 -->
+    <select id="queryDchyCgglShxxByXmid" parameterType="java.lang.String" resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglShxxDO">
+        select  t.* from dchy_cggl_shxx t where t.xmid=#{xmid}
+    </select>
+</mapper>

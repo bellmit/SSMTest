@@ -1,0 +1,30 @@
+
+F
+java:S3740‹"/Provide the parametrized type for this generic.(–îã­
+8
+java:S1643´"Use a StringBuilder instead.(¦í°—øÿÿÿÿ
+e	java:S117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™™Ù
+k	java:S117m"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×–Óìúÿÿÿÿ
+k	java:S117p"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ïá¯ºüÿÿÿÿ
+k	java:S117r"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğøšÿÿÿÿÿ
+k	java:S117t"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñÊ¥Šùÿÿÿÿ
+\
+java:S2259W"AA "NullPointerException" could be thrown; "map" is nullable here.(ùñÌ×úÿÿÿÿ
+P
+java:S1854%":Remove this useless assignment to local variable "osName".(ˆÑ•‡
+V	java:S125("<This block of commented-out lines of code should be removed.(˜ŒµŠûÿÿÿÿ
+V	java:S125,"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ
+Q	java:S1250"<This block of commented-out lines of code should be removed.(åÀÔ
+V	java:S125B"<This block of commented-out lines of code should be removed.(àØõìûÿÿÿÿ
+Z
+java:S4143Y"DVerify this is the key that was intended; it was already set before.( ‡Ñ
+Z
+java:S4143\"DVerify this is the key that was intended; it was already set before.(¾Úä¾
+Z
+java:S4143`"DVerify this is the key that was intended; it was already set before.(¾Úä¾
+Q	java:S125w"<This block of commented-out lines of code should be removed.(×‚¼û
+?	java:S108¾")Either remove or fill this block of code.(Á¡ÆÃ
+F
+java:S2093©"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+A
+java:S1481%"+Remove this unused "osName" local variable.(ˆÑ•‡

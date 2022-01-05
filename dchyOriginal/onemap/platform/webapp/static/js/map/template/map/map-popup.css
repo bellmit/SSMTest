@@ -1,0 +1,89 @@
+/*reset esri style*/
+.esriPopup .contentPane {
+    overflow: hidden !important;
+    border-radius: 4px;
+    border: 2px solid #1D8AFF;
+    max-width: 500px;
+    min-width: 268px;
+    max-height: 400px !important;
+    padding-top: 0px !important;
+    /*padding-left: 6px !important;*/
+    padding: 0;
+}
+.esriPopup .outerPointer{
+    border: 2px solid #1D8AFF;
+}
+
+.map-popup-header{
+    background: url("./img/bg_head.png")no-repeat;
+    padding-right: 12px;
+    border-bottom: solid 2px #1D8AFF;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+.map-popup-title{
+    font-size: 14px;
+    text-decoration: none!important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    font-weight: 600;
+    font-family: "Microsoft YaHei", Verdana,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #ffffff;
+}
+
+.map-popup-close{
+    background: url("./img/close.png")no-repeat;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: 1px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.map-popup-close>i{
+    font-size: inherit;
+}
+.map-popup-close:hover{
+    color: #1D8AFF;
+}
+.map-popup-content{
+    padding: 5px;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.map-popup-content .row{
+    margin-right: -10px;
+    margin-left: -10px;
+    padding: 0 10px;
+}
+
+.popup-field-alias{
+    padding-right: 0px!important;
+    padding-left: 3px!important;
+}
+
+.popup-field-alias > span,
+.popup-field-value > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+.map-popup-footer{
+    margin-top: 5px;
+}
+.map-popup-input{
+    margin-top: 1.5px;
+}
+.map-popup-footer .popup-link{
+    text-decoration: none !important;
+}
+.archiveBtn{
+    width:100px !important;
+    border-color: #0a36e9;
+}

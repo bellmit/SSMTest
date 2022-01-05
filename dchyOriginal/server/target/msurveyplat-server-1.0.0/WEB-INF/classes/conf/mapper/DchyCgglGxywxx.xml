@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglGxywxxMapper">
+    <!--获取共享业务信息分页数据 -->
+    <select id="getGxywxxByPage" parameterType="java.util.Map" resultType="map">
+        SELECT t.gxywmc,t.gxywid as gxywxxid,
+        to_char(t.pzsj,'yyyy-mm-dd hh24:mi:ss') AS pzsj,
+        t.gxbmmc,
+        t.gxjsmc,
+        CASE WHEN NVL(t.sfjy,'0')='0' THEN '否' ELSE '是' END AS sfjy
+        FROM DCHY_CGGL_GXYWXX t
+        <where>
+            <if test="gxywmc != null and gxywmc !=''">
+                AND t.gxywmc LIKE '%'||#{gxywmc}||'%'
+            </if>
+            <if test="gxbmid != null and gxbmid !=''">
+                AND t.gxbmid=#{gxbmid}
+            </if>
+            <if test="gxjsid != null and gxjsid !=''">
+                AND t.gxjsid=#{gxjsid}
+            </if>
+        </where>
+        ORDER BY t.pzsj DESC
+    </select>
+
+    <select id="getDchyXmglClcgpzList" parameterType="java.util.Map"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgpz">
+        SELECT t.CLCGPZID,t.CLMC,t.WJLX
+        FROM DCHY_XMGL_CLCGPZ t
+        <where>
+            <if test="pclcgpzid != null and pclcgpzid !=''">
+                AND NVL(t.pclcgpzid,'0')=#{pclcgpzid}
+            </if>
+            <if test="pclcgpzid == null or pclcgpzid ==''">
+                AND NVL(t.pclcgpzid,'0')='0'
+            </if>
+        </where>
+        ORDER BY t.CLSX
+    </select>
+
+    <select id="getCgclmcList" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT DISTINCT t.CLMC FROM dchy_xmgl_clcgpz t
+        INNER JOIN dchy_cggl_gxywnr r ON r.CLCGPZID=t.CLCGPZID
+        INNER JOIN dchy_cggl_gxywxx x ON x.GXYWID=r.GXYWID
+        <where>
+            <if test="roleList != null">
+                <foreach item="item" collection="roleList" open="(" separator="OR" close=")">
+                    x.GXJSID=#{item.roleId}
+                </foreach>
+            </if>
+            <if test="gxywId != null">
+                AND x.GXYWID=#{gxywId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getCgmlmcList" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT CLMC FROM dchy_xmgl_clcgpz
+        <where>
+            <if test="clcgpzidList != null">
+                <foreach item="item" collection="clcgpzidList" open="(" separator="OR" close=")">
+                    clcgpzid LIKE '%'||#{item}||'%'
+                </foreach>
+            </if>
+        </where>
+        union all
+        SELECT CLMC FROM DCHY_XMGL_CLCGPZ
+        <where>
+            <if test="parentIdList != null">
+                <foreach item="item" collection="parentIdList" open="(" separator="OR" close=")">
+                    clcgpzid =#{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getCgclidList" parameterType="java.util.Map" resultType="map">
+        SELECT DISTINCT t.CLCGPZID,t.CLMC FROM dchy_xmgl_clcgpz t
+        INNER JOIN dchy_cggl_gxywnr r ON r.CLCGPZID=t.CLCGPZID
+        INNER JOIN dchy_cggl_gxywxx x ON x.GXYWID=r.GXYWID
+        <where>
+            <if test="roleList != null">
+                <foreach item="item" collection="roleList" open="(" separator="OR" close=")">
+                    x.GXJSID=#{item.roleId}
+                </foreach>
+            </if>
+            <if test="gxywId != null">
+                AND x.GXYWID=#{gxywId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCgclClsxList" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT DISTINCT t.CLSX FROM dchy_xmgl_clcgpz t
+        INNER JOIN dchy_cggl_gxywnr r ON r.CLCGPZID=t.CLCGPZID
+        INNER JOIN dchy_cggl_gxywxx x ON x.GXYWID=r.GXYWID
+        <where>
+            <if test="roleList != null">
+                <foreach item="item" collection="roleList" open="(" separator="OR" close=")">
+                    x.GXJSID=#{item.roleId}
+                </foreach>
+            </if>
+            AND X.SFJY = '0'
+        </where>
+    </select>
+
+    <select id="getGxsjList" parameterType="java.util.Map"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglGxywxxDO">
+        SELECT DISTINCT x.gxjssj,x.sfcqyx FROM dchy_xmgl_clcgpz t
+        INNER JOIN dchy_cggl_gxywnr r ON r.CLCGPZID=t.CLCGPZID
+        INNER JOIN dchy_cggl_gxywxx x ON x.GXYWID=r.GXYWID
+        <where>
+            <if test="roleList != null">
+                <foreach item="item" collection="roleList" open="(" separator="OR" close=")">
+                    x.GXJSID=#{item.roleId}
+                </foreach>
+            </if>
+            <if test="gxywId != null">
+                AND x.GXYWID=#{gxywId}
+            </if>
+        </where>
+        ORDER BY x.GXJSSJ
+    </select>
+
+    <select id="getDchyCgglGxywxxDOList" parameterType="java.util.Map"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglGxywxxDO">
+        SELECT t.gxywid,t.gxywmc
+        FROM DCHY_CGGL_GXYWXX t
+        WHERE NVL(t.sfjy,'0')='0'
+        <if test="roleList != null">
+            AND
+            <foreach item="item" collection="roleList" open="(" separator="OR" close=")">
+                t.gxjsid=#{item.roleId}
+            </foreach>
+        </if>
+        <if test="gxywid != null and gxywid !=''">
+            AND t.gxywid=#{gxywid}
+        </if>
+    </select>
+
+    <select id="getDchyXmglZdClsxList" parameterType="java.util.Map"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglZd">
+        SELECT wm_concat(z.MC) AS MC FROM (
+        SELECT DISTINCT t.CLSX FROM DCHY_XMGL_CLCGPZ t
+        WHERE t.CLCGPZID IN
+        <foreach item="item" collection="dchyCgglGxywnrDOList" open="(" separator="," close=")">
+            #{item.clcgpzid}
+        </foreach>
+        ) t
+        LEFT JOIN DCHY_XMGL_ZD z ON z.ZDLX='CLSX' AND z.DM=t.CLSX
+    </select>
+    <select id="getWjmById" resultType="java.util.Map">
+        select * from  DCHY_XMGL_CLCGPZ
+        <where>
+        <if test="clid!=null and clid !=''">
+            CLCGPZID=#{clid}
+        </if>
+        </where>
+    </select>
+
+
+</mapper>

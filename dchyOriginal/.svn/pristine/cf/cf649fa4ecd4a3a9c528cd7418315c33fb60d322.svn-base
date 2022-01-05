@@ -1,0 +1,12 @@
+<div class="widget-panel-title">
+    <div class="title-icon"></div>
+    地图采集<span></span></div>
+<div class="panel-body">
+    <div id="collectDrawPanel" class="row"></div>
+    <div id="collectResultPanel">
+    </div>
+    <div id="collectOptPanel" class="text-center">
+        <button class="btn btn-primary">提交</button>
+        <button class="btn btn-default">清除</button>
+    </div>
+</div>

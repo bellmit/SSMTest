@@ -1,0 +1,126 @@
+<div id="editMark">
+    <form class="form-horizontal mark-info-form" id="MarkInfoForm">
+        <div id="selectMark">
+            <div class="form-group">
+                <label class="col-sm-3 control-label mark-label" for="markTitle">标记名称</label>
+                <div class="col-sm-8 mark-input">
+                    <input class="form-control" name="title" id="markTitle">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label mark-label" for="symbol">标记样式</label>
+                <div class="col-sm-8 mark-input">
+                    <input class="form-control hidden" name="symbol" id="symbol">
+                    <div class="pull-left">
+                        <label title="当前标记样式" id="modifyMarkImg" style="cursor: pointer"/>
+                        <img class="mark-radio" src="../static/img/marks/mark1.png"/>
+                    </div>
+                    <div class="col-sm-3 pull-left">
+                        <a href="#" id="modifyMark">更换</a>
+                    </div>
+                    <div id="pubHide">
+                        <label class="col-sm-6 control-label mark-label" for="pubCheck">公开</label>
+                        <input class="hidden" name="publicity" id="isPublic">
+                        <div class="icheck">
+                            <div class="ui slider checkbox opt-cbx" title="">
+                                <input type="checkbox" tabindex="0" id="pubCheck" class="hidden">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label mark-label" for="description">描述信息</label>
+                <div class="col-sm-8 mark-input">
+                    <textarea class="form-control" name="description" id="description"></textarea>
+                </div>
+            </div>
+            <div class="clear-fix text-center">
+                <button type="button" id="saveMark" class="btn btn-default savemark-btn">保存</button>
+            </div>
+        </div>
+        <div id="markList">
+            <label>
+                <input name="markIcons" type="radio" value="1"/>
+                <img class="mark-radio" src="../static/img/marks/mark1.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="2"/>
+                <img class="mark-radio" src="../static/img/marks/mark2.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="3"/>
+                <img class="mark-radio" src="../static/img/marks/mark3.png">
+            </label>
+            &nbsp;&nbsp;&nbsp;
+            <label>
+                <input name="markIcons" type="radio" value="4"/>
+                <img class="mark-radio" src="../static/img/marks/mark4.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="5"/>
+                <img class="mark-radio" src="../static/img/marks/mark5.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="6"/>
+                <img class="mark-radio" src="../static/img/marks/mark6.png">
+            </label>
+            <br><br>
+            <label>
+                <input name="markIcons" type="radio" value="7"/>
+                <img class="mark-radio" src="../static/img/marks/mark7.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="8"/>
+                <img class="mark-radio" src="../static/img/marks/mark8.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="9"/>
+                <img class="mark-radio" src="../static/img/marks/mark9.png">
+            </label>
+            &nbsp;&nbsp;&nbsp;
+            <label>
+                <input name="markIcons" type="radio" value="10"/>
+                <img class="mark-radio" src="../static/img/marks/mark10.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="11"/>
+                <img class="mark-radio" src="../static/img/marks/mark11.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="12"/>
+                <img class="mark-radio" src="../static/img/marks/mark12.png">
+            </label>
+            <br><br>
+            <label>
+                <input name="markIcons" type="radio" value="13"/>
+                <img class="mark-radio" src="../static/img/marks/mark13.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="14"/>
+                <img class="mark-radio" src="../static/img/marks/mark14.png">
+            </label>
+            <label><input name="markIcons" type="radio" value="15"/>
+                <img class="mark-radio" src="../static/img/marks/mark15.png">
+            </label>
+            &nbsp;&nbsp;&nbsp;
+            <label>
+                <input name="markIcons" type="radio" value="16"/>
+                <img class="mark-radio" src="../static/img/marks/mark16.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="17"/>
+                <img class="mark-radio" src="../static/img/marks/mark17.png">
+            </label>
+            <label>
+                <input name="markIcons" type="radio" value="18"/>
+                <img class="mark-radio" src="../static/img/marks/mark18.png">
+            </label>
+            <br><br>
+            <div>
+                <button type="button" class="btn btn-primary" style="margin-top: 20px" id="hideMarkList">返回</button>
+            </div>
+        </div>
+
+    </form>
+</div>

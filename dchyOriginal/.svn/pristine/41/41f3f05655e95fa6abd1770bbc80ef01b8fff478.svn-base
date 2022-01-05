@@ -1,0 +1,4 @@
+debug: true
+transport: tcp
+rtmpOptions: ' -vcodec libx264 -acodec aac -f flv -r 25 -s 640x480 -an '
+rtmpUrl: 'rtmp://127.0.0.1:1935/live'

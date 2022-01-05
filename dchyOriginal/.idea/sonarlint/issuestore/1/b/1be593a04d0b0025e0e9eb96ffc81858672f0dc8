@@ -1,0 +1,31 @@
+
+b
+java:S1192E"GDefine a constant instead of duplicating this literal "chdwmc" 3 times.(æ»¯©ûÿÿÿÿ
+c
+java:S1192“"GDefine a constant instead of duplicating this literal "glsxid" 4 times.(ïÎõûÿÿÿÿ
+b
+java:S1192f"GDefine a constant instead of duplicating this literal "mlkid" 11 times.(»ãµ‹şÿÿÿÿ
+N
+java:S2629¦"7Use the built-in formatting to construct this argument.(ã“ğß
+S
+java:S2629§"7Use the built-in formatting to construct this argument.(ò¸şşÿÿÿÿ
+S
+java:S2629µ"7Use the built-in formatting to construct this argument.(ÛºÑûÿÿÿÿÿ
+h
+java:S3776A"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Àë¤
+W	java:S125Š"<This block of commented-out lines of code should be removed.(‹ç‹Ïıÿÿÿÿ
+1
+java:S3457¡"Not enough arguments.(à¼´†ÿÿÿÿÿ
+i
+java:S3776Ç"RRefactor this method to reduce its Cognitive Complexity from 31 to the 15 allowed.(«ƒê÷
+1
+java:S3457î"Not enough arguments.(§ê‰øÿÿÿÿ
+=	java:S131""Add a default case to this switch.(÷ÜäÈøÿÿÿÿ
+X
+java:S3457¦"AFormat specifiers should be used instead of string concatenation.(ã“ğß
+]
+java:S3457§"AFormat specifiers should be used instead of string concatenation.(ò¸şşÿÿÿÿ
+]
+java:S3457µ"AFormat specifiers should be used instead of string concatenation.(ÛºÑûÿÿÿÿÿ
+i
+java:S3776Ç"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(™³šÍ

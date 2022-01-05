@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title class="bdc_processDefName">“多测合一”信息管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../../layui/css/layui.css" media="all" rel="stylesheet">
+    <link href="../../css/dchyxxglpt/spaceTree.css" media="all" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <h3>“多测合一”信息管理平台</h3>
+    </div>
+    <div class="management-contanier">
+        <!-- 左侧菜单 -->
+        <div class="left">
+            <div class="top">
+                <h4>内容表</h4>
+                <p>
+                    <i class="layui-icon layui-icon-file-b"></i>
+                    <i class="layui-icon layui-icon-template-1"></i>
+                    <i class="layui-icon layui-icon-about"></i>
+                </p>
+            </div>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">阶段</label>
+                    <div class="layui-input-block">
+                        <select name="city" lay-verify="required" value='0'>
+        <option value="0">用地规划许可阶段</option>
+        <option value="1">工程规划许可阶段</option>
+        <option value="2">施工建设阶段</option>
+        <option value="3">竣工验收阶段</option>
+      </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图层</label>
+                    <div class="layui-input-block">
+                        <select name="city" lay-verify="required" value='0'>
+        <option value="0">房屋基地范围</option>
+        <option value="1">规划竣工分层房屋面</option>
+        <option value="2">规划竣工地下室</option>
+        <option value="3">规划竣工绿地面积</option>
+      </select>
+                    </div>
+                </div>
+            </form>
+            <div class="content-table-box">
+                <table class="layui-hide" id="contentTable"></table>
+            </div>
+        </div>
+        <!-- 地图 -->
+        <div class="right-map">
+            <img src="../../image/dchyxxglpt/spaceTree/u142.png" alt="" class="bdc-map-img" />
+        </div>
+    </div>
+
+    <script src="../../lib/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/dchyxxglpt/spaceTree.js"></script>
+
+</body>
+
+</html>

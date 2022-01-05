@@ -1,0 +1,81 @@
+.layui-btn {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: rgb(30, 159, 255);
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-left: 30px;
+
+
+}
+
+
+.layui-laydate .layui-this {
+    background-color: #1E9FFF !important;
+}
+
+.layui-form-item {
+    clear: both;
+    margin-bottom: 0px
+
+}
+
+.cxtj {
+    margin-bottom: 15px;
+
+}
+
+.layui-form-select dl dd.layui-this {
+
+    background-color: #1E9FFF !important;
+
+}
+
+
+#echarttj {
+    margin-top: 15px;
+
+
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    padding: 1px;
+    width: 100%;
+    height: 100%;
+    background-color: #1E9FFF;
+}
+
+body {
+    overflow-y: scroll;
+}
+
+/* 禁止刷新后出现横向滚动条 */
+.layui-input {
+    height: 32px;
+    width: 100%;
+}
+
+#unable, #able, #detail, #edit {
+    height: 22px !important;
+    line-height: 22px !important;
+    background-color: #1d87d2 !important;
+    font-size: 14px !important;
+}
+
+#search_tab,#search_echart {
+    height: 33px;
+    line-height: 33px;
+    background-color: #1d87d2 !important;
+}
+

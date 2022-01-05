@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <bean id="commonMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.CommonMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="entityMapper" class="cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper">
+        <property name="commonMapper" ref="commonMapper"/>
+    </bean>
+    <bean id="repository" class="cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.TotalRepository">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+    </bean>
+
+
+    <bean id="mybatisPaginationInterceptor"
+          class="cn.gtmap.msurveyplat.common.core.support.mybatis.page.PaginationInterceptor">
+        <property name="properties">
+            <props>
+                <prop key="dialect">oracle</prop>
+                <prop key="stmtIdRegex">*.*ByPage</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="mybatisPaginationOrderInterceptor"
+          class="cn.gtmap.msurveyplat.common.core.support.mybatis.page.PaginationInterceptor">
+        <property name="properties">
+            <props>
+                <prop key="dialect">oracleorder</prop>
+                <prop key="stmtIdRegex">*.*ByPageOrder</prop>
+            </props>
+        </property>
+    </bean>
+    <!--事务-->
+    <import resource="config-trans.xml"/>
+    <!--dozer-->
+    <!--<import resource="config-dozer.xml"/>-->
+    <!---->
+    <!--<import resource="config-service.xml"/>-->
+
+</beans>

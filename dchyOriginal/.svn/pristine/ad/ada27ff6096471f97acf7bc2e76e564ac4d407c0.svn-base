@@ -1,0 +1,69 @@
+<div class="panel-body io-panel">
+    <div class="tab-content">
+        <div id="iowSpatialQueryPanel">
+            <div class="col-sm-4 col-xs-4">
+                <div class="point-choose spatial-geo-icon" data-type="point"></div>
+                <div class="choose-title">点选</div>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <div class="frame-choose spatial-geo-icon" data-type="rect"></div>
+                <div class="choose-title">框选</div>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <div class="polygon-choose spatial-geo-icon" data-type="polygon"></div>
+                <div class="choose-title">多边形</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入/选择-->
+    <div class="io-opt-container">
+        <a class="btn btn-primary btn-sm btn-file" data-opt="imp" href="javascript:;">
+            <i class="iconfont">&#xe632;</i>导入
+            <input type="file" name="file" id="io-file-input"/>
+        </a>
+        <a class="btn btn-primary btn-sm" data-opt="export"><i class="iconfont">&#xe60f;</i>导出</a>
+        <a class="btn btn-primary btn-sm" data-opt="clear"><i class="iconfont">&#xe60b;</i>清空</a>
+        <div id="colorPicker" style="display: none" class="input-group colorpicker-component colorpicker-element" data-color="rgb(255, 0, 0)" >
+            <input type="text" class="form-control input-lg" style="display: none"><span class="input-group-addon"><i></i></span></div>
+    </div>
+    </div>
+    <!--list展示-->
+    <div class="col-md-12 mt-5 iowData">
+        <span class="text-muted pull-left col-xs-12" id="iowIDescSpan"></span>
+    </div>
+    <div class="a-list-container mt-30 iowData" id="ioList">
+    </div>
+
+
+
+<script id="items" data-layerId={{layerId}} type="x-handlebars-template">
+    <div class="info">
+        <div class="scrollContent" id="scrollContent">
+            {{#each list}}
+            <div class="item-content" data-id={{id}} data-layerid="{{layerId}}">
+                <div class="item-export pull-right">
+                    <i class="iconfont">&#xe617;</i>
+                </div>
+                <div>{{data.title}}</div>
+                <div>{{data.subtitle}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>
+
+
+

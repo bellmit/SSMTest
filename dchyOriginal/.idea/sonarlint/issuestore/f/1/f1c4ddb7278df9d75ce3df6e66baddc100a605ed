@@ -1,0 +1,26 @@
+
+w
+java:S1128"aRemove this unused import 'cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper'.(ş‡Ò…
+T	java:S106‹"9Replace this use of System.out or System.err by a logger.(ŞÆ­Ûşÿÿÿÿ
+M
+java:S2629C"7Use the built-in formatting to construct this argument.(Šÿº‚
+W
+java:S3457C"AFormat specifiers should be used instead of string concatenation.(Šÿº‚
+Q
+java:S1128"6Remove this unused import 'org.omg.CORBA.OBJ_ADAPTER'.(Çğ¯¹øÿÿÿÿ
+O	java:S106Œ"9Replace this use of System.out or System.err by a logger.(ñšÔ
+J
+java:S3740A"/Provide the parametrized type for this generic.(¬ÂëÌøÿÿÿÿ
+k
+java:S1128"URemove this unused import 'cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglYhdw'.(à³ÁÙ
+Z
+java:S3252@"DUse static access with "com.alibaba.fastjson.JSON" for "parseArray".(¨µ
+V	java:S125B"<This block of commented-out lines of code should be removed.(§Æ¦×üÿÿÿÿ
+W
+java:S3457F"AFormat specifiers should be used instead of string concatenation.(–³Ò¬
+E
+java:S3740@"/Provide the parametrized type for this generic.(¨µ
+[
+java:S3252?"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(¹¾ª
+k	java:S117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½÷áãıÿÿÿÿ
+W	java:S125“"<This block of commented-out lines of code should be removed.(ñ¥ùšøÿÿÿÿ

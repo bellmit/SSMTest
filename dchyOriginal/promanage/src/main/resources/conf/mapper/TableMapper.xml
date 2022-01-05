@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.TableMapper">
+
+    <select id="queryTableZdmc" resultType="map" parameterType="string">
+        SELECT DISTINCT A.COLUMN_NAME zd, B.COMMENTS zdmc
+        FROM ALL_TAB_COLUMNS A
+        LEFT JOIN ALL_COL_COMMENTS B
+        ON A.TABLE_NAME = B.TABLE_NAME and A.COLUMN_NAME = B.COLUMN_NAME
+        WHERE A.TABLE_NAME = #{tableName}
+        AND B.OWNER = #{owner} AND A.OWNER = #{owner}
+    </select>
+
+</mapper>

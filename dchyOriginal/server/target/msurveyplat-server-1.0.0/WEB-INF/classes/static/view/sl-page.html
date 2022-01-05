@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title class="bdc_processDefName">受理页面</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+	<meta http-equiv="Pragma" content="no-cache"></meta>
+	<meta http-equiv="Cache-Control" content="no-cache"></meta>
+	<meta http-equiv="Expires" content="0"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link href="../layui/css/layui.css" media="all" rel="stylesheet">
+	<link href="../css/mask.css" rel="stylesheet" />
+	<link href="../css/layer.css" rel="stylesheet" />
+	<link href="../css/service-page.css" media="all" rel="stylesheet" />
+	<link href="../css/sl-page.css" media="all" rel="stylesheet" />
+</head>
+
+<body class="sl-page-contanier">
+	<h1 class="bdc-main-title">“多测合一”成果入库受理信息</h1>
+	<form class="layui-form bdc-sl-form" action="" id="bdc-sl-form" lay-filter="bdc-sl-form">
+		<div class="bdc-content-item bdc-form">
+			<div class="bdc-title">
+				<span>受理信息</span>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">
+							受理编号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="slbh" readonly lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">
+							受理日期</label>
+					<div class="layui-input-inline">
+						<input type="text" name="slsj" readonly lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">
+							受理人</label>
+					<div class="layui-input-inline">
+						<input type="text" name="slr" readonly lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bdc-content-item bdc-table">
+			<div class="bdc-title">
+				<span>项目信息</span>
+			</div>
+			<table class='xmxx-table'>
+				<tr>
+					<td class="td-name">预编不动产单元（宗地）代码</td>
+					<td colspan="3"><input type="text" name="ybbdcdydm" autocomplete="off" class="td-item"/></td>
+				</tr>
+				<tr>
+					<td class="td-name">项目（合同）编号</td>
+					<td><input type="text" name="chxmbh" autocomplete="off" class="td-item chxmbh-text" /></td>
+					<td class="td-name">多测合一编号</td>
+					<td><input type="text" name="dchybh" autocomplete="off" class="td-item" /></td>
+				</tr>
+				<tr>
+					<td class="td-name">项目名称</td>
+					<td><input type="text" name="xmmc" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">项目地址</td>
+					<td><input type="text" name="xmdz" autocomplete="off" class="td-item"/></td>
+				</tr>
+				<tr>
+					<td class="td-name">建设单位名称</td>
+					<td><input type="text" name="jsdw" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">测绘单位名称</td>
+					<td id="chdw-select-box">
+						<select name="chdw" class="chdw-select td-item" lay-filter="chdwSelect" lay-search>
+								<option value="">请选择</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-name">建设单位代理人姓名</td>
+					<td><input type="text" name="sqr" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">测绘单位代理人姓名</td>
+					<td><input type="text" name="chdwdlr" autocomplete="off" class="td-item"/></td>
+				</tr>
+				<tr>
+					<td class="td-name">建设单位联系电话</td>
+					<td><input type="text" name="sqrlxdh" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">测绘单位联系电话</td>
+					<td><input type="text" name="lxdh" autocomplete="off" readonly class="td-item"/></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bdc-content-item bdc-table">
+			<div class="bdc-title">
+				<span>项目许可情况</span>
+			</div>
+			<table class="xmxkqk-table">
+				<tr>
+					<th colspan="4">规划许可信息</th>
+				</tr>
+				<tr>
+					<td class="td-name">规划许可证号</td>
+					<td><input type="text" name="ghxkzh" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">规划许可面积</td>
+					<td>
+						<input type="text" name="ghxkmj" autocomplete="off" class="td-item"/>
+						<span class="unit-text">平方米</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-name">规划许可范围</td>
+					<td><input type="text" name="ghxkfw" autocomplete="off" class="td-item"/></td>
+					<td class="td-name">规划许可证取得日期</td>
+					<td><input type="text" name="ghxkzqdrq" autocomplete="off" id="ghxkzqdrq" class="td-item"/></td>
+				</tr>
+				<tr>
+					<th colspan="4">施工许可信息</th>
+				</tr>
+				<tr>
+					<td class="td-name">施工许可证号</td>
+					<td><input type="text" class="td-item" name="sgxkzh" autocomplete="off" /></td>
+					<td class="td-name">施工许可面积</td>
+					<td>
+						<input type="text" class="td-item" name="sgxkmj" autocomplete="off" />
+						<span class="unit-text">平方米</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="td-name">施工许可范围</td>
+					<td><input type="text" class="td-item" name="sgxkfw" autocomplete="off" /></td>
+					<td class="td-name">施工许可证取得日期</td>
+					<td><input type="text" class="td-item" name="sgxkzqdrq" autocomplete="off" id="sgxkzqdrq" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bdc-content-item bdc-number-table">
+			<div class="bdc-title sjcl-title">
+				<span>收件材料</span>
+			</div>
+			<table class="layui-hide" id="sjclTable" lay-filter="sjclTable"></table>
+		</div>
+		<input type="text" name="_url" id="_url" value="" style="display: none;" />
+		<!--子页面隐形按钮-->
+		<button type="submit" class="layui-btn bdc-save-btn-son" id="bdcSaveBtnSon" lay-submit='' lay-filter="bdc-save-btn-son"
+		 style="display: none;">保存</button>
+		  <button type="submit" class="layui-btn bdc-hqxmbasj-btn-son"
+		 style="display: none;">获取项目备案数据</button>
+	</form>
+
+	<!--收件材料  类型-->
+	<script type="text/html" id="selectTpl">
+		<select name="sjclType" lay-filter="sjclType" class="sjcl-type" lay-search>
+				{{# layui.each(d.fjlxConfig, function(index, item){ }}
+				{{# if(d.sjlx == item.dm){ }}
+				<option value="{{item.dm||''}}" selected>{{item.mc||''}}</option>
+				{{# } else { }}
+				<option value="{{item.dm||''}}">{{item.mc||''}}</option>
+					{{# } }}
+				{{# })}}
+			</select>
+	</script>
+	<!--收件材料---操作按钮-->
+	<script type="text/html" id="sjclBtnTpl">
+		<button type="button" class="layui-btn layui-btn-normal" id="addBtn" lay-event="add">新增</button>
+		<button type="button" class="layui-btn layui-btn-danger" id="deleteBtn" lay-event="del">删除</button>
+		<button type="button" class="layui-btn layui-btn-primary" id="batchUploadBtn" lay-event="plsc">批量上传</button>
+	</script>
+	<!--收件材料---上传按钮-->
+	<script type="text/html" id="uploadTpl">
+		<button type="button" class="layui-btn layui-btn-normal bdc-upload-btn" lay-event="upload">上传</button>
+	</script>
+	
+	<script src="../lib/jquery/jquery.min.js"></script>
+	<script src="../lib/layui/layui.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/sl-page.js"></script>
+</body>
+
+</html>

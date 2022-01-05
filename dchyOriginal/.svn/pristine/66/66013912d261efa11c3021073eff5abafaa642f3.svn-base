@@ -1,0 +1,52 @@
+package cn.gtmap.msurveyplat.server.service.share;
+
+import cn.gtmap.msurveyplat.common.dto.CggxsqDTO;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/6/9
+ * @description 成果共享申请
+ */
+public interface CggxsqService {
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 初始化申请信息
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage cshsqxx(CggxsqDTO cggxsqDTO);
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 成果共享审核
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage cggxsqSh(CggxsqDTO cggxsqDTO);
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 审核待办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage cggxsqShjlDb(CggxsqDTO cggxsqDTO);
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 审核已办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage cggxsqShjlYb(CggxsqDTO cggxsqDTO);
+
+    /**
+     * @param cggxsqDTO
+     * @return
+     * @description 2021/6/9 成果共享审核已办台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage cggxsqYb(CggxsqDTO cggxsqDTO);
+}

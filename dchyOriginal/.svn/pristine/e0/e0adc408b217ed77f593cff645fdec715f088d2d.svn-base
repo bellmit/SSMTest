@@ -1,0 +1,25 @@
+<div class="panel-body" id="pewgAnalysisContent">
+    <div id="pewgAnalysisPanel">
+    </div>
+    <div class="row tools-wrapper btn-margin">
+        <button class="btn btn-primary pull-right btn-xs text-primary" id="pewgBtn">
+            <i class="iconfont">&#xe620;</i>分析
+        </button>
+    </div>
+</div>
+
+
+<!--批而未供单年份选择模板-->
+<script id="pewgYearSelectTpl" type="x-tpl-handlebars">
+<div class="analysis-sel-wrapper text-center">
+    <label class="text-info">报批年度：</label>
+    <select id="pewgYearSelector">
+        {{#each years}}
+        <option value="{{year}}" {{selected}}>
+            {{year}}年
+        </option>
+        {{/each}}
+    </select>
+</div>
+
+</script>

@@ -1,0 +1,193 @@
+<div class="XzAnalysis">
+    <div class="title">{{label}}功能配置</div>
+    <!--<div id="scrollContent" style="padding-top: 20px;">-->
+        <form id="ghAnalyssis" class="">
+            <div class="left pull-left">
+                <div class="row lineSpacing">
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">标题</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                               value="{{label}}"/>
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">图标</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="ui search selection dropdown" id="icons">
+                            <input type="hidden" name="icon" value="{{icon}}">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">请选择</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                        class="tags"> 属性</span></h4>
+
+                <div class="row lineSpacing" style="clear: both;">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">面积单位</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="ui selection dropdown" id="areaUnit">
+                            <input type="hidden" name="areaUnit" value="{{config.areaUnit}}"/>
+                            <i class="dropdown icon"></i>
+                            <div class="default text"></div>
+                            <div class="menu">
+                                <div class="item" data-value="SQUARE">平方米</div>
+                                <div class="item" data-value="HECTARE">公顷</div>
+                                <div class="item" data-value="ACRE">亩</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="ui toggle checkbox showSelMode">
+                            <input type="checkbox" name="showSelMode" {{isCheck}}>
+                            <label>范围图层</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row lineSpacing" style="clear: both;">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">分析选择</label>
+                    </div>
+
+                    <div class="col-xs-3">
+                        <div class="ui selection dropdown" id="analysisType">
+                            <input type="hidden"  value=""/>
+                            <i class="dropdown icon"></i>
+                            <div class="default text"></div>
+                            <div class="menu">
+                                <div class="item" data-value="year">年份</div>
+                                <div class="item" data-value="layerType">类型</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="exportAnalysis" {{isExport}}>
+                            <label>是否允许导出</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row lineSpacing" style="clear: both;">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">数据源</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="ui selection dropdown" id="dataSource">
+                            <input type="hidden" name="dataSource" value="{{config.dataSource}}"/>
+                            <i class="dropdown icon"></i>
+
+                            <div class="default text"></div>
+                            <div class="menu">
+                                {{#sdeConfs}}
+                                <div class="item" data-value="{{.}}">{{.}}</div>
+                                {{/sdeConfs}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row lineSpacing" style="clear: both;">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle" id="analysisTypeLabel">年份</label>
+                    </div>
+
+                    <div class="col-xs-9">
+                        <input type="text" name="year" id="year" class="form-control" placeholder="请填写年份"
+                               value="{{config.year}}"/>
+                        <div class="ui selection dropdown hidden" id="layerType">
+                            <input type="hidden" name="layerType" value="{{config.layerType}}"/>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">请选择类型</div>
+                            <div class="menu">
+                                <div class="item" data-value="TDYTQ">土地用途分区</div>
+                                <div class="item" data-value="JSYDGZQ">建设用地管制区</div>
+                                <div class="item" data-value="GHJBNTTZ">规划基本农田调整</div>
+                                <div class="item" data-value="MZZDJSXM">重点建设项目</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row lineSpacing" style="clear: both;">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">导入类型</label>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="ui search multiple selection dropdown" id="import">
+                            <input name="importType" type="hidden" value="{{config.importType}}">
+                            <i class="dropdown icon"></i>
+                            <div class="default text"></div>
+                            <div class="menu">
+                                <div class="item" data-value="bj">电子报件</div>
+                                <div class="item" data-value="cad">cad文件</div>
+                                <div class="item" data-value="shp">shape文件</div>
+                                <div class="item" data-value="txt">txt文件</div>
+                                <div class="item" data-value="xls">excel文件</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right pull-left">
+                <div style="height: 50%">
+                    <div class="row lineSpacing" style="clear: both;">
+                        <div class="col-xs-12">
+                            <div id="layers">
+                                <div class="btn-group-vertical" role="group" aria-label="Vertical button group"
+                                     id="layersContainer"
+                                     style="width: 100%">
+                                    {{#config.scopeLayers}}
+                                    <button type="button" class="btn btn-default" data-id="{{layerName}}"
+                                            data-info="{{getLayerInfo}}">
+                                        <span class="text-left buttonTitle">{{layerName}}</span>
+                                        <span class="glyphicon glyphicon-eye-open text-right buttonIcon"></span>
+                                    </button>
+                                    {{/config.scopeLayers}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="height: 50%">
+                    <div class="row lineSpacing" style="clear: both;">
+                        <hr style="border-top: 1px solid #E4E2E2;">
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-primary" style="width: 100%" id="layerBtn">新增</button>
+                        </div>
+                    </div>
+                    <div class="row lineSpacing" style="clear: both;padding-top: 30px;">
+                        <div class="col-xs-12">
+                            <div id="fields">
+                                <div class="btn-group-vertical" role="group" aria-label="Vertical button group"
+                                     id="layerFieldsContainer"
+                                     style="width: 100%">
+                                    {{#config.scopeLayers}}
+                                    {{#returnFields}}
+                                    <button type="button" class="btn btn-default" data-id="{{layerName}}"
+                                            data-key="{{name}}">
+                                        <span class="text-left buttonTitle">{{alias}}</span>
+                                        <span class="glyphicon glyphicon-remove-sign text-right buttonIcon"></span>
+                                    </button>
+                                    {{/returnFields}}
+                                    {{/config.scopeLayers}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <!--</div>-->
+    <div class="text-center" style="clear: both;padding-top: 15px;">
+        <button type="button" class="btn btn-success" style="width: 150px;" id="ghAnalysisSaveBtn">保存</button>
+    </div>
+</div>

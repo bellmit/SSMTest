@@ -1,0 +1,15 @@
+
+a
+java:S2259f"FA "NullPointerException" could be thrown; "userInfo" is nullable here.(Ì€Ùëûÿÿÿÿ
+|
+java:S1128"aRemove this unused import 'cn.gtmap.msurveyplat.promanage.service.impl.ExchangeFeignServiceImpl'.(•Ù‘¹þÿÿÿÿ
+m
+java:S3776^"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Î¦Í­ûÿÿÿÿ
+K
+java:S3740‹"/Provide the parametrized type for this generic.(˜ÔÛ­ûÿÿÿÿ
+a
+java:S2259V"FA "NullPointerException" could be thrown; "userInfo" is nullable here.(—Àãôÿÿÿÿÿ
+\
+java:S1128"ARemove this unused import 'org.apache.commons.lang3.StringUtils'.(Øœ¼ºúÿÿÿÿ
+L
+java:S1068("*Remove this unused "LOGGER" private field.(›ôÞáüÿÿÿÿ8¯è§‡š/

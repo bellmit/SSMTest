@@ -1,0 +1,36 @@
+
+Š
+java:S1319Q"oThe type of the "hashMap" object should be an interface such as "Map" rather than the implementation "HashMap".(€¥½¶ùÿÿÿÿ
+E
+java:S3740:"/Provide the parametrized type for this generic.(‹¤·
+E
+java:S3740:"/Provide the parametrized type for this generic.(‹¤·
+J
+java:S3740Q"/Provide the parametrized type for this generic.(€¥½¶ùÿÿÿÿ
+g
+java:S1192_"LDefine a constant instead of duplicating this literal "cn-hangzhou" 3 times.(…·ó¸ÿÿÿÿÿ
+[
+java:S1192"GDefine a constant instead of duplicating this literal "ERROR:" 5 times.(•ŠÁï
+S
+java:S2629 "7Use the built-in formatting to construct this argument.(àô¶üşÿÿÿÿ
+2
+java:S1643@"Use a StringBuilder instead.(ó¯‹
+w
+java:S1488´"`Immediately return this expression instead of assigning it to the temporary variable "gbEncode".(İô·
+x
+java:S1488½"aImmediately return this expression instead of assigning it to the temporary variable "isoEncode".(ğñÙº
+}
+java:S1488Æ"aImmediately return this expression instead of assigning it to the temporary variable "utfEncode".(Ñáõ şÿÿÿÿ
+}
+java:S1488Ï"aImmediately return this expression instead of assigning it to the temporary variable "gbkEncode".(­¹˜‰øÿÿÿÿ
+Z
+java:S4143J"DVerify this is the key that was intended; it was already set before.(¾Úä¾
+.
+java:S3457"Not enough arguments.(ŸÏÆşşÿÿÿÿ
+Q	java:S125o"<This block of commented-out lines of code should be removed.(¢ÏĞ
+R	java:S125†"<This block of commented-out lines of code should be removed.(£õî”
+W	java:S125‹"<This block of commented-out lines of code should be removed.(é±·‹ûÿÿÿÿ
+]
+java:S3457 "AFormat specifiers should be used instead of string concatenation.(àô¶üşÿÿÿÿ
+1
+java:S3457¨"Not enough arguments.(ŸÏÆşşÿÿÿÿ

@@ -1,0 +1,53 @@
+package cn.gtmap.msurveyplat.portalol.service.user;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import org.springframework.data.domain.Page;
+
+import java.util.Map;
+
+public interface UserManagementService {
+
+    /**
+     * @param map
+     * @return
+     * @description 2021/1/6 用户管理台账
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Page<Map<String, Object>> queryUserByUsername(Map map);
+
+    /**
+     * @param username
+     * @param password
+     * @return
+     * @description 2021/1/5 修改密码
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> changePassword(String username, String password, String passwordNew);
+
+    /**
+     * @param userid
+     * @param state
+     * @return
+     * @description 2021/1/5 启用或者暂用用户
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> changeUserState(String userid, String state);
+
+    /**
+     * @param userid 用户id
+     * @param roles  角色
+     * @return
+     * @description 2021/1/5 用户分配权限
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    Map<String, String> distributionRoleAuthority(String userid, String roles);
+
+    /**
+     * @param
+     * @return
+     * @description 2021/3/9 所有的角色
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    ResponseMessage queryAllRole();
+
+}

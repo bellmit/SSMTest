@@ -1,0 +1,24 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.service;
+
+
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.JsdwFbxfwModel;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/11/28
+ * @description 线上数据同步线下数据
+ */
+public interface JsdwFbxfwService {
+
+    Map<String, Object> getAllData(Map<String, String> param);
+
+    /**
+     * @param chxmid
+     * @return
+     * @description 2020/12/1 通过chxmid 获取线上数据
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    JsdwFbxfwModel getSingleData(String chxmid);
+}

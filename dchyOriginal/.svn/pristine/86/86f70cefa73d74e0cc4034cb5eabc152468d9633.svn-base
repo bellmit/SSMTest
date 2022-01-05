@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglOnlineDelegationMapper">
+
+    <!--多条件查询项目委托信息-->
+    <select id="queryProjectEntrustMultipleConditionsByPage" resultType="map" parameterType="map">
+        SELECT DISTINCT z.xqfbbh, z.gcbh, z.gcmc, z.wtdw,z.fbsj,z.wtzt,z.chxmid,z.chdwxxid
+        FROM
+        (SELECT xm.xqfbbh, gc.gcbh, gc.gcmc, gc.wtdw, xm.fbsj,xm.chxmid,xx.chdwxxid,
+        CASE WHEN xxslxm.wtzt IS NOT NULL THEN xxslxm.wtzt ELSE xm.wtzt END wtzt
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx ON xx.chxmid = xm.chxmid
+        LEFT JOIN XSBF_DCHY_XMGL_CHXM xxslxm ON xxslxm.xqfbbh=xm.xqfbbh
+        WHERE xm.xmly = '3' AND xm.wtzt != '1' AND xm.xqfbbh IS NOT NULL AND xx.mlkid= #{mlkid}
+        ) z
+        <where>
+            <if test="xmgcbg != null and xmgcbg != ''">
+                AND z.gcbh LIKE '%'||#{xmgcbg}||'%'
+            </if>
+            <if test="xmgcmc != null and xmgcmc != ''">
+                AND z.gcmc LIKE '%'||#{xmgcmc}||'%'
+            </if>
+            <if test="wtbh != null and wtbh != ''">
+                AND z.xqfbbh LIKE '%'||#{wtbh}||'%'
+            </if>
+            <if test="jsdwmc != null and jsdwmc != ''">
+                AND z.wtdw LIKE '%'||#{jsdwmc}||'%'
+            </if>
+            <if test="status != null and status != ''">
+                AND z.wtzt = #{status}
+            </if>
+        </where>
+        order by z.fbsj desc
+    </select>
+
+
+    <!--获取待接受委托的数量-->
+    <select id="getToBeAcceptedNum" parameterType="string" resultType="int">
+        select count(*)
+        from dchy_xmgl_chxm xm
+        left join dchy_xmgl_chxm_chdwxx xx
+        on xx.chxmid = xm.chxmid
+        <where>
+            and xm.xmly = '3'
+            and xm.wtzt = '2'
+            <choose>
+                <when test="mlkid != null and mlkid != ''">
+                    and xx.mlkid = #{mlkid}
+                </when>
+                <otherwise>
+                    and xx.mlkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getLatelyCgTjjlByChxmid" parameterType="string" resultType="map">
+        select t.tjsj
+          from dchy_Xmgl_Clcg t
+          <where>
+              <choose>
+                  <when test="chxmid !=null and chxmid != ''">
+                    and t.chxmid = #{chxmid}
+                  </when>
+                  <otherwise>
+                      AND t.chxmid = 'emptyParamValue'
+                  </otherwise>
+              </choose>
+          </where>
+         order by t.tjsj desc
+    </select>
+</mapper>

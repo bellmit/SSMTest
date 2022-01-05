@@ -1,0 +1,19 @@
+<div class="widget-panel-title">通透镜</div>
+<div class="panel-body spy-panel">
+    <div class="row">
+        <label class="col-xs-3 lbl-select text-right" style="width: 30%">选择图层:</label>
+        <div class="col-xs-8">
+            <select id="layers_select" class="form-control input-sm"></select>
+        </div>
+    </div>
+    <div class="row opera-container">
+        <div class="ui slider checkbox checkbox-for-spy col-sm-5 col-sm-offset-1">
+            <label style="width: 100px">通透镜</label>
+            <input type="checkbox" name="spy" class="hidden">
+        </div>
+        <div class="ui slider checkbox checkbox-for-spy col-sm-5 col-sm-offset-1">
+            <label style="width: 100px">卷帘</label>
+            <input type="checkbox" name="swipe"  class="hidden">
+        </div>
+    </div>
+</div>

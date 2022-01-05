@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.XsbfDchyXmglChgcMapper">
+
+    <!--测绘单位查询我的测绘项目-->
+    <select id="queryChdwCkxmByPage" resultType="map" parameterType="map">
+        SELECT
+        x.chdwxxid,x.chxmid,x.mlkid,x.chdwmc,m.slbh,m.chgcbh,m.chgcid,m.xmzt,t.lxr,t.lxdh,t.gcbh,t.gcmc,t.gcdzs,t.gcdzss,t.gcdzqx,t.gcdzxx,m.cgjfrq,m.xqfbbh,m.slsj,t.wtdw
+        AS dwmc
+        FROM dchy_xmgl_chxm_chdwxx x
+        LEFT JOIN dchy_xmgl_chxm m ON m.chxmid = x.chxmid
+        LEFT JOIN dchy_xmgl_chgc t ON t.chgcid = m.chgcid
+        <where>
+            AND m.xmzt IS NOT NULL AND TRIM(m.xmzt) <![CDATA[<> ]]> '0'
+            <if test="jsdwmc != null and jsdwmc !=''">
+                AND t.wtdw LIKE '%' || #{jsdwmc} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND t.gcmc LIKE '%' || #{gcmc} || '%'
+            </if>
+            <if test="xmzt != null and xmzt !=''">
+                AND m.xmzt = #{xmzt}
+            </if>
+            <if test="mlkidList != null and mlkidList.size>0">
+                AND x.mlkid IN
+                <foreach collection="mlkidList" item="item" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY m.slsj DESC NULLS LAST
+    </select>
+
+    <!--测绘单位查询正在进行我的测绘项目-->
+    <select id="queryChxmCount" resultType="String" parameterType="map">
+        SELECT count(m.chxmid) chxmsl
+        FROM dchy_xmgl_chxm_chdwxx x
+        LEFT JOIN dchy_xmgl_chxm m ON m.chxmid = x.chxmid
+        LEFT JOIN dchy_xmgl_chgc t ON t.chgcid = m.chgcid
+        <where>
+            trim(m.xmzt) = '2'
+            <if test="chdwmc != null and chdwmc !=''">
+                AND x.chdwmc = #{chdwmc}
+            </if>
+        </where>
+        ORDER BY m.fbsj DESC NULLS LAST
+    </select>
+
+    <!--建设单位查询的我项目-->
+    <select id="queryJsdwCkxmByPage" resultType="map" parameterType="map">
+        SELECT
+        z.chxmid,z.slbh,z.fbr,z.chgcid,z.chgcbh,z.gcmc,z.xmly,z.slsj,z.xmzt,z.xqfbbh,d.chdwmc,d.chdwxxid
+        FROM
+        (SELECT m.chxmid,m.slbh,m.fbr,m.chgcbh,g.chgcid,g.gcmc,g.xmly,g.wtdw,m.slsj,m.xmzt,m.xqfbbh
+        FROM dchy_xmgl_chxm m LEFT JOIN dchy_xmgl_chgc g ON m.chgcid = g.chgcid
+        <where>
+            <choose>
+                <when test="usidList !=null and usidList.size >0">
+                    AND m.fbr IN
+                    <foreach collection="usidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND m.fbr = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        UNION ALL
+        SELECT m.chxmid,m.slbh,m.fbr,m.chgcbh,g.chgcid,g.gcmc,g.xmly,g.wtdw,m.slsj,m.xmzt,m.xqfbbh
+        FROM dchy_xmgl_chxm m LEFT JOIN dchy_xmgl_chgc g ON m.chgcid = g.chgcid
+        <where>
+            <if test="wtdw != null and wtdw !=''">
+                AND m.fbr IS NULL AND g.wtdw = #{wtdw}
+            </if>
+        </where>
+        ) z
+        LEFT JOIN DCHY_XMGL_CHXM_CHDWXX d
+        ON d.chxmid = z.chxmid
+        <where>
+            AND z.xmzt IS NOT NULL AND TRIM(z.xmzt) <![CDATA[<>]]> '0' AND z.xmzt IN ('2','99')
+            <if test="xmzt != null and xmzt !=''">
+                AND z.xmzt LIKE '%'||#{xmzt}||'%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND z.gcmc LIKE '%'||#{gcmc}||'%'
+            </if>
+        </where>
+        ORDER BY z.slsj DESC NULLS LAST
+    </select>
+
+    <!--根据测绘項目ID查询详情-->
+    <select id="queryChxmxxByChxmid" resultType="map" parameterType="map">
+        SELECT t.chgcid,t.gcbh,t.gcmc,t.gcdz,m.chxmid,t.lxr,t.lxdh,x.cgjfrq
+        FROM DCHY_XMGL_CHGC t
+        LEFT JOIN DCHY_XMGL_CHXM m
+        ON t.chgcid=m.chgcid
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX x
+        ON x.chxmid = m.chxmid
+        <where>
+            AND m.xmzt IS NOT NULL AND TRIM(m.xmzt) <![CDATA[<> ]]> '0'
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--我的测绘项目查询上传材料-->
+    <select id="queryScclByChxmid" resultType="map" parameterType="map">
+        SELECT l.clmc,l.fs,l.ys,l.wjzxid
+        from DCHY_XMGL_SJCL l
+        LEFT JOIN DCHY_XMGL_SJXX x
+        ON l.sjxxid = x.sjxxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND x.glsxid = #{chxmid}
+            </if>
+        </where>
+        ORDER BY x.sjsj DESC NULLS LAST
+    </select>
+
+    <!--委托单位受理信息-->
+    <select id="queryQtblxxByChxmid" resultType="map" parameterType="map">
+        SELECT m.xmzt,m.slsj,m.bjsj,
+        (SELECT user_name FROM pf_user_xx WHERE user_id = m.slr ) slr,
+        (SELECT user_name FROM pf_user_xx WHERE user_id = m.bjr ) bjr
+        FROM dchy_xmgl_chxm m
+        <where>
+            AND m.xmzt IS NOT NULL AND TRIM(m.xmzt) <![CDATA[<> ]]> '0'
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--单位双方委托信息-->
+    <select id="queryWtxxByChdwxxids" resultType="map" parameterType="map">
+        SELECT m.slbh,c.wtdw,x.chdwmc,c.gcmc,c.gcbh,c.lxr,c.lxdh,c.gcdzs,c.gcdzss,c.gcdzqx,c.gcdzxx,k.chzyfw,m.fbsj,m.chxmid,m.zdxm,
+        x.chdwxxid,m.slsj,m.zdxm,m.chjglxr,m.chjglxdh
+        FROM DCHY_XMGL_CHXM m
+        LEFT JOIN DCHY_XMGL_CHXM_CHDWXX x ON m.chxmid = x.chxmid
+        LEFT JOIN DCHY_XMGL_CHGC c ON c.chgcid = m.chgcid
+        LEFT JOIN DCHY_XMGL_MLK k ON k.mlkid = x.mlkid
+        <where>
+            <if test="chdwxxid != null and chdwxxid !=''">
+                AND x.chdwxxid = #{chdwxxid}
+            </if>
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid = #{chxmid}
+            </if>
+        </where>
+        ORDER BY m.fbsj DESC NULLS LAST
+    </select>
+
+    <!--测绘单位办理信息-->
+    <select id="queryChdwxxByChdwxxids" resultType="map" parameterType="map">
+        SELECT K.CHDWMC AS DWMC,
+        K.FRDB,
+        NULL CHZZZSBH,
+        NULL YXQKSRQ,
+        NULL YXQJSRQ,
+        K.TYSHXYDM,
+        K.BGDZXX BGDZ,
+        NULL CHZYFW,
+        K.LXR,
+        K.LXDH,
+        K.CHDWID MLKID,
+        ZD1.MC ZZDJ,
+        NULL DWXZ
+        FROM DCHY_XMGL_CHDW K
+        LEFT JOIN DCHY_XMGL_ZD ZD1 ON ZD1.DM = K.ZZDJ AND ZD1.ZDLX = 'ZZDJ'
+        <where>
+            <if test="mlkid != null and mlkid !=''">
+                AND k.CHDWID = #{mlkid}
+            </if>
+        </where>
+    </select>
+
+    <!--测绘单位办理信息，从业人数-->
+    <select id="queryCyrsByChdwxxids" resultType="String" parameterType="map">
+        SELECT count(w.yhid) AS cyrs
+        FROM DCHY_XMGL_CHXM_CHDWXX d
+        LEFT JOIN DCHY_XMGL_CHXM m ON d.chxmid = m.chxmid
+        LEFT JOIN DCHY_XMGL_CHDW k ON k.chdwid = d.mlkid
+        LEFT JOIN DCHY_XMGL_YHDW w ON w.tyshxydm = k.tyshxydm
+        <where>
+            <if test="chdwxxid != null and chdwxxid !=''">
+                AND d.chdwxxid = #{chdwxxid}
+            </if>
+        </where>
+        ORDER BY m.fbsj DESC NULLS LAST
+    </select>
+
+    <!-- 测量事项字典项 -->
+    <select id="getClsxByChxmid" resultType="map" parameterType="map">
+        SELECT t.chxmid,t.clsx
+        FROM DCHY_XMGL_CHXM_CLSX t
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND t.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND t.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY t.clsx NULLS LAST
+    </select>
+
+    <!-- 测绘单位测量事项字关系 -->
+    <select id="getClsxByChdwxxid" resultType="map" parameterType="map">
+        SELECT DISTINCT x.chdwxxid,t.clsx
+        FROM DCHY_XMGL_CLSX_CHDWXX_GX x LEFT JOIN DCHY_XMGL_CHXM_CLSX t ON x.clsxid=t.clsxid
+        <where>
+            <choose>
+                <when test="chdwxxidList !=null and chdwxxidList.size >0">
+                    AND x.chdwxxid IN
+                    <foreach collection="chdwxxidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND x.chdwxxid
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY t.clsx NULLS LAST
+    </select>
+
+</mapper>

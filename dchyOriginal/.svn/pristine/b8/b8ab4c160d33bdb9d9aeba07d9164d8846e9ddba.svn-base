@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.mapper.DchyGldwTzggglMapper">
+
+    <!--获取所有通告-->
+    <select id="getAllTzggListByPage" resultType="map" parameterType="map">
+        SELECT t.tzggid,t.bt,s.mc gglx,pf.USER_NAME AS fbr,t.fbsj,t.sfzd FROM DCHY_XMGL_TZGG t
+        LEFT JOIN pf_user pf
+        ON pf.USER_ID = t.fbr
+        LEFT JOIN
+        (SELECT zd.mc,zd.dm FROM dchy_xmgl_zd zd WHERE zdlx = 'GGLX') s
+        on s.dm = t.gglx
+        <where>
+            and t.sfyx='1'
+            <if test="bt != null and bt != ''">
+                and t.bt like '%'||#{bt}||'%'
+            </if>
+            <if test="gglx !=null and gglx != ''">
+                AND t.gglx = #{gglx}
+            </if>
+        </where>
+        ORDER BY t.sfzd DESC,t.fbsj DESC
+    </select>
+
+    <resultMap id="queryBaseResultMap" type="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglTzgg">
+        <id column="TZGGID" property="tzggid" jdbcType="VARCHAR"/>
+        <result column="BT" property="bt" jdbcType="VARCHAR"/>
+        <result column="ZZ" property="zz" jdbcType="VARCHAR"/>
+        <result column="FBR" property="fbr" jdbcType="VARCHAR"/>
+        <result column="FBSJ" property="fbsj" jdbcType="DATE"/>
+        <result column="GGLX" property="gglx" jdbcType="VARCHAR"/>
+        <result column="WJZXID" property="wjzxid" jdbcType="VARCHAR"/>
+        <result column="SFZD" property="sfzd" jdbcType="VARCHAR"/>
+        <result column="GGNR" property="ggnr"
+                typeHandler="cn.gtmap.msurveyplat.serviceol.config.typehandler.BlobTypeHandler"/>
+    </resultMap>
+
+    <select id="getDchyXmglTzggByTzggid" parameterType="string" resultMap="queryBaseResultMap">
+        SELECT A.TZGGID, A.BT, A.ZZ, pf.USER_NAME AS fbr, A.FBSJ, A.GGLX, A.GGNR, A.WJZXID, A.SFZD,A.SFYX FROM DCHY_XMGL_TZGG A
+         LEFT JOIN pf_user pf
+        ON pf.USER_ID = A.fbr
+        where a.tzggid = #{tzggid,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="updateDchyXmglTzgg" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglTzgg">
+        UPDATE DCHY_XMGL_TZGG t
+        SET t.BT= #{bt,jdbcType=VARCHAR},
+         t.ZZ= #{zz,jdbcType=VARCHAR},
+         t.FBR= #{fbr,jdbcType=VARCHAR},
+         t.FBSJ=  #{fbsj,jdbcType=DATE},
+         t.GGLX= #{gglx,jdbcType=VARCHAR},
+         t.GGNR=  #{ggnr,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.serviceol.config.typehandler.BlobTypeHandler},
+         t.WJZXID= #{wjzxid,jdbcType=DATE},
+        t.SFZD=#{sfzd,jdbcType=VARCHAR}
+        WHERE t.TZGGID= #{tzggid,jdbcType=VARCHAR}
+    </insert>
+
+    <!--获取办事指南通告-->
+    <select id="getBsznTzggListByPage" resultType="map" parameterType="map">
+        SELECT t.tzggid,t.bt,s.mc gglx,pf.USER_NAME AS fbr,t.fbsj,t.sfzd FROM DCHY_XMGL_TZGG t
+        LEFT JOIN pf_user pf
+        ON pf.USER_ID = t.fbr
+        LEFT JOIN
+        (SELECT zd.mc,zd.dm FROM dchy_xmgl_zd zd WHERE zdlx = 'GGLX') s
+        ON s.dm = t.gglx
+        WHERE t.gglx='5' and t.sfyx='1'
+        <if test="bt != null and bt != ''">
+            and t.bt like '%'||#{bt}||'%'
+        </if>
+
+        ORDER BY t.sfzd DESC,t.fbsj DESC
+    </select>
+
+    <select id="getOtherTzggListByPage" resultType="map" parameterType="map">
+        SELECT t.tzggid,t.bt,s.mc gglx,pf.USER_NAME AS fbr,t.fbsj,t.sfzd FROM DCHY_XMGL_TZGG t
+        LEFT JOIN pf_user pf
+        ON pf.USER_ID = t.fbr
+        LEFT JOIN
+        (SELECT zd.mc,zd.dm FROM dchy_xmgl_zd zd WHERE zdlx = 'GGLX') s
+        ON s.dm = t.gglx
+        WHERE t.gglx!='5' and t.sfyx='1'
+        <if test="bt != null and bt != ''">
+            and t.bt like '%'||#{bt}||'%'
+        </if>
+        <choose>
+            <when test="sfzx != null and sfzx != ''">
+                ORDER BY t.sfzd DESC,t.fbsj
+            </when>
+            <otherwise>
+                ORDER BY t.sfzd DESC,t.fbsj DESC
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <insert id="insertDchyXmglTzgg" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglTzgg">
+        insert into DCHY_XMGL_TZGG (TZGGID, BT, ZZ, FBR, FBSJ, GGLX, GGNR, WJZXID, SFZD)
+        values(
+          #{tzggid,jdbcType=VARCHAR},
+          #{bt,jdbcType=VARCHAR},
+          #{zz,jdbcType=VARCHAR},
+          #{fbr,jdbcType=VARCHAR},
+          #{fbsj,jdbcType=DATE},
+          #{gglx,jdbcType=VARCHAR},
+          #{ggnr,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.serviceol.config.typehandler.BlobTypeHandler},
+          #{wjzxid,jdbcType=VARCHAR},
+          #{sfzd,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>

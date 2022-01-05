@@ -1,0 +1,241 @@
+
+c
+java:S1192²"GDefine a constant instead of duplicating this literal "clsxid" 6 times.(·–õıÿÿÿÿ
+R	java:S125ç"<This block of commented-out lines of code should be removed.(òüİÓ
+`
+java:S1192Ö"IDefine a constant instead of duplicating this literal "fileName" 7 times.(¬¼™Ş
+F
+java:S3740Ş"/Provide the parametrized type for this generic.(Ä·ß¤
+E
+java:S3740v"/Provide the parametrized type for this generic.(ˆÎÙ½
+F
+java:S3740‡"/Provide the parametrized type for this generic.(ïà’
+F
+java:S3740ª"/Provide the parametrized type for this generic.(¯‰àë
+F
+java:S3740Æ"/Provide the parametrized type for this generic.(ƒ©¢§
+F
+java:S3740ô"/Provide the parametrized type for this generic.(ïà’
+X
+java:S2259¿"AA "NullPointerException" could be thrown; "map" is nullable here.(Ñ××
+s
+java:S2629"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(¢üÖİ
+J
+java:S3740s"/Provide the parametrized type for this generic.(ğşşÿÿÿÿ
+K
+java:S3740»"/Provide the parametrized type for this generic.(”§Êıÿÿÿÿ
+K
+java:S3740¼"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+l
+java:S1192"PDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› :{}" 3 times.(à¼´†ÿÿÿÿÿ
+X
+java:S3457"AFormat specifiers should be used instead of string concatenation.(šÒ›
+1
+java:S3457¥"Not enough arguments.(à¼´†ÿÿÿÿÿ
+]
+java:S3457Û"AFormat specifiers should be used instead of string concatenation.(ãì¥³úÿÿÿÿ
+n
+java:S3776s"SRefactor this method to reduce its Cognitive Complexity from 261 to the 15 allowed.(ğşşÿÿÿÿ
+X
+java:S3457º"AFormat specifiers should be used instead of string concatenation.(¯Éí¬
+K
+java:S3740Ğ"/Provide the parametrized type for this generic.(ú™ş–şÿÿÿÿ
+s
+java:S2629"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(šÒ›
+i
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(˜œøö
+X
+java:S3457Ú"AFormat specifiers should be used instead of string concatenation.(ÀüÁ
+K
+java:S3740©"/Provide the parametrized type for this generic.(ìúÕûÿÿÿÿ
+N
+java:S2629º"7Use the built-in formatting to construct this argument.(¯Éí¬
+K
+java:S3740«"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+K
+java:S3740½"/Provide the parametrized type for this generic.(¸¡ïûÿÿÿÿ
+K
+java:S3740é"/Provide the parametrized type for this generic.(Ø²¤úÿÿÿÿ
+F
+java:S3740"/Provide the parametrized type for this generic.(ŞêÄ
+K
+java:S3740Ä"/Provide the parametrized type for this generic.(Üòƒâùÿÿÿÿ
+^
+java:S1192à"GDefine a constant instead of duplicating this literal "chgcid" 4 times.(›ĞÕ
+F
+java:S3740ï"/Provide the parametrized type for this generic.(Òöšƒ
+X
+java:S3457î"AFormat specifiers should be used instead of string concatenation.(¶¡Ëù
+F
+java:S3740Æ"/Provide the parametrized type for this generic.(ƒ©¢§
+K
+java:S3740¬"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+_
+java:S1192³"HDefine a constant instead of duplicating this literal "chxmid" 12 times.(€¶¹¹
+K
+java:S3740"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+i
+java:S3776µ"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(Óº¯Œ
+J
+java:S3740M"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+F
+java:S3740Ò"/Provide the parametrized type for this generic.(ïà’
+K
+java:S3740±"/Provide the parametrized type for this generic.(²Ï±²ùÿÿÿÿ
+x
+java:S2629€"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(Ë–Šëÿÿÿÿÿ
+S
+java:S2629¼"7Use the built-in formatting to construct this argument.(¶Û²±üÿÿÿÿ
+Q
+java:S1141Ÿ"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+i
+java:S3776Î"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(„ÛÈş
+N
+java:S2629Ü"7Use the built-in formatting to construct this argument.(Â—Ã¿
+K
+java:S3740Ñ"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+F
+java:S3740"/Provide the parametrized type for this generic.(ïà’
+b
+java:S1192\"GDefine a constant instead of duplicating this literal "sqxxid" 7 times.(öòı¥ÿÿÿÿÿ
+F
+java:S3740Õ"/Provide the parametrized type for this generic.(ïà’
+K
+java:S3740û"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+F
+java:S3740í"/Provide the parametrized type for this generic.(Çˆê
+K
+java:S3740¤"/Provide the parametrized type for this generic.(„Ÿ‘şÿÿÿÿ
+F
+java:S3740¦"/Provide the parametrized type for this generic.(“ÃÆ§
+K
+java:S3740ì"/Provide the parametrized type for this generic.(¡®ÅÖÿÿÿÿÿ
+K
+java:S3740¥"/Provide the parametrized type for this generic.(ÇÄ¿øÿÿÿÿ
+1
+java:S3457²"Not enough arguments.(à¼´†ÿÿÿÿÿ
+j
+java:S4719™"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(«òæÒúÿÿÿÿ
+n
+java:S3776é"RRefactor this method to reduce its Cognitive Complexity from 46 to the 15 allowed.(Ø²¤úÿÿÿÿ
+K
+java:S3740¶"/Provide the parametrized type for this generic.(”›†¾şÿÿÿÿ
+K
+java:S3740À"/Provide the parametrized type for this generic.(‘¤¥™úÿÿÿÿ
+O	java:S106¥"9Replace this use of System.out or System.err by a logger.(¤ï¼à
+F
+java:S3740–"/Provide the parametrized type for this generic.(ïà’
+F
+java:S3740¸"/Provide the parametrized type for this generic.(ïà’
+K
+java:S3740Ï"/Provide the parametrized type for this generic.(ÙäÕşıÿÿÿÿ
+K
+java:S3740Í"/Provide the parametrized type for this generic.(ú™ş–şÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(”„§ä
+F
+java:S3740§"/Provide the parametrized type for this generic.(ïà’
+]
+java:S3457İ"AFormat specifiers should be used instead of string concatenation.(êÉõ¢üÿÿÿÿ
+a
+java:S1192Ú"JDefine a constant instead of duplicating this literal "*********" 4 times.(ÀüÁ
+s
+java:S2629‚"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(¿›éÔ
+K
+java:S3740§"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+K
+java:S3740œ"/Provide the parametrized type for this generic.(ú™ş–şÿÿÿÿ
+P
+java:S11186":Add a private constructor to hide the implicit public one.(óÉÎ
+P
+java:S4719À"9Replace charset name argument with StandardCharsets.UTF_8(€ò­·
+A
+java:S1905U"&Remove this unnecessary cast to "Map".(°ª›üÿÿÿÿ
+]
+java:S1192Ó"FDefine a constant instead of duplicating this literal "bytes" 7 times.(ùˆè·
+S
+java:S2629İ"7Use the built-in formatting to construct this argument.(êÉõ¢üÿÿÿÿ
+F
+java:S3740ë"/Provide the parametrized type for this generic.(É­¤ˆ
+s
+java:S2629î"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(¶¡Ëù
+J
+java:S3740u"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+K
+java:S3740ê"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+E
+java:S3740ú"/Provide the parametrized type for this generic.(³â8
+]
+java:S3457¼"AFormat specifiers should be used instead of string concatenation.(¶Û²±üÿÿÿÿ
+a
+java:S3252¼"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(Ç…”ùÿÿÿÿ
+B
+java:S1905½"&Remove this unnecessary cast to "Map".(¸¡ïûÿÿÿÿ
+R	java:S125Â"<This block of commented-out lines of code should be removed.(†€éˆ
+R	java:S125œ"<This block of commented-out lines of code should be removed.(£Œçè
+T	java:S106ª"9Replace this use of System.out or System.err by a logger.(’ã¼§üÿÿÿÿ
+E
+java:S3740L"/Provide the parametrized type for this generic.(şıÉÅ
+K
+java:S3740ˆ"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+`
+java:S3252T"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(´ÅÖ°şÿÿÿÿ
+F
+java:S3740Ç"/Provide the parametrized type for this generic.(ïà’
+X
+java:S3457‚"AFormat specifiers should be used instead of string concatenation.(¿›éÔ
+X
+java:S3457Ü"AFormat specifiers should be used instead of string concatenation.(Â—Ã¿
+F
+java:S3740¦"/Provide the parametrized type for this generic.(“ÃÆ§
+1
+java:S3457"Not enough arguments.(à¼´†ÿÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(İï˜
+2
+java:S3626³"Remove this redundant jump.(ÉŠ©ƒ
+K
+java:S3740¾"/Provide the parametrized type for this generic.(¢Ä´Øùÿÿÿÿ
+]
+java:S3457€"AFormat specifiers should be used instead of string concatenation.(Ë–Šëÿÿÿÿÿ
+]
+java:S2259¸"AA "NullPointerException" could be thrown; "map" is nullable here.(ºÈ†ñıÿÿÿÿ
+F
+java:S3740“"/Provide the parametrized type for this generic.(ò²¬ƒ
+^
+java:S1192Ô"GDefine a constant instead of duplicating this literal "glsxid" 9 times.(—¬ÛÇ
+X
+java:S3457"AFormat specifiers should be used instead of string concatenation.(¢üÖİ
+j
+java:S4719"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(«òæÒúÿÿÿÿ
+F
+java:S3740é"/Provide the parametrized type for this generic.(ˆÎÙ½
+R	java:S125Ÿ"<This block of commented-out lines of code should be removed.(†€éˆ
+K
+java:S3740¤"/Provide the parametrized type for this generic.(‚Í˜ûÿÿÿÿ
+^
+java:S1192ß"GDefine a constant instead of duplicating this literal "chgcbh" 4 times.(•ÌëÓ
+S
+java:S2629Û"7Use the built-in formatting to construct this argument.(ãì¥³úÿÿÿÿ
+K
+java:S3740¤"/Provide the parametrized type for this generic.(‚Í˜ûÿÿÿÿ
+F
+java:S3740‹"/Provide the parametrized type for this generic.(àĞ¦İ
+F
+java:S3740ª"/Provide the parametrized type for this generic.(Š–‹©
+1
+java:S3457Ã"Not enough arguments.(ªÇ†ıÿÿÿÿ
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(öÒ0
+K
+java:S3740ï"/Provide the parametrized type for this generic.(ÿ†úøÿÿÿÿ
+K
+java:S3740»"/Provide the parametrized type for this generic.(”§Êıÿÿÿÿ
+K
+java:S3740ü"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+W	java:S125Æ"<This block of commented-out lines of code should be removed.(ˆ€æòüÿÿÿÿ
+W	java:S125"<This block of commented-out lines of code should be removed.(ˆ€æòüÿÿÿÿ
+N
+java:S2629Ú"7Use the built-in formatting to construct this argument.(ÀüÁ
+K
+java:S3740ƒ"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+h
+java:S3776L"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(şıÉÅ

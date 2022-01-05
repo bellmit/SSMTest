@@ -1,0 +1,27 @@
+<div class="monitor-main">
+    {{#if organs}}
+    {{#each organs}}
+    {{#if @first}}
+    <div class="organs-wrapper">
+        <button id="organSelBtn" class="btn btn-default"><span id="selBtnTxt">{{{text}}}</span><span
+                class="caret pull-right"></span></button>
+        <button id="removeLocBtn" style="margin-left:5px" class="btn btn-default">取消定位</button>
+    </div>
+    {{/if}}
+    {{/each}}
+    {{/if}}
+    <fieldset>
+
+    </fieldset>
+    <fieldset id="deviceInfo">
+        <legend>设备列表</legend>
+        <!-- todo 当前已选中部门下的设备列表信息-->
+        <div class="device-list">
+        </div>
+    </fieldset>
+
+    <fieldset id="pdaBaseInfo" style="display: none;margin-top: 10px">
+        <legend>基本信息</legend>
+        <!-- todo 选中某个设备之后显示的详细信息-->
+    </fieldset>
+</div>

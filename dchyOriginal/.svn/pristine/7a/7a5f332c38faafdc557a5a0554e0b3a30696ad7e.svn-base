@@ -1,0 +1,18 @@
+<div id="layerSelect" class="form-group" style="margin: 0 0 50px 0">
+    <label class="col-xs-4 control-label text-right">查询图层</label>
+    <div class="col-xs-7">
+        <select id="layersSelect" class="form-control input-sm search-select chosen-select">
+            {{#each layers}}
+            <option value="{{serviceId}}">{{layerName}}</option>
+            {{/each}}
+        </select>
+    </div>
+</div>
+<!--分析操作-->
+<div class="a-opt-container" id="{{id}}" style="border: none;">
+    <a class="btn btn-primary btn-sm" data-opt="draw"><i class="iconfont">&#xe615;</i>手绘</a>
+</div>
+<!--list展示-->
+<div class="a-list-container" id="{{listId}}">
+
+</div>

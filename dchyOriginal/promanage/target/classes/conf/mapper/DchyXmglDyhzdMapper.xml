@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglDyhzdMapper">
+    <select id="getHtxxList" resultType="map" parameterType="map">
+         SELECT cl.clmc, count(cl.fs) fs,cl.cllx FROM dchy_xmgl_sjxx sj
+        INNER JOIN dchy_xmgl_sjcl cl ON cl.sjxxid = sj.sjxxid
+        INNER JOIN dchy_xmgl_htxx c2 ON c2.htxxid = sj.glsxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                c2.chxmid = #{chxmid}
+            </if>
+        </where>
+        GROUP BY  cl.cllx,cl.clmc
+    </select>
+
+    <select id="getQtclxxList" resultType="map" parameterType="map">
+        SELECT cl.clmc,count(cl.fs) fs,cl.cllx FROM dchy_xmgl_sjxx sj
+        LEFT JOIN dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                sj.glsxid = #{chxmid}
+            </if>
+        </where>
+        GROUP BY  cl.cllx,cl.clmc
+    </select>
+
+    <select id="getHtxxListByHtxxidAndChxmid" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT cl.clmc FROM dchy_xmgl_sjxx sj
+        INNER JOIN dchy_xmgl_sjcl cl ON cl.sjxxid = sj.sjxxid
+        INNER JOIN dchy_xmgl_htxx c2 ON c2.htxxid = sj.glsxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                c2.chxmid = #{chxmid}
+            </if>
+            <if test="htxxid != null and htxxid !=''">
+                c2.htxxid = #{htxxid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSjclxxList" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT cl.clmc FROM dchy_xmgl_sjxx sj
+        LEFT JOIN dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                sj.glsxid = #{chxmid}
+            </if>
+            <if test="sjclid != null and sjclid !=''">
+                cl.sjclid = #{sjclid}
+            </if>
+        </where>
+    </select>
+</mapper>
+
+

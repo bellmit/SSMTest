@@ -1,0 +1,53 @@
+<template>
+    <div class="pdf">
+        <div>
+            <Button type="primary" class="btn-h-34 bdc-major-btn margin-left-10" @click="deliverData">确认交付</Button>
+        </div>
+        <iframe :src="urlSrc" style="width: 100%;min-height: calc(100vh - 6px)" frameborder="0"></iframe>
+    </div>
+</template>
+<script>
+import { isdeleiverData, deliverData } from "../../service/manage"
+export default {
+    data() {
+        return {
+            urlSrc: "",
+            chxmid: ""
+        }
+    },
+    mounted() {
+        this.chxmid = this.$route.query.chxmid || "";
+        this.urlSrc = this.$route.query.url || "";
+    },
+    methods: {
+        deliverData(){
+            layer.confirm("确认交付?", (index) => {
+                let params = {
+                    chxmid: this.chxmid
+                }
+                layer.close(index)
+                this.$loading.show("加载中...")
+                deliverData(params).then(res => {
+                    this.$loading.close();
+                    layer.msg("交付成功")
+                    window.close();
+                }) 
+            })
+        }
+    }
+}
+</script>
+<style scoped>
+    .pdf {
+        background-color: #666;
+        position: relative;
+    }
+    .bdc-major-btn {
+        position: absolute;
+        right: 150px;
+        margin-top: 13px;
+    }
+    .bdc-major-btn:hover {
+        background-color: #2d8cf0!important;
+    }
+</style>

@@ -1,0 +1,45 @@
+{
+  "规划竣工测量": [{
+    "title": "规划竣工地下室",
+    "dm": "DCHYYZJK.GHJG_DXS",
+	"id": "5"
+  }, {
+    "title": "规划竣工房屋面",
+    "dm": "DCHYZJK.GHJG_FCFW",
+	"id": "3"
+  }, {
+    "title": "规划竣工基地面积",
+    "dm": "DCHYZJK.GHJG_JDMJ",
+	"id": "8"
+  }, {
+    "title": "规划竣工范围",
+    "dm": "DCHYZJK.GHJG_JGFW",
+	"id": "9"
+  }, {
+    "title": "规划竣工绿地面积图",
+    "dm": "DCHYZJK.GHJG_LDMJ",
+	"id": "7"
+  }, {
+    "title": "规划竣工内部道路",
+    "dm": "DCHYZJK_GHJG_NBDL",
+	"id": "4"
+  }],
+  "地籍测量": [{
+    "title": "界址点",
+    "dm": "DCHYYZJK.DJCH_ZJD",
+	"id": "0"
+  }, {
+    "title": "宗地",
+    "dm": "DCHYZJK.DJCH_ZD",
+	"id": "6"
+  }],
+  "房产测量": [{
+    "title": "地下室范围",
+    "dm": "DCHYZJK.FCCH_DXS",
+	"id": "1"
+  }, {
+    "title": "房屋基地范围",
+    "dm": "DCHYZJK.FCCH_FWJD",
+	"id": "2"
+  }]
+}

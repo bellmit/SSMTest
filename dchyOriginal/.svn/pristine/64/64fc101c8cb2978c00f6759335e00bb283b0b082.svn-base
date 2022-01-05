@@ -1,0 +1,10 @@
+layers:
+- name: 'DLTB_H_2016'
+  dataSource: 'tdly1'
+  where : " DLBM ='101' or DLBM ='102' or DLBM ='105' or DLBM ='106' or DLBM ='107' or DLBM ='113' or DLBM ='118' or DLBM ='201' or DLBM ='202' or DLBM ='203' or DLBM ='204' or DLBM ='205'"
+  enable: true
+- name: 'dzzh'
+  dataSource: 'tdly'
+  enable: "false"
+
+

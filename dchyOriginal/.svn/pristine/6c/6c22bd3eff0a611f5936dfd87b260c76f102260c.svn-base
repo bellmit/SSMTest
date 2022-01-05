@@ -1,0 +1,243 @@
+
+@media screen and (min-width: 320px) {
+    html {
+        font-size: 12px;
+    }
+
+    body {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 346px) {
+    html {
+        font-size: 13px;
+    }
+
+    body {
+        font-size: 13px;
+    }
+}
+
+@media screen and (min-width: 352px) {
+    html {
+        font-size: 14px;
+    }
+
+    body {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 400px) {
+    html {
+        font-size: 15px;
+    }
+
+    body {
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-width: 480px) {
+    html {
+        font-size: 18px;
+    }
+
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 560px) {
+    html {
+        font-size: 21px;
+    }
+
+    body {
+        font-size: 21px;
+    }
+}
+
+@media screen and (min-width: 640px) {
+    html {
+        font-size: 24px;
+    }
+
+    body {
+        font-size: 24px;
+    }
+}
+
+.clearBoth:after,
+.clearBoth:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    /*height: 4.16666667rem;*/
+    height: 60px;
+    background-color: #05A9F4;
+    text-align: center;
+    position: relative;
+    top: 0;
+    left: 0;
+    line-height: 1.6;
+    display: none;
+}
+
+.header h1 {
+    /*line-height: 4.16666667rem;*/
+    line-height: 60px;
+    color: #fff;
+    /*font-size: 1.33333333rem;*/
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.header .back {
+    /*font-size: 1.33333333rem;*/
+    /*top: 1rem;*/
+    /*left: 1.25rem;*/
+    font-size: 30px;
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+}
+
+.step {
+    margin-bottom: 1rem;
+    padding: 0 0.16666667rem;
+    box-sizing: border-box;
+    display: none;
+}
+
+.step li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    font-size:14px;
+    color: #D5D5D5;
+    line-height: 2.08333333rem;
+    margin-top: 0.83333333rem;
+}
+
+.step .active {
+    color: #05A9F4;
+}
+
+.step img {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.step .step_img {
+    width: 78%;
+}
+
+.order_step {
+    display: block;
+}
+
+.step_five li {
+    width: 20%;
+    font-size: 0.70833333rem;
+}
+
+.show_step {
+    display: block;
+}
+
+.modal-alert-mask {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0.6;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+.modal-alert-box {
+    position: fixed;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    overflow: hidden;
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    margin: 0;
+    z-index: 2000;
+    opacity: 1;
+    /*height: 300px;*/
+    width: 530px;
+    border-radius: 15px;
+    padding-bottom: 140px;
+}
+.modal-alert-box .alert-box-header {
+    padding: 30px 30px 0px 30px;
+    text-align: center;
+    font-size: 36px;
+    color: #333;
+}
+.modal-alert-box .alert-box-header .alert-box-title {
+    font-size: 36px;
+    font-weight: 400;
+}
+.modal-alert-box .alert-box-content {
+    text-align: center;
+    padding: 1.6em .8em;
+    min-height: 2rem;
+    line-height: 2rem;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #666;
+    font-size: 32px;
+}
+.modal-alert-box .alert-box-footer {
+    width: 100%;
+    text-align: center;
+    height: 120px;
+    position: absolute;
+    bottom: 0;
+}
+.modal-alert-box .alert-box-btn {
+    display: inline-block;
+    font-size: 28px;
+    border-radius: 5px;
+    height: 64px;
+    line-height: 64px;
+    padding: 0 30px;
+    color: #ffffff;
+    background-color: #1d87d1;
+    margin: 20px 30px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-alert-box .alert-box-btn-cancel{
+    background: #f3f4f6;
+    color: #666666;
+}

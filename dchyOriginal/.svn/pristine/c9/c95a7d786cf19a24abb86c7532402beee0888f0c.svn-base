@@ -1,0 +1,10 @@
+<div>
+    <button type="button" class="close" aria-hidden="true">
+        &times;
+    </button>
+    <div style="font-size: 18px" class="control-label">
+        {{title}}
+    </div>
+    <div class="split-line">
+    </div>
+</div>

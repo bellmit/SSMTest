@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.XsbfDchyXmglHtxxMapper">
+
+    <!--根据chxmid,chdwxxid查询合同信息-->
+    <select id="queryHtxxByChxmidAndChdwxxid" resultType="map" parameterType="map">
+        SELECT x.WJZXID FROM DCHY_XMGL_HTXX x
+        INNER JOIN DCHY_XMGL_HTXX_CHDWXX_GX g
+        ON x.htxxid=g.htxxid
+        <where>
+            <if test="chxmid != null and chxmid != ''">
+                and x.chxmid = #{chxmid}
+            </if>
+            <if test="chdwxxid != null and chdwxxid != ''">
+                and g.chdwxxid = #{chdwxxid}
+            </if>
+
+        </where>
+        ORDER BY x.basj DESC NULLS LAST
+    </select>
+
+
+
+</mapper>

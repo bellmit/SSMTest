@@ -1,0 +1,230 @@
+<template>
+    <div class="upload-info">
+        <configTable
+            ref="config-table"
+            :data="uploadList" 
+            :deleteColumns="deleteColumns"
+            :SSCLSXList="SSCLSXList"
+            @radio="selectOne"
+            @select="selectType"
+            @select-clsx="selectClsx"
+            @tooladd="add"
+            @tooldelete="deleteFile"
+            @selectall="selectAll"
+            @save="saveFile"
+            @required="requiredChange"
+        ></configTable>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import configTable from "../table/config-table"
+import util from "../../service/util";
+import { editConfig, deleteConfig } from "../../service/config"
+import { deleteFjList } from "../../service/manage";
+export default {
+    name: "uploadFile",
+    components: {
+        configTable
+    },
+    props: {
+        type: {
+            type: String,
+            default: ""
+        },
+        deleteColumns: { // 需要隐藏的列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        SSCLSXList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        ssmkid: { // 所属模块
+            type: String,
+            default: ""
+        },
+        uploadList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        index: {
+            type: Number,
+            default: 0
+        },
+        mlkid: { // 关联事项id
+            type: String,
+            default: ""
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            fileRule: {},
+            curSjxxid: "",
+            deleteAll: false
+        }
+    },
+    methods: {
+        // 选择一个文件
+        selectOne(file){
+            this.deleteAll = false;
+            let selectedFile = [...this.selectedFile]
+            if(file.checked){
+                selectedFile.push(file);
+            }else {
+                this.selectedFile.forEach((select,index) => {
+                    if(select.clid == file.clid){
+                        selectedFile.splice(index,1)
+                    }
+                })
+            }
+            this.selectedFile = [...selectedFile]
+        },
+        // 选择文件类型
+        selectType(data){
+            this.uploadList[data.index].CLLXID = data.CLLXID;
+        },
+        // 选择测量事项
+        selectClsx(data){
+            this.uploadList[data.index].SSCLSX = data.SSCLSXID;
+        },
+        // 修改必填
+        requiredChange(data){
+            data.SFBT ? this.uploadList[data.index].NEED = 1: this.uploadList[data.index].NEED = 0;
+        },
+        add(){
+            let newFile = {
+                MRFS: 1,
+                SFBT: false,
+                NEED: 0,
+                CLLXID: "2",
+                XH: this.uploadList.length + 1,
+                SSMKID: this.ssmkid,
+                sjclpzid: null
+            }
+            newFile.clid = util.createUUID();
+            newFile.SJCLID = util.createUUID();
+            this.uploadList.push({...newFile});
+        },
+        // 删除文件
+        deleteFile(){
+            // 删除上传材料
+            if(!this.selectedFile.length){
+                this.layer.msg("请先选择一项");
+                return;
+            }
+            layer.confirm("确认删除？",(index) => {
+                layer.close(index)
+                // 判断是否全部删除
+                if(this.deleteAll){
+                    let deleteFile = this.uploadList.map(upload => upload.SJCLPZID)
+                    this.$loading.show("删除中...")
+                    deleteConfig(deleteFile).then(res => {
+                        this.$loading.close();
+                        this.selectedFile = [];
+                        this.deleteAll = false;
+                        this.$emit("update");
+                        this.$refs["config-table"].setReadonly();
+                    })
+                }else {
+                    let deleteFile = this.selectedFile.map(upload => upload.SJCLPZID)
+                    this.$loading.show("删除中...")
+                    deleteConfig(deleteFile).then(res => {
+                        layer.msg("删除成功")
+                        this.$loading.close();
+                        this.$emit("update");
+                        this.$refs["config-table"].setReadonly();
+                        this.selectedFile = [];
+                    })
+                }
+            })
+        },
+        // 保存
+        saveFile(){
+            let hasError = false;
+            this.uploadList.forEach(upload => {
+                if(!upload.CLMC){
+                    hasError = true
+                    this.$error.show("材料名称不能为空")
+                    return
+                } else if(this.type == 'wt' && !upload.SSCLSXID){
+                    hasError = true
+                    this.$error.show("所属测量事项不能为空")
+                    return
+                } else if(!upload.CLLXID){
+                    hasError = true
+                    this.$error.show("材料类型不能为空")
+                    return
+                }
+            })
+            if(!hasError){
+                let list = []
+                this.uploadList.forEach(upload => {
+                    let up = {}
+                    for (let key in upload) {
+                        up[_.toLower(key)] = upload[key];
+                        up.cllx = up.cllxid;
+                        up.ssclsx = up.ssclsxid;
+                    }
+                    list.push(up)
+                })
+                let params = list
+                this.$loading.show("保存中...")
+                editConfig(params).then(res => {
+                    layer.msg("保存成功")
+                    this.$loading.close();
+                    this.$emit("update");
+                    this.$refs["config-table"].setReadonly();
+                })
+            }
+        },
+        // 选择所有附件
+        selectAll(select){
+            let uploadList = this.uploadList;
+            uploadList.forEach(upload => {
+                if(select){
+                    upload.checked = true;
+                }else {
+                    upload.checked = false;
+                }
+            })
+            this.$emit("update",{
+                uploadList: [...uploadList],
+                index: this.index
+            })
+            this.selectedFile = [...uploadList];
+            this.deleteAll = true;
+        },
+        getWjzxid(){
+            let wjzxid = this.uploadList.length ? this.uploadList[0].WJZXID : ""
+            return wjzxid
+        }
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

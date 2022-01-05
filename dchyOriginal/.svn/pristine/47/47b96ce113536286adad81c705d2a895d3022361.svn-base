@@ -1,0 +1,45 @@
+<div class="widgets-box">
+    <div class="pull-left tree-widgets">
+        <div style="border-bottom: solid 1px #ABD6FF;padding: 5px;text-align: right;">
+            <button type="button" id="createWidgetBtn" class="btn btn-primary btn-sm ">
+                <span class="fa fa-book">&nbsp;自定义</span>
+            </button>&nbsp;
+            <button type="button" id="addWidgetBtn" class="btn btn-success btn-sm ">
+                <span class="fa fa-plus"><b>&nbsp;添加</b></span>
+            </button>
+        </div>
+        <div id="treeScroll">
+            <div class="dd  clear-fix" id="nestable3">
+                <div class="dd-handle1 dd3-handle"></div>
+                <div class="dd3-content">模板功能配置</div>
+            </div>
+        </div>
+    </div>
+    <div class="pull-left widget-config">
+        <div>
+            <!-- Nav tabs -->
+            <ul id="myTabs" class="nav nav-tabs nav-tabs1" role="tablist" style="border-bottom: #ABD6FF solid 2px;">
+                <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">视图</a>
+                </li>
+                <li role="presentation"><a href="#source" aria-controls="source" role="tab"
+                                                          data-toggle="tab">源码</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div id="viewScoll">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="view">
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="source">
+                        <iframe id="jsonFrame" name="jsonFrame" src="/omp/config/json/view" frameborder="0" width="100%"
+                                style="min-height: 480px;margin-bottom: 0px">
+                        </iframe>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

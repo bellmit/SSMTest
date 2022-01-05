@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglCzrzMapper">
+
+    <select id="queryXtCzrzListByPage" parameterType="map" resultType="map">
+        select t.czrzid,t.czsj,t.czr,t.czlx,t.ssmkid,t.czcs,t.czlxmc from dchy_xmgl_czrz t
+        left join dchy_xmgl_Zd zd
+        on zd.dm = t.ssmkid
+        and zd.zdlx='SSMKID'
+        <where>
+            <if test="kssj !=null and kssj !=''">
+                AND t.czsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+            <if test="jssj !=null and jssj !=''">
+                AND t.czsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+
+            <if test="czlx != null and czlx !=''">
+                AND t.czlx = #{czlx}
+            </if>
+
+            <if test="ssmkid != null and ssmkid !=''">
+                AND t.ssmkid = #{ssmkid}
+            </if>
+        </where>
+    </select>
+
+</mapper>

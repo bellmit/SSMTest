@@ -1,0 +1,76 @@
+
+o
+java:S3776õ"SRefactor this method to reduce its Cognitive Complexity from 103 to the 15 allowed.(‹÷€Ôÿÿÿÿÿ
+h
+java:S3776¼"RRefactor this method to reduce its Cognitive Complexity from 65 to the 15 allowed.( ‘d
+F
+java:S3740„"/Provide the parametrized type for this generic.(­ÚŠ
+c
+java:S1192„"GDefine a constant instead of duplicating this literal "htxxid" 8 times.(µ³à½øÿÿÿÿ
+n	java:S116;"TRename this field "SEPARATOR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äª£¸üÿÿÿÿ
+K
+java:S3740Í"/Provide the parametrized type for this generic.(’ëÚıÿÿÿÿ
+i
+java:S3776¸"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(…Ä¥‰
+i
+java:S3776Â"RRefactor this method to reduce its Cognitive Complexity from 65 to the 15 allowed.(í±Óò
+F
+java:S3740Ã"/Provide the parametrized type for this generic.(”Äş
+b
+java:S1192C"GDefine a constant instead of duplicating this literal "chxmid" 6 times.(§ãÁİùÿÿÿÿ
+K
+java:S3740¶"/Provide the parametrized type for this generic.(––³Ìøÿÿÿÿ
+K
+java:S3740ú"/Provide the parametrized type for this generic.(½±¿¬úÿÿÿÿ
+K
+java:S3740é"/Provide the parametrized type for this generic.(’ëÚıÿÿÿÿ
+K
+java:S3740Â"/Provide the parametrized type for this generic.(­Ç©¸ûÿÿÿÿ
+K
+java:S3740é"/Provide the parametrized type for this generic.(ë‘¤Çúÿÿÿÿ
+G
+java:S1172ı"+Remove this unused method parameter "jsrq".(ŒãŞÃúÿÿÿÿ
+F
+java:S3740Š"/Provide the parametrized type for this generic.(üÍƒ„
+F
+java:S3740›"/Provide the parametrized type for this generic.(Ì­şî
+n
+java:S3776ı"RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(ŒãŞÃúÿÿÿÿ
+^
+java:S1192†"GDefine a constant instead of duplicating this literal "clsxdm" 4 times.(Ëø«Ü
+<
+java:S1170;"!Make this final field static too.(äª£¸üÿÿÿÿ
+E
+java:S3740¼"/Provide the parametrized type for this generic.( ‘d
+K
+java:S3740«"/Provide the parametrized type for this generic.(ë‘¤Çúÿÿÿÿ
+K
+java:S3740Ñ"/Provide the parametrized type for this generic.(½±¿¬úÿÿÿÿ
+c
+java:S1192©"GDefine a constant instead of duplicating this literal "glsxid" 3 times.( •ü©úÿÿÿÿ
+I
+java:S1172Ï"-Remove this unused method parameter "chxmid".(³ó•ùûÿÿÿÿ
+n
+java:S3776é"RRefactor this method to reduce its Cognitive Complexity from 70 to the 15 allowed.(ü‹Íßşÿÿÿÿ
+7
+java:S1170:"!Make this final field static too.(­šÑù
+K
+java:S3740Ó"/Provide the parametrized type for this generic.(Ë£ƒ¾şÿÿÿÿ
+^
+java:S1192Å"GDefine a constant instead of duplicating this literal "chdwid" 3 times.(¯ïÊ“
+c
+java:S1192"GDefine a constant instead of duplicating this literal "sqxxid" 3 times.(ªöê²ÿÿÿÿÿ
+R	java:S125…"<This block of commented-out lines of code should be removed.(í‰Î
+n
+java:S3776Ï"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(³ó•ùûÿÿÿÿ
+g	java:S116:"RRename this field "DELETED" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­šÑù
+i
+java:S3776“"RRefactor this method to reduce its Cognitive Complexity from 70 to the 15 allowed.(ôóæÚ
+F
+java:S3740ô"/Provide the parametrized type for this generic.(Ç”ú¥
+F
+java:S3740Ø"/Provide the parametrized type for this generic.(Ç”ú¥
+M
+java:S1066§"/Merge this if statement with the enclosing one.(Áœ¬û8Õç§‡š/
+V
+java:S1128"6Remove this unused import 'org.omg.CORBA.OBJ_ADAPTER'.(Çğ¯¹øÿÿÿÿ8Õç§‡š/

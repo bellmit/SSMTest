@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.exchange.mapper.PlatFormMapper">
+    <!-- 获取待办任务 -->
+    <select id="getTaskListByPage" parameterType="Map" resultMap="taskList">
+        select v.WORKFLOW_INSTANCE_ID proc_ins_id,v.ASSIGNMENT_ID
+        taskId,t.text1,t.text2,t.text3,t.text4,t.text5,t.text6,t.text10,v.WORKFLOW_NAME text7,v.ACTIVITY_NAME
+        text8,t.text9,v.ISBACK state
+        from v_tasklist v left join ACT_ST_PRO_REL t
+        on v.WORKFLOW_INSTANCE_ID = t.proc_ins_id
+        <where>
+            <if test="userIds !=null and userIds.size >0">
+                and v.USER_ID in
+                <foreach collection="userIds" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </if>
+            <if test="slbh !=null and slbh !=''">
+                and t.text1 like '%'||#{slbh}||'%'
+            </if>
+            <if test="jsdw !=null and jsdw !=''">
+                and t.text2 like '%'||#{jsdw}||'%'
+            </if>
+            <if test="chdw !=null and chdw !=''">
+                and t.text3 like '%'||#{chdw}||'%'
+            </if>
+            <if test="xmdz !=null and xmdz !=''">
+                and t.text4 like '%'||#{xmdz}||'%'
+            </if>
+            <if test="slr !=null and slr !=''">
+                and t.text5 like '%'||#{slr}||'%'
+            </if>
+            <if test="lcmc !=null and lcmc !=''">
+                and V.WORKFLOW_NAME = #{lcmc}
+            </if>
+        </where>
+        order by v.BEGIN_TIME desc
+    </select>
+    <resultMap id="taskList" type="cn.gtmap.msurveyplat.common.dto.TaskExtendDto">
+        <result property="text2" column="text2" javaType="java.lang.String" jdbcType="CLOB"/>
+    </resultMap>
+
+    <!-- 获取已办任务 -->
+    <select id="getTaskOverListByPage" parameterType="Map" resultMap="taskList">
+        SELECT V.WORKFLOW_INSTANCE_ID PROC_INS_ID,V.ASSIGNMENT_ID
+        TASKID,T.TEXT1,T.TEXT2,T.TEXT3,T.TEXT4,T.TEXT5,T.TEXT6,T.TEXT10,V.WORKFLOW_NAME TEXT7,V.ACTIVITY_NAME
+        TEXT8,T.TEXT9,V.WORKFLOW_STATE state
+        FROM V_TASKOVERLIST V LEFT JOIN ACT_ST_PRO_REL T
+        ON V.WORKFLOW_INSTANCE_ID = T.PROC_INS_ID
+        <where>
+            <if test="userIds !=null and userIds.size >0">
+                and v.USER_ID in
+                <foreach collection="userIds" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </if>
+            <if test="slbh !=null and slbh !=''">
+                and t.text1 like '%'||#{slbh}||'%'
+            </if>
+            <if test="jsdw !=null and jsdw !=''">
+                and t.text2 like '%'||#{jsdw}||'%'
+            </if>
+            <if test="chdw !=null and chdw !=''">
+                and t.text3 like '%'||#{chdw}||'%'
+            </if>
+            <if test="xmdz !=null and xmdz !=''">
+                and t.text4 like '%'||#{xmdz}||'%'
+            </if>
+            <if test="slr !=null and slr !=''">
+                and t.text5 like '%'||#{slr}||'%'
+            </if>
+            <if test="lcmc !=null and lcmc !=''">
+                and V.WORKFLOW_NAME = #{lcmc}
+            </if>
+        </where>
+        order by v.FINISH_TIME desc
+    </select>
+
+    <!-- 获取项目列表 -->
+    <select id="getProjectListByPage" parameterType="Map" resultMap="projectList">
+        select v.WORKFLOW_DEFINITION_ID procDefId,v.WORKFLOW_INSTANCE_ID procInsId,t.text9 projectId,v.WORKFLOW_NAME
+        processInstanceName,t.text1,t.text2,t.text3,t.text4,t.text5,t.text6,t.text10,v.WORKFLOW_NAME
+        text7,t.text9,v.WORKFLOW_STATE procStatus
+        from V_PROJECTLIST v left join ACT_ST_PRO_REL t
+        on v.WORKFLOW_INSTANCE_ID = t.proc_ins_id
+        <where>
+            <!--<if test="userIds !=null and userIds.length >0">
+                and v.USER_ID in
+                <foreach collection="userIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if> -->
+            <if test="slbh !=null and slbh !=''">
+                and t.text1 like '%'||#{slbh}||'%'
+            </if>
+            <if test="jsdw !=null and jsdw !=''">
+                and t.text2 like '%'||#{jsdw}||'%'
+            </if>
+            <if test="chdw !=null and chdw !=''">
+                and t.text3 like '%'||#{chdw}||'%'
+            </if>
+            <if test="xmdz !=null and xmdz !=''">
+                and t.text4 like '%'||#{xmdz}||'%'
+            </if>
+            <if test="slr !=null and slr !=''">
+                and t.text5 like '%'||#{slr}||'%'
+            </if>
+            <if test="lcmc !=null and lcmc !=''">
+                and V.WORKFLOW_NAME = #{lcmc}
+            </if>
+        </where>
+        order by v.CREATE_TIME desc
+    </select>
+    <resultMap id="projectList" type="cn.gtmap.msurveyplat.common.dto.ProcessInsWithProjectDto">
+        <result property="text2" column="text2" javaType="java.lang.String" jdbcType="CLOB"/>
+    </resultMap>
+
+    <select id="getRoleList" resultType="com.gtis.plat.vo.PfRoleVo" parameterType="map">
+        SELECT role_id,role_name FROM (
+        SELECT t.role_id,t.role_name FROM pf_role t
+        INNER JOIN pf_user_role_rel r ON r.role_id=t.role_id
+        INNER JOIN pf_user u ON u.user_id=r.user_id
+        INNER JOIN pf_user_organ_rel g ON g.user_id=u.user_id
+        INNER JOIN pf_organ o ON o.organ_id=g.organ_id
+        <where>
+            <if test="organId != null and organId != ''">
+                and o.organ_id=#{organId}
+            </if>
+        </where>
+        ) GROUP BY role_id,role_name
+    </select>
+
+    <select id="getProcessInfoBySlbh" parameterType="map" resultType="map">
+        select v.ACTIVITY_NAME AS hj,
+        v.WORKFLOW_INSTANCE_NAME AS slbh,
+        p.user_name AS blry,
+        v.FINISH_TIME AS blsj
+        from V_TASKOVERLIST v
+        left join pf_user p
+        on p.user_id = v.user_id
+        <where>
+            <choose>
+                <when test="slbh != null and slbh != ''">
+                    and v.WORKFLOW_INSTANCE_NAME = #{slbh}
+                </when>
+                <otherwise>
+                    and v.WORKFLOW_INSTANCE_NAME = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryUserByUsernameByPage" resultType="map" parameterType="map">
+
+        <choose>
+            <when test="roleid != null and roleid != ''">
+                SELECT s.userid,
+                pf.USER_NAME AS lxr,
+                pf.LOGIN_NAME AS username,
+                pf.MOBILE_PHONE AS lxdh,
+                s.js,
+                s.roles,
+                pf.IS_VALID AS sfqy
+                FROM (select t.user_id AS userid, wm_concat(r.role_name) AS js,wm_concat(r.role_id) AS roles
+                FROM pf_user t
+                LEFT JOIN PF_USER_ROLE_REL rel
+                ON rel.USER_ID = t.USER_ID
+                LEFT JOIN PF_ROLE r
+                ON r.ROLE_ID = rel.ROLE_ID
+                LEFT JOIN dchy_xmgl_yhdw yh
+                ON yh.yhid = t.user_id
+                WHERE t.user_id NOT IN
+                (SELECT user_id
+                FROM PF_USER_ROLE_REL
+                WHERE ROLE_ID = #{roleid})
+                <choose>
+                    <when test="dwbh != null and dwbh != ''">
+                        and yh.DWBH = #{dwbh}
+                    </when>
+                    <otherwise>
+                        and yh.DWBH ='emptyParamValue'
+                    </otherwise>
+                </choose>
+                GROUP BY t.user_id) s
+                LEFT JOIN pf_user pf
+                ON pf.user_id = s.userid
+                <where>
+                    <if test="username != null and username != ''">
+                        and pf.LOGIN_NAME like '%'||#{username}||'%'
+                    </if>
+                    <if test="lxr != null and lxr != ''">
+                        and pf.USER_NAME like '%'||#{lxr}||'%'
+                    </if>
+                </where>
+            </when>
+            <otherwise>
+                SELECT s.userid,
+                pf.USER_NAME AS lxr,
+                pf.LOGIN_NAME AS username,
+                pf.MOBILE_PHONE AS lxdh,
+                s.js,
+                s.roles,
+                pf.IS_VALID AS sfqy
+                FROM (select t.user_id AS userid, wm_concat(r.role_name) AS js,wm_concat(r.role_id) AS roles
+                FROM pf_user t
+                LEFT JOIN PF_USER_ROLE_REL rel
+                ON rel.USER_ID = t.USER_ID
+                LEFT JOIN PF_ROLE r
+                ON r.ROLE_ID = rel.ROLE_ID
+                LEFT JOIN dchy_xmgl_yhdw yh
+                ON yh.yhid = t.user_id
+                WHERE t.user_id NOT IN
+                (SELECT user_id
+                FROM PF_USER_ROLE_REL
+                WHERE ROLE_ID = #{roleid})
+                <choose>
+                    <when test="dwbh != null and dwbh != ''">
+                        and yh.DWBH = #{dwbh}
+                    </when>
+                    <otherwise>
+                        and yh.DWBH ='emptyParamValue'
+                    </otherwise>
+                </choose>
+                GROUP BY t.user_id) s
+                LEFT JOIN pf_user pf
+                ON pf.user_id = s.userid
+                WHERE pf.LOGIN_NAME ='emptyParamValue'
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="queryActivityidByGzljdid" resultType="string" parameterType="map">
+        select distinct ac.activity_id
+        from Pf_Assignment ass
+        left join Pf_Activity ac
+        on ac.activity_id = ass.activity_id
+        <where>
+            AND ass.user_id !=#{userid}
+            <choose>
+                <when test="gzljdid != null and gzljdid != ''">
+                    and ac.activity_definition_id = #{gzljdid}
+                </when>
+                <otherwise>
+                    and ac.activity_definition_id = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

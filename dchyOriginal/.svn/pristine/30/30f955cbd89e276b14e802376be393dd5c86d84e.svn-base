@@ -1,0 +1,304 @@
+<template>
+    <div>
+        <Header :showUser="false"></Header>
+        <div class="bdc-container register-container">
+            <div class="container">
+                <div class="form-title">
+                    <div class="list-title">单位信息</div>
+                </div>
+                <Form :model="companyForm" class="form-edit" @on-validate="validateChecked" :rules="formRule" :label-width="162">
+                    <Row>
+                        <i-col span="8">
+                            <FormItem label="法人类型 " prop="frlx">
+                                <Input v-model="companyForm.frlx"/>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="单位名称 " prop="dwmc">
+                                <Input v-model="companyForm.dwmc"/>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="统一社会信用代码 " prop="tyshxydm">
+                                <Input v-model="companyForm.tyshxydm"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                     <Row>
+                        <i-col span="8">
+                            <FormItem label="法定代表人姓名 " prop="fddbrxm">
+                                <Input v-model="companyForm.fddbrxm"/>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="证件类型 " prop="zjlx">
+                                <Select v-model="companyForm.zjlx">
+                                    <Option v-for="(zjlx) in zjlxList" :key="zjlx.DM" :value="zjlx.DM">{{zjlx.MC}}</Option>
+                                </Select>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="法定代表人证件号码 " prop="fddbrzjhm">
+                                <Input v-model="companyForm.fddbrzjhm"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                </Form>
+                <div class="form-title margin-top-10">
+                    <div class="list-title">个人信息</div>
+                </div>
+                <Form :model="companyForm" class="form-edit" @on-validate="validateChecked" :rules="formRule" :label-width="162">
+                     <Row>
+                        <i-col span="8">
+                            <FormItem label="姓名 " prop="xm">
+                                <Input v-model="companyForm.xm"/>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="证件类型 " prop="grzjlx">
+                                <Select v-model="companyForm.grzjlx">
+                                    <Option v-for="(zjlx) in zjlxList" :key="zjlx.DM" :value="zjlx.DM">{{zjlx.MC}}</Option>
+                                </Select>
+                            </FormItem>
+                        </i-col>
+                        <i-col span="8">
+                            <FormItem label="证件号码 " prop="zjhm">
+                                <Input v-model="companyForm.zjhm"/>
+                            </FormItem>
+                        </i-col>
+                    </Row>
+                </Form>
+                <div class="form-title margin-top-10">
+                    <div class="list-title">附件材料</div>
+                </div>
+                <uploadTableCommon
+                    :data="uploadList" 
+                    :showDefaultTool="false"
+                    :columns="columns"
+                    @upload="uploadFile"
+                    @deleteFj="deleteFj"
+                ></uploadTableCommon>
+                <div class="save-btn margin-top-20">
+                    <Button class="bdc-major-btn btn-height-32" type="primary" @click="authorizeClick()">确定</Button>
+                    <Button class="btn-cancel btn-height-32 margin-left-10" @click="cancelClick()">取消</Button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import uploadTableCommon from "../../components/table/upload-table-common"
+import { getUploadList, saveUploadFile, deleteFile } from "../../service/login";
+import { getDictInfo } from "../../service/home";
+import _ from "loadsh"
+export default {
+    components: {
+        uploadTableCommon
+    },
+    data() {
+        const _self = this;
+        return {
+            companyForm: {
+                frlx: "",
+                dwmc: "",
+                tyshxydm: "",
+                fddbrxm: "",
+                zjlx: "",
+                fddbrzjhm: "",
+                xm: "",
+                grzjlx: "",
+                zjhm: ""
+            },
+            zjlxList: [],
+            formRule: {
+                frlx: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                dwmc: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                tyshxydm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                fddbrxm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                zjlx: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                fddbrzjhm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                xm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                grzjlx: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                zjhm: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+            },
+            uploadList: [
+                {
+                    CLMC: "授权委托书",
+                    FS: 1,
+                    NEED: 1
+                }
+            ],
+            columns: [
+                {
+                    title: "材料名称",
+                    field: "CLMC",
+                    width: '25%'
+                },
+                {
+                    title: "份数",
+                    field: "FS"
+                },
+                {
+                    title: "类型",
+                    field: "CLLX",
+                    type: "select",
+                    value: "DM",
+                    label: "MC",
+                    options: []
+                },
+                {
+                    title: "操作",
+                    field: "operation",
+                    type: "operation"
+                }
+            ],
+            chooseUploadFile: [],
+            glsxid: "",
+            ssmkid: "",
+            error: "",
+            token: "",
+            lastSubmit: false
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.token = this.$route.query.token || ""
+    },
+    methods: {
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLLX"]
+            }
+            getDictInfo(params).then(res => {
+                this.zjlxList = res.data.dataList || [];
+                this.$set(this.columns[2],"options",this.zjlxList)
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            this.error = error
+            if(error&&this.error&&this.lastSubmit){
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = ""
+                    this.$error.close();
+                },1500)
+            }
+        },
+        // 授权
+        authorizeClick(){
+
+        },
+        // 取消
+        cancelClick(){
+            this.$router.push({
+                path: "/home",
+                query: {
+                    token: this.token
+                }
+            })
+        },
+        // 上传附件
+        uploadFile(data){
+            this.chooseUploadFile = [];
+            this.uploadList[data.index].children = [];
+            this.uploadList[data.index].FS = 0;
+            for(let i=0;i < data.files.length;i++) {
+                data.files[i].mlkid = this.mlkid;
+                this.chooseUploadFile.push(data.files[i])
+            }
+            let formData = new FormData();
+            for(let i = 0;i < this.chooseUploadFile.length; i++){
+                formData.append('files', this.chooseUploadFile[i]); 
+                this.uploadList[data.index].FS += 1;
+                this.uploadList[data.index].YS = this.uploadList[data.index].FS; 
+            }
+            formData.append('sjclid', this.uploadList[data.index].SJCLID || "");
+            formData.append('glsxid', this.glsxid);
+            formData.append('fs', this.uploadList[data.index].FS);
+            formData.append('ys', this.uploadList[data.index].YS);
+            formData.append('cllx', this.uploadList[data.index].CLLX);
+            formData.append('clmc', this.uploadList[data.index].CLMC);
+            formData.append('sjxxid', this.uploadList[data.index].SJXXID || "");
+            formData.append('sjclpzid', this.uploadList[data.index].SJCLPZID || "");
+            formData.append('ssmkid', this.ssmkid);
+            formData.append('ssclsx', this.uploadList[data.index].SSCLSX || "");
+            formData.append('xh', data.index);
+            this.$loading.show("上传中...")
+            saveUploadFile(formData).then(res => {
+                this.$loading.close();
+                if(res){
+                    for(let i=0;i < data.files.length;i++) {
+                        let uploadList = [...this.uploadList];
+                        uploadList[data.index].children.push(data.files[i]);
+                        uploadList[data.index].open = true;
+                        uploadList[data.index].WJZXID = res.data.wjzxid
+                        this.uploadList = [...uploadList]
+                    }
+                }else {
+                    this.$Message.error("上传文件失败")
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+         // 删除上传的附件
+        deleteFj(select){
+            let WJZXID = select.file.WJZXID
+            deleteFile({sjclId: select.file.SJCLID, wjzxid: WJZXID}).then(res => {
+                // 删除文件
+                let uploadList = [...this.uploadList];
+                uploadList.forEach((upload,index) => {
+                    if(upload.clid == select.file.clid){
+                        upload.children = [];
+                        upload.WJZXID = "";
+                    }
+                })
+                this.uploadList = [...uploadList]
+            })
+        }
+    },
+}
+</script>
+<style scoped>
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        min-height: calc(100vh - 70px);
+    }
+    .register-container {
+        margin: 10px auto 0;
+    }
+    .form-edit {
+        width: 100%;
+        padding: 0 0!important;
+    }
+</style>

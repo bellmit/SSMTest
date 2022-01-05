@@ -1,0 +1,358 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="工程编号 " class="form-list-search" prop="xmgcbg">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.xmgcbg" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称 " class="form-list-search" prop="xmgcmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.xmgcmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="委托编号 " class="form-list-search" prop="wtbh">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.wtbh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="建设单位 " class="form-list-search" prop="jsdwmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getProjectList(1,formInline.size)" v-model="formInline.jsdwmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="当前状态 " class="form-list-search" prop="status">
+                            <Select v-model="formInline.status" clearable class="form-search-item">
+                                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='50'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getProjectList(1,formInline.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+            
+        </div>
+        <div class="ch-tip margin-top-10 margin-bottom-10">
+            <img src="static/images/kp-tip.png" style="vertical-align: middle" alt=""> 
+            <span class="font-size-16">您当前待接受的委托：</span>
+            <span class="font-color-tip">{{number}}</span>
+        </div>
+        <Table
+            :id="'table'"
+            :cols="tableCols"
+            :data="myprojectList"
+            :count="totalNum"
+            :page="formInline.page"
+            :size="formInline.size"
+            :func="getProjectList"
+            :operation="operationList"
+            @view="viewDetail"
+            @verify="verifyData"
+            @deleteOpr="deleteOpr"
+            @record="putOnRecord"
+        ></Table>
+        <Modal
+            class="modal-base form-verify"
+            v-model="visible"
+            width="1000"
+            title="上传合同"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <div>
+            <uploadFile
+                ref="upload-file-Ht"
+                v-if="visible"
+                :showDefaultTool="false"
+                :url="'/fileoperation/uploadfilestosx'"
+                :ssmkid="'22'"
+            ></uploadFile>
+        </div>
+            <div class="save-btn margin-top-20">
+                <Button class="bdc-major-btn" @click="submit" type="primary">确定</Button>
+                <Button class="btn-cancel margin-left-10" @click="cancel" type="primary">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { queryproject,queryAcceptedNum,alterhtzt,keeponrecord } from "../../../service/commission"
+import { getDictInfo,getUploadList } from "../../../service/mlk"
+import uploadFile from "../../../components/survey/upload-HT"
+export default {
+    components: {
+        uploadFile,
+    },
+    data() {
+        return {
+            formInline: {
+                jsdwmc: "",
+                xmgcmc: "",
+                xmgcbg: "",
+                wtbh: "",
+                status: "",
+                page: 1,
+                size: 10
+            },
+            count: 0,
+            number: "",
+            ruleInline: {},
+            ztList: [],
+            curSjxxid: "",
+            uploadList: [],
+            selectFile: null,
+            fileName: "",
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    width: 70,
+                    align: "center",
+                    title: "序号",
+                    fixed: "left"
+                },
+                {
+                    field: "XQFBBH",
+                    align: "center",
+                    title: "委托编号"
+                },
+                {
+                    field: "GCBH",
+                    align: "center",
+                    title: "工程编号"
+                },
+                {
+                    field: "GCMC",
+                    align: "center",
+                    title: "工程名称"
+                },
+                {
+                    field: "WTDW",
+                    align: "center",
+                    title: "建设单位"
+                },
+                {
+                    field: "FBSJ",
+                    align: "center",
+                    title: "委托时间"
+                },
+                {
+                    field: "WTZTMC",
+                    align: "center",
+                    title: "委托状态",
+                    width: 120,
+                    templet: function(d){
+                        let className= d.WTZTMC==="已办结" ? "color-finish" :d.WTZTMC==="已备案"?"color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.WTZTMC+"</span>"
+                    }
+                },
+                {
+                    align: "center",
+                    title: "操作",
+                    toolbar: "#operation",
+                    minWidth: 180
+                }
+            ],
+            operationList: ["verify","view","record"],
+            operationHtList: ["upload"],
+            myprojectList: [],
+            totalNum: 0,
+            clsxList: [],
+            fClsxList: [],
+            HtData:[
+                {
+                    CLMC:"1"
+                }
+            ],
+            visible: false
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/construction/commission/add")){
+            this.pageInfo["surveyCommissionPageInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["surveyCommissionPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["surveyCommissionPageInfo"]){
+            this.formInline = {...this.pageInfo["surveyCommissionPageInfo"]}
+        }
+    },
+    mounted() {
+        this.getProjectList();
+        this.getDictInfo();
+        this.queryAcceptedNum();
+    },  
+    methods: {
+        // 获取待接受的委托
+        queryAcceptedNum(){
+            this.$loading.show("加载中...")
+            queryAcceptedNum().then(res => {
+                this.$loading.close();
+                this.number = res.data.tasknum
+            })
+        },
+        getDictInfo(){
+            let params = {
+                zdlx: ["WTZT","CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    //去除待委托状态
+                    if(list.ZDLX == "WTZT" && list.MC!="待委托" && list.MC !="重新备案" &&list.MC !="已退回" && list.MC !="待备案"){
+                        this.ztList.push(list)
+                    } else if(list.ZDLX == "CLSX"){
+                        this.clsxList.push(list)
+                    }
+                })
+                this.ztList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        // 删除操作
+        deleteOpr(data){
+            if(this.myprojectList && this.myprojectList.length){
+                this.myprojectList.forEach((list, index) => {
+                if (list.WTZT == "2") {
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='view']").remove();
+                } else {
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='verify']").remove();
+                }
+                if( list.WTZT != "3" && list.WTZT != "7"){
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='record']").addClass("table-btn-disabled cursor-not-allowed");
+                }
+            });
+            }
+        },
+        // 重置查询表单
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                size: this.formInline.size
+            }
+        },
+        // 查询
+        getProjectList(page,size){
+            if(page){
+                this.formInline.page = page;
+                this.formInline.size = size;
+            }
+            this.$loading.show("加载中...")
+            queryproject(this.formInline).then(res => {
+                this.$loading.close();
+                this.myprojectList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        // 查看
+        viewDetail(data){
+            this.$router.push({
+                path: `/construction/commission/add`,
+                query: {wtdw: data.WTDW, wtbh: data.XQFBBH,chxmid:data.CHXMID,wtzt:data.WTZTMC, from: this.$route.fullPath,type: "view"}
+            });
+        },
+        // 核验
+        verifyData(data){
+            alterhtzt({chxmid: data.CHXMID}).then(res => {
+                this.$router.push({
+                    path: `/construction/commission/add`,
+                    query: {wtdw: data.WTDW, wtbh: data.XQFBBH,chxmid:data.CHXMID, from: this.$route.fullPath, type: "verify"}
+                });
+            })
+            
+        },
+        //备案
+        putOnRecord(data){
+            if( data.WTZT != "3" &&  data.WTZT !="7"){
+                return
+            }
+            this.fileName = "";
+            this.visible = true;
+            
+            let params = {
+                ssmkid: "22",
+                glsxid: data.CHXMID
+            }
+            let url = "/fileoperation/getsjclforht";
+            let HtuploadList = {};
+            // 获取需要上传的文件
+            getUploadList(url,params).then(res => {
+                this.uploadList.GLSXID = data.CHXMID;
+                this.uploadList.CHDWXXID = data.CHDWXXID;
+                res.data.dataList.forEach(list => {
+                    let clsxList = list[0].CLSXS;
+                    let htList = {};
+                    let clsxMC ="";
+                    let find = {}
+                    clsxList.forEach(clsx => {
+                        find = this.clsxList.find(findList => findList.DM == clsx) || {}
+                        if(find){
+                            clsxMC += find.MC + '、'
+                        }
+                    })
+                    clsxMC = clsxMC.substring(0, clsxMC.lastIndexOf('、')); 
+                    let chjdFind = this.clsxList.find(item => item.DM == find.FDM) || {}
+                    htList.CLMC= list[0].CLMC;
+                    htList.SJCLID= list[0].SJCLID;
+                    htList.SJXXID= list[0].SJXXID;
+                    htList.CLSX= clsxMC;
+                    htList.CHJD= chjdFind.MC;
+                    htList.NEED= list[0].NEED;
+                    htList.HTXXID= list[0].HTXXID;
+                    htList.GLSXID= data.CHXMID;
+                    this.$refs["upload-file-Ht"].addFile(htList)
+                })
+                
+            })
+        },
+        //取消
+        cancel(){
+            this.visible = false;
+            this.$refs["upload-file-Ht"].clearFileList()
+        },
+        //提交
+        submit(){
+            let validate = this.$refs["upload-file-Ht"].validate()
+            if(validate){
+                return;
+            }
+            let wjzxidList = "";
+            let uploadList = this.$refs["upload-file-Ht"].queryUploadList()
+            uploadList.forEach(list => {
+                if(list.WJZXID){
+                    wjzxidList +=  list.WJZXID + ','
+                }
+            })
+            wjzxidList = wjzxidList.substring(0, wjzxidList.lastIndexOf(','));
+            this.$loading.show("加载中...");
+            let params = {
+                chxmid: this.uploadList.GLSXID,
+                wjzxid: wjzxidList,
+                chdwxxid: this.uploadList.CHDWXXID
+            }
+            keeponrecord(params).then(data => {
+                this.$loading.close()
+                this.getProjectList()
+                this.visible = false;
+                this.$refs["upload-file-Ht"].clearFileList()
+            })    
+        }
+    },
+}
+</script>
+<style scoped>
+</style>

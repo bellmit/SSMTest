@@ -1,0 +1,22 @@
+<div class="widget-panel-title">数据接收</div>
+<div id="drAnalysisPanel" class="panel-body" style="padding: 1px;padding-top: 5px;">
+</div>
+
+<!--接收数据多图层选择模板-->
+<script id="drSelectTpl" type="x-tpl-handlebars">
+<div class="xz-analysis-sel-wrapper text-center">
+    <label class="text-info">接收图层：</label>
+    <select id="layerSelector">
+        {{#each layers}}
+        <option value="{{layerName}}" {{selected}}>
+            {{layerName}}
+        </option>
+        {{/each}}
+    </select>
+    <button id="receiveBtn" class="btn-js">
+     <a class="btn btn-success btn-sm" ><i class="iconfont">&#xe632;</i> 接收</a>
+     </button>
+</div>
+
+</script>
+

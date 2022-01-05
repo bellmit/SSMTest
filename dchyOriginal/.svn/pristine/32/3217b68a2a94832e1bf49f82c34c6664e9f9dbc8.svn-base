@@ -1,0 +1,246 @@
+<template>
+    <div>
+        <Step
+            :steps="steps"
+            :active="active"
+        ></Step>
+        <div class="margin-top-20">
+            <div class="company-info">
+                <div>
+                    <div v-if="active == 0" class="margin-bottom-10">
+                        <span class="title-list"></span>
+                        <span>单位信息</span>
+                    </div>
+                    <van-form validate-first ref="company-form" class="form-edit" @submit="onSubmit" v-if="active == 0" label-align="right" :label-width="'9em'">
+                        <van-field
+                            readonly
+                            clickable
+                            name="frlx"
+                            v-model="companyForm.frlx"
+                            label="法人类型"
+                            placeholder="请选择法人类型"
+                            @click="showPicker = true"
+                            :rules="[{ required: true, message: '法人类型不能为空' }]"
+                        />
+                        <van-popup v-model="showPicker" position="bottom">
+                            <van-picker
+                                value-key="MC"
+                                show-toolbar
+                                :columns="frlxList"
+                                @confirm="onConfirm"
+                                @cancel="showPicker = false"
+                            />
+                        </van-popup>
+                        <van-field
+                            v-model="companyForm.dwmc"
+                            name="dwmc"
+                            label="单位名称"
+                            placeholder="请输入单位名称"
+                            :rules="[{ required: true, message: '单位名称不能为空' }]"
+                        />
+                        <van-field
+                            v-model="companyForm.tyshxydm"
+                            name="tyshxydm"
+                            label="统一社会信用代码"
+                            placeholder="请输入统一社会信用代码"
+                            :rules="[{ required: true, message: '统一社会信用代码不能为空' }]"
+                        />
+                        <van-field
+                            v-model="companyForm.frmc"
+                            name="frmc"
+                            label="法定代表人姓名"
+                            placeholder="请输入法定代表人姓名"
+                            :rules="[{ required: true, message: '法定代表人姓名不能为空' }]"
+                        />
+                        <van-field
+                            readonly
+                            clickable
+                            v-model="companyForm.frzjzl"
+                            name="frzjzl"
+                            label="证件类型"
+                            placeholder="请选择证件类型"
+                            @click="showZjlxPicker = true"
+                            :rules="[{ required: true, message: '证件类型不能为空' }]"
+                        />
+                        <van-popup v-model="showZjlxPicker" position="bottom">
+                            <van-picker
+                                value-key="MC"
+                                show-toolbar
+                                :columns="zjlxList"
+                                @confirm="onZjlxConfirm"
+                                @cancel="showZjlxPicker = false"
+                            />
+                        </van-popup>
+                        <van-field
+                            v-model="companyForm.frzjzl"
+                            name="frzjzl"
+                            label="法定代表人证件号码"
+                            placeholder="请输入法定代表人证件号码"
+                            :rules="[{ required: true, message: '法定代表人证件号码不能为空' }]"
+                        />
+                        <div class="margin-bottom-10 margin-top-10">
+                            <span class="title-list"></span>
+                            <span>个人信息</span>
+                        </div>
+                        <div class="form-edit">
+                            <van-field
+                                readonly
+                                v-model="companyForm.yhmc"
+                                name="yhmc"
+                                label="姓名"
+                                placeholder="请输入单位姓名"
+                                :rules="[{ required: true, message: '姓名不能为空' }]"
+                            />
+                            <van-field
+                                readonly
+                                name="yhzjzl"
+                                v-model="companyForm.yhzjzl"
+                                label="证件类型"
+                                placeholder="请选择证件类型"
+                                :rules="[{ required: true, message: '证件类型不能为空' }]"
+                            />
+                            <van-field
+                                readonly
+                                v-model="companyForm.yhzjhm"
+                                name="yhzjhm"
+                                label="证件号码"
+                                placeholder="请选择证件号码"
+                                :rules="[{ required: true, message: '证件号码不能为空' }]"
+                            />
+                        </div>
+                    </van-form>
+                </div>
+                <div class="margin-top-20">
+                    <van-button v-if="active > 0" class="new-lg-btn" @click="preStep">上一步</van-button>
+                    <van-button v-if="active < 1" class="new-lg-btn margin-top-20" @click="nextStep">下一步</van-button>
+                    <van-button v-if="active == 1" class="new-lg-btn margin-top-20">提交</van-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import Step from "../../components/step/step.vue"
+import { getUploadList, gryhsqRegister, queryCertificateInfo } from "../../service/login";
+import { getDictInfo } from "../../service/home";
+export default {
+    components: {
+        Step
+    },
+    data() {
+        return {
+            companyForm: {
+                frlx: "",
+                dwmc: "",
+                tyshxydm: "",
+                frmc: "",
+                frzjzl: "",
+                frzjhm: "",
+                yhmc: "",
+                yhzjzl: "",
+                yhzjhm: ""
+            },
+            frlxList: [],
+            cllxList: [],
+            zjlxList: [],
+            showPicker: false,
+            showZjlxPicker: false,
+            uploadList: [],
+            glsxid: "",
+            ssmkid: '25',
+            token: "",
+            active: 0,
+            steps: [
+                {
+                    name: "单位信息"
+                },
+                {
+                    name: "附件材料"
+                }
+            ]
+        }
+    },
+    mounted() {
+        this.token = this.$route.query.token || "";
+        this.glsxid = this.$route.query.glsxid || "";
+        this.getDictInfo();
+        this.queryCertificateInfo();
+        this.querySjcl();
+    },
+    methods: {
+        // 获取用户信息
+        queryCertificateInfo(){
+            let token = this.$route.query.token || ""
+            let params = {
+                token
+            }
+            queryCertificateInfo(params).then(res => {
+                this.companyForm.yhmc = res.data.name || "";
+                this.companyForm.yhzjzl = res.data.pagerstype || "";
+                this.companyForm.yhzjhm = res.data.cardid || "";
+            })
+        },
+        // 获取收件材料
+        querySjcl(){
+            let params = {
+                glsxid: this.glsxid,
+                ssmkid: this.ssmkid
+            }
+            getUploadList(params).then(res => {
+                this.uploadList = res.data.dataList || [];
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLLX","FRLX","ZJZL"]
+            }
+            this.zjlxList = [];
+            this.cllxList = [];
+            this.frlxList = [];
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    if(list.ZDLX == "CLLX"){
+                        this.cllxList.push(list)
+                    } else if(list.ZDLX == "FRLX"){
+                        this.frlxList.push(list)
+                    } else if(list.ZDLX == "ZJZL"){
+                        this.zjlxList.push(list)
+                    }
+                })
+            })
+        },
+        onConfirm(select){
+            this.companyForm.frlx = select.DM;
+            this.showPicker = false;
+        },
+        onZjlxConfirm(select){
+            this.companyForm.frzjzl = select.DM;
+            this.showZjlxPicker = false
+        },
+        preStep(){
+            this.active -= 1;
+        },
+        nextStep(){
+            this.active += 1;
+            // this.$refs["company-form"].validate().then(() => {
+            //     this.active += 1;
+            // }).catch(err => {
+            //     this.$dialog.alert({
+            //         message: err[0].message
+            //     })
+            // })
+        },
+        onSubmit(){
+
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    .company-info {
+        padding: 30px;
+        background-color: #fff;
+        min-height: calc(100vh - 147px);
+    }
+</style>

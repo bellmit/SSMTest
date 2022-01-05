@@ -1,0 +1,16 @@
+
+1
+java:S36264"Remove this redundant jump.(ÉŠ©ƒ
+1
+java:S3626="Remove this redundant jump.(ÉŠ©ƒ
+E
+java:S1066F"/Merge this if statement with the enclosing one.(ÛÂ‚Ã
+s	java:S135-"YReduce the total number of break and continue statements in this loop to use at most one.(ÇóŽÆüÿÿÿÿ
+R
+java:S1854\"<Remove this useless assignment to local variable "fileName".(´ª±š
+n
+java:S3776'"SRefactor this method to reduce its Cognitive Complexity from 139 to the 15 allowed.(»Ý—¬øÿÿÿÿ
+C
+java:S1481\"-Remove this unused "fileName" local variable.(´ª±š
+1
+java:S3626M"Remove this redundant jump.(ÉŠ©ƒ

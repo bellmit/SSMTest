@@ -1,0 +1,207 @@
+/*animation with css3. IE8/9 not supported.*/
+.g-anim {
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+
+.g-anim.g-icon {
+    display: inline-block
+}
+
+.g-anim-loop {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite
+}
+
+@-webkit-keyframes g-rotate {
+    from {
+        -webkit-transform: rotate(0)
+    }
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@keyframes g-rotate {
+    from {
+        transform: rotate(0)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.g-anim-rotate {
+    -webkit-animation-name: g-rotate;
+    animation-name: g-rotate;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear
+}
+
+@-webkit-keyframes g-up {
+    from {
+        -webkit-transform: translate3d(0, 100%, 0);
+        opacity: .3
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+@keyframes g-up {
+    from {
+        transform: translate3d(0, 100%, 0);
+        opacity: .3
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+.g-anim-up {
+    -webkit-animation-name: g-up;
+    animation-name: g-up
+}
+
+@-webkit-keyframes g-upbit {
+    from {
+        -webkit-transform: translate3d(0, 30px, 0);
+        opacity: .3
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+@keyframes g-upbit {
+    from {
+        transform: translate3d(0, 30px, 0);
+        opacity: .3
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+.g-anim-upbit {
+    -webkit-animation-name: g-upbit;
+    animation-name: g-upbit
+}
+
+@-webkit-keyframes g-scale {
+    0% {
+        opacity: .3;
+        -webkit-transform: scale(.5)
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes g-scale {
+    0% {
+        opacity: .3;
+        -ms-transform: scale(.5);
+        transform: scale(.5)
+    }
+    100% {
+        opacity: 1;
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.g-anim-scale {
+    -webkit-animation-name: g-scale;
+    animation-name: g-scale
+}
+
+@-webkit-keyframes g-scale-spring {
+    0% {
+        opacity: .5;
+        -webkit-transform: scale(.5)
+    }
+    80% {
+        opacity: .8;
+        -webkit-transform: scale(1.1)
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes g-scale-spring {
+    0% {
+        opacity: .5;
+        transform: scale(.5)
+    }
+    80% {
+        opacity: .8;
+        transform: scale(1.1)
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+.g-anim-scaleSpring {
+    -webkit-animation-name: g-scale-spring;
+    animation-name: g-scale-spring
+}
+
+@-webkit-keyframes g-fadein {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes g-fadein {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.g-anim-fadein {
+    -webkit-animation-name: g-fadein;
+    animation-name: g-fadein
+}
+
+@-webkit-keyframes g-fadeout {
+    0% {
+        opacity: 1
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes g-fadeout {
+    0% {
+        opacity: 1
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+.g-anim-fadeout {
+    -webkit-animation-name: g-fadeout;
+    animation-name: g-fadeout
+}

@@ -1,0 +1,39 @@
+
+g	java:S116>"RRename this field "DELETED" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­šÑù
+F
+java:S3740£"/Provide the parametrized type for this generic.(Ï¤Ô…
+K
+java:S3740ó"/Provide the parametrized type for this generic.(®‡¶®øÿÿÿÿ
+7
+java:S1170>"!Make this final field static too.(­šÑù
+c
+java:S1192T"HDefine a constant instead of duplicating this literal "chxmid" 14 times.(ô£³²ÿÿÿÿÿ
+F
+java:S3740ô"/Provide the parametrized type for this generic.(í—ÀÑ
+c
+java:S1192µ"GDefine a constant instead of duplicating this literal "xqfbbh" 3 times.(Ç¡Ô•þÿÿÿÿ
+I
+java:S1135Î"2Complete the task associated to this TODO comment.(ö”ÄØ
+R	java:S125Ø"<This block of commented-out lines of code should be removed.(©ð——
+_
+java:S1192j"IDefine a constant instead of duplicating this literal "tyshxydm" 5 times.(ö„¬
+c
+java:S1192õ"GDefine a constant instead of duplicating this literal "htxxid" 3 times.(ØûØ§üÿÿÿÿ
+F
+java:S3740ô"/Provide the parametrized type for this generic.(í—ÀÑ
+i
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(Úí«‹
+K
+java:S3740ó"/Provide the parametrized type for this generic.(®‡¶®øÿÿÿÿ
+i
+java:S3776£"RRefactor this method to reduce its Cognitive Complexity from 70 to the 15 allowed.(ðÄßÀ
+c
+java:S1192¤"GDefine a constant instead of duplicating this literal "chgcbh" 3 times.(Äïµ¬úÿÿÿÿ
+i
+java:S3776ê"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(àãÖ¯
+R
+java:S1854k"7Remove this useless assignment to local variable "msg".(¼œËþÿÿÿÿ
+K
+java:S3740€"/Provide the parametrized type for this generic.(Àà¹ÿúÿÿÿÿ
+X
+java:S1128"BRemove this unused import 'cn.gtmap.msurveyplat.common.util.UUID'.(Ë××ê

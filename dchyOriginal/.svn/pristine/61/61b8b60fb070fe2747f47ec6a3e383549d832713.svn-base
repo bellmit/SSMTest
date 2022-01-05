@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <mapping>
+        <path>/*</path>
+        <decorator>/WEB-INF/views/common/layout.ftl</decorator>
+    </mapping>
+    <mapping path="/static/*" exclude="true"/>
+    <mapping path="*ajax/*" exclude="true"/>
+</sitemesh>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+    <bean id="commonMapperPLAT" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.CommonMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryPLAT"/>
+    </bean>
+    <bean id="entityMapperPLAT" class="cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper">
+        <property name="commonMapper" ref="commonMapperPLAT"/>
+    </bean>
+    <bean id="repositoryPLAT" class="cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.TotalRepository">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplatePLAT"/>
+    </bean>
+
+    <!--事务-->
+    <import resource="config-plattrans.xml"/>
+    <!--dozer-->
+    <!--<import resource="config-dozer.xml"/>-->
+    <!---->
+    <!--<import resource="config-service.xml"/>-->
+
+</beans>

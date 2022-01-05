@@ -1,0 +1,65 @@
+<div class="widget-panel-title">动态渲染</div>
+<div class="panel-body">
+    <div class="tab-pane" id="rendererPanel">
+
+    </div>
+
+
+    <div class="" id="legendDiv">
+
+    </div>
+</div>
+
+<div class="hidden" id="legend">
+
+</div>
+
+<!-- 图层动态渲染默认样式 -->
+<script id="layerRendererTpl" type="x-tpl-mustache">
+    <div class="form-horizontal">
+        <div id="rendererLayer" class="form-group">
+            <label class="col-xs-4 control-label text-right">渲染图层：</label>
+            <div class="col-xs-7">
+            <select id="rendererLayerSelect" class="form-control input-sm layer-select"></select>
+            </div>
+        </div>
+        <div id="rendererType" class="form-group">
+            <label class="col-xs-4 control-label text-right">渲染类型：</label>
+            <div class="col-xs-7">
+                <select id="rendererTypeSelect" class="form-control input-sm layer-select"></select>
+            </div>
+        </div>
+        <div id="rendererField" class="form-group">
+            <label class="col-xs-4 control-label text-right">渲染字段：</label>
+            <div class="col-xs-7">
+                <select id="rendererFieldSelect" class="form-control input-sm layer-select"></select>
+            </div>
+        </div>
+
+        <div class="btn-renderer">
+            <a id="rendererBtn" class="btn btn-primary btn-sm" data-loading-text="渲染中 ...">
+                渲染
+            </a>
+        </div>
+       </div>
+
+
+</script>
+
+<script id="rendererLevel" type="x-tpl-mustache">
+    <div id="rendererLevel" class="form-group">
+            <label class="col-xs-4 control-label text-right">渲染级别：</label>
+            <div class="col-xs-7">
+                <select id="rendererLevelSelect" class="form-control input-sm layer-select"></select>
+            </div>
+    </div>
+
+</script>
+
+<script id="renderLegend" type="x-handlebars-template">
+    {{#each legend}}
+            {{label}}:
+            <img id="{{url}}" src="data:{{contentType}};base64,{{imageData}}"> &nbsp;
+            <br/>
+    {{/each}}
+</script>

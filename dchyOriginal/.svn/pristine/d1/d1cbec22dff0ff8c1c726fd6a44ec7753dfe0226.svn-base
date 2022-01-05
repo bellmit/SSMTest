@@ -1,0 +1,30 @@
+<div class="pull-right omp-switch omp-switch-on" id="legendBtn"><em>开</em><i></i></div>
+<div id="legendShow">
+<div class="legend-title">
+    <h5>图例</h5>
+    <div class="legend-tools hidden">
+        <a id="legendRefreshBtn" title="刷新">
+            <i class="fa fa-refresh"></i>
+        </a>
+    </div>
+</div>
+<div class="legend-content">
+</div>
+</div>
+<!--地图服务图例模板-->
+<script id="mapLegendTpl" type="x-tpl-handlebars">
+    <ul>
+        {{#legends}}
+            <li class="legend-li"><img src="data:{{contentType}};base64,{{imageData}}"/><span>{{label}}</span></li>
+        {{/legends}}
+    </ul>
+</script>
+
+<!--自定义图例模板-->
+<script id="customLegendTpl" type="x-tpl-handlebars">
+    <ul>
+        {{#legends}}
+            <li class="legend-li"><div style="background-color: {{color}}" class="legend-block"/><span>{{label}}</span></li>
+        {{/legends}}
+    </ul>
+</script>

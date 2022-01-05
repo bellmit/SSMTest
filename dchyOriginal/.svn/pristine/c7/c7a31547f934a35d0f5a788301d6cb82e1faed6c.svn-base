@@ -1,0 +1,27 @@
+server.url=http://localhost:8080
+server1.url = http://localhost:8089
+nginx.agent= http://localhost:8090
+
+cas.url=http://172.16.27.238:9999/cas
+platform.url=http://172.24.19.167:8083/platform
+fileCenter.url=${nginx.agent}/fileCenter
+solr.url=${nginx.agent}/solr
+
+omp.url=${server.url}/omp
+oms.url=http://192.168.90.31:8089/oms
+insight.url=http://172.18.2.94:8080/insight
+login.url=${oms.url}/login
+
+
+# oms��׼�汾
+#spring.profiles.active=standard
+
+# omsʡ���汾
+spring.profiles.active=shengtin
+
+# oms egov�û����ɰ汾
+#spring.profiles.active=egov
+
+egov.db.url=jdbc:oracle:thin:@192.168.90.7:1521:orcl
+egov.db.username=pf_gtis_suzhou
+egov.db.password=gtis

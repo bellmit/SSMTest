@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <context:annotation-config/>
+
+    <bean class="com.gtis.config.AppConfigPlaceholderConfigurer">
+        <property name="location" value="${egov.conf}/oms/application.properties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames" value="classpath:message/errors,classpath:message/messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.core.message.NLS">
+        <property name="messageProvider">
+            <bean class="cn.gtmap.onemap.core.message.SpringMessageProvider">
+                <property name="messageSource" ref="messageSource"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="spatialReferenceManager" class="cn.gtmap.onemap.core.gis.SpatialReferenceManagerImpl">
+        <property name="crsLocations" value="classpath:crs/*.prj"/>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.core.gis.GeoUtils">
+        <property name="srManager" ref="spatialReferenceManager"/>
+    </bean>
+
+    <bean id="dataSource" class="com.gtis.support.JndiSupportBasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="jndiName" value="java:comp/env/jdbc/onemap"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="cn.gtmap.onemap.core.support.jpa.EntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="cn.gtmap.onemap.model,cn.gtmap.onemap.server.model,cn.gtmap.onemap.server.index,cn.gtmap.onemap.server.monitor.model,cn.gtmap.onemap.dchy.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="false"/>
+                <property name="database">
+                    <util:constant static-field="${jpa.dialect}"/>
+                </property>
+            </bean>
+        </property>
+        <property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.current_session_context_class" value="cn.gtmap.onemap.core.support.jpa.JpaCurrentSessionContext"/>
+                <entry key="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
+                <entry key="hibernate.default_batch_fetch_size" value="16"/>
+                <entry key="hibernate.jdbc.fetch_size" value="50"/>
+                <entry key="hibernate.jdbc.batch_size" value="25"/>
+                <entry key="hibernate.max_fetch_depth" value="2"/>
+                <entry key="use_streams_for_binary" value="true"/>
+                <entry key="hibernate.enable_lazy_load_no_trans" value="true"/>
+                <entry key="javax.persistence.validation.mode" value="NONE"/>
+                <entry key="hibernate.archive.autodetection" value="class"/>
+                <entry key="hibernate.query.startup_check" value="false"/>
+                <entry key="hibernate.cache.use_structured_entries" value="true"/>
+                <entry key="hibernate.cache.use_second_level_cache" value="false"/>
+                <entry key="hibernate.cache.use_query_cache" value="false"/>
+                <entry key="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+                <entry key="hibernate.default_schema" value="${db.username}"/>
+                <entry key="hibernate.dialect" value="${hibernate.dialect}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.show_sql" value="${hibernate.debug}"/>
+                <entry key="hibernate.format_sql" value="${hibernate.debug}"/>
+                <entry key="hibernate.generate_statistics" value="${hibernate.debug}"/>
+            </map>
+        </property>
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts" value="classpath:/META-INF/sql/init.sql"/>
+                <property name="sqlScriptEncoding" value="utf-8"/>
+                <property name="continueOnError" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.core.support.jpa.JpaCurrentSessionContext">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <bean id="sessionFactory" class="cn.gtmap.onemap.core.support.jpa.SessionFactoryFactoryBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean class="cn.gtmap.onemap.core.support.hibernate.OneToManyCacheCleaner"/>
+
+    <bean class="cn.gtmap.onemap.core.support.hibernate.EventSender">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="enableAll" value="true"/>
+    </bean>
+
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+        <property name="shared" value="true"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehCacheManager"/>
+    </bean>
+
+    <cache:annotation-driven cache-manager="cacheManager" proxy-target-class="true"/>
+
+    <jpa:repositories base-package="cn.gtmap.onemap.server.dao,cn.gtmap.onemap.dchy.dao" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+        <property name="poolSize" value="5"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <bean id="freemarkerConfig" class="cn.gtmap.onemap.core.support.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPaths" value="/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="localized_lookup">false</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="number_format">0.##################</prop>
+                <prop key="boolean_format">true,false</prop>
+                <prop key="auto_import">
+                    /WEB-INF/views/common/ui.ftl as ui,
+                    /WEB-INF/views/common/form.ftl as f,
+                    spring.ftl as s,
+                    //ftl/sec.ftl as sec
+                </prop>
+                <prop key="auto_include">/WEB-INF/views/common/common.ftl</prop>
+                <prop key="defaultEncoding">UTF-8</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="ctx">
+                    <bean class="cn.gtmap.onemap.web.FreeMarkerContext"/>
+                </entry>
+                <entry key="path_oms" value="${oms.url}"/>
+                <entry key="path_omp" value="${omp.url}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="templateRenderer" class="cn.gtmap.onemap.core.template.FreemarkerTemplateRenderer">
+        <property name="freeMarkerConfig">
+            <bean class="cn.gtmap.onemap.core.support.freemarker.FreeMarkerConfigurer">
+                <property name="freemarkerSettings">
+                    <props>
+                        <prop key="template_update_delay">0</prop>
+                        <prop key="localized_lookup">false</prop>
+                        <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                        <prop key="date_format">yyyy-MM-dd</prop>
+                        <prop key="time_format">HH:mm:ss</prop>
+                        <prop key="number_format">0.##################</prop>
+                        <prop key="boolean_format">true,false</prop>
+                        <prop key="defaultEncoding">UTF-8</prop>
+                        <prop key="url_escaping_charset">UTF-8</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="wroFilter" class="ro.isdc.wro.http.ConfigurableWroFilter">
+        <property name="debug" value="true"/>
+        <property name="cacheUpdatePeriod" value="1"/>
+        <property name="modelUpdatePeriod" value="1"/>
+    </bean>
+
+    <bean id="freeMarkerViewResolver" class="cn.gtmap.onemap.core.support.freemarker.FreeMarkerViewResolver">
+        <property name="order" value="1"/>
+        <property name="cache" value="true"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="false"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+    </bean>
+
+    <bean id="fastjsonView" class="cn.gtmap.onemap.core.support.fastjson.FastjsonView"/>
+
+    <bean id="modelRenderer" class="cn.gtmap.onemap.core.template.ContentNegotiatingModelRenderer">
+        <property name="defaultViewResolver" ref="freeMarkerViewResolver"/>
+        <property name="viewResolvers">
+            <map>
+                <entry key="json">
+                    <bean class="cn.gtmap.onemap.core.support.fastjson.FastjsonViewResolver">
+                        <property name="view" ref="fastjsonView"/>
+                    </bean>
+                </entry>
+                <entry key="pjson">
+                    <bean class="cn.gtmap.onemap.core.support.fastjson.FastjsonViewResolver">
+                        <property name="view" ref="fastjsonView"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="arcgisRestRenderer" class="cn.gtmap.onemap.server.handle.ArcgisRestRenderer"/>
+
+    <bean id="geometryServerServiceHandle" class="cn.gtmap.onemap.server.handle.GeometryServerServiceHandle"/>
+
+    <bean id="serviceHandleFactory" class="cn.gtmap.onemap.server.handle.ServiceHandleFactoryImpl">
+        <property name="handlers">
+            <map>
+                <entry key="arcgisProxy">
+                    <bean class="cn.gtmap.onemap.server.handle.service.ArcgisServerProxyServiceHandlerImpl">
+                        <property name="baseUrl" value="${oms.url}/arcgisrest"/>
+                    </bean>
+                </entry>
+                <entry key="localTile">
+                    <bean class="cn.gtmap.onemap.server.handle.service.ArcgisTileServiceHandlerImpl">
+                        <property name="baseUrl" value="${oms.url}/arcgisrest"/>
+                    </bean>
+                </entry>
+                <entry key="index">
+                    <bean class="cn.gtmap.onemap.server.handle.service.IndexServiceHandleImpl">
+                        <property name="baseUrl" value="${oms.url}/arcgisrest"/>
+                        <property name="indexDataStoreFactory" ref="indexDataStoreFactory"/>
+                    </bean>
+                </entry>
+                <entry key="datasource">
+                    <bean class="cn.gtmap.onemap.server.handle.service.DataSourceServiceHandleImpl">
+                        <property name="baseUrl" value="${oms.url}/arcgisrest"/>
+                    </bean>
+                </entry>
+                <entry key="wmtsProxy">
+                    <bean class="cn.gtmap.onemap.server.handle.service.WmtsProxyServiceHandlerImpl">
+                        <property name="baseUrl" value="${oms.url}/arcgisrest"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="httpClient" class="cn.gtmap.onemap.core.support.http.HttpClientFactoryBean">
+        <property name="timeout" value="300000"/>
+    </bean>
+
+    <bean id="dataSourceService" class="cn.gtmap.onemap.server.service.impl.DataSourceServiceImpl"/>
+
+    <bean id="metadataService" class="cn.gtmap.onemap.server.service.impl.MetadataServiceImpl">
+        <property name="mapGroupDAO" ref="mapGroupDAO"/>
+        <property name="mapDAO" ref="mapDAO"/>
+        <property name="layerDAO" ref="layerDAO"/>
+        <property name="fieldDAO" ref="fieldDAO"/>
+        <property name="thumbnailDAO" ref="thumbnailDAO"/>
+        <property name="serviceProviderDAO" ref="serviceProviderDAO"/>
+        <property name="serviceHandleFactory" ref="serviceHandleFactory"/>
+        <property name="indexConfigManager" ref="indexConfigManager"/>
+        <property name="identityService" ref="identityService"/>
+    </bean>
+
+    <bean id="mapAuthManager" class="cn.gtmap.onemap.server.service.impl.MapAuthManagerImpl"/>
+
+    <bean id="arcgisServiceImporter" class="cn.gtmap.onemap.server.arcgis.ArcgisServiceImporter"/>
+
+    <bean id="arcgisTokenStorage" class="cn.gtmap.onemap.server.arcgis.ArcgisTokenStorage"/>
+
+    <bean id="arcgisTileManager" class="cn.gtmap.onemap.server.service.impl.ArcgisTileManagerImpl"/>
+
+    <bean id="solrServer" class="cn.gtmap.onemap.server.index.solr.SolrServerFactoryBean"/>
+
+    <bean id="indexConfigManager" class="cn.gtmap.onemap.server.index.impl.IndexConfigManagerImpl"/>
+
+    <bean id="indexServerManager" class="cn.gtmap.onemap.server.index.impl.IndexServerManagerImpl">
+        <property name="basePath" value="${egov.data.path}/solr"/>
+        <property name="solrServer" ref="solrServer"/>
+        <property name="indexConfigManager" ref="indexConfigManager"/>
+    </bean>
+
+    <bean id="indexDataStoreFactory" class="cn.gtmap.onemap.server.index.data.IndexDataStoreFactoryImpl">
+        <property name="metadataService" ref="metadataService"/>
+        <property name="indexConfigManager" ref="indexConfigManager"/>
+        <property name="indexServerManager" ref="indexServerManager"/>
+    </bean>
+
+    <bean id="taskManager" class="cn.gtmap.onemap.server.service.impl.TaskManagerImpl"/>
+
+    <bean id="indexRebuilder" class="cn.gtmap.onemap.server.index.impl.IndexRebuilderImpl">
+        <property name="indexServerManager" ref="indexServerManager"/>
+        <property name="metadataService" ref="metadataService"/>
+        <property name="serviceProviderManager" ref="metadataService"/>
+        <property name="taskManager" ref="taskManager"/>
+        <property name="gisDataService" ref="dataSourceService"/>
+    </bean>
+
+    <bean id="regionService" class="cn.gtmap.onemap.server.service.impl.RegionServiceImpl"/>
+
+    <bean id="dchyService" class="cn.gtmap.onemap.dchy.service.impl.DchyServiceImpl"></bean>
+
+    <import resource="applicationContext-profile.xml"/>
+    <import resource="applicationContext-security.xml"/>
+    <import resource="applicationContext-logmgr.xml"/>
+    <import resource="applicationContext-monitor.xml"/>
+</beans>

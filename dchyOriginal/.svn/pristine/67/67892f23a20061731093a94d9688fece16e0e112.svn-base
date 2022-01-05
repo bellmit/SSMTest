@@ -1,0 +1,234 @@
+package cn.gtmap.msurveyplat.portalol.service.user.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.Repository;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.common.vo.PfRole;
+import cn.gtmap.msurveyplat.common.vo.PfUser;
+import cn.gtmap.msurveyplat.common.vo.PfUserRoleRel;
+import cn.gtmap.msurveyplat.portalol.model.UserInfo;
+import cn.gtmap.msurveyplat.portalol.service.user.UserManagementService;
+import cn.gtmap.msurveyplat.portalol.utils.Constants;
+import cn.gtmap.msurveyplat.portalol.utils.UserUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import com.gtis.config.AppConfig;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/1/5
+ * @description 用户管理操作
+ */
+@Service
+public class UserManagementServiceImpl implements UserManagementService {
+
+    private Logger logger = Logger.getLogger(UserManagementServiceImpl.class);
+
+    @Resource(name = "entityMapperPLAT")
+    private EntityMapper entityMapperPLAT;
+
+    @Resource(name = "repositoryPLAT")
+    @Autowired
+    Repository repositoryPLAT;
+
+    @Value("${jsdw.dwgly.roleid}")
+    public String JSDWGLY;
+
+    @Value("${chdw.dwgly.roleid}")
+    public String CHDWGLY;
+
+    @Override
+    public Page<Map<String, Object>> queryUserByUsername(Map map) {
+        int page = Integer.parseInt(map.get("page") != null ? CommonUtil.formatEmptyValue(map.get("page")) : Constants.DCHY_XMGL_PAGINATION_PAGE);
+        int size = Integer.parseInt(map.get("size") != null ? CommonUtil.formatEmptyValue(map.get("size")) : Constants.DCHY_XMGL_PAGINATION_SIZE);
+        String yhlx = CommonUtil.formatEmptyValue(MapUtils.getString(map, "yhlx"));
+        switch (yhlx) {
+            //建设单位
+            case "1":
+                map.put("roleid", JSDWGLY);
+                break; //可选
+            //测绘单位
+            case "2":
+                map.put("roleid", CHDWGLY);
+                break; //可选
+            default: //防止为空默认给一个测绘单位的单位管理员
+                map.put("roleid", CHDWGLY);
+                break;
+        }
+//        map.put("roleid", Constants.DCHY_XMGL_CHDW_DWGLY_ROWID);
+        logger.info("***********参数:" + map);
+        return repositoryPLAT.selectPaging("queryUserByUsernameByPage", map, page - 1, size);
+    }
+
+    @Override
+    public Map<String, String> changePassword(String username, String password, String passwordNew) {
+        Map resultMap = Maps.newHashMap();
+        if (StringUtils.isNoneBlank(username, password, passwordNew)) {
+            Example example = new Example(PfUser.class);
+            example.createCriteria().andEqualTo("loginName", username);
+            List<PfUser> userList = entityMapperPLAT.selectByExample(example);
+            if (CollectionUtils.isNotEmpty(userList)) {
+                PfUser pfUser = userList.get(0);
+                if (StringUtils.equals(pfUser.getLoginPassword(), DigestUtils.md5DigestAsHex(password.getBytes()))) {
+                    pfUser.setLoginPassword(DigestUtils.md5DigestAsHex(passwordNew.getBytes()));
+                    entityMapperPLAT.saveOrUpdate(pfUser, pfUser.getUserId());
+                    resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+                } else {
+                    resultMap.put("code", ResponseMessage.CODE.PASSWORD_FAIL.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.PASSWORD_FAIL.getMsg());
+                }
+
+            } else {
+                resultMap.put("code", ResponseMessage.CODE.USERNOTEXIST_FAIL.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.USERNOTEXIST_FAIL.getMsg());
+            }
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, String> changeUserState(String userid, String state) {
+        Map resultMap = Maps.newHashMap();
+        if (StringUtils.isNoneBlank(userid, state)) {
+            PfUser pfUser = entityMapperPLAT.selectByPrimaryKey(PfUser.class, userid);
+            if (null != pfUser) {
+                pfUser.setIsValid(state);
+                entityMapperPLAT.saveOrUpdate(pfUser, pfUser.getUserId());
+                resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+            } else {
+                resultMap.put("code", ResponseMessage.CODE.USERNOTEXIST_FAIL.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.USERNOTEXIST_FAIL.getMsg());
+            }
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return resultMap;
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public Map<String, String> distributionRoleAuthority(String userid, String roles) {
+        String[] roleList = roles.split(";");
+        Map resultMap = Maps.newHashMap();
+        if (StringUtils.isNoneBlank(userid) && null != roleList && roleList.length > 0) {
+            Example example = new Example(PfUserRoleRel.class);
+            example.createCriteria().andEqualTo("user_id", userid);
+            entityMapperPLAT.deleteByExample(example);
+
+            for (String string : roleList) {
+                PfUserRoleRel pfUserRoleRel = new PfUserRoleRel();
+                pfUserRoleRel.setUser_id(userid);
+                pfUserRoleRel.setRole_id(string);
+                pfUserRoleRel.setUrr_id(UUIDGenerator.generate18());
+                entityMapperPLAT.insertSelective(pfUserRoleRel);
+                resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+            }
+
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return resultMap;
+    }
+
+    @Override
+    public ResponseMessage queryAllRole() {
+        ResponseMessage message = new ResponseMessage();
+        Map resultMap = Maps.newHashMap();
+        List<PfRole> roleList = Lists.newArrayList();
+        List<String> roleidList = Lists.newArrayList();
+        String jsdwRole = AppConfig.getProperty("jsdwRole");
+        String chdwRole = AppConfig.getProperty("chdwRole");
+        String jsdwRoles = AppConfig.getProperty("jsdw.roles");
+        String chdwRoles = AppConfig.getProperty("chdw.roles");
+
+        logger.info("建设单位角色id:" + jsdwRole);
+        logger.info("建设单位可配置的角色id:" + jsdwRoles);
+        logger.info("测绘单位角色id:" + chdwRole);
+        logger.info("建设单位可配置的角色id:" + chdwRoles);
+        if (StringUtils.isNoneBlank(jsdwRole, jsdwRoles, chdwRole, chdwRoles)) {
+            String userid = UserUtil.getCurrentUserId();
+            Example exampleUser = new Example(PfUserRoleRel.class);
+            exampleUser.createCriteria().andEqualTo("user_id", userid);
+
+            UserInfo userInfo = UserUtil.getCurrentUser();
+
+            if (userInfo.isAdmin()) {
+                roleList = entityMapperPLAT.selectByExample(new Example(PfRole.class));
+                resultMap.put("data", roleList);
+                message.setData(resultMap);
+                message = ResponseUtil.wrapSuccessResponse();
+                return message;
+            }
+
+            List<PfUserRoleRel> pfUserRoleRels = entityMapperPLAT.selectByExample(exampleUser);
+            //不用判空,该方法用于用户管理,只有具有单位管理员角色的才能使用这方法
+            if (CollectionUtils.isNotEmpty(pfUserRoleRels)) {
+                for (PfUserRoleRel pfUserRoleRel : pfUserRoleRels) {
+                    roleidList.add(pfUserRoleRel.getRole_id());
+                }
+                //该用户是建设单位用户还是测绘单位
+                if (roleidList.contains(jsdwRole)) {
+                    roleList = formatRoles(jsdwRoles);
+                } else if (roleidList.contains(chdwRole)) {
+                    roleList = formatRoles(chdwRoles);
+                }
+
+                resultMap.put("data", roleList);
+                message = ResponseUtil.wrapSuccessResponse();
+                message.setData(resultMap);
+            } else {
+                message.getHead().setCode(ResponseMessage.CODE.CONFIG_FAIL.getCode());
+                message.getHead().setMsg(ResponseMessage.CODE.CONFIG_FAIL.getMsg());
+            }
+
+        } else {
+            message.getHead().setCode(ResponseMessage.CODE.CONFIG_FAIL.getCode());
+            message.getHead().setMsg(ResponseMessage.CODE.CONFIG_FAIL.getMsg());
+        }
+
+        return message;
+    }
+
+    //处理配置中的角色
+    public List<PfRole> formatRoles(String roles) {
+        List<PfRole> roleList = Lists.newArrayList();
+        if (StringUtils.isNotBlank(roles)) {
+            String[] strings = roles.split(";");
+            if (null != strings && strings.length > 0) {
+                for (String string : strings) {
+                    Example example = new Example(PfRole.class);
+                    example.createCriteria().andEqualTo("roleId", string);
+                    List<PfRole> pfRoles = entityMapperPLAT.selectByExample(example);
+                    roleList.addAll(pfRoles);
+                }
+            }
+        }
+        return roleList;
+    }
+}

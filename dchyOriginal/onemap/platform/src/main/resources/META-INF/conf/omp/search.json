@@ -1,0 +1,15 @@
+{
+    "layers": [
+        {
+            "layer": "SDE.BPDK_320000",
+            "fields": "OBJECTID,DKNAME,PRONAME,APP_TYPE",
+            "id": "OBJECTID",
+            "title": "PRONAME",
+            "subtitle": "DKNAME",
+            "content": "DKNAME,PRONAME,APP_TYPE",
+            "group": "报批",
+            "link": "http://cn.bing.com/search?q=",
+            "dataSource": null
+        }
+    ]
+}

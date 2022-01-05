@@ -1,0 +1,107 @@
+package cn.gtmap.msurveyplat.common.util;
+
+public class ProLog {
+    public enum Czlx {
+        SAVE(CZLX_SAVE_CODE, CZLX_SAVE_MC),
+        DELETE(CZLX_DELETE_CODE, CZLX_DELETE_MC),
+        CREATE(CZLX_CREATE_CODE, CZLX_CREATE_MC),
+        RESET(CZLX_RESET_CODE, CZLX_RESET_MC);
+
+        private String code;
+
+        private String mc;
+
+        Czlx(String code, String mc) {
+            this.code = code;
+            this.mc = mc;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getMc() {
+            return mc;
+        }
+    }
+
+    public enum Czmk {
+        XZSLDJ(CZMK_XZSLDJ_CODE, CZMK_XZSLDJ_MC),
+        SIGN(CZMK_SIGN_CODE, CZMK_SIGN_MC),
+        SH(CZMK_SH_CODE, CZMK_SH_MC),
+        CZZD(CZMK_CZZD_CODE, CZMK_CZZD_MC);
+
+        public String code;
+
+        public String mc;
+
+        Czmk(String code, String mc) {
+            this.code = code;
+            this.mc = mc;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getMc() {
+            return mc;
+        }
+    }
+
+    // 保存
+    public static final String CZLX_SAVE_CODE = "1";
+    public static final String CZLX_SAVE_MC = "保存或修改";
+    // 删除
+    public static final String CZLX_DELETE_CODE = "2";
+    public static final String CZLX_DELETE_MC = "删除";
+    // 新增
+    public static final String CZLX_CREATE_CODE = "3";
+    public static final String CZLX_CREATE_MC = "新增";
+    // 重置
+    public static final String CZLX_RESET_CODE = "9";
+    public static final String CZLX_RESET_MC = "重置";
+    //查询
+    public static final String CZLX_SELECT_CODE = "4";
+    public static final String CZLX_SELECT_MC = "查询";
+
+
+    public static final String CZMK_XZSLDJ_CODE = "1001";
+    public static final String CZMK_XZSLDJ_MC = "新增受理登记";
+
+    public static final String CZMK_SIGN_CODE = "1002";
+    public static final String CZMK_SIGN_MC = "签名";
+
+    public static final String CZMK_SH_CODE = "1003";
+    public static final String CZMK_SH_MC = "审核";
+
+    public static final String CZMK_CZZD_CODE = "9001";
+    public static final String CZMK_CZZD_MC = "重置字典信息";
+
+    public static final String CZMK_CZAUTH_CODE = "9002";
+    public static final String CZMK_CZAUTH_MC = "重置授权信息";
+
+    public static final String CZMK_DBXX_CODE = "2001";
+    public static final String CZMK_DBXX_MC = "备案信息";
+
+    public static final String CZMK_XSWT_CODE = "2002";
+    public static final String CZMK_XSWT_MC = "线上委托";
+
+    public static final String CZMK_DBAXX_CODE = "2003";
+    public static final String CZMK_DBAXX_MC = "待备案信息";
+
+    public static final String CZMC_MLKDJ_CODE = "3001";
+    public static final String CZMC_MLKDJ_MC = "名录库冻结";
+
+    public static final String CZMC_MLK_LOGOUT_CODE = "3002";
+    public static final String CZMC_MLK_LOGOUT_MC = "名录库注销";
+
+    public static final String CZMC_MLK_ALTER_CODE = "3003";
+    public static final String CZMC_MLK_ALTER_MC = "名录库信息修改";
+
+    public static final String CZMC_CYRY_ALTER_CODE = "3004";
+    public static final String CZMC_CYRY_ALTER_MC = "从业人员信息修改";
+
+
+
+}

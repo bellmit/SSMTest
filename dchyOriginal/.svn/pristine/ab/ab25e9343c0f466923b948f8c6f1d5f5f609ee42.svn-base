@@ -1,0 +1,40 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.service.Impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMlkClsxGx;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.MlkxxModel;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.service.MlkClsxGxService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2021/3/21
+ * @description 名录库和测量事项关系表数据推送实现类
+ */
+@Service
+public class MlkClsxGxServiceImpl implements MlkClsxGxService {
+
+    @Autowired
+    private EntityMapper entityMapper;
+
+    @Override
+    public Map<String, Object> getData(String mlkid) {
+        Map<String, Object> resultMap = new HashMap<>();
+        MlkxxModel mlkxxModelSaveOrUpdate = new MlkxxModel();
+        if (StringUtils.isNotBlank(mlkid)) {
+            Example example = new Example(DchyXmglMlkClsxGx.class);
+            example.createCriteria().andEqualTo("mlkid", mlkid);
+            List<DchyXmglMlkClsxGx> dchyXmglMlkClsxGxList = entityMapper.selectByExample(example);
+            mlkxxModelSaveOrUpdate.setDchyXmglMlkClsxGxList(dchyXmglMlkClsxGxList);
+            resultMap.put("saveOrUpdate", mlkxxModelSaveOrUpdate);
+        }
+        return resultMap;
+    }
+}

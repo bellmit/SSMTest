@@ -1,0 +1,17 @@
+
+W
+java:S34572"AFormat specifiers should be used instead of string concatenation.(àñ§Ó
+\
+java:S3252)"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(üïß¶
+R
+java:S2629/"7Use the built-in formatting to construct this argument.(İ·ğüÿÿÿÿ
+;
+java:S34578"%String contains no format specifiers.(Û®”¸
+\
+java:S34575"AFormat specifiers should be used instead of string concatenation.(À¾·Èûÿÿÿÿ
+r
+java:S2629)"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(üïß¶
+\
+java:S3457/"AFormat specifiers should be used instead of string concatenation.(İ·ğüÿÿÿÿ
+W
+java:S3457)"AFormat specifiers should be used instead of string concatenation.(üïß¶

@@ -1,0 +1,21 @@
+<form class="form-horizontal" id="newproLayerForm">
+    <input id="layerName" type="hidden" name="layerName" value="{{layerName}}">
+    <input id="serviceId" type="hidden" name="serviceId" value="{{mapId}}">
+    <div class="form-group">
+        <label for="returnName" class="col-sm-4 control-label">显示字段</label>
+        <div class="col-sm-8">
+            <input type="hidden" id="returnName" name="returnName" value="{{returnName}}">
+            <div class="ui selection dropdown" id="returnNameShow" style="width: 150px;">
+                <i class="dropdown icon"></i>
+                <div class="text" >{{returnName}}</div>
+                <div class="menu" id="returnNameContent">
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="text-center">
+        <button type="button" class="btn btn-success" id="layerOkBtn">确定</button>
+        <button type="button" class="btn btn-info" id="layerCancelBtn">关闭</button>
+    </div>
+</form>

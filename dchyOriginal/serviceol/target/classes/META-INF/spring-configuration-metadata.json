@@ -1,0 +1,193 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "cn.gtmap.msurveyplat.serviceol.config.DataBaseConfig",
+      "name": "datasource.primary.liquibase",
+      "sourceMethod": "primaryLiquibaseProperties()",
+      "type": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.change-log",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.change-log",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.change-log",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.check-change-log-location",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.check-change-log-location",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.check-change-log-location",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.contexts",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.contexts",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.contexts",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.default-schema",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.default-schema",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.default-schema",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.drop-first",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.drop-first",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.drop-first",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.labels",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.labels",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.labels",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.parameters",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.parameters",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.parameters",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.rollback-file",
+      "type": "java.io.File"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.rollback-file",
+      "type": "java.io.File"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.rollback-file",
+      "type": "java.io.File"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.user",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.user",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties",
+      "name": "datasource.primary.liquibase.user",
+      "type": "java.lang.String"
+    }
+  ]
+}

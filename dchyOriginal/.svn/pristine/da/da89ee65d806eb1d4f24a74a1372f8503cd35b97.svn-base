@@ -1,0 +1,107 @@
+.base-info-wrap{
+	position: absolute;
+	height: 100%;
+	right: 0;
+	top: 0;
+	z-index: 100;
+}
+.base-info-inner{
+	position: relative;
+	width: 220px;
+	height: 100%;
+}
+.base-info{
+	padding: 10px 10px 0 20px;
+	background:url(../img/white-80.png) 0 0 repeat;
+	color: #222;
+	border-left: 1px solid #9e9e9e;
+	height: 100%;
+	position: relative;
+}
+.base-info h4{
+	color: #188074;
+}
+.base-info ul{
+	margin: 0;
+}
+.base-info ul > li > label{
+	display: inline-block;
+	width: 70px;
+	color: #1264DF;
+}
+.base-info ul > li > span{
+	display: inline-block;
+	width: 110px;
+	vertical-align: top;
+}
+.base-info ul > li{
+	font-size: 12px;
+	list-style: none;
+	padding-bottom: 5px;
+}
+.base-info table td,
+.base-info table th{
+	border: none;
+	padding: 5px 0;
+	font-size: 12px;
+}
+.base-info table th{
+	width: 70px;
+	color: #1264DF;
+}
+.base-info .info-wrap{
+	margin: 20px 20px 0 10px;
+}
+.base-info h3{
+	margin-top: 0;
+}
+.base-info .btn-mini{
+	position: absolute;
+	right: 5px;
+	top: 18px;
+}
+.base-info-inner .toggle{
+	display: block;
+	text-align: center;
+	background: url(../img/white-80.png) 0 0 repeat;
+	color: #222;
+	position: absolute;
+	z-index: 999;
+	font-size: 20px;
+	width: 20px;
+	height: 60px;
+	line-height: 60px;
+	left: -21px;
+	top: 10px;
+	border: 1px solid #9e9e9e;
+	border-right: 1px solid #fff;
+}
+.base-info-inner .toggle:hover,
+.base-info-inner .toggle:focus{
+	text-decoration: none;
+}
+#J_MAP{
+	height: 574px;
+}
+#mapResultCtn{
+	min-height: 572px;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	position: relative;
+	background-color: #faf7f7;
+	overflow: hidden;
+	word-break: break-all;
+}
+.rescenter .accordion li.active > a > span > .icon{
+	color: white;
+}
+.rescenter .accordion li.active > a > span{
+	background-color: #485358;
+	border-radius: 1px;
+}
+.rescenter .accordion .accordion-inner{
+	overflow-y: auto;
+}
+.accordion.affix{
+	top: 20px;
+}

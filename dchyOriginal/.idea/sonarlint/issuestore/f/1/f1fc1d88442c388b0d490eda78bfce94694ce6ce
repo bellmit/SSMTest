@@ -1,0 +1,49 @@
+
+J
+java:S3740*"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+J
+java:S37402"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+J
+java:S37403"/Provide the parametrized type for this generic.(Ãö±üÿÿÿÿ
+J
+java:S37404"/Provide the parametrized type for this generic.(Ûôûÿÿÿÿ
+J
+java:S3740?"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+J
+java:S3740J"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+R
+java:S1854)"<Remove this useless assignment to local variable "password".(ş ôÁ
+P
+java:S18545":Remove this useless assignment to local variable "roleId".(øÒ•Ú
+X
+java:S18544"=Remove this useless assignment to local variable "paramPlat".(Ûôûÿÿÿÿ
+T
+java:S18543"9Remove this useless assignment to local variable "param".(Ãö±üÿÿÿÿ
+R
+java:S18542"7Remove this useless assignment to local variable "map".(¼ú ïøÿÿÿÿ
+V	java:S125W"<This block of commented-out lines of code should be removed.(šî‰´ûÿÿÿÿ
+Q	java:S125\"<This block of commented-out lines of code should be removed.(•Úõ
+U
+java:S1854u"@Remove this useless assignment to local variable "dchyXmglMlk1".(£¬
+U
+java:S1854t"?Remove this useless assignment to local variable "dchyXmglMlk".(±ì²‰
+^
+java:S1854q"CRemove this useless assignment to local variable "dchyXmglMlkList".(ÿâ­¿øÿÿÿÿ
+Q	java:S125y"<This block of commented-out lines of code should be removed.(¤î¾Ï
+W	java:S125‰"<This block of commented-out lines of code should be removed.( §üùÿÿÿÿ
+Q	java:S125"<This block of commented-out lines of code should be removed.(àéç>
+R	java:S125š"<This block of commented-out lines of code should be removed.(“¹·Í
+C
+java:S1481)"-Remove this unused "password" local variable.(ş ôÁ
+E
+java:S14813"*Remove this unused "param" local variable.(Ãö±üÿÿÿÿ
+I
+java:S14814".Remove this unused "paramPlat" local variable.(Ûôûÿÿÿÿ
+A
+java:S14815"+Remove this unused "roleId" local variable.(øÒ•Ú
+O
+java:S1481q"4Remove this unused "dchyXmglMlkList" local variable.(ÿâ­¿øÿÿÿÿ
+F
+java:S1481t"0Remove this unused "dchyXmglMlk" local variable.(±ì²‰
+F
+java:S1481u"1Remove this unused "dchyXmglMlk1" local variable.(£¬

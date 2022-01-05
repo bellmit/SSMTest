@@ -1,0 +1,88 @@
+<div class="widget-panel-title" id="label_head" ></div>
+<div class="panel-body">
+    <div class="panel-group" id="statistics_data" role="tablist" aria-multiselectable="true">
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="panel-group" id="quert_data" role="tablist" aria-multiselectable="true">
+    </div>
+</div>
+
+<!--专题地图-->
+
+
+<!--专题组项目模板-->
+<script id="ConstructionGroupItemsTpl" type="x-tpl-handlebars">
+        <!--part1-->
+        <div  id="table_div" style="overflow:auto;height:115px">
+            <table class="table table-striped" id="table" style="overflow:auto;margin-top: -35px;">
+               {{#each statistics}}
+                    <tr>
+                        <td class="row wid" >{{ label }}<br>{{{ value }}}</td>
+                        <td class="row wid">{{ label_ }}<br>{{{ value_ }}}</td></br>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+</script>
+
+<script id="thematicMapsTpl" type="x-tpl-handlebars">
+       <!--part2-->
+       <div style="height:159px;margin-top: 9px;overflow:auto;">
+           <div class="panel-heading t-group-heading" role="tab" style="background-color: rgba(151, 240, 255, 0.62);">
+               <label class="thematic-label">
+                   <a class="collapsed" data-toggle="collapse" href="#collapse{{id}}">
+                       <i class="fa fa-chevron-down"></i>&nbsp;{{label_}}
+                   </a>
+               </label>
+           </div>
+           <div id="collapse{{id}}" class="panel-collapse collapse in" role="tabpanel">
+               <div class="panel-body">
+                   <ul>
+                      {{#each thematicMaps}}
+                       <li>
+                           <label class="thematic-label">
+                               <input class="thematic-cbx" type="checkbox" data-sid="{{ titleHead }}" {{ checked }}>
+                               <div style="height:28px;font-size:14px">&nbsp;{{value}}
+                                    <a class="thematic-cbx1 img1" target="_blank" href= {{ href }} ></a>&nbsp&nbsp
+                                    <a class="thematic-cbx2" target="_blank"href={{ href1 }} ></a>
+                               </div>
+                           </label>
+                       </li>
+                       {{/each}}
+                   </ul>
+               </div>
+           </div>
+       </div>
+            <div class="panel-heading t-group-heading" role="tab" style="background-color: rgba(151, 240, 255, 0.62);">
+               <label class="thematic-label img3">
+                      {{ label_three }}
+               </label>
+            </div><hr class="hr_part3">
+            <div class="panel-heading t-group-heading" role="tab" style="margin-top: -19px;">
+               <label class="thematic-label">
+                   查询条件:&nbsp <input type="text" class="query" placeholder="请输入查询条件" id="queryData">
+                                 <button id="query_" >查询</button>
+               </label>
+            </div><hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+</script>
+
+<!--part3-->
+<script id="queryDataTpl" type="x-tpl-handlebars">
+       <div style="margin-top: -38px">
+             <div id="queryDatahtml" class="panel-collapse collapse in" role="tabpanel" style="overflow:auto;height:134px">
+               <div class="panel-body">
+                   <ul list-group">
+                      {{#each fs}}
+                       <li>
+                           <label class="thematic-label">
+                               <div style="height:28px;font-size:14px">&nbsp;{{#each attributes}} {{.}} {{/each}}</div>
+                           </label>
+                       </li>
+                       {{/each}}
+                   </ul>
+               </div>
+           </div>
+       </div>
+</script>

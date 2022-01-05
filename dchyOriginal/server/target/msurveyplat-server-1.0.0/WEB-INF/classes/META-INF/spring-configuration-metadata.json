@@ -1,0 +1,69 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.InitBeanConfig",
+      "name": "init.services",
+      "type": "cn.gtmap.msurveyplat.server.config.InitBeanConfig"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.ProjectDetailConfig",
+      "name": "onemap",
+      "type": "cn.gtmap.msurveyplat.server.config.ProjectDetailConfig"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.DjxlCgsjlxConfig",
+      "name": "qc",
+      "type": "cn.gtmap.msurveyplat.server.config.DjxlCgsjlxConfig"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.DjxlGxConfig",
+      "name": "relation.djxl",
+      "type": "cn.gtmap.msurveyplat.server.config.DjxlGxConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.InitBeanConfig",
+      "name": "init.services.delete-services",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 删除服务",
+      "type": "java.util.List<java.lang.Class>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.InitBeanConfig",
+      "name": "init.services.init-services",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 初始化服务",
+      "type": "java.util.List<java.lang.Class>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.InitBeanConfig",
+      "name": "init.services.list",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 所有服务",
+      "type": "java.util.List<java.lang.Class>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.ProjectDetailConfig",
+      "name": "onemap.project-detail-vo-list",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 项目详情",
+      "type": "java.util.List<cn.gtmap.msurveyplat.common.vo.ProjectDetailVo>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.DjxlCgsjlxConfig",
+      "name": "qc.djxl-cgsjlx-map-list",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 登记小类和成果数据类型关系",
+      "type": "java.util.List<java.util.Map>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.DjxlGxConfig",
+      "name": "relation.djxl.djxl-cgsjlx-map-list",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 登记小类和成果数据类型关系",
+      "type": "java.util.List<java.util.Map>"
+    },
+    {
+      "sourceType": "cn.gtmap.msurveyplat.server.config.DjxlGxConfig",
+      "name": "relation.djxl.djxl-chsx-map-list",
+      "description": "@author <a href=\"mailto:liujie@gtmap.cn\">liujie<\/a>\n @description 登记小类和测绘事项关系",
+      "type": "java.util.List<java.util.Map>"
+    }
+  ]
+}

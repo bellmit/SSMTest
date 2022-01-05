@@ -1,0 +1,11 @@
+.jctb-panel {
+    padding: 1px;
+}
+
+#tdlyxzSelector,
+#jctbYearSelector,
+.querySelector{
+    min-width: 120px;
+    width: 50%;
+    margin-top: 10px;
+}

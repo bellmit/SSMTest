@@ -1,0 +1,32 @@
+package cn.gtmap.msurveyplat.serviceol.core.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface DchyXmglSjclService {
+
+    /**
+     * 获取到收件材料信息
+     * @param paramMap
+     * @return
+     */
+    List<Map<String,Object>> getSjclList(Map<String, Object> paramMap);
+
+    /**
+     * 初始化合同信息与收件信息
+     * @param glsxId
+     * @param ssmkId
+     * @param mapList
+     */
+    void  initHtxxSjxxAndClxx(String glsxId, String ssmkId, List<Map<String, Object>> mapList);
+
+    /**
+     * 新增收件材料配置
+     */
+    Map saveSjclpz(Map<String, Object> map);
+
+    /**
+     * 删除收件材料配置
+     */
+    Map deleteSjclpz(Map<String, Object> map);
+}

@@ -1,0 +1,62 @@
+package cn.gtmap.msurveyplat.promanage.core.service.mq.service;
+
+import org.apache.commons.lang3.StringUtils;
+
+public interface PushDataToMqService {
+
+    /**
+     * @param msg
+     * @return
+     * @description 2020/12/15 线下库同步数据到线上备份库的实现类
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushSlxxMsgToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/3/14 线上的成果检查结果返回
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushCgjcResultToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/3/14 线上的成果提交结果返回
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushCgtjResultToMq(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/3/15 推送线下的成果抽查数据
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushCgccResultToMq(String msg);
+
+    /**
+     * 在线办结结果返回给网上办事大厅
+     *
+     * @param msg
+     */
+    void pushZxbjResultTo(String msg);
+
+    /**
+     * @param msg
+     * @return
+     * @description 2021/4/2 办结的基础数据申请推送到线上
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    void pushJcsjResultTo(String msg);
+
+     /**
+      * @param msg
+      * @return
+      * @description 2021/4/12 推送消息提醒的数据
+      * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+      */
+    void pushXxtxResultTo(String msg);
+
+}

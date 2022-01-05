@@ -1,0 +1,21 @@
+#geo_panel{
+    text-align: center;
+    max-height: 300px;
+}
+#geo_panel textarea{
+    height: 220px;
+    width: 100%;
+    max-height: 300px;
+    max-width: 300px;
+    border: #ccc solid 1px;
+}
+
+#parseGeoBtn{
+    margin: 20px auto;
+}
+
+.geo-li{
+    padding: 8px;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+}

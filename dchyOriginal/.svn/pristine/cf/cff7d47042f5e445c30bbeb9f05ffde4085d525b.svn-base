@@ -1,0 +1,9 @@
+<div class="widget-panel-title">路线回放</div>
+<div id="routeContainer" class="route-container">
+    <div class="route-list-container">
+    </div>
+    <div class="route-btn-container">
+        <a class="btn btn-primary" id="routeCtlBtn"><i class="fa fa-play"></i>&nbsp;播放</a>
+        <a class="btn btn-primary" id="routeResetBtn"><i class="fa fa-reply"></i>&nbsp;重置</a>
+    </div>
+</div>

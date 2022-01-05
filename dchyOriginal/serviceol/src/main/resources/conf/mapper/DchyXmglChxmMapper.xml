@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChxmMapper">
+    <!--获取当前需求发布编号-->
+    <select id="queryMaxXqfbbh" resultType="String">
+        SELECT to_char(seq_xqfbbh.nextVal) AS xqfbbh FROM dual
+    </select>
+
+    <!--获取当前受理编号-->
+    <select id="queryMaxSlbh" resultType="String">
+        SELECT to_char(seq_slbh.nextVal) AS slbh FROM dual
+    </select>
+
+    <!--获取线上委托信息-->
+    <select id="queryEntrustByPage" resultType="map" parameterType="map">
+        SELECT DISTINCT chgcid,gcbh,gcmc,wtdw,xqfbbh,chxmid,fbsj,xmly,fbr,chdwmc,wtzt FROM
+        (
+        SELECT gc.chgcid,gc.gcbh,gc.gcmc,gc.wtdw,xm.xqfbbh,xm.chxmid,xm.fbsj,xm.xmly,xm.fbr,chdw.chdwmc,
+                CASE WHEN xxslxm.wtzt IS NOT NULL THEN xxslxm.wtzt ELSE xm.wtzt END wtzt
+        FROM DCHY_XMGL_CHXM xm
+        LEFT JOIN DCHY_XMGL_CHGC gc ON gc.chgcid=xm.chgcid
+        LEFT JOIN XSBF_DCHY_XMGL_CHXM xxslxm ON xxslxm.xqfbbh=xm.xqfbbh
+        LEFT JOIN dchy_xmgl_chxm_chdwxx chdw ON xm.chxmid = chdw.chxmid
+        )
+        <where>
+            AND xmly ='3'
+            <if test="usidList !=null and usidList.size >0">
+                AND fbr IN
+                <foreach collection="usidList" item="item" index="index" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="gcbh != null and gcbh !=''">
+                AND gcbh like '%'|| #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND gcmc LIKE '%'|| #{gcmc} || '%'
+            </if>
+            <if test="wtbh != null and wtbh !=''">
+                AND xqfbbh like '%'|| #{wtbh} || '%'
+            </if>
+            <if test="wtzt != null and wtzt !=''">
+                AND wtzt = #{wtzt}
+            </if>
+            <if test="chdwmc != null and chdwmc !=''">
+                AND chdwmc like  '%'|| #{chdwmc} || '%'
+            </if>
+        </where>
+        ORDER BY fbsj DESC
+    </select>
+
+    <!--获取委托信息详情-->
+    <select id="queryEntrustByChxmid" resultType="map" parameterType="map">
+        SELECT gc.chgcid,gc.gcbh,gc.gcmc,gc.wtdw,gc.lxr,gc.lxdh,gc.gcdzxx,gc.gcdzs,gc.gcdzss,gc.gcdzqx,
+                xm.cgjfrq,xm.xqfbbh,xm.chxmid,xm.ys,xm.fbsj,xm.wtzt,xm.xmlx,xm.chjglxr,xm.chjglxdh,xm.zdxm
+        FROM DCHY_XMGL_CHGC gc
+        INNER JOIN DCHY_XMGL_CHXM xm ON gc.chgcid=xm.chgcid
+        <where>
+            AND xm.xmly ='3'
+            <if test="chxmid != null and chxmid !=''">
+                AND xm.chxmid = #{chxmid}
+            </if>
+        </where>
+        ORDER BY xm.fbsj DESC NULLS LAST
+    </select>
+
+    <select id="queryUsername" resultType="String">
+       SELECT user_name AS sjrmc FROM PF_USER WHERE user_id = #{userid}
+    </select>
+
+
+</mapper>

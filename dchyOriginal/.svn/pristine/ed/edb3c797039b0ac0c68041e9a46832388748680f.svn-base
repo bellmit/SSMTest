@@ -1,0 +1,180 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title"><span>机构基本信息</span></div>
+            <div>
+                <Button type="primary" class="btn-h-32 bdc-major-btn" v-if="isCheck" @click="check">审核</Button>
+                <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" @click="editRecord">变更记录</Button>
+                <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" @click="viewFj">附件材料</Button>
+                <Button class="btn-cancel btn-h-34 margin-left-10" @click="cancel">返回</Button>
+            </div>
+        </div>
+        <agencyInfo
+            ref="agencyInfo"
+            :agencyInfoData="agencyInfoData" 
+            :readonly="readonly"
+            :mlkid="mlkid" 
+        ></agencyInfo>
+        <div class="form-title margin-top-10">
+            <div class="list-title"><span>附件材料</span></div>
+        </div>
+        <uploadFileInfo
+            ref="upload-file-info"
+            :ssmkid="ssmkid" 
+            :deleteColumns="deleteColumns"
+            :glsxid="mlkid" 
+        ></uploadFileInfo>
+        <Modal 
+			class="modal-base form-record" 
+			v-model="visible" 
+			:title="'审核意见'"
+			width="700"
+			:mask-closable="false" 
+			:footer-hide="true" 
+			closable>
+			<Form v-if="visible" class="form-edit" ref="check-form" @on-validate="validateChecked"
+				:model="checkForm" :rules="fileRule" :label-width="114">
+				<FormItem v-model="checkForm.shjg" prop="shjg" label="审核结果 ">
+					<RadioGroup v-model="checkForm.shjg">
+						<Radio label="1">通过</Radio>
+						<Radio label="0">退回</Radio>
+					</RadioGroup>
+				</FormItem>
+				<FormItem v-model="checkForm.shyj" prop="shyj" label="备案意见 ">
+					<Input v-model="checkForm.shyj" style="width: 500px" :rows="4" type="textarea" placeholder="" />
+				</FormItem>
+			</Form>
+			<div class="save-btn">
+				<Button type="primary" class="btn-h-34 bdc-major-btn" @click="handlerCheck()">确认</Button>
+				<Button class="margin-left-10 btn-h-34 btn-cancel" @click="cancelCheck()">取消</Button>
+			</div>
+		</Modal>
+    </div>
+</template>
+<script>
+import agencyInfo from "../../../components/survey/agency-info"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import { reviewCheck } from "../../../service/review"
+export default {
+    components: {
+        agencyInfo,
+        uploadFileInfo
+    },
+    data() {
+        return {
+            agencyInfoData: {},
+            readonly: true,
+            ssmkid: "1",
+            deleteColumns: ["opeartion"],
+            checkForm: {
+                shjg: "1",
+                shyj: ""
+            },
+            fileRule: {
+                shjg: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            },
+            mlkid: "",
+            isCheck: false,
+            visible: false,
+            unLastSubmit: true,
+            error: ""
+        }
+    },
+    mounted() {
+        this.mlkid = this.$route.query.mlkid || "";
+        this.isCheck = this.$route.query.type === "check" ? true : false;
+        this.getMlkInfo();
+    },
+    methods: {
+        // 获取名录库信息
+        getMlkInfo(){
+            this.$loading.show("加载中...")
+            reviewCheck({mlkid: this.mlkid}).then(res => {
+                this.$loading.close();
+                if(res.data.dataList && res.data.dataList.length){
+                    let info = res.data.dataList[0];
+                    for(let key in info){
+                        info[_.toLower(key)] = info[key];
+                        delete info[key]
+                    }
+                    if(info.clsxdms){
+                        let clsxList = info.clsxdms.split(";");
+                        this.$refs["agencyInfo"].setClsxList(clsxList)
+                    }
+                    this.agencyInfoData = {...info}
+                    this.readonly = true;
+                }
+            })
+        },
+        // 变更记录
+        editRecord(){
+            this.$router.push({
+                path: "/survey/edit/record",
+                query: {
+                    mlkid: this.mlkid,
+                    dwmc: this.agencyInfoData.dwmc,
+                    from: this.$route.fullPath
+                }
+            })
+        },
+        // 附件查看
+        viewFj(){
+            const {href} = this.$router.resolve({
+                path: '/review/fj',
+                query: {mlkid: this.mlkid}
+            })
+            window.open(href);
+        },
+        // 审核
+        check(){
+            this.visible = true
+        },
+        cancel(){
+            let from = this.$route.query.from || "";
+            if(from){
+                this.$router.push(from)
+            } else {
+                this.$router.push("/admin/mlk/list")
+            }
+        },
+        // 弹出表单校验的失败信息
+		validateChecked(prop, status, error) {
+			if (error && this.error != error && !this.unLastSubmit) {
+				this.error = error;
+				this.$error.show(error);
+				setTimeout(() => {
+					this.error = "";
+					this.$error.close();
+				}, 1000);
+			}
+		},
+        // 审核
+        handlerCheck(){
+            this.unLastSubmit = false;
+            this.$refs["check-form"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true;
+                },500)
+                if(valid){
+
+                }
+            })
+        },
+        cancelCheck(){
+            this.visible = false;
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-record .form-edit {
+        padding: 0 10px !important;
+    }
+</style>

@@ -1,0 +1,11 @@
+<div class="record-upload-container">
+    <p>
+	<span>
+		<!--<label for="viewfile" style="text-shadwo=none;">上传文件：</label>-->
+		<input type="text" name="viewfile" id="viewfile_{{id}}" data-id={{id}} class="viewfile" readonly="readonly"/>
+	</span>
+        <label class="bottom"> 选择文件 </label>
+        <input type="file" size="27" name="files[]" data-parent="{{proId}}" id="upload_{{id}}" class="file" />
+    </p>
+    <p class="clear"><button data-id="{{id}}" data-parent="{{proId}}" id="btn_{{id}}" class="submit"><i class="fa fa-cloud-upload"></i>  上传</button></p>
+</div>

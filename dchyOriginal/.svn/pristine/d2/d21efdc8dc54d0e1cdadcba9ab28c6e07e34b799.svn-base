@@ -1,0 +1,70 @@
+<div id="add-app-modal" class="modal fade" role="dialog">
+    <form id="create-app-form" class="form-horizontal" role="form" data-toggle="validator">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <div class="m-header">
+                <a class="close-btn"></a>
+                <a class="m-title">创建地图模板</a>
+            </div>
+            <div class="m-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模板文件名称</label>
+                        <div class="col-sm-7">
+                            <input name="tpl" type="text" data-provide="typeahead" class="form-control"
+                                   placeholder="填写文件名称" datatype="/^[a-zA-Z0-9_]+$/" nullmsg="请填写模板名称！" errormsg="文件名称只能是数字、字母或下划线！" >
+                        </div>
+                        <span id="msg"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模板名称</label>
+                        <div class="col-sm-7">
+                            <input name="name" type="text" data-provide="typeahead" class="form-control"
+                                   placeholder="填写模板名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模板描述</label>
+                        <div class="col-sm-7">
+                            <textarea name="description" class="form-control"
+                                      placeholder="填写模板描述"></textarea>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="height: 21px;line-height: 21px;">模板来源</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline" style="height: 21px;line-height: 21px;">
+                            <input type="radio" name="sourceRadio" id="inlineRadio1" value="0" checked> 空模板
+                        </label>
+                        <label class="radio-inline" style="height: 21px;line-height: 21px;">
+                            <input type="radio" name="sourceRadio" id="inlineRadio2" value="1"> 已有模板
+                            <select name="parentTpl" id="parentSelect"  class="tpls-select">
+                            {{#tpls}}
+                                <option value="{{tpl}}">{{name}}</option>
+                            {{/tpls}}
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="m-footer">
+                <div class="">
+                    <a class="btn btn-create" id="createTplBtn">创建</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<style scoped>
+    .m-body{
+        margin: 2px!important;
+    }
+    #msg {
+        display: none;
+        color: red;
+        padding-top: 5px
+    }
+</style>

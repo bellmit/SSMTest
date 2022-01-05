@@ -1,0 +1,23 @@
+
+Z	java:S112i"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+R
+java:S2629c"7Use the built-in formatting to construct this argument.(Ãçµ¬şÿÿÿÿ
+W
+java:S3457,"AFormat specifiers should be used instead of string concatenation.(©¯™İ
+\
+java:S34575"AFormat specifiers should be used instead of string concatenation.(¤¥‡şÿÿÿÿ
+i
+java:S4719_"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+[
+java:S3252`"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(–ñøÄ
+`	java:S112Z"FDefine and throw a dedicated exception instead of using a generic one.(ˆÆŠúÿÿÿÿ
+\
+java:S3457c"AFormat specifiers should be used instead of string concatenation.(Ãçµ¬şÿÿÿÿ
+D
+java:S1144F".Remove this unused private "basicNACK" method.(¤´Àÿ
+R
+java:S2629a"7Use the built-in formatting to construct this argument.(±«³Ãûÿÿÿÿ
+\
+java:S3457a"AFormat specifiers should be used instead of string concatenation.(±«³Ãûÿÿÿÿ
+c
+java:S4719/"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.CheckMapper">
+    <!--根据表名和字段查找 -->
+    <select id="getData" parameterType="String" resultType="Map" >
+        select ${field} from ${tableName} where xmid = #{xmid}
+    </select>
+
+    <select id="getSql" parameterType="String" resultType="Map">
+        select t.sjkbzd,t.sjkbzdmc,z.sql,t.bdmc from DCHY_XT_BDBTZD t left join dchy_zd_sjkb z on t.sjkbzdbid = z.id
+        where t.gzldyid = #{gzldyid} and t.gzljdid = #{gzljdid}
+    </select>
+
+    <select id="executeSql" parameterType="String" resultType="Map">
+        ${sql}
+    </select>
+
+</mapper>

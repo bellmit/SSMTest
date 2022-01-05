@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglSjclMapper">
+    <!-- 根据项目ID查询成果管理系统收件材料信息 -->
+    <select id="getDchyCgglSjclDOListByXmid" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglSjclDO">
+        SELECT t.sjclid,t.sjxxid,t.clmc,t.fs,t.ys,t.sjlx,t.wjzxjdid,t.bz FROM dchy_cggl_sjcl t
+        LEFT JOIN dchy_cggl_sjxx j ON j.sjxxid=t.sjxxid
+        LEFT JOIN dchy_cggl_xm c ON c.xmid=j.xmid
+        WHERE c.xmid=#{xmid}
+    </select>
+
+    <!-- 根据项目ID查询成果管理系统默认收件材料信息 -->
+    <select id="getDefaultDchyCgglSjclDOListByXmid" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglSjclDO">
+        SELECT t.clmc,t.mrfs AS fs,t.mrys AS ys,t.sjlx FROM dchy_xt_sjcl t
+        LEFT JOIN dchy_cggl_xm m ON m.djxl=t.djxl
+        WHERE m.xmid=#{xmid}
+    </select>
+
+    <!-- 根据工作流定义id获取字典表中的收件材料 -->
+    <select id="getDchyCgglSjclDOListByGzldyid" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglSjclDO">
+         SELECT t.clmc,t.mrfs AS fs,t.mrys AS ys,t.sjlx FROM dchy_xt_sjcl t
+        LEFT JOIN DCHY_GZL_DJXL_GX m ON m.djxl=t.djxl
+        WHERE m.GZLDYID=#{gzldyid}
+    </select>
+
+    <delete id="deleteSjcl">
+        DELETE FROM DCHY_CGGL_SJCL a
+        <where>
+            <choose>
+                <when test="slclidList != null">
+                    AND a.sjclid IN
+                    <foreach collection="slclidList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    and a.sjclid ='emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+</mapper>

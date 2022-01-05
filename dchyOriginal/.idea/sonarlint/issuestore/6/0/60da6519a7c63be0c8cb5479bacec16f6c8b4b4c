@@ -1,0 +1,57 @@
+
+P
+java:S1128.".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ8Ûúê™/
+V
+java:S3457K"AFormat specifiers should be used instead of string concatenation.(íÌº/
+F
+java:S1481"*Remove this unused "byte2" local variable.(¤îÎ¨øÿÿÿÿ
+1
+java:S3457¤"Not enough arguments.(à¼´†ÿÿÿÿÿ
+o
+java:S3776©"SRefactor this method to reduce its Cognitive Complexity from 549 to the 15 allowed.(ñîÉ›úÿÿÿÿ
+F
+java:S3740Ñ"/Provide the parametrized type for this generic.(ùª“Š
+^
+java:S1854·"@Remove this useless assignment to local variable "xmglSjxxList".(±Úà8Ûúê™/
+j
+java:S4719›"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(‘÷ùØûÿÿÿÿ
+C
+java:S1481z"-Remove this unused "parentId" local variable.(ä¦ı­
+R
+java:S1066Ê"/Merge this if statement with the enclosing one.(›ÈŒ½ÿÿÿÿÿ8Ûúê™/
+^	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(ñîÉ›úÿÿÿÿ
+e
+java:S1192"GDefine a constant instead of duplicating this literal "xqfbbh" 3 times.( â¤ì8Ûúê™/
+R
+java:S3740¢"/Provide the parametrized type for this generic.(öˆÌÿÿÿÿÿ8Ûúê™/
+j
+java:S4719°"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+U
+java:S1854"9Remove this useless assignment to local variable "byte2".(¤îÎ¨øÿÿÿÿ
+P
+java:S2864û"4Iterate over the "entrySet" instead of the "keySet".(½Ö²’ûÿÿÿÿ
+M
+java:S3740•"/Provide the parametrized type for this generic.(ËŸ¤¼8Ûúê™/
+D
+java:S1144e".Remove this unused private "basicNACK" method.(¤´Àÿ
+\
+java:S3457T"AFormat specifiers should be used instead of string concatenation.(Á£éˆüÿÿÿÿ
+D
+java:S1481¬"-Remove this unused "parentId" local variable.(ä¦ı­
+W	java:S125ı"<This block of commented-out lines of code should be removed.(çª…ğûÿÿÿÿ
+1
+java:S3457î"Not enough arguments.(à¼´†ÿÿÿÿÿ
+[
+java:S3252±"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+O
+java:S1481·"1Remove this unused "xmglSjxxList" local variable.(±Úà8Ûúê™/
+E
+java:S3740¹"/Provide the parametrized type for this generic.(Şˆ¯H
+c
+java:S4719N"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+i
+java:S4719~"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+[
+java:S3252‚"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+R
+java:S1066Š"/Merge this if statement with the enclosing one.(ÿ·˜ûÿÿÿÿ8Ûúê™/

@@ -1,0 +1,74 @@
+<template>
+    <ul class='process-nav'>
+        <li class="step-first">
+            项目进度
+        </li>
+        <li v-for='(step,index) in steps' :key='index' :class="step.details.length?'process-doing':current>(index+1)?'process-done':''">
+            <div class="step-img">
+                <img v-if="step.details.length" :src="'static/images/step-'+step.type+'1.png'" alt="">
+                <img v-else :src="'static/images/step-'+step.type+'2.png'" alt="">
+            </div>
+            <div :class="step.details.length?'step-dot process-nav-doing':current>(index+1)?'step-dot process-nav-done':'step-dot'"></div>
+            <div class="process-steps" >
+                <span style="font-size: 18px;margin-left: -30px">{{step.stepName}}</span>
+                <div v-for="(item,index) in step.details" :key="index" :class="'process-step step-'+step.type+''">
+                    <div :class="'process-name process-'+step.type+''">
+                        <div class="dot-step"></div>
+                        {{item.title}}
+                    </div>
+                    <div class="process-content">
+                        {{item.content}}
+                        <div v-if="item.clsx">
+                            测量事项: 
+                            <div>
+                                {{item.clsx}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</template>
+<script>
+import _ from "lodash"
+export default {
+    props: {
+        steps: {
+            type: Array,
+            default: () => []
+        },
+        current: {
+            type: Number,
+            default: 1
+        }
+    },
+    watch: {
+        steps: {
+            deep: true,
+            handler: function(newVal,oldVal){
+                if(!_.isEqual(newVal,oldVal)){
+                    this.viewChange();
+                }
+            }
+        }
+    },
+    methods: {
+        viewChange(){
+            this.$nextTick(() => {
+                this.steps.forEach(step => {
+                    let height = $(".step-"+step.type+"").height();
+                    if(height){
+                        let h = height - 9;
+                        let appendStr = "<style>.process-"+step.type+"::after{height:" + h + "px}</style>";
+                        $(".process-"+step.type).append(appendStr);
+                    }
+                })
+            })
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import "./process-step.less";
+</style>

@@ -1,0 +1,38 @@
+<div class="widget-panel-title">数据共享</div>
+<div id="dataSharePanel" class="panel-body" style="padding: 1px;padding-top: 5px;">
+    <div id="shareSelect"></div>
+    <div class="btn-opt">
+        <span id="dataPush">
+            <a class="btn btn-primary btn-sm">
+                <i class="iconfont">&#xe632;</i>推送
+            </a>
+        </span>
+        <span id="dataPickUp" >
+            &nbsp;&nbsp;
+            <a class="btn btn-primary btn-sm">
+                <i class="iconfont">&#xe631;</i>提取
+            </a>
+        </span>
+        <span id="dataReceive" >
+            <a class="btn btn-primary btn-sm">
+                <i class="iconfont">&#xe60f;</i>接收
+            </a>
+        </span>
+    </div>
+</div>
+
+<!--现状多年份选择模板-->
+<script id="shareSelectTpl" type="x-tpl-handlebars">
+<form id="dataShareForm" class="form-horizontal">
+    <div class="share-data-sel-wrapper text-center">
+        <label class="text-info">数据来源：</label>
+        <select id="layerNameSelector" multiple="multiple">
+            {{#each layerNames}}
+            <option value="{{layerName}}" {{selected}}>
+                {{layerName}}
+            </option>
+            {{/each}}
+        </select>
+    </div>
+</form>
+</script>

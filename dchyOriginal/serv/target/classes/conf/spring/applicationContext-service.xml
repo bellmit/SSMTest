@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="workFlowDefineService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/workFlowDefineService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysWorkFlowDefineService"/>
+    </bean>
+
+    <bean id="SysDistrictService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysDistrictService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysDistrictService"/>
+    </bean>
+
+    <bean id="WorkFlowCoreService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/workflowcore.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.WorkFlowCoreService"/>
+    </bean>
+
+    <bean id="SysAuthorService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysAuthorService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysAuthorService"/>
+    </bean>
+
+    <bean id="SysUserService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/userservice.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysUserService"/>
+    </bean>
+
+    <bean id="nodeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${fileCenter.url}/http/nodeService"/>
+        <property name="serviceInterface" value="com.gtis.fileCenter.service.NodeService"/>
+    </bean>
+
+    <bean id="workFlowIntanceService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/workFlowInstanceService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysWorkFlowInstanceService"/>
+    </bean>
+
+    <bean id="taskService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/taskService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysTaskService"/>
+    </bean>
+
+    <bean id="WorkFlowXmlUtil" class="cn.gtmap.msurveyplat.serv.utils.WorkFlowXmlUtil">
+        <property name="workFlowIntanceService" ref="workFlowIntanceService"/>
+        <property name="workFlowDefineService" ref="workFlowDefineService"/>
+    </bean>
+
+    <bean id="sysOpinionService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/sysOpinionService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysOpinionService"/>
+    </bean>
+
+    <bean id="sysWorkFlowPostService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysWorkFlowPostService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysWorkFlowPostService"/>
+    </bean>
+
+    <bean id="sysTaskTurnService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysTaskTurnService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysTaskTurnService"/>
+    </bean>
+
+    <bean id="sysActivityService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysActivityService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysActivityService"/>
+    </bean>
+
+    <bean id="sysDynamicSignService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysDynamicSignService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysDynamicSignService"/>
+    </bean>
+
+    <!--支持rss-->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+
+    <bean id="platformSplitDataService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/splitDataService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SplitDataService"/>
+    </bean>
+
+    <bean id="FileCenterNodeServiceImpl" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${fileCenter.url}/http/nodeService</value>
+        </property>
+        <property name="serviceInterface">
+            <value>com.gtis.fileCenter.service.NodeService</value>
+        </property>
+    </bean>
+
+    <bean id="fileService" class="com.gtis.fileCenter.service.impl.FileServiceImpl">
+        <property name="nodeService" ref="FileCenterNodeServiceImpl"/>
+        <property name="fileCenterUrl" value="${fileCenter.url}"/>
+    </bean>
+
+    <bean id="SysSignService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/sysSignService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysSignService"/>
+    </bean>
+
+    <bean id="SysWorkFlowInstanceRelService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl"
+                  value="${platform.url}/workFlowInstanceRelService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysWorkFlowInstanceRelService"/>
+    </bean>
+
+    <bean id="splitDataService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/splitDataService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SplitDataService"/>
+    </bean>
+
+    <bean id="sysCalendarService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${platform.url}/sysCalendarService.service"/>
+        <property name="serviceInterface" value="com.gtis.plat.service.SysCalendarService"/>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,279 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+export default new Router({
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/home/home')
+        },
+        {
+            path: '/home',
+            name: 'Home',
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/home/home')
+        },
+        {
+            path: '/review/fj',
+            component: () =>
+                import ( /* webpackChunkName: "reviewFj" */ '@/pages/review/review-fj')
+        },
+        {
+            path: '/review/cl/fj',
+            component: () =>
+                import ( /* webpackChunkName: "reviewClFj" */ '@/pages/review/review-cl-fj')
+        },
+        {
+            path: '/review/cg/fj',
+            name: '',
+            component: () => 
+                import ( /* webpackChunkName: "htbadj" */ '@/pages/admin/review/review-cg-fj'),
+        },
+        {
+            path: '/manage/cgtj',
+            name: '',
+            component: () => 
+                import ( /* webpackChunkName: "chsldj" */ '@/pages/cgtj/submit-cg'),
+        },
+        {
+            path: '/manage',
+            name: 'manage',
+            component: () => 
+                        import ( /* webpackChunkName: "manage" */ '@/pages/manage/manage'),
+            children: [
+                {
+                    path: '',
+                    name: 'Default',
+                    component: () => 
+                        import ( /* webpackChunkName: "Default" */ '@/pages/manage/manage'),
+                },
+                {
+                    path: 'htbadj',
+                    meta: {
+                        menuName: "待办备案"
+                    },
+                    name: '待办备案',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/htbadj-list'),
+                },
+                {
+                    path: 'htbadj/stop',
+                    meta: {
+                        menuName: "合同登记备案"
+                    },
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/stopAndRestore'),
+                },
+                {
+                    path: 'htbadj/add',
+                    meta: {
+                        menuName: "合同登记备案"
+                    },
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/htbadj-add'),
+                },
+                {
+                    path: 'htbadj/rzxq',
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/rzxq.vue'),
+                },
+                {
+                    path: '/edit/record',
+                    meta: {
+                        menuName: "合同登记备案"
+                    },
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/edit-record'),
+                },
+                {
+                    path: '/edit/record/detail',
+                    meta: {
+                        menuName: "合同登记备案"
+                    },
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/manage/htbadj/edit-record-detail'),
+                },
+                {
+                    path: 'chsldj',
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "chsldj" */ '@/pages/cgtj/chsldj-list'),
+                },
+                {
+                    path: 'chsldj/view',
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "chsldj" */ '@/pages/cgtj/chsldj-view'),
+                },
+                {
+                    path: 'review/list',
+                    name: '备案列表',
+                    component: () => 
+                        import ( /* webpackChunkName: "reviewList" */ '@/pages/project-ba/ybadj-list'),
+                },
+                {
+                    path: 'evaluate/list',
+                    name: '成果抽查',
+                    component: () => 
+                        import ( /* webpackChunkName: "evaluateList" */ '@/pages/evaluate/cg-check-list'),
+                },
+                {
+                    path: 'evaluate/add',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "evaluateAdd" */ '@/pages/evaluate/cg-check'),
+                },
+                {
+                    path: 'evaluate/view',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "evaluateView" */ '@/pages/evaluate/cg-evaluate-view'),
+                },
+                {
+                    path: 'xm/statistics',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "xmStatistics" */ '@/pages/statistics/xm-statistics'),
+                },
+                {
+                    path: 'xm/business',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "xmBusiness" */ '@/pages/statistics/xm-business'),
+                },
+                {
+                    path: 'xm/classify',
+                    name: "项目分析",
+                    component: () => 
+                        import ( /* webpackChunkName: "xmClassify" */ '@/pages/statistics/xm-classify'),
+                },
+                {
+                    path: 'check/rule',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "checkRule" */ '@/pages/config/check-rule'),
+                },
+                {
+                    path: 'config/fj',
+                    name: "",
+                    component: () => 
+                        import ( /* webpackChunkName: "configurationFj" */ '@/pages/config/configuration-fj'),
+                },
+                {
+                    path: 'record/list',
+                    name: "日志管理",
+                    component: () => 
+                        import ( /* webpackChunkName: "recordList" */ '@/pages/record/record-list'),
+                },
+                {
+                    path: 'jsdw/list',
+                    name: "建设单位管理",
+                    component: () => 
+                        import ( /* webpackChunkName: "recordList" */ '@/pages/jsdw/jsdw-list'),
+                }
+            ]
+        },
+        {
+            path: '/apply/review/check',
+            name: '',
+            component: () => 
+                import ( /* webpackChunkName: "htbadj" */ '@/pages/dataApply/review/review-check'),
+        },
+        {
+            path: '/apply/completed/view',
+            name: '',
+            component: () => 
+                import ( /* webpackChunkName: "completedView" */ '@/pages/dataApply/completed/completed-view'),
+        },
+        {
+            path: '/apply',
+            name: 'apply',
+            component: () => 
+                        import ( /* webpackChunkName: "manage" */ '@/pages/manage/manage'),
+            children: [
+                {
+                    path: '',
+                    name: 'Default',
+                    component: () => 
+                        import ( /* webpackChunkName: "Default" */ '@/pages/manage/manage'),
+                },
+                {
+                    path: 'review/list',
+                    meta: {
+                        menuName: "我的待办"
+                    },
+                    name: '我的待办',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/dataApply/review/review-list'),
+                }
+            ]
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: () => 
+                        import ( /* webpackChunkName: "admin" */ '@/pages/admin/admin'),
+            children: [
+                {
+                    path: '',
+                    name: 'Default',
+                    component: () => 
+                        import ( /* webpackChunkName: "Default" */ '@/pages/admin/admin'),
+                },
+                {
+                    path: 'review/baseinfo',
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "htbadj" */ '@/pages/admin/review/review-base-info'),
+                },
+                {
+                    path: 'review/check',
+                    meta: {},
+                    component: () => 
+                        import ( /* webpackChunkName: "check" */ '@/pages/admin/review/review-info'),
+                }
+            ]
+        },
+        {
+            path: '/changzhou',
+            name: 'changzhou',
+            component: () => 
+                import ( /* webpackChunkName: "manage" */ '@/pages/manage/manage'),
+            children: [
+                {
+                    path: '',
+                    name: 'Default',
+                    component: () => 
+                        import ( /* webpackChunkName: "manage" */ '@/pages/manage/manage'),
+                },
+                {
+                    path: 'htbadj',
+                    name: '待办备案',
+                    component: () => 
+                        import ( /* webpackChunkName: "changzhouBadj" */ '@/pages/project-ba/dbadj-list'),
+                },
+                {
+                    path: 'htbadj/add',
+                    name: '',
+                    component: () => 
+                        import ( /* webpackChunkName: "changzhouBadj" */ '@/pages/project-ba/htbadj-add'),
+                },
+                {
+                    path: 'cgtj/list',
+                    name: '成果提交',
+                    component: () => 
+                        import ( /* webpackChunkName: "changzhouBadj" */ '@/pages/cgtj/submit-cg-list'),
+                }
+            ]
+        }
+    ]
+})

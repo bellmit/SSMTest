@@ -1,0 +1,209 @@
+<template>
+    <div class="home">
+        <div class="header">
+            <div class="header-base">
+                <div class="header-container">
+                    <div class="home-title">{{placeSevice}}<span class="font-sun">“</span>多测合一<span class="font-sun">”</span>网上服务大厅</div>
+                    <div style="position: relative">
+                        <div style="margin-right: 10px;vertical-align: middle"><i class="fa fa-user-o user-login" aria-hidden="true"></i>
+                            <span style="cursor: pointer;" v-if="!isLogin&&!showRegister" @click="toLogin()">普通用户登录</span>
+                            <span class="margin-left-10" v-if="!isLogin&&!showRegister">|</span>
+                            <span style="cursor: pointer;" class="margin-left-10" v-if="!isLogin&&!showRegister" @click="toLoginPage()">管理单位登录</span>
+                            <span style="cursor: pointer;" v-if="!isLogin&&showRegister" @click="toLoginPage()">请登录</span>
+                            <span style="cursor: pointer;" v-if="isLogin" @click="toPortal()">您好，{{userInfo.dwmc}} {{userInfo.username}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bdc-container">
+            <div class="sys-items">
+                <div :class="role=='person'?'sys-item business-mlk':'sys-item business-mlk cursor-pointer'" @click="toPortal()">
+                    <div class="sys-item-icon">
+                        <img src="static/images/project-icon.png" alt="">
+                    </div>
+                    <div class="sys-item-detail">
+                        <div class="sys-item-title">名录库管理</div>
+                        <div class="sys-item-menu">
+                            <span>统一入驻条件，规范测绘市场</span>
+                        </div>
+                    </div>
+                </div>
+                <div :class="role=='person'?'sys-item business-pro':'sys-item business-pro cursor-pointer'" @click="toPortal()">
+                    <div class="sys-item-icon">
+                        <img src="static/images/project-icon.png" alt="">
+                    </div>
+                    <div class="sys-item-detail">
+                        <div class="sys-item-title">项目管理</div>
+                        <div class="sys-item-menu">
+                            <span>项目在线委托，缩短办事时限</span>
+                        </div>
+                    </div>
+                </div>
+                <div :class="role=='person'?'sys-item business-kp':'sys-item business-kp cursor-pointer'"  @click="toPortal()">
+                    <div class="sys-item-icon">
+                        <img src="static/images/kp-icon.png" alt="">
+                    </div>
+                    <div class="sys-item-detail">
+                        <div class="sys-item-title">考评管理</div>
+                        <div class="sys-item-menu">
+                            <span>定期全面考评，提升监管效能</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sys-menus">
+                <div class="sys-news">
+                    <div class="news-header">
+                        <img src="static/images/msg1.png" alt=""> 通知公告
+                        <a href="javascript:void(0)" @click="noticeMore()">更多>></a>
+                    </div>
+                    <div class="news-col">
+                        <div class="news-col-title">标题</div>
+                        <div class="news-col-date">日期</div>
+                    </div>
+                    <div class="news-details">
+                        <div class="news-items" v-for='(item,index) in newsList' :key='index'>
+                            <div class="news-title" @click="toDetail(item)">{{item.BT}}</div>
+                            <div class="news-date">{{item.FBSJ}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sys-notice">
+                    <div class="news-header notice-header">
+                        <img src="static/images/msg2.png" alt=""> 办事服务
+                    </div>
+                    <div class="notice-content" style="padding-bottom: 20px"> 
+                        <a href="javascript: void(0)" @click="viewMlk">
+                            <img src="static/images/view-mlk.png" alt="">
+                        </a>
+                        <a href="javascript: void(0)" @click="guideMlk">
+                            <img src="static/images/guide.png" alt="">
+                        </a>
+                        <a href="javascript: void(0)" @click="toTemplate">
+                            <img src="static/images/arttemplate.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="footer"></div> -->
+    </div>
+</template>
+
+<script>
+import { getUserInfo, queryNoticeList } from "../../service/home";
+import { linkToPortal } from "../../service/request";
+import util from "../../service/util"
+export default {
+    name:'Home',
+    data() {
+        return {
+            newsList: [],
+            userInfo: {},
+            placeSevice: config.placeSevice,
+            isLogin: false,
+            role: "",
+            showRegister: config.showRegister,
+            access_token: "",
+            showLogin: false,
+            userErrorList: config.userErrorList
+        }
+    },
+    mounted() {
+        this.access_token = this.$route.query.token || util.getSearchParams("token") || "";
+        let errorCode = this.$route.query.errorCode || util.getSearchParams("errorCode") || "";
+        if(this.access_token){
+            sessionStorage.setItem("access_token", this.access_token)
+        }
+        if(errorCode){
+            let find = this.userErrorList.find(user => user.code == errorCode);
+            let errorMsg = find ? find.error : "";
+            layer.msg(errorMsg);
+        }
+        this.getUserInfo();
+        this.queryNoticeList();
+    },
+    methods: {
+        toTemplate(){
+            this.$router.push("/template")
+        },
+        // 获取通知公告
+        queryNoticeList(){
+            let params = {
+                page: 1,
+                size: 10
+            }
+            queryNoticeList(params).then(res => {
+                if(res.data.dataList.length > 10){
+                    this.newsList = res.data.dataList.slice(0, 10);
+                }else {
+                    this.newsList = res.data.dataList
+                }
+            })
+        },
+        // 用户中心
+        userLogin(){
+            this.showLogin = true;
+        },
+        // 获取用户信息
+        getUserInfo(){
+            let params = {
+                token: this.access_token
+            }
+            getUserInfo(params).then(res => {
+                if(res.data.id || res.data.dwmc || res.data.username){
+                    this.userInfo = res.data;
+                    this.isLogin = true;
+                    sessionStorage.setItem("userInfo",JSON.stringify(res.data))
+                }
+            }).catch(err => {
+                sessionStorage.removeItem("userInfo")
+            })
+        },
+        // 用户跳转
+        linkToPortalMenu(menuId=""){
+            if (!location.origin) {
+                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            location.href = location.origin + "/portal-ol/login/disPatcher?token=" + this.access_token + "&rid=" + menuId
+        },
+        toLogin(){
+            this.linkToPortalMenu()
+        },
+        toLoginPage(){
+            this.$router.push("/login")
+        },
+        toDetail(item){
+            this.$router.push({path: "/announce/detail", query: {tzggid: item.TZGGID}})
+        },
+        // 跳转portal
+        toPortal(){
+            if(!this.access_token){
+                linkToPortal()
+            } else {
+                this.linkToPortalMenu()
+            }
+        },
+        viewMlk(){
+            this.$router.push({
+                path: `/directory`,
+            });
+        },
+        guideMlk(){
+            this.$router.push("/guide")
+        },
+        noticeMore(){
+            this.$router.push("/notice")
+        },
+    },
+}
+</script>
+
+<style lang="less" scoped>
+    @import "../home/home.less";
+    .home {
+        background-color: #fff;
+        padding-bottom: 60px;
+    }
+</style>

@@ -1,0 +1,302 @@
+/**
+ * gtmap-oms stylesheet by zhangyang
+ * Blue-Style
+**/
+body {
+	background: #BFBFBF url(../img/main/body_bg.png) 0 0 repeat;
+}
+
+#header {
+    box-shadow: none;
+    height: 54px;
+	background: #0B69AC;
+    border-bottom: 1px solid #1B3A99;
+}
+#header h1{
+	width: 450px;
+	height: 26px;
+	background: url(../img/main/logo.png) 0 0 no-repeat;
+	left :20px;
+	top: 14px;
+}
+
+#content{
+	border-top-left-radius: 0;
+	margin-top: 0;
+	margin-left: 200px;
+	background-color: #fbfbfb;
+	border-left: 1px solid #ccc;
+}
+
+#search input[type=text], #search button {
+	background-color: #15458D;
+}
+#search input[type=text]:focus {
+	color: #777777;
+}
+
+#user-nav{
+	top: 13px;
+}
+
+#user-nav .btn-inverse {
+    background: #ececec;
+}
+#user-nav .btn-inverse > a {
+    color: #222;
+    font-weight: bold;
+    text-shadow: none;
+    padding: 3px 6px;
+}
+#user-nav .btn-inverse > a:hover{
+    background: #fff;
+    color: #222;
+}
+#user-nav .btn-inverse > a > .icon{
+    color: #222;
+    background-image: url('../img/glyphicons-halflings.png');
+    opacity: 1;
+    filter: none;
+}
+
+#sidebar > ul {
+	width: 200px;
+	margin: 0;
+	border-bottom: 1px solid #9C9C9C;
+}
+#sidebar > ul > li {
+	border-top: 1px solid #ffffff;
+	border-bottom: 1px solid #C1C1C1;
+	height: 36px;
+	background: url(../img/main/menu-bg.png) 0 0 no-repeat;
+}
+#sidebar > ul > li.active {
+	background: #fbfbfb;
+	box-shadow: none;
+	position: relative;
+}
+#sidebar > ul > li.active > a{
+    background: #fff none !important;
+    position: absolute;
+    width: 201px;
+    top: 0;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+#sidebar > ul > li > a{
+	height: 36px;
+	line-height: 36px;
+	padding: 0 0 0 2em;
+	font-size: 14px;
+}
+#sidebar > ul > li > a:hover {
+	background: url(../img/main/menu-bg.png) 0 -36px no-repeat;
+}
+#sidebar > ul > li > a:active {
+	background: url(../img/main/menu-bg.png) 0 -72px no-repeat;
+}
+#sidebar > ul > li > a > i{
+	vertical-align: middle;
+	margin-top: -2px;
+	background-image: url('../img/glyphicons-halflings.png');
+}
+#sidebar > ul > li > a > span{
+	color: #222;
+}
+#sidebar > ul > li > a > .icon{
+	opacity: 1;
+	filter: none;
+}
+
+@media (max-width: 480px) {
+	#sidebar > a {
+        background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#272541), to(#17162A));
+        background-image: -webkit-linear-gradient(top, #272541 0%, #17162A 100%);
+		background-image: -moz-linear-gradient(top, #272541 0%, #17162A 100%);
+        background-image: -ms-linear-gradient(top, #272541 0%, #17162A 100%);
+        background-image: -o-linear-gradient(top, #272541 0%, #17162A 100%);
+        background-image: linear-gradient(top, #272541 0%, #17162A 100%);
+		border-bottom: 1px solid #464471;
+	}
+	#sidebar > ul {
+		background-color: #18192D;
+	}
+}
+@media (min-width: 481px) and (max-width: 767px) {
+	#sidebar > ul ul:before {
+		border-right: 7px solid rgba(0, 0, 0, 0.2);
+	}
+	#sidebar > ul ul:after {
+		border-right: 6px solid #15458D;
+    }
+}
+/* Responsive design */
+@media (max-width: 480px) {
+	#header h1 {
+		top: 5px;
+		left: auto;
+		margin: 3px auto;
+		font-size:14px;
+		height: 22px;
+		width: 346px;
+		background: url(../img/main/logo_small.png) 0 0 no-repeat;
+	}
+	#user-nav {
+		position: relative;
+		left: auto;
+		right: auto;
+		width: 100%;
+		margin-top: -56px;
+		margin-bottom: 56px;
+	}
+	.navbar > .nav {
+		float: none;
+	}
+	#user-nav > ul {
+		left: 50%;
+		position: absolute;
+	}
+	#content {
+		margin-left: 0 !important;
+		margin-top: 0;
+		border-top-left-radius: 0;
+	}
+	#content-header {
+		margin-top: 0;
+		text-align: center;
+	}
+	#content-header h1, #content-header .btn-group {
+		float: none;
+	}
+	#content-header h1 {
+		display: block;
+		text-align: center;
+		margin-left: auto;
+		margin-top: 0;
+		padding-top: 15px;
+		width: 100%;
+	}
+	#content-header .btn-group {
+		margin-top: 70px;
+		margin-bottom: 0;
+		margin-right: 0;
+		left: 30%;
+	}
+	#sidebar {
+		float: none;
+		width: 100% !important;
+	}
+	#sidebar > a {
+		padding: 7px 20px 7px 15px;
+		box-shadow: 0 1px 0 #666666;
+		margin-bottom: 1px;
+		display: block !important;
+		text-transform: uppercase;
+		color: #eeeeee;
+		font-size: 12px;
+	}
+	#sidebar > a > i {
+		margin-right: 10px;
+		background-image: url('../img/glyphicons-halflings-white.png');
+	}
+	#sidebar > ul {
+		display: none;
+		margin: -2px 0 0 !important;
+		width: 100% !important;
+		box-shadow: 0 6px 6px rgba(0,0,0,0.4);
+	}
+	#sidebar > ul > li.active > a {
+		background: none !important;
+	}
+	#sidebar > ul > li > a > span {
+		display: inline !important;
+	}
+	.widget-title .buttons > .btn {
+		width: 11px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+    .form-horizontal .control-label{
+	   padding-top: 5px;
+	   padding-bottom:5px;
+	   padding-left: 30px;
+	   margin:0;
+    }
+    .form-horizontal .controls{
+        margin-left: 0;
+        padding: 0px 30px 5px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+	#sidebar, #sidebar > ul {
+		width: 43px;
+	}
+	#sidebar > a {
+		display: none !important;
+	}
+	#sidebar > ul > li > a > span {
+		display: none;
+	}
+	#content {
+		margin-left: 43px;
+	}
+	#siderbar > ul > li > a{
+		width: 43px;
+		text-align: center;
+		padding: 0;
+	}
+	#sidebar > ul > li.active > a{
+		width: 44px;
+	}
+}
+@media (max-width: 600px) {
+	.widget-title .buttons {
+		float: left;
+	}
+	.panel-left {
+		margin-right: 0;
+	}
+	.panel-right {
+		border-top: 1px solid #DDDDDD;
+		border-left: none;
+		position: relative;
+		top: auto;
+		right: auto;
+		height: auto;
+		width: auto;
+	}
+
+}
+@media (max-width: 767px) {
+	body {
+		padding: 0 !important;
+	}
+	.container-fluid {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	#search { display: none; }
+	#user-nav > ul > li > a > span.text {
+		display: none;
+	}
+}
+@media (min-width: 768px) and (max-width: 979px) {
+	[class*="span"], .row-fluid [class*="span"] {
+		display: block;
+		float: none;
+		margin-left: 0;
+		width: auto;
+	}
+}
+@media (max-width: 979px) {
+	div.dataTables_wrapper .ui-widget-header {
+		height: 68px;
+	}
+	.dataTables_filter {
+		position: relative;
+	}
+	.dataTables_filter, .dataTables_paginate {
+		text-align: center;
+	}
+}

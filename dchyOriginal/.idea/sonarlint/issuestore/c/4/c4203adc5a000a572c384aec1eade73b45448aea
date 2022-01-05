@@ -1,0 +1,26 @@
+
+u
+java:S2293“"YReplace the type specification in this constructor call with the diamond operator ("<>").(“¦œüÿÿÿÿ
+R	java:S125®"<This block of commented-out lines of code should be removed.(†€éˆ
+q
+java:S1192Q"VDefine a constant instead of duplicating this literal "//Activities/Activity" 3 times.(Üß–üÿÿÿÿ
+V	java:S125a"<This block of commented-out lines of code should be removed.(ºÀ±Éûÿÿÿÿ
+n
+java:S3776Ğ"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(¡ø·‹úÿÿÿÿ
+@
+java:S1948"%Make "doc" transient or serializable.(Ä¹¿®ùÿÿÿÿ
+
+java:S1149“"eReplace the synchronized class "Vector" by an unsynchronized one such as "ArrayList" or "LinkedList".(“¦œüÿÿÿÿ
+c	java:S100q"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôõ¹Œ
+p
+java:S2293Ò"YReplace the type specification in this constructor call with the diamond operator ("<>").(Å°Ô…
+p
+java:S2293Ñ"YReplace the type specification in this constructor call with the diamond operator ("<>").(ôÓ×Â
+p
+java:S2293‡"YReplace the type specification in this constructor call with the diamond operator ("<>").(ì­ëğ
+o
+java:S2293O"YReplace the type specification in this constructor call with the diamond operator ("<>").(Å°Ô…
+b
+java:S1192,"GDefine a constant instead of duplicating this literal "@Value" 4 times.(œ³¨ˆÿÿÿÿÿ
+X
+java:S1126Ç"AReplace this if-then-else statement by a single return statement.(Õ‡å‹

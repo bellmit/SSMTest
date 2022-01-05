@@ -1,0 +1,39 @@
+.theme-group-item {
+    margin-bottom: 6px;
+    height: 44px;
+    padding: 10px 8px !important;
+}
+
+.theme-group-item > a:hover,
+.theme-group-item > a {
+    text-decoration: none;
+}
+
+.theme-group-item:first-child {
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.theme-group-item:last-child {
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.thematic-label {
+    width: 100%;
+    line-height: 24px;
+    font-weight: normal;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.thematic-cbx {
+    height: 16px;
+    width: 16px;
+    float: left;
+}
+
+.t-group-heading {
+    padding: 10px;
+}
+

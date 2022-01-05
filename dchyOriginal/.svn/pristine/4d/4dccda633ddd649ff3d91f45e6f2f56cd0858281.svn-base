@@ -1,0 +1,117 @@
+spring.application.name=msurveyplat-promanage
+spring.jmx.enabled=false
+spring.jmx.default-domain=${spring.application.name}
+spring.http.encoding.charset=UTF-8
+spring.http.encoding.force=true
+spring.http.multipart.max-file-size=500MB
+spring.http.multipart.max-request-size=1000MB
+spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone=GMT+8
+spring.jackson.serialization.fail-on-empty-beans=false
+#rabbitmq服务配置
+spring.rabbitmq.host=127.0.0.1
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=dchy
+spring.rabbitmq.password=gtmap
+spring.rabbitmq.virtual-host=dchyXmglHost
+spring.datasource.initialize=false
+#数据库配置
+spring.datasource.dchy.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.dchy.url=jdbc:oracle:thin:@192.168.2.83:1521:orcl
+spring.datasource.dchy.username=dchyxx
+spring.datasource.dchy.password=gtis
+spring.datasource.dchy.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+
+#检查变更日志位置是否存在(默认值 true)
+liquibase.check-change-log-location=true
+#变更日志配置路径(默认值 classpath:/db/changelog/db.changelog-master.yaml)
+liquibase.change-log=classpath:conf/spring/changelog-master.xml
+#开启liquibase支持(默认值 true)
+liquibase.enabled=true
+liquibase.user=dchyxx
+liquibase.password=gtis
+liquibase.url=jdbc:oracle:thin:@192.168.2.83:1521:orcl
+
+
+#先删除数据库schema(默认值 false)
+liquibase.drop-first=false
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+# 连接池的配置信息
+# 初始化大小，最小，最大
+spring.datasource.initialSize=5
+spring.datasource.minIdle=5
+spring.datasource.maxActive=20
+# 配置获取连接等待超时的时间
+spring.datasource.maxWait=60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+spring.datasource.timeBetweenEvictionRunsMillis=60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+spring.datasource.minEvictableIdleTimeMillis=300000
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle=true
+spring.datasource.testOnBorrow=false
+spring.datasource.testOnReturn=false
+# 打开PSCache，并且指定每个连接上PSCache的大小
+spring.datasource.poolPreparedStatements=true
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+# 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+spring.datasource.filters=stat,wall,log4j
+# 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+spring.datasource.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#spring 消息
+spring.messages.basename=conf/message/messages, conf/message/errors
+#spring 服务名、端口
+server.context-path=/${spring.application.name}
+server.port=${msurveyplat-promanage.port}
+management.security.enabled=false
+resources.static-locations=classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file../../images
+#CASip
+#cas.host=http://192.168.2.83:9999
+cas.host=${base.url}
+#CAS服务地址
+cas.server.host.url=${cas.host}/cas
+#CAS服务登录地址
+cas.server.host.login_url=${cas.server.host.url}/login
+#CAS服务登出地址
+cas.server.host.logout_url=${cas.server.host.url}/logout?service=${app.server.host.url}
+#系统默认登陆地址
+index.login.url=${promanage.url}/#/
+#应用访问地址
+app.server.host.url=${promanage.url}
+#应用登录地址
+app.login.url=/index
+#应用登出地址
+app.logout.url=/logout
+#server.context-path=/portal
+security.basic.enabled=false
+feign.hystrix.enabled=true
+# 定位模板的目录
+spring.mvc.view.prefix=/
+# 给返回的页面添加后缀名
+spring.mvc.view.suffix=.html
+#新增合同备案，收件地址
+htba.sjdd=安徽省界首市
+
+#能够进入项目管理的用户角色
+xmgl.role=5B0A30189E334131993D12E1D6343EDF,02501032000004129000000000000000,DFBF7D4936C14993ACD4FA38BC83611B,79238B1E10BB48B3B625A49A33EAD4EE,747E5BF881E245928BF285A6B1D146F7,1A5079A3C6844AF7A5A4E393FD91B06A，5D914D7061DC44DA8044835736BDF79C
+#能够进入成果管理的用户角色
+cggl.role=5D914D7061DC44DA8044835736BDF79C,02501032000004129000000000000000,DFBF7D4936C14993ACD4FA38BC83611B,79238B1E10BB48B3B625A49A33EAD4EE
+#成果提交的配置---------------------------------------------------
+#测绘成果提交方式配置项，目前支持 chgcCgtj、chxmCgtj
+cgtj.mode=chxmCgtj
+#成果提交流程创建用户id
+cgtj.userId=2777C00711C842F9A9DD6676B96849BC
+#按测绘工程形式提交测绘成果
+cgtj.chgcMode.gzldyid=683672CF9397457AB57E19D765509073
+#按测绘工程形式提交测绘成果
+cgtj.chxmMode.gzldyid=773753772E0B4F18B1847BA59B51B4C0
+#基础数据申请流程创建用户id
+jcsjsq.userId=2777C00711C842F9A9DD6676B96849BC
+#基础数据申请流程
+jcsjsq.gzldyid=F32CEDB76D69468194DB49EAFD38A0B9
+#文件同步定时器执行频率
+fileUploadTime=0 */2 * * * ?
+#常州统一平台注册中心
+cztypt.ask.url=http://192.168.50.40:3000/api/cztypt
+#默认注册的角色id
+cztypt.roleid=5B0A30189E334131993D12E1D6343EDF

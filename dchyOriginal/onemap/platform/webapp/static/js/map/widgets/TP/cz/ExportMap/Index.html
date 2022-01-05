@@ -1,0 +1,82 @@
+<div class="widget-panel-title">常州出图</div>
+<div class="panel-body io-panel">
+    <!-- 导入-->
+    <div class="io-opt-container">
+        <a class="btn btn-primary btn-sm btn-file " data-opt="imp" href="javascript:;">
+            <i class="iconfont">&#xe632;</i>导入
+            <input type="file" name="file" id="export-map-file-input"/>
+        </a>
+        <a class="btn btn-primary btn-sm" id="handDrawing" data-opt="handDrawing"><i class="iconfont">&#xe62c;</i>手绘</a>
+        &nbsp;
+        <a class="btn btn-primary btn-sm" id="clearMap" data-opt="clear"><i class="iconfont">&#xe605;</i>清除</a>
+    </div>
+    <!--list展示-->
+    <div class="a-list-container" id="exportMapPanel" style="padding-top: 5px;">
+    </div>
+    <div class="text-center">
+        <a class="btn btn-primary btn-sm" id="exportMap" style="width: 120px;" data-opt="print"><i class="iconfont">&#xe608;</i>出图</a>
+    </div>
+</div>
+<!--print form-->
+<script id="exportMapFormTpl" type="x-tpl-mustache">
+<form class="form-horizontal" id="printSetForm">
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="titleInput" class="control-label">标题</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="titleInput" name="titleText" placeholder="输入标题" value="{{title}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right" id="mappingPeople">
+            <label for="authorInput" class="control-label" >成图人</label>
+        </div>
+        <div class="col-xs-4 text-right " id="fillText" >
+            <label for="authorInput" class="control-label" >填写内容</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="authorInput" name="authorText" placeholder="输入成图人" value="{{author}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4 text-right">
+            <label for="copyrightInput" class="control-label">成图单位</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="copyrightInput" name="copyrightText" placeholder="输入成图单位" value="{{copyright}}">
+        </div>
+    </div>
+	 <div class="form-group row" id="editText">
+        <div class="col-xs-4 text-right">
+            <label for="copyrightInput" class="control-label">填写内容</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="text_sjzx" name="copyrightText" placeholder="输入内容" ">
+        </div>
+    </div>
+    <div class="form-group row" id="chooseColor">
+        <div class="col-xs-4 text-right">
+            <label for="copyrightInput" class="control-label">选择颜色</label>
+        </div>
+        <div class="col-xs-8">
+            <select id="selectColor" class="form-control">
+              <option  class="chooseBlue" selected = "selected" name="blue">蓝色</option>
+              <option  class="chooseRed" name="red">红色</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row" style="display:none">
+        <div class="col-xs-4 text-right">
+            <label for="copyrightInput" class="control-label">比例尺</label>
+        </div>
+        <div class="col-xs-8">
+            <input type="text" class="form-control" id="scale" name="copyrightText" placeholder="输入比例尺" value="{{scale}}"/>
+        </div>
+    </div>
+
+</form>
+
+</script>
+
+

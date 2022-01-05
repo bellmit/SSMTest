@@ -1,0 +1,192 @@
+<div class="identify">
+    <div class="title">{{label}}配置</div>
+    <div class="pull-left">
+        <div class="location-service-tree">
+            <div>
+                <button class="btn btn-primary" id="addAnalysis"><span
+                        class="glyphicon glyphicon-plus-sign"></span>&nbsp;添加分析类型
+                </button>
+            </div>
+            <div id="jctbAnalysisLayers">
+                <div class="list-group">
+                    <a href="#" class="list-group-item" id="txlyxzAnalysisAlias"> <span>土地利用现状</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right pull-left">
+        <div class="container-fluid">
+            <div class="row lineSpacing text-center">
+                <div class="col-xs-2  text-right">
+                    <label class="lableTitle">图标</label>
+                </div>
+                <div class="col-xs-3">
+                    <div class="ui search selection dropdown" id="icons">
+                        <input type="hidden" name="icon" id="icon" value="{{icon}}">
+                        <i class="dropdown icon"></i>
+
+                        <div class="default text">请选择</div>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" class="locationCheck" name="open" {{isOpen}} id="open">
+                        <label>是否打开</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row lineSpacing text-center">
+                <div class="col-xs-2  text-right">
+                    <label class="lableTitle">数据源</label>
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" name="dataSource" class="form-control" id="dataSource" placeholder="数据源"
+                           value="{{config.analysis.dataSource}}"/>
+                </div>
+
+                <div class="col-xs-2  text-right">
+                    <label class="lableTitle">单位</label>
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" name="dataSource" class="form-control" id="unit_alias" placeholder="单位别名"
+                           value="{{config.analysis.unit.alias}}"/>
+                    <input type="text" name="dataSource" class="form-control" id="unit_format" placeholder="单位格式"
+                           value="{{config.analysis.unit.format}}"/>
+                </div>
+            </div>
+            <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                    class="tags"> 分析详情</span></h4>
+
+            <div class="row lineSpacing analysis-container" id="commonAnalysis">
+                <form id="jctbCommonAnalysisForm">
+                    <input type="hidden" name="serviceId" id="serviceId"/>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2  text-right">
+                            <label class="lableTitle">分析类型</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" name="fid" class="form-control" id="fid" placeholder="分析类型"
+                                   value="{{fid}}" readonly/>
+                        </div>
+                        <div class="col-xs-2  text-right">
+                            <label class="lableTitle">标题</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" name="title" class="form-control" id="title" placeholder="标题"
+                                   value="{{title}}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row lineSpacing" style="">
+                        <div class="col-xs-2  text-right">
+                            <label class="lableTitle">图层名称</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input type="text" name="layerName" style="float:left;width: 85%;" class="form-control"
+                                   id="layerName" placeholder="图层名称"
+                                   value="{{layerName}}" readonly/>
+                            <button class="btn btn-primary" style="float:left;width: 15%;" type="button" id="addLayer">
+                                选择图层
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row lineSpacing" style="">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">字段</label>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <div class="row lineSpacing">
+                                <div class="col-xs-5">
+                                    <select id="selectL" multiple="multiple" class="form-control"
+                                            style="height: 150px;">
+                                    </select>
+                                </div>
+                                <div class="col-xs-2">
+                                    <button id="toRight" type="button" class="btn btn-primary  btn-block"
+                                            style="margin-top: 35px;">
+                                        <span class="glyphicon glyphicon-forward"></span>
+                                    </button>
+                                    <button id="toLeft" type="button" class="btn btn-primary btn-block">
+                                        <span class="glyphicon glyphicon-backward"></span>
+                                    </button>
+                                </div>
+                                <div class="col-xs-5">
+                                    <select id="selectR" multiple="multiple" class="form-control"
+                                            style="height: 150px;">
+
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="text-center" style="clear: both;padding-top: 15px;">
+                        <button type="button" class="btn btn-success" style="width: 150px;"
+                                id="jctbAnalysisSaveBtn">保存
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row lineSpacing analysis-container" style="padding-left: 35px;display: none;" id="xzAnalysis">
+                <div class="jctbXzAnalysis">
+                    <div class="jctbXzAnalysis-year">
+                        <button class="btn btn-primary" type="button" style="width:100%;" id="addXzAnalysis"><span
+                                class="glyphicon glyphicon-plus-sign"></span>&nbsp;添加年度
+                        </button>
+                    </div>
+                    <div id="xzAnalysisYears">
+                        <div class="list-group">
+                        </div>
+                    </div>
+                </div>
+
+                <form id="xzInfo">
+                    <div style="width: 65%;float: left;">
+                        <div class="row lineSpacing text-center">
+                            <div class="col-xs-3  text-right">
+                                <label class="lableTitle">年度</label>
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="text" name="year" class="form-control" id="year"
+                                       placeholder="年度"
+                                       value="{{year}}"/>
+                            </div>
+                        </div>
+                        <div class="row lineSpacing text-center">
+                            <div class="col-xs-3  text-right">
+                                <label class="lableTitle">线状地物</label>
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="text" name="xzdw" class="form-control" id="xzdw"
+                                       placeholder="线状地物"
+                                       value="{{xzdw}}"/>
+                            </div>
+                        </div>
+                        <div class="row lineSpacing text-center">
+                            <div class="col-xs-3  text-right">
+                                <label class="lableTitle">地类图斑</label>
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="text" name="dltb" class="form-control" id="dltb"
+                                       placeholder="地类图斑"
+                                       value="{{dltb}}"/>
+                            </div>
+                        </div>
+                        <div class="text-center" style="clear: both;padding-top: 15px;">
+                            <button type="button" class="btn btn-success" style="width: 150px;"
+                                    id="jctbAnalysisXzSaveBtn">保存
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

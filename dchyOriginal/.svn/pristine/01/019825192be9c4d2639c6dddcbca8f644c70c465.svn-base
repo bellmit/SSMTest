@@ -1,0 +1,152 @@
+package cn.gtmap.msurveyplat.promanage.core.service.impl;
+
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.Repository;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmChdwxx;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmMapper;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClsxHtxxGxMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.promanage.core.service.ResultsManagementService;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijun1</a>
+ * @version 1.0, 2021/01/05
+ * @description
+ */
+@Service
+public class ResultsManagementServiceImpl implements ResultsManagementService {
+
+    @Autowired
+    Repository repository;
+
+    @Autowired
+    DchyXmglChxmMapper dchyXmglChxmMapper;
+
+    @Autowired
+    DchyXmglZdService dchyXmglZdService;
+
+    @Autowired
+    DchyXmglClsxHtxxGxMapper dchyXmglClsxHtxxGxMapper;
+
+    @Autowired
+    EntityMapper entityMapper;
+
+    private Logger logger = LoggerFactory.getLogger(ResultsManagementServiceImpl.class);
+
+    /**
+     * 成果管理台账
+     *
+     * @return
+     */
+    @Override
+    public Page<Map<String, Object>> queryResultsManagement(Map<String, Object> map) {
+        Map<String, Object> data = (Map<String, Object>) map.get("data");
+        String gcbh = CommonUtil.formatEmptyValue(data.get("gcbh"));
+        String gcmc = CommonUtil.formatEmptyValue(data.get("gcmc"));
+        String chdwmc = CommonUtil.formatEmptyValue(data.get("chdwmc"));
+        String xmzt = CommonUtil.formatEmptyValue(data.get("xmzt"));
+        String babh = CommonUtil.formatEmptyValue(data.get("babh"));
+        int page = Integer.parseInt(CommonUtil.formatEmptyValue(data.get("page")));
+        int pageSize = Integer.parseInt(CommonUtil.formatEmptyValue(data.get("pageSize")));
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("gcbh", gcbh);
+        paramMap.put("gcmc", gcmc);
+        List<String> ztArr = new ArrayList<>();
+        if (StringUtils.isNotBlank(xmzt)) {
+            if (xmzt.indexOf(",") != -1) {//未办结
+                String[] xmztArray = xmzt.split(",");
+                for (String zt : xmztArray) {
+                    ztArr.add(zt);
+                }
+                if (CollectionUtils.isNotEmpty(ztArr)) {
+                    paramMap.put("dba", ztArr.get(0));//已备案
+                    paramMap.put("yba", ztArr.get(1));//待备案
+                }
+            } else {//99：已办结
+                paramMap.put("xmzt", xmzt);
+            }
+        }
+
+        paramMap.put("babh", babh);
+        //条件查询，根据测绘单位名称
+        if (StringUtils.isNotEmpty(chdwmc)) {
+            Example example = new Example(DchyXmglChxmChdwxx.class);
+            example.createCriteria().andLike("chdwmc", chdwmc);
+            List<DchyXmglChxmChdwxx> chdwxxList = entityMapper.selectByExampleNotNull(example);
+            List chxmidList = Lists.newArrayList();
+            if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                for (DchyXmglChxmChdwxx chdwxxLists : chdwxxList) {
+                    String chxmid = chdwxxLists.getChxmid();
+                    chxmidList.add(chxmid);
+                }
+                paramMap.put("chxmidList", chxmidList);
+            }
+        }
+
+        Page<Map<String, Object>> resultList = null;
+        try {
+            resultList = repository.selectPaging("queryChgcxxByPage", paramMap, page - 1, pageSize);
+            if (resultList != null) {
+                for (Map<String, Object> resultLists : resultList) {
+                    String chxmid = MapUtils.getString(resultLists, "CHXMID");
+                    //组织测绘单位
+                    Example chdwxxExample = new Example(DchyXmglChxmChdwxx.class);
+                    chdwxxExample.createCriteria().andEqualTo("chxmid", chxmid);
+                    List<DchyXmglChxmChdwxx> chdwxxList = entityMapper.selectByExampleNotNull(chdwxxExample);
+                    if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                        List<String> chdwmcList = Lists.newArrayList();
+                        for (DchyXmglChxmChdwxx chdwxxLists : chdwxxList) {
+                            String chdwmcxx = chdwxxLists.getChdwmc();
+                            chdwmcList.add(chdwmcxx);
+                        }
+                        resultLists.put("CHDWMC", chdwmcList);
+                    }
+
+                    //组织办结状态
+                    if (StringUtils.isNotEmpty(CommonUtil.ternaryOperator(resultLists.get("XMZT")))) {
+                        String xmztdm = CommonUtil.ternaryOperator(resultLists.get("XMZT"));
+                        if (StringUtils.equals(xmztdm, "99")) {
+                            resultLists.put("XMZT", "已办结");
+                        } else {
+                            resultLists.put("XMZT", "未办结");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return resultList;
+    }
+
+    //去除重复的成果提交状态
+    private List removeDuplicates(List list) {
+        List resultList = Lists.newArrayList();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Object object : list) {
+                if (!resultList.contains(object)) {
+                    resultList.add(object);
+                }
+            }
+        }
+        return resultList;
+    }
+
+}

@@ -1,0 +1,11 @@
+
+m
+java:S3776+"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(ØÂØ˜ÿÿÿÿÿ
+\
+java:S3252,"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(æÇÍÿ
+[
+java:S3252,"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(æÇÍÿ
+E
+java:S3740K"/Provide the parametrized type for this generic.(ÆÄÒé
+E
+java:S3740,"/Provide the parametrized type for this generic.(æÇÍÿ

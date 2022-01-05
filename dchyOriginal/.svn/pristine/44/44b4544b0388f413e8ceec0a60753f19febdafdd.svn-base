@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyZdMapper">
+    <!-- 获取收件类型字典表数据 -->
+    <select id="getDchyZdSjlxDOList"  resultType="cn.gtmap.msurveyplat.common.domain.DchyZdSjlxDO">
+        SELECT  t.*  FROM dchy_zd_sjlx t
+    </select>
+</mapper>

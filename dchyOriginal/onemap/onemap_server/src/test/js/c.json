@@ -1,0 +1,207 @@
+{
+ "currentVersion": 10.1,
+ "id": 0,
+ "name": "线状地物(321202)",
+ "type": "要素图层",
+ "description": "",
+ "definitionExpression": "",
+ "geometryType": "esriGeometryPolyline",
+ "copyrightText": "",
+ "parentLayer": null,
+ "subLayers": [],
+ "minScale": 5000,
+ "maxScale": 0,
+ "defaultVisibility": true,
+ "extent": {
+  "xmin": 4.04820999073E7,
+  "ymin": 3591143.765322,
+  "xmax": 4.0503545639467E7,
+  "ymax": 3606618.0513,
+  "spatialReference": {
+   "wkid": 2364,
+   "latestWkid": 2364
+  }
+ },
+ "hasAttachments": false,
+ "htmlPopupType": null,
+ "displayField": "YSDM",
+ "typeIdField": null,
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "FID",
+   "domain": null
+  },
+  {
+   "name": "BSM",
+   "type": "esriFieldTypeInteger",
+   "alias": "标识码",
+   "domain": null
+  },
+  {
+   "name": "YSDM",
+   "type": "esriFieldTypeString",
+   "alias": "要素代码",
+   "length": 10,
+   "domain": null
+  },
+  {
+   "name": "DLBM",
+   "type": "esriFieldTypeString",
+   "alias": "地类编码",
+   "length": 4,
+   "domain": null
+  },
+  {
+   "name": "DLMC",
+   "type": "esriFieldTypeString",
+   "alias": "地类名称",
+   "length": 60,
+   "domain": null
+  },
+  {
+   "name": "XZDWYBH",
+   "type": "esriFieldTypeString",
+   "alias": "线状地物预编号",
+   "length": 8,
+   "domain": null
+  },
+  {
+   "name": "XZDWBH",
+   "type": "esriFieldTypeString",
+   "alias": "线状地物编号",
+   "length": 8,
+   "domain": null
+  },
+  {
+   "name": "CD",
+   "type": "esriFieldTypeDouble",
+   "alias": "长度",
+   "domain": null
+  },
+  {
+   "name": "KD",
+   "type": "esriFieldTypeDouble",
+   "alias": "宽度",
+   "domain": null
+  },
+  {
+   "name": "XZDWMJ",
+   "type": "esriFieldTypeDouble",
+   "alias": "线状地物面积",
+   "domain": null
+  },
+  {
+   "name": "XZDWMC",
+   "type": "esriFieldTypeString",
+   "alias": "线状地物名称",
+   "length": 60,
+   "domain": null
+  },
+  {
+   "name": "QSDWDM1",
+   "type": "esriFieldTypeString",
+   "alias": "权属单位代码1",
+   "length": 19,
+   "domain": null
+  },
+  {
+   "name": "QSDWMC1",
+   "type": "esriFieldTypeString",
+   "alias": "权属单位名称1",
+   "length": 60,
+   "domain": null
+  },
+  {
+   "name": "QSDWDM2",
+   "type": "esriFieldTypeString",
+   "alias": "权属单位代码2",
+   "length": 19,
+   "domain": null
+  },
+  {
+   "name": "QSDWMC2",
+   "type": "esriFieldTypeString",
+   "alias": "权属单位名称2",
+   "length": 60,
+   "domain": null
+  },
+  {
+   "name": "KCTBBH1",
+   "type": "esriFieldTypeString",
+   "alias": "扣除图斑编号1",
+   "length": 8,
+   "domain": null
+  },
+  {
+   "name": "KCTBDWDM1",
+   "type": "esriFieldTypeString",
+   "alias": "扣除图斑座落单位代码1",
+   "length": 19,
+   "domain": null
+  },
+  {
+   "name": "KCTBBH2",
+   "type": "esriFieldTypeString",
+   "alias": "扣除图斑编号2",
+   "length": 8,
+   "domain": null
+  },
+  {
+   "name": "KCTBDWDM2",
+   "type": "esriFieldTypeString",
+   "alias": "扣除图斑座落单位代码2",
+   "length": 19,
+   "domain": null
+  },
+  {
+   "name": "QSXZ",
+   "type": "esriFieldTypeString",
+   "alias": "权属性质",
+   "length": 2,
+   "domain": null
+  },
+  {
+   "name": "KCBL",
+   "type": "esriFieldTypeDouble",
+   "alias": "扣除比例",
+   "domain": null
+  },
+  {
+   "name": "BGJLH",
+   "type": "esriFieldTypeString",
+   "alias": "变更记录号",
+   "length": 20,
+   "domain": null
+  },
+  {
+   "name": "BGRQ",
+   "type": "esriFieldTypeDate",
+   "alias": "变更日期",
+   "length": 8,
+   "domain": null
+  },
+  {
+   "name": "SHAPE",
+   "type": "esriFieldTypeGeometry",
+   "alias": "SHAPE",
+   "domain": null
+  },
+  {
+   "name": "SHAPE_Length",
+   "type": "esriFieldTypeDouble",
+   "alias": "SHAPE_Length",
+   "domain": null
+  }
+ ],
+ "relationships": [],
+ "canModifyLayer": false,
+ "canScaleSymbols": false,
+ "hasLabels": true,
+ "capabilities": "Map,Query,Data",
+ "maxRecordCount": 1000,
+ "supportsStatistics": true,
+ "supportsAdvancedQueries": true,
+ "supportedQueryFormats": "JSON, AMF"
+}

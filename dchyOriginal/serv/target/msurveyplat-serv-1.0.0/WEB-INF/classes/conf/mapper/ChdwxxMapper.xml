@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serv.core.mapper.ChdwxxMapper">
+    <select id="getChdwxxList" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmChdwxx">
+        SELECT a.chdwxxid,a.chxmid,a.chdwmc,a.mlkid,a.chdwlx,a.fwpj,a.pjr,a.pjsj,
+              (SELECT w.chdwid FROM DCHY_XMGL_CHDW w WHERE w.chdwmc = a.chdwmc) chdwid
+        FROM dchy_xmgl_chxm_chdwxx a
+        WHERE a.chxmid IN
+        (SELECT a.chxmid FROM dchy_xmgl_chxm_clsx a INNER JOIN dchy_xmgl_zd b ON a.clsx = b.dm
+        <where>
+            <if test="fdm != null and fdm !=''">
+                AND b.fdm = #{fdm}
+            </if>
+        </where>
+        AND a.chxmid IN (SELECT c.chxmid FROM dchy_xmgl_chxm c
+        <where>
+            <if test="chgcbh != null and chgcbh !=''">
+                AND c.chgcbh = #{chgcbh}
+            </if>
+        </where>
+        ))
+    </select>
+</mapper>
+
+

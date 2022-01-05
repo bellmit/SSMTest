@@ -1,0 +1,84 @@
+/* 项目信息 */
+.project-info{
+   position: absolute;
+   top: 120px;
+   right: 15px;
+   background: #fff;
+   width: 422px;
+   z-index: 99;
+   padding: 10px;
+   box-sizing: border-box;
+    display: none; 
+}
+.project-info .top{
+   overflow: hidden;
+   border-bottom: 1px solid #ccc;
+   padding-bottom: 10px;
+}
+.project-info .top h4{
+    float: left;
+    font-size: 16px;
+}
+.project-info .top .btn-box{
+    float: right;
+    margin-top: -5px;
+    
+}
+.project-info .top .project-info-close-btn{
+   font-style: normal;
+   color: #666;
+   font-size: 26px;
+   margin-left: 10px;
+}
+.project-info-close-btn:hover{
+    cursor: pointer;
+}
+.project-info .btn-box .layui-btn{
+    border-radius: 2px;
+    height: 34px;
+    line-height: 34px;
+}
+.project-info .space-tree-btn{
+    background: #1d87d1;
+}
+
+.project-info td{
+    text-align: center;
+}
+.project-info .layui-table td:first-child{
+    width: 90px;
+}
+.project-info .layui-table td{
+    padding: 9px 10px;
+}
+.fa-folder{
+    margin-right: 10px;
+}
+
+.project-info .project-tree-btn{
+    background: #ff9933;
+}
+.finished-box{
+    padding: 9px 30px!important;
+}
+.finished-box form{
+    overflow: hidden;
+}
+.finished-box .finished-item{
+    width: 50%;
+    text-align: left;
+    float: left;
+}
+.finished-box .finished-item .checked-span:hover{
+    cursor: pointer; 
+}
+.finished-box .finished-item .checked-span.active{
+    color: #1d87d1;
+}
+.finished-box .finished-item .disabled-span{
+     pointer-events:none; 
+     color: #ccc;
+}
+.finished-box .finished-item .disabled-span:hover{
+    cursor: not-allowed;
+}

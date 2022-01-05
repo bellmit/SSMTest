@@ -1,0 +1,13 @@
+
+ˆ
+java:S1319&"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(²ëü³ûÿÿÿÿ
+€
+java:S1319*"kThe type of the "msg" object should be an interface such as "Map" rather than the implementation "HashMap".(ÇÌJ
+E
+java:S3740"/Provide the parametrized type for this generic.(øú¹
+J
+java:S3740&"/Provide the parametrized type for this generic.(²ëü³ûÿÿÿÿ
+D
+java:S3740*"/Provide the parametrized type for this generic.(ÇÌJ
+M
+java:S1135	"2Complete the task associated to this TODO comment.(œ­úšûÿÿÿÿ

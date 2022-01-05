@@ -1,0 +1,12 @@
+.layer-select-content {
+    width: 300px;
+    padding: 15px;
+}
+
+#ntctLayerSelect {
+    width: 70%;
+}
+
+#ntctDeleteLayerSelect {
+    width: 70%;
+}

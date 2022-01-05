@@ -1,0 +1,155 @@
+package cn.gtmap.msurveyplat.common.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+/**
+ * @author <a href="mailto:liujie@gtmap.cn">liujie</a>
+ * @version 1.0, 2021/1/11
+ * @description 共享测绘工程信息
+ */
+@ApiModel(value = "CggxsqDTO", description = "成果共享申请信息")
+public class CggxsqDTO {
+
+    @ApiModelProperty(value = "当前页数")
+    private Integer page;
+    @ApiModelProperty(value = "每页展示条数")
+    private Integer size;
+    @ApiModelProperty(value = "申请信息id")
+    private String xmid;
+    @ApiModelProperty(value = "工作流定义ID")
+    private String gzldyid;
+    @ApiModelProperty(value = "流程id")
+    private String taskid;
+    @ApiModelProperty(value = "受理编号")
+    private String slbh;
+    @ApiModelProperty(value = "备案编号")
+    private String babh;
+    @ApiModelProperty(value = "测绘项目id")
+    private String chxmid;
+    @ApiModelProperty(value = "测绘工程id")
+    private String chgcid;
+    @ApiModelProperty(value = "工程编号")
+    private String gcbh;
+    @ApiModelProperty(value = "工程名称")
+    private String gcmc;
+    @ApiModelProperty(value = "委托单位")
+    private String wtdw;
+    @ApiModelProperty(value = "共享业务id")
+    private String gxywid;
+    @ApiModelProperty(value = "共享业务名称")
+    private String gxywmc;
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public String getXmid() {
+        return xmid;
+    }
+
+    public void setXmid(String xmid) {
+        this.xmid = xmid;
+    }
+
+    public String getGzldyid() {
+        return gzldyid;
+    }
+
+    public void setGzldyid(String gzldyid) {
+        this.gzldyid = gzldyid;
+    }
+
+    public String getTaskid() {
+        return taskid;
+    }
+
+    public void setTaskid(String taskid) {
+        this.taskid = taskid;
+    }
+
+    public String getSlbh() {
+        return slbh;
+    }
+
+    public void setSlbh(String slbh) {
+        this.slbh = slbh;
+    }
+
+    public String getBabh() {
+        return babh;
+    }
+
+    public void setBabh(String babh) {
+        this.babh = babh;
+    }
+
+    public String getChxmid() {
+        return chxmid;
+    }
+
+    public void setChxmid(String chxmid) {
+        this.chxmid = chxmid;
+    }
+
+    public String getChgcid() {
+        return chgcid;
+    }
+
+    public void setChgcid(String chgcid) {
+        this.chgcid = chgcid;
+    }
+
+    public String getGcbh() {
+        return gcbh;
+    }
+
+    public void setGcbh(String gcbh) {
+        this.gcbh = gcbh;
+    }
+
+    public String getGcmc() {
+        return gcmc;
+    }
+
+    public void setGcmc(String gcmc) {
+        this.gcmc = gcmc;
+    }
+
+    public String getWtdw() {
+        return wtdw;
+    }
+
+    public void setWtdw(String wtdw) {
+        this.wtdw = wtdw;
+    }
+
+    public String getGxywid() {
+        return gxywid;
+    }
+
+    public void setGxywid(String gxywid) {
+        this.gxywid = gxywid;
+    }
+
+    public String getGxywmc() {
+        return gxywmc;
+    }
+
+    public void setGxywmc(String gxywmc) {
+        this.gxywmc = gxywmc;
+    }
+}

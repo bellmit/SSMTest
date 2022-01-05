@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2015-07-18T04:16:55Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8010</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>105</WindowTopY>
+  <ActiveSheet>4</ActiveSheet>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="s17">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s19">
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="14" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s20">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="14" ss:Color="#000000"
+    ss:Bold="1"/>
+  </Style>
+ </Styles>
+    <#assign gy=data["工业类"]!/>
+    <#assign qt=data["其他类"]!/>
+    <#assign jt=data["交通类"]!/>
+    <#assign sf=data["商服类"]!/>
+    <#assign jz=data["居住类"]!/>
+
+    <#assign count_gy = gy.count!/>
+    <#assign categoryData_gy=gy.data/>
+
+    <#assign count_qt = qt.count!/>
+    <#assign categoryData_qt=qt.data/>
+
+    <#assign count_jt=jt.count!/>
+    <#assign categoryData_jt=jt.data/>
+
+    <#assign count_sf=sf.count!/>
+    <#assign categoryData_sf=sf.data/>
+
+    <#assign count_jz=jz.count!/>
+    <#assign categoryData_jz=jz.data/>
+
+ <Worksheet ss:Name="工业类">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="${2+count_gy}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="123.75"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="95.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="106.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33.75">
+    <Cell ss:MergeAcross="9" ss:StyleID="s20"><Data ss:Type="String">${year!}年全市项目用地开竣工情况周报表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">占地面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目进展情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">履约情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">备注</Data></Cell>
+   </Row>
+   <#if count_gy &gt;0>
+   <#list categoryData_gy?keys as key>
+       <#assign xzqList=categoryData_gy[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XMZT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["LYQK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["BZ_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C10</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="居住类">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="${count_jz+2}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="123.75"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="95.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="106.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33.75">
+    <Cell ss:MergeAcross="9" ss:StyleID="s20"><Data ss:Type="String">${year}年全市项目用地开竣工情况周报表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">占地面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目进展情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">履约情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">备注</Data></Cell>
+   </Row>
+   <#if count_jz &gt;0>
+   <#list categoryData_jz?keys as key>
+       <#assign xzqList=categoryData_jz[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XMZT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["LYQK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["BZ_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C10</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="商服类">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="${count_sf+2}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="123.75"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="95.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="106.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33.75">
+    <Cell ss:MergeAcross="9" ss:StyleID="s20"><Data ss:Type="String">${year}年全市项目用地开竣工情况周报表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">占地面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目进展情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">履约情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">备注</Data></Cell>
+   </Row>
+   <#if count_sf &gt;0>
+   <#list categoryData_sf?keys as key>
+       <#assign xzqList=categoryData_sf[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XMZT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["LYQK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["BZ_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C10</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="交通类">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="${2+count_jt}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="123.75"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="95.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="106.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33.75">
+    <Cell ss:MergeAcross="9" ss:StyleID="s20"><Data ss:Type="String">${year}年全市项目用地开竣工情况周报表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">占地面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目进展情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">履约情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">备注</Data></Cell>
+   </Row>
+   <#if count_jt &gt;0>
+   <#list categoryData_jt?keys as key>
+       <#assign xzqList=categoryData_jt[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XMZT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["LYQK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["BZ_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C10</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="其他类">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="${2+count_qt}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="59.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="123.75"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:AutoFitWidth="0" ss:Width="95.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="151.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="106.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33.75">
+    <Cell ss:MergeAcross="9" ss:StyleID="s20"><Data ss:Type="String">${year}年全市项目用地开竣工情况周报表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="30.75">
+    <Cell ss:StyleID="s17"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">载体单位</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">占地面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">项目进展情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">履约情况</Data></Cell>
+    <Cell ss:StyleID="s17"><Data ss:Type="String">备注</Data></Cell>
+   </Row>
+   <#if count_qt &gt;0>
+   <#list categoryData_qt?keys as key>
+       <#assign xzqList=categoryData_qt[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="3" ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XMZT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["LYQK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["BZ_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <RangeSelection>R1C1:R1C10</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

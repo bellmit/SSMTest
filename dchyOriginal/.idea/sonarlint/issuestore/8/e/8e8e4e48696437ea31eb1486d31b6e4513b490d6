@@ -1,0 +1,464 @@
+
+K
+java:S3740Û"/Provide the parametrized type for this generic.(ıü øÿÿÿÿ
+r
+java:S1192‰"[Use already-defined constant 'TRANSPUBLICSQXXFAILED' instead of duplicating its value here.(İÍ‚Ö
+r
+java:S1192Š"[Use already-defined constant 'TRANSPUBLICFJXXFAILED' instead of duplicating its value here.(”Ø’¶
+k
+java:S1192”"TUse already-defined constant 'FJTYPEWRONGFUL' instead of duplicating its value here.(šÏÒ
+w
+java:S1192“"[Use already-defined constant 'FJISNOTSUPORTTHISTYPE' instead of duplicating its value here.(ç°‡µüÿÿÿÿ
+q
+java:S1192‡"[Use already-defined constant 'ACCEPTANCEBUILDFAILED' instead of duplicating its value here.(şÄãp
+u
+java:S1192ö"^Use already-defined constant 'ALIPAYUSERTYPENOTSUPPORT' instead of duplicating its value here.(›ÈÒ
+i
+java:S1192’"RUse already-defined constant 'FJTYPEISNULL' instead of duplicating its value here.(¡¼Î„
+q
+java:S1192ô"UUse already-defined constant 'ALIPAYQUERYFAIL' instead of duplicating its value here.(şªÆàøÿÿÿÿ
+y
+java:S1192ˆ"]Use already-defined constant 'ACCEPTANCETRANSFJFAILED' instead of duplicating its value here.(¬•‡€úÿÿÿÿ
+w
+java:S1192õ"`Use already-defined constant 'ALIPAYUSERINFONOTCERTIFIED' instead of duplicating its value here.(—š¢¾
+r
+java:S1192ï"[Use already-defined constant 'LIVEDETECTRESULTEMPTY' instead of duplicating its value here.(”¤Š§
+n
+java:S1192ğ"WUse already-defined constant 'LIVEDETECTSUCCESS' instead of duplicating its value here.(ÚÁ¨ÿ
+v
+java:S1192í"ZUse already-defined constant 'LIVEDETECTRESULTNONE' instead of duplicating its value here.(¹›Ä‹şÿÿÿÿ
+n
+java:S1192î"WUse already-defined constant 'LIVEDETECTTIMEOUT' instead of duplicating its value here.(Å•ƒ¢
+l
+java:S1192ë"UUse already-defined constant 'FACECOMPAREFAIL' instead of duplicating its value here.(Ÿÿòõ
+s
+java:S1192ì"\Use already-defined constant 'LIVEDETECTTHRESHOLDLOW' instead of duplicating its value here.(Å‚Í‰
+p
+java:S1192ê"TUse already-defined constant 'LIVEDETECTFAIL' instead of duplicating its value here.(ÔÄî–ÿÿÿÿÿ
+t
+java:S1192ñ"XUse already-defined constant 'LIVEDETECTYWLXNONE' instead of duplicating its value here.(È©¥ğüÿÿÿÿ
+q
+java:S1192ò"ZUse already-defined constant 'LIVEDETECTCOUNTLIMIT' instead of duplicating its value here.(®Ó‰±
+w
+java:S1192”"[Use already-defined constant 'VERIFYJSZWTOKENFAILED' instead of duplicating its value here.(ßÆ“•ÿÿÿÿÿ
+{
+java:S1192’"dUse already-defined constant 'WECHATQUICKLOGINNEEDSUPPLEMENT' instead of duplicating its value here.(ãû’å
+s
+java:S1192“"\Use already-defined constant 'VERIFYJSZWTICKETFAILED' instead of duplicating its value here.(¿–ÚÕ
+x
+java:S1192‘"\Use already-defined constant 'WECHATQUICKLOGINFAILED' instead of duplicating its value here.(‰²£éÿÿÿÿÿ
+
+java:S1192–"eUse already-defined constant 'NOTSUPPORTCORPORATIONQUICKLOGIN' instead of duplicating its value here.(éÀØøÿÿÿÿ
+r
+java:S1192•"VUse already-defined constant 'GETZWWUSERFAILED' instead of duplicating its value here.(¿ô—şÿÿÿÿ
+n
+java:S1192ó"WUse already-defined constant 'ALIPAYREQUESTFAIL' instead of duplicating its value here.(§ââ¶
+r
+java:S1192è"VUse already-defined constant 'IDENTITYNOTMATCH' instead of duplicating its value here.(Ä›é´ûÿÿÿÿ
+p
+java:S1192é"YUse already-defined constant 'IDENTITYVALIDEERROR' instead of duplicating its value here.(¬Ÿ˜”
+k
+java:S1192†"OUse already-defined constant 'ZDILLEGAL' instead of duplicating its value here.(¬…¦£ûÿÿÿÿ
+h
+java:S1192…"QUse already-defined constant 'CAZDILLEGAL' instead of duplicating its value here.(ÓÿÉÖ
+k
+java:S1192„"OUse already-defined constant 'SQLXEXIST' instead of duplicating its value here.(ò˜˜¢øÿÿÿÿ
+i
+java:S1192—"RUse already-defined constant 'CXTRQLXXCSCX' instead of duplicating its value here.(€Ç†‚
+f
+java:S1192§"OUse already-defined constant 'ZSCODETWO' instead of duplicating its value here.(öÁÄğ
+k
+java:S1192¦"OUse already-defined constant 'ZSCODEONE' instead of duplicating its value here.(Œâ—ôøÿÿÿÿ
+f
+java:S1192¥"PUse already-defined constant 'ZSCODEZERO' instead of duplicating its value here.(›ÿÓ!
+i
+java:S1192«"MUse already-defined constant 'WDYFZJL' instead of duplicating its value here.(Ê£—üÿÿÿÿ
+l
+java:S1192ª"PUse already-defined constant 'ZSCODEFIVE' instead of duplicating its value here.(ÃÛ›ùÿÿÿÿ
+l
+java:S1192©"PUse already-defined constant 'ZSCODEFOUR' instead of duplicating its value here.(ıùåÛşÿÿÿÿ
+m
+java:S1192¨"QUse already-defined constant 'ZSCODETHREE' instead of duplicating its value here.(„êÜŸıÿÿÿÿ
+z
+java:S1192Œ"^Use already-defined constant 'MYYCAPPGETINITCODEFAILED' instead of duplicating its value here.(Õôøÿÿÿÿ
+
+java:S1192"eUse already-defined constant 'MYYCAPPGETUSERACCESSTOKENFAILED' instead of duplicating its value here.(÷¹•–ıÿÿÿÿ
+u
+java:S1192"^Use already-defined constant 'MYYCAPPGETUSERINFOFAILED' instead of duplicating its value here.(ôò•
+u
+java:S1192"^Use already-defined constant 'MYYCAPPGETAUTHCODEFAILED' instead of duplicating its value here.(ÒË€¦
+x
+java:S1192"aUse already-defined constant 'MYYCAPPGETACCESSTOKENFAILED' instead of duplicating its value here.(„”¥é
+x
+java:S1192š"aUse already-defined constant 'SQXXWXBLTHROWENTRYEXCEPTION' instead of duplicating its value here.(¿»ÅÒ
+x
+java:S1192™"\Use already-defined constant 'TKSELECTFAILORNOTEXIST' instead of duplicating its value here.(Êµøùÿÿÿÿ
+u
+java:S1192˜"YUse already-defined constant 'SQXXWXBLINSERTFAILL' instead of duplicating its value here.(äòò‡úÿÿÿÿ
+n
+java:S1192—"WUse already-defined constant 'SQXXWXBLDAISERROR' instead of duplicating its value here.(À„ƒÀ
+f
+java:S1192–"PUse already-defined constant 'EXCELERROR' instead of duplicating its value here.(İÖô
+g
+java:S1192ƒ"PUse already-defined constant 'SQLXPKNUll' instead of duplicating its value here.(£šÖº
+m
+java:S1192"VUse already-defined constant 'FJXXPICSAVEERROR' instead of duplicating its value here.(ìŸÎ­
+t
+java:S1192"XUse already-defined constant 'FJXXCREATEUSERNULL' instead of duplicating its value here.(¼Î…ûÿÿÿÿ
+k
+java:S1192"TUse already-defined constant 'FJXXFILEMCNULL' instead of duplicating its value here.(ú¹† 
+m
+java:S1192"QUse already-defined constant 'FJXXPICNULL' instead of duplicating its value here.(‚Ù¯æùÿÿÿÿ
+p
+java:S1192¦"TUse already-defined constant 'YYXXYYDJLXNULL' instead of duplicating its value here.(Åºåûÿÿÿÿ
+m
+java:S1192¥"VUse already-defined constant 'YYXXYYSDNOTEXIST' instead of duplicating its value here.(âÉ³³
+i
+java:S1192¤"RUse already-defined constant 'YYXXYYSDNULL' instead of duplicating its value here.(ÿ•ñŒ
+o
+java:S1192£"XUse already-defined constant 'YYXXYYDJZXNOTEXIST' instead of duplicating its value here.(ğŞÏÅ
+p
+java:S1192¢"TUse already-defined constant 'YYXXYYDJZXNULL' instead of duplicating its value here.(ªÛüœøÿÿÿÿ
+l
+java:S1192¡"UUse already-defined constant 'YYXXYYRLXDHNULL' instead of duplicating its value here.(§Ñ“ö
+p
+java:S1192 "TUse already-defined constant 'YYXXYYRZJHNULL' instead of duplicating its value here.(Ü¸½ÿùÿÿÿÿ
+o
+java:S1192Ÿ"SUse already-defined constant 'YYXXYYRMCNULL' instead of duplicating its value here.(ãáÇ³şÿÿÿÿ
+n
+java:S1192"XUse already-defined constant 'YYXXCREATEUSERNULL' instead of duplicating its value here.(úÌî
+n
+java:S1192›"WUse already-defined constant 'UPDATERLSBRZFAILL' instead of duplicating its value here.(ğ‹·‰
+n
+java:S1192‚"RUse already-defined constant 'YWRQLBLERROR' instead of duplicating its value here.(øùçˆüÿÿÿÿ
+n
+java:S1192"RUse already-defined constant 'QLRQLBLERROR' instead of duplicating its value here.(¬ƒ±Ùıÿÿÿÿ
+q
+java:S1192€"UUse already-defined constant 'QLRUSERNOTMATCH' instead of duplicating its value here.(Ù„ıÿÿÿÿ
+m
+java:S1192ÿ"QUse already-defined constant 'QLRSQIDNULL' instead of duplicating its value here.(ÔØËùÿÿÿÿ
+f
+java:S1192ş"OUse already-defined constant 'QLRIDNULL' instead of duplicating its value here.(©¯ğ–
+g
+java:S1192ı"PUse already-defined constant 'QLRZJHNULL' instead of duplicating its value here.(£à‘
+m
+java:S1192ü"QUse already-defined constant 'QLRZJZLNULL' instead of duplicating its value here.(Ñú†âûÿÿÿÿ
+f
+java:S1192û"OUse already-defined constant 'QLRMCNULL' instead of duplicating its value here.(­¾ÖÌ
+e
+java:S1192ƒ"NUse already-defined constant 'QLRYWRXT' instead of duplicating its value here.(Òªó
+n
+java:S1192Û"RUse already-defined constant 'SQXXFCZHNULL' instead of duplicating its value here.(©¢›°ÿÿÿÿÿ
+n
+java:S1192‹"WUse already-defined constant 'BDCDYHISTAXVERIFY' instead of duplicating its value here.(ª”ÅÉ
+i
+java:S1192Š"RUse already-defined constant 'QLRGYFSERROR' instead of duplicating its value here.(¿Â€
+z
+java:S1192‰"^Use already-defined constant 'HASUSERISNOTVERIFICATION' instead of duplicating its value here.(¿ñìÿùÿÿÿÿ
+q
+java:S1192ˆ"ZUse already-defined constant 'QUERYSQXXHQDATAFAILL' instead of duplicating its value here.(ö…÷¶
+i
+java:S1192‡"RUse already-defined constant 'FJXMFJLXNULL' instead of duplicating its value here.(•”£ß
+l
+java:S1192†"PUse already-defined constant 'FJDATANULL' instead of duplicating its value here.(¤üïüùÿÿÿÿ
+g
+java:S1192„"PUse already-defined constant 'QLRYZERROR' instead of duplicating its value here.(¾ß¿
+m
+java:S1192ç"QUse already-defined constant 'FWWDNOTEXIT' instead of duplicating its value here.(ü˜ÕËûÿÿÿÿ
+k
+java:S1192Í"OUse already-defined constant 'YHKBDFAIL' instead of duplicating its value here.(çˆÜÕûÿÿÿÿ
+g
+java:S1192Ø"PUse already-defined constant 'SQXXZLNULL' instead of duplicating its value here.(ä”ÀÄ
+h
+java:S1192Ì"LUse already-defined constant 'YHKYBD' instead of duplicating its value here.(¸İ¨Òıÿÿÿÿ
+m
+java:S1192×"QUse already-defined constant 'SQXXZSHNULL' instead of duplicating its value here.(ÿ¸¸äúÿÿÿÿ
+s
+java:S1192Ö"WUse already-defined constant 'SQXXCREATEBYADMIN' instead of duplicating its value here.(Ó¡™©ùÿÿÿÿ
+~
+java:S1192Õ"bUse already-defined constant 'SQXXCREATEUSERNULLORNOTEXIST' instead of duplicating its value here.(†ö„ïüÿÿÿÿ
+m
+java:S1192É"QUse already-defined constant 'YHKNOTEXIST' instead of duplicating its value here.(îÇ˜†ıÿÿÿÿ
+j
+java:S1192Ô"SUse already-defined constant 'SQXXBDCLXNULL' instead of duplicating its value here.(€ãúÒ
+f
+java:S1192È"OUse already-defined constant 'DDJEERROR' instead of duplicating its value here.(˜ÍüË
+n
+java:S1192Ó"RUse already-defined constant 'SQXXSQLXNULL' instead of duplicating its value here.(‹Øœûÿÿÿÿ
+g
+java:S1192Ë"PUse already-defined constant 'DDNOTCLOSE' instead of duplicating its value here.(ğë¼ö
+n
+java:S1192Ò"RUse already-defined constant 'SQXXSLBHNULL' instead of duplicating its value here.(±“å–ÿÿÿÿÿ
+h
+java:S1192Ê"QUse already-defined constant 'YHKINFONULL' instead of duplicating its value here.(Û²Ï
+d
+java:S1192Å"NUse already-defined constant 'ZFFSNULL' instead of duplicating its value here.(¯Ö…h
+k
+java:S1192Ä"OUse already-defined constant 'FFFSERROR' instead of duplicating its value here.(ÖÄæ¬úÿÿÿÿ
+l
+java:S1192Ç"PUse already-defined constant 'DDNOTEXIST' instead of duplicating its value here.(éÛ„§üÿÿÿÿ
+f
+java:S1192Æ"OUse already-defined constant 'ZFFSERROR' instead of duplicating its value here.(À±ËŸ
+l
+java:S1192Ú"PUse already-defined constant 'SQXXMJNULL' instead of duplicating its value here.(è£»ùÿÿÿÿ
+p
+java:S1192Ù"TUse already-defined constant 'SQXXBDCDYHNULL' instead of duplicating its value here.(âïÄºøÿÿÿÿ
+k
+java:S1192Ô"OUse already-defined constant 'SFXMERROR' instead of duplicating its value here.(ú§Â£ûÿÿÿÿ
+l
+java:S1192Ó"PUse already-defined constant 'TRANSERROR' instead of duplicating its value here.(èê¤ûÿÿÿÿ
+n
+java:S1192Õ"RUse already-defined constant 'SLBHNOTEXIST' instead of duplicating its value here.(Í°®ûÿÿÿÿ
+k
+java:S1192Ğ"OUse already-defined constant 'YHKJBFAIL' instead of duplicating its value here.(áÎó¤øÿÿÿÿ
+f
+java:S1192Ï"OUse already-defined constant 'PAYFAILED' instead of duplicating its value here.(Ş¿“Ô
+e
+java:S1192œ"OUse already-defined constant 'GYFSERROR' instead of duplicating its value here.(Éé¦!
+e
+java:S1192Ò"NUse already-defined constant 'DDNOTPAY' instead of duplicating its value here.(ìŸä‰
+h
+java:S1192Ñ"QUse already-defined constant 'WJFACTIVEDD' instead of duplicating its value here.(íİÙ
+m
+java:S1192Î"QUse already-defined constant 'PAYPWDERROR' instead of duplicating its value here.(‡íøÄúÿÿÿÿ
+d
+java:S1192°"MUse already-defined constant 'YYSJJJR' instead of duplicating its value here.(¹·¦ø
+i
+java:S1192­"RUse already-defined constant 'YYXXYYSJNULL' instead of duplicating its value here.(Õ˜À¬
+r
+java:S1192Ü"VUse already-defined constant 'REFUNDRESULTFALL' instead of duplicating its value here.(€¹òùÿÿÿÿ
+x
+java:S1192¬"\Use already-defined constant 'YYXXCREATEUSERNOTEXIST' instead of duplicating its value here.(±Ùâûÿÿÿÿ
+f
+java:S1192¯"OUse already-defined constant 'YYXXEXIST' instead of duplicating its value here.(ËÍìÄ
+u
+java:S1192®"YUse already-defined constant 'YYXXCANCELTIMELIMIT' instead of duplicating its value here.(—ºÂáÿÿÿÿÿ
+m
+java:S1192Ù"QUse already-defined constant 'JF_WHQDSWXX' instead of duplicating its value here.(é¬Ãúÿÿÿÿ
+k
+java:S1192©"TUse already-defined constant 'YYXXYYNUMLIMIT' instead of duplicating its value here.(¼Ç¿ì
+p
+java:S1192Ø"TUse already-defined constant 'REFUNDNOTEXIST' instead of duplicating its value here.(¢ö‘Íüÿÿÿÿ
+n
+java:S1192¨"RUse already-defined constant 'YYXXYYLYNULL' instead of duplicating its value here.(‹àÙùÿÿÿÿ
+j
+java:S1192Û"SUse already-defined constant 'JF_WHQDSWXXMX' instead of duplicating its value here.(¬ï¹Ô
+u
+java:S1192«"YUse already-defined constant 'YYXXYYNUMLIMITBYDAY' instead of duplicating its value here.(ÖßÃ®ıÿÿÿÿ
+m
+java:S1192Ú"QUse already-defined constant 'JF_HQSWXXYC' instead of duplicating its value here.(È¢¼­úÿÿÿÿ
+m
+java:S1192ª"QUse already-defined constant 'YYXXYYEXIST' instead of duplicating its value here.(¼Ó¥ˆÿÿÿÿÿ
+k
+java:S1192×"OUse already-defined constant 'HJJEERROR' instead of duplicating its value here.(ÁŒ½üÿÿÿÿ
+o
+java:S1192§"XUse already-defined constant 'YYXXYYDJLXNOTEXIST' instead of duplicating its value here.(¥Åİª
+n
+java:S1192Ö"RUse already-defined constant 'REFUNDFAILED' instead of duplicating its value here.(–Ÿ½¥ûÿÿÿÿ
+g
+java:S1192‚"PUse already-defined constant 'SPWXYYNUll' instead of duplicating its value here.(êÿŞ‚
+j
+java:S1192"NUse already-defined constant 'SQLXNUll' instead of duplicating its value here.(Šæ³ùÿÿÿÿ
+o
+java:S1192€"SUse already-defined constant 'SPWXSMSMRNULL' instead of duplicating its value here.(¸Ë„âÿÿÿÿÿ
+n
+java:S1192ÿ"RUse already-defined constant 'SPWXSMIDNULL' instead of duplicating its value here.( õĞˆûÿÿÿÿ
+o
+java:S1192¸"SUse already-defined constant 'CONTYYTOWEEEK' instead of duplicating its value here.(í²óıÿÿÿÿ
+p
+java:S1192·"TUse already-defined constant 'YYXXYYSQLXNULL' instead of duplicating its value here.(°ëí°úÿÿÿÿ
+k
+java:S1192º"OUse already-defined constant 'YYSJERROR' instead of duplicating its value here.(ßÂ²öùÿÿÿÿ
+g
+java:S1192¹"PUse already-defined constant 'HASYYTODAY' instead of duplicating its value here.(“›ƒÛ
+m
+java:S1192´"QUse already-defined constant 'CONTYYTODAY' instead of duplicating its value here.(ƒ®Ëùıÿÿÿÿ
+i
+java:S1192³"MUse already-defined constant 'YYERROR' instead of duplicating its value here.(Ã›è›øÿÿÿÿ
+g
+java:S1192¶"KUse already-defined constant 'YYHMD' instead of duplicating its value here.(ƒéæªıÿÿÿÿ
+n
+java:S1192µ"RUse already-defined constant 'YYBMDMISNULL' instead of duplicating its value here.(¼ƒ³Âùÿÿÿÿ
+i
+java:S1192İ"RUse already-defined constant 'JF_WCXDJFRXX' instead of duplicating its value here.(¹Îşè
+g
+java:S1192ß"PUse already-defined constant 'TSSWXXFAIL' instead of duplicating its value here.(»™¥˜
+e
+java:S1192²"NUse already-defined constant 'YYSDFULL' instead of duplicating its value here.(«ŒÕñ
+g
+java:S1192Ş"PUse already-defined constant 'NSRSBHNULL' instead of duplicating its value here.(ÀÄÏÅ
+m
+java:S1192±"QUse already-defined constant 'GETDATEFAIL' instead of duplicating its value here.(ş»ÆÅşÿÿÿÿ
+d
+java:S1192"MUse already-defined constant 'HTHNONE' instead of duplicating its value here.(©Óç
+d
+java:S1192œ"MUse already-defined constant 'FWXXYBL' instead of duplicating its value here.(ªÕ¤¿
+e
+java:S1192›"NUse already-defined constant 'FWXXNONE' instead of duplicating its value here.(† ßŸ
+e
+java:S1192š"NUse already-defined constant 'HTXXNONE' instead of duplicating its value here.(¸ŒÌ
+i
+java:S1192™"MUse already-defined constant 'FHXXZDY' instead of duplicating its value here.(æ³×Ãıÿÿÿÿ
+s
+java:S1192ü"\Use already-defined constant 'WECHATTEMPLATEPUSHFAIL' instead of duplicating its value here.(ËË¶ô
+{
+java:S1192ş"_Use already-defined constant 'WECHATTEMPLATEDATAISEMPTY' instead of duplicating its value here.(æ¢œúÿÿÿÿ
+y
+java:S1192ı"]Use already-defined constant 'WECHATTEMPLATEIDISEMPTY' instead of duplicating its value here.(•ë’ùÿÿÿÿ
+k
+java:S1192İ"UUse already-defined constant 'SQXXBDCDYHEXIST' instead of duplicating its value here.(®™s
+o
+java:S1192Ü"SUse already-defined constant 'SQXXCQZHEXIST' instead of duplicating its value here.(Îò©•ûÿÿÿÿ
+k
+java:S1192 "OUse already-defined constant 'YKQCXDDSB' instead of duplicating its value here.(ıûŒæûÿÿÿÿ
+k
+java:S1192Ÿ"OUse already-defined constant 'YKQSCDDSB' instead of duplicating its value here.(Í–¦ÿÿÿÿÿ
+h
+java:S1192"QUse already-defined constant 'YKQHQJFMXSB' instead of duplicating its value here.(ƒÛ¹«
+m
+java:S1192æ"WUse already-defined constant 'BDCDYHBYGDZHERROR' instead of duplicating its value here.(ãÿç
+r
+java:S1192å"VUse already-defined constant 'BDCDYHBYGDZHNULL' instead of duplicating its value here.(äß¼µüÿÿÿÿ
+i
+java:S1192ä"RUse already-defined constant 'WSHDAXXEXIST' instead of duplicating its value here.(×Çù
+g
+java:S1192ã"PUse already-defined constant 'ZSQLRERROR' instead of duplicating its value here.(‘—
+l
+java:S1192â"PUse already-defined constant 'ZSSLBHNULL' instead of duplicating its value here.(ŒØø¼ùÿÿÿÿ
+p
+java:S1192˜"TUse already-defined constant 'GSGGXXTSMHWZYC' instead of duplicating its value here.(é§Èúÿÿÿÿ
+m
+java:S1192ø"VUse already-defined constant 'ONEMAPIDNOTEXIST' instead of duplicating its value here.(ğ×”Î
+i
+java:S1192÷"RUse already-defined constant 'NEEDREDIRECT' instead of duplicating its value here.(™ÊÓÕ
+o
+java:S1192ú"XUse already-defined constant 'NEEDCHOOSEORGANIZE' instead of duplicating its value here.(«˜Šö
+m
+java:S1192ù"VUse already-defined constant 'PERSONMUSTVERIFY' instead of duplicating its value here.(œ¡ïÑ
+j
+java:S1192Ã"NUse already-defined constant 'FFFSNULL' instead of duplicating its value here.(œ˜Ğ‘úÿÿÿÿ
+q
+java:S1192Â"UUse already-defined constant 'PAYREQUESTERROR' instead of duplicating its value here.(êÚ‚œÿÿÿÿÿ
+f
+java:S1192Á"OUse already-defined constant 'SIGNERROR' instead of duplicating its value here.(Şê×
+h
+java:S1192À"QUse already-defined constant 'DDPARAMNULL' instead of duplicating its value here.(”²«…
+q
+java:S1192«"UUse already-defined constant 'QLRUSERNAMENONE' instead of duplicating its value here.(¿õï”ıÿÿÿÿ
+s
+java:S1192¿"WUse already-defined constant 'PAYREQUESTURLNULL' instead of duplicating its value here.(İ•®Æÿÿÿÿÿ
+l
+java:S1192Ş"PUse already-defined constant 'SQXXIDNULL' instead of duplicating its value here.(†šÅüøÿÿÿÿ
+g
+java:S1192¾"PUse already-defined constant 'SHINFONULL' instead of duplicating its value here.(ßóİ¸
+l
+java:S1192­"UUse already-defined constant 'QLRJTCYGXMCNULL' instead of duplicating its value here.(êà•–
+m
+java:S1192½"VUse already-defined constant 'GENERATEDDXXFAIL' instead of duplicating its value here.(ä„©
+g
+java:S1192¬"QUse already-defined constant 'QLRJTCYNULL' instead of duplicating its value here.(ü¢â}
+l
+java:S1192¼"UUse already-defined constant 'ACTIVEJFXXEXIST' instead of duplicating its value here.(û„Ü’
+j
+java:S1192¯"SUse already-defined constant 'QLRJTCYGXNULL' instead of duplicating its value here.(âèŒ®
+k
+java:S1192û"TUse already-defined constant 'SERVEEVALUATED' instead of duplicating its value here.(ŒĞåœ
+j
+java:S1192»"NUse already-defined constant 'JFXXNULL' instead of duplicating its value here.(”ØÉ¾üÿÿÿÿ
+m
+java:S1192®"VUse already-defined constant 'QLRJTCYMCZJHNULL' instead of duplicating its value here.(Š¤Â
+h
+java:S1192‘"QUse already-defined constant 'FJOVERLIMIT' instead of duplicating its value here.(·™Ë…
+k
+java:S1192±"TUse already-defined constant 'HYZTCHECKERROR' instead of duplicating its value here.(ö¾Ø„
+u
+java:S1192°"^Use already-defined constant 'JSUSORDINARYUSERCANLOGIN' instead of duplicating its value here.(ˆæç’
+p
+java:S1192²"TUse already-defined constant 'FWTCCHECKERROR' instead of duplicating its value here.(æ“Ãşÿÿÿÿ
+j
+java:S1192ç"SUse already-defined constant 'SQXXMMHTHNULL' instead of duplicating its value here.(êÜ”
+n
+java:S1192ä"RUse already-defined constant 'CFZTCANNOTDY' instead of duplicating its value here.(êú„ïúÿÿÿÿ
+o
+java:S1192ã"SUse already-defined constant 'BANKDYTSFAILL' instead of duplicating its value here.(ú¨Öüÿÿÿÿ
+g
+java:S1192æ"PUse already-defined constant 'DYZTCANNOT' instead of duplicating its value here.(¶à¶
+l
+java:S1192å"PUse already-defined constant 'CFZTCANNOT' instead of duplicating its value here.(Ğ×‡ÿşÿÿÿÿ
+f
+java:S1192à"OUse already-defined constant 'SQXXEXIST' instead of duplicating its value here.(éô±¬
+i
+java:S1192ß"RUse already-defined constant 'SQXXNOTEXIST' instead of duplicating its value here.(Êù´¥
+m
+java:S1192â"QUse already-defined constant 'DJXTTOKENCW' instead of duplicating its value here.(¹Œ…ÿÿÿÿÿ
+e
+java:S1192á"NUse already-defined constant 'DJXTCXYC' instead of duplicating its value here.(—‹
+j
+java:S1192é"SUse already-defined constant 'SQXXDYZMHNULL' instead of duplicating its value here.(ü÷×
+n
+java:S1192è"RUse already-defined constant 'SQXXZSLYNULL' instead of duplicating its value here.(ùØï„ùÿÿÿÿ
+i
+java:S1192á"RUse already-defined constant 'SMSSENDERROR' instead of duplicating its value here.(›¥æ¯
+j
+java:S1192à"NUse already-defined constant 'YZMERROR' instead of duplicating its value here.(É±´ıÿÿÿÿ
+r
+java:S1192ï"VUse already-defined constant 'SQXXSQLXNOTEXIST' instead of duplicating its value here.(ğçÌ©üÿÿÿÿ
+g
+java:S1192î"PUse already-defined constant 'ZSNOTMATCH' instead of duplicating its value here.(—¨—
+m
+java:S1192ñ"VUse already-defined constant 'SQXXCANNOTDELETE' instead of duplicating its value here.(Í£Ë¼
+r
+java:S1192ğ"VUse already-defined constant 'SQXXCANNOTRECALL' instead of duplicating its value here.(‰èâüÿÿÿÿ
+p
+java:S1192ë"TUse already-defined constant 'SQXXDYZMHERROR' instead of duplicating its value here.(ïúÕıÿÿÿÿ
+q
+java:S1192ê"UUse already-defined constant 'SQXXUPDATEFAILL' instead of duplicating its value here.(ßğÀ‘ıÿÿÿÿ
+k
+java:S1192í"TUse already-defined constant 'SQXXDYZMHEXIST' instead of duplicating its value here.(‡¢¸‘
+z
+java:S1192•"^Use already-defined constant 'SQXXNEEDVERIFYBUTNOTPASS' instead of duplicating its value here.(ã‰Û¬ıÿÿÿÿ
+p
+java:S1192ì"TUse already-defined constant 'SQXXTJSBQLXGLY' instead of duplicating its value here.(áôÅıÿÿÿÿ
+b
+java:S1192¤"KUse already-defined constant 'CXCSN' instead of duplicating its value here.(…„‡
+m
+java:S1192ò"VUse already-defined constant 'SQXXSLZTABNORMAL' instead of duplicating its value here.(´„À÷
+g
+java:S1192£"KUse already-defined constant 'CXCSY' instead of duplicating its value here.(“¡½şÿÿÿÿ
+b
+java:S1192¢"KUse already-defined constant 'CXCSR' instead of duplicating its value here.(İÈˆÅ
+g
+java:S1192ô"PUse already-defined constant 'HTHISEXIST' instead of duplicating its value here.(¸ıÀÑ
+t
+java:S1192ó"XUse already-defined constant 'SQXXCANNOTSUPPLYFJ' instead of duplicating its value here.(ÿ Ú·ÿÿÿÿÿ
+p
+java:S1192ù"TUse already-defined constant 'AUTOFINISHFAIL' instead of duplicating its value here.(êÀıøÿÿÿÿ
+h
+java:S1192¬"LUse already-defined constant 'WDYSFD' instead of duplicating its value here.(‡÷ÈÁùÿÿÿÿ
+m
+java:S1192ö"QUse already-defined constant 'QUERYBYMINE' instead of duplicating its value here.(²áñäıÿÿÿÿ
+m
+java:S1192õ"VUse already-defined constant 'YWXTSLBHNOTEXIST' instead of duplicating its value here.(¹»À
+i
+java:S1192ø"SUse already-defined constant 'QZYSXLHISNULL' instead of duplicating its value here.(şİÕ
+e
+java:S1192÷"NUse already-defined constant 'SQXXXXBL' instead of duplicating its value here.(Ô¤Ã
+h
+java:S1192¡"LUse already-defined constant 'BMQXDQ' instead of duplicating its value here.(è˜‡Úıÿÿÿÿ
+m
+java:S1192‹"VUse already-defined constant 'UCUSERINFOFAILED' instead of duplicating its value here.(ƒ»¼”
+˜
+java:S1186İ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Û“…Ï
+t	java:S115("ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(è·ƒ“ÿÿÿÿÿ
+o	java:S115a"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ğßİõ
+o	java:S115b"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ûá€ö
+t	java:S115z"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(­ä¶Âÿÿÿÿÿ
+p	java:S115­"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(óÔØŸ
+p	java:S115®"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ĞÀØ
+u	java:S115¯"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(åĞ³Šûÿÿÿÿ
+9
+java:S2386Û"Make this member "protected".(ıü øÿÿÿÿ
+4
+java:S1118İ"Hide this public constructor.(Û“…Ï
+M
+java:S1135	"2Complete the task associated to this TODO comment.(Â“Œùÿÿÿÿ

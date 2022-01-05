@@ -1,0 +1,207 @@
+.list-group-item {
+    margin-bottom: 6px;
+    border-radius: 2px !important;
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, .15);*/
+    padding: 5px 10px;
+}
+
+.list-group-item > a:hover,
+.list-group-item > a {
+    text-decoration: none;
+}
+
+.list-group-item > .layer-toolbar {
+    float: right;
+}
+
+.layer-toolbar {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.ui-state-highlight{
+    height: 45px;
+    line-height: 45px;
+    list-style-type: none;
+    border: 1px dashed #0091ff;
+    margin-bottom: 5px;
+}
+
+.checkbox-style{
+    float: right;
+}
+
+.legend-style{
+    margin-top: 10px;
+    padding-top: 10px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #333333;
+    text-align: left;
+    line-height: normal;
+    border-top: solid 1px #CBCDD2;
+    width: 100%;
+}
+
+.layer-list-item{
+    /*width: 10em;*/
+    font-size: 15px;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: 2.5px;
+    width: 75%;
+    color: #333333;
+}
+
+.layer-list-item>i{
+    color:#4285f4;
+}
+
+/**********  style of layer-operation  *********/
+
+.operation-content{
+    margin: 5px 0 3px 0;
+    border-top: 1px solid #ffe1e1;
+    padding-top: 2px;
+}
+
+.spy-content{
+    margin-top: 8px;
+    float: right;
+}
+
+.operation-btn{
+    font-size: 10px;
+    background: #ffffff;
+    color: #999999;
+    border-radius: 0px !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    cursor: pointer;
+}
+
+.operation-btn-on{
+    color: #000000!important;
+}
+
+/* opacity slider */
+.opacity-slider {
+    width: 80%;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.opacity-slider.ui-slider {
+    border-radius: 10px;
+    background: #d5cebc;
+    border: none;
+}
+
+.opacity-slider.ui-slider.ui-slider-horizontal {
+    height: 5px;
+}
+
+.opacity-slider .ui-slider-handle {
+    border-radius: 0;
+    height: 20px;
+    width: 10px;
+    top: -7px;
+    margin-left: 0;
+    border: 2px solid #fffaf7 !important;
+    outline: none;
+}
+
+.opacity-slider.ui-widget-content .ui-slider-handle.ui-state-default{
+    background:#4285f4;
+}
+
+.opacity-slider.ui-widget-content .ui-slider-handle.ui-state-active, .ui-widget-content .ui-slider-handle.ui-state-focus, .ui-widget-content .ui-slider-handle.ui-state-hover{
+    background:#4285f4;
+}
+
+.opacity-slider .ui-slider-range {
+    background: #4285f4;
+}
+
+.opacity-slider a:focus{
+    outline: 0!important;
+}
+
+.opacity-content{
+    font-size: 12px;
+    width: 55%;
+    float: left;
+}
+
+.opacity-content-ie{
+    font-size: 12px;
+    width: 65%;
+    float: left;
+}
+/* opacity slider */
+
+.spy-operation-btn{
+    text-align: center;
+    margin: 0 5px 0 5px;
+}
+
+.spy-operation-btn-ie{
+    max-resolution: 0 5px;
+    float: left;
+}
+
+.icheckbox-blue{
+    margin: 0 0 0 9px;
+}
+
+.clearfix{
+    clear: both;
+}
+/**********  style of layer-operation  *********/
+
+/********************  style of spy  *****************/
+.spy-map-div {
+    border: 1px solid gray;
+    box-shadow: 0 0 5px gray;
+    position: absolute;
+    overflow: hidden;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#spy_map{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    right:0px;
+}
+
+.arrow-close {
+    width: 14px;
+    height: 14px;
+    background: url("./img/arrow_close.png")no-repeat;
+    display: inline-block;
+}
+
+.arrow-open {
+    width: 14px;
+    height: 14px;
+    background: url("./img/arrow_open.png")no-repeat;
+    display: inline-block;
+}
+
+/********************  style of spy  *****************/

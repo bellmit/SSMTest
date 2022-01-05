@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="msurveyplat-serviceol:war">
+    <output-path>$PROJECT_DIR$/serviceol/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>msurveyplat-serviceol</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="msurveyplat-serviceol-1.0.0.war">
+      <element id="artifact" artifact-name="msurveyplat-serviceol:war exploded" />
+    </root>
+  </artifact>
+</component>

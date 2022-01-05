@@ -1,0 +1,984 @@
+/* 多测合一登录界面 */
+@media (max-width: 1600px){
+    .container .header-container {
+        width: 1200px!important;
+        height: 120px!important;
+        line-height: 120px!important;
+    }
+    .form-list-search .form-search-item {
+        width: 100%
+    }
+    .container .home-title {
+        font-size: 42px!important;
+    }
+    .container .login-box {
+        width: 400px!important;
+        top: 100px!important;
+        right: 120px!important;
+    }
+    .form-edit .list-form-width {
+        width: 200px;
+    }
+    .form-edit .ivu-select.list-form-width {
+        width: 200px;
+    }
+    .form-edit .date-picker-width {
+        width: 95px;
+    }
+    .search-form .ivu-select.list-form-width {
+        width: 200px;
+    }
+    .search-form .list-form-width {
+        width: 200px;
+    }
+    .form-edit {
+        width: 100%;
+        padding: 0 60px;
+    }
+}
+
+@media (min-width: 1601px) and (max-width: 1920px){
+    .container .header-container {
+        width: 1400px!important;
+        height: 160px!important;
+        line-height: 160px!important;
+    }
+    .form-list-search .form-search-item {
+        width: 100%
+    }
+    .container .home-title {
+        font-size: 56px!important;
+    }
+    .container .login-box {
+        width: 500px!important;
+        top: 200px!important;
+        right: 220px!important;
+    }
+    .form-edit {
+        width: 100%;
+        padding: 0 60px;
+    }
+    .form-edit .list-form-width {
+        width: 300px;
+    }
+    .form-edit .ivu-select.list-form-width {
+        width: 300px;
+    }
+    .form-edit .date-picker-width {
+        width: 145px;
+    }
+    .search-form .ivu-select.list-form-width {
+        width: 200px;
+    }
+    .search-form .list-form-width {
+        width: 200px;
+    }
+}
+
+@media (max-width: 1920px){
+    .header-content, .header-container, .header-inner, .bdc-container{
+        width: 1200px!important;
+        margin: 0 auto!important;
+    }
+    .layui-table-cell {
+        height: 30px;
+    }
+    .layui-input, .layui-select {
+        height: 32px;
+    }
+    .list-box {
+        padding: 10px 0;
+        width: 100%;
+    }
+    .list-box .list-title {
+        border-left: 3px solid #1d87d1;
+        padding-left: 10px;
+        font-size: 16px;
+        height: 16px;
+        line-height: 16px;
+        color: #333;
+        display: block;
+        cursor: pointer;
+    }
+    .font-size-16 {
+        font-size: 16px;
+    }
+    .font-size-20 {
+        font-size: 20px;
+    }
+    .font-size-18 {
+        font-size: 18px;
+    }
+    .font-weight-bold {
+        font-weight: bold;
+    }
+    .line-height-32 {
+        line-height: 32px;
+    }
+    .btn-center {
+        width: 100%!important;
+        padding: 60px 0!important;
+        text-align: center!important;
+    }
+    
+    .main-btn-a {
+        padding: 0 18px!important;
+        height: 32px!important;
+        line-height: 32px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+        display: inline-block;
+    }
+
+    .table-btn-a {
+        padding: 0 8px!important;
+        height: 22px!important;
+        line-height: 22px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+        display: inline-block;
+    }
+
+    .bdc-delete-btn {
+        background-color: #f54743!important;
+    }
+    
+    .back-btn-a {
+        padding: 0 18px!important;
+        height: 34px!important;
+        background-color: #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-a {
+        padding: 0 18px!important;
+        height: 34px!important;
+        background-color: #f3f4f6!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border: 1px solid #d0d5da!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-b {
+        padding: 0 10px!important;
+        height: 30px!important;
+        background-color: #f3f4f6!important;
+        border: 1px solid #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border-radius: 2px!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-c {
+        padding: 0 5px!important;
+        height: 22px!important;
+        background-color: #f3f4f6!important;
+        border: 1px solid #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .main-btn-a-small {
+        display: inline-block!important;
+        padding: 0px 10px!important;
+        height: 30px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+
+    body {
+        min-width: 596px;
+        color: #333;
+        line-height: 20px;
+        font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        min-height: 650px;
+    }
+    
+    .footer {
+        width: 100%;
+        height: 60px;
+        background-color: #ccc;
+        position: fixed;
+        bottom: 0;
+        line-height: 60px;
+        text-align: center;
+    }
+    .dot {
+        display: inline-block;
+        vertical-align: middle;
+        height: 4px;
+        width: 4px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 5px;
+    }
+    .line {
+        height: 14px;
+        display: inline-block;
+        border: 1px solid #fff;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    .count-yuan {
+        position: absolute;
+        right: 10px;
+        bottom:3px;
+        color: #999;
+    }
+    
+    .width-35 {
+        width: 35px !important;
+        display: inline-block;
+        padding: 0 5px !important;
+    }
+    
+    .width-60 {
+        width: 62px !important;
+    }
+
+    .width-80 {
+        width: 80px !important;
+    }
+    
+    .width-90 {
+        width: 90px !important;
+    }
+    
+    .width-100 {
+        width: 100px !important;
+    }
+    
+    .width-110 {
+        width: 110px !important;
+    }
+    .width-118{
+        width: 118px !important;
+    }
+    .width-120 {
+        width: 120px !important;
+    }
+    
+    .width-150 {
+        width: 150px !important;
+    }
+    
+    .width-160 {
+        width: 160px !important;
+    }
+    
+    .width-180 {
+        width: 180px !important;
+    }
+    
+    .width-190 {
+        width: 190px !important;
+    }
+    
+    .width-200 {
+        width: 200px !important;
+    }
+    
+    .width-210 {
+        width: 210px !important;
+    }
+    
+    .width-250 {
+        width: 250px !important;
+    }
+    
+    .width-264 {
+        width: 264px !important;
+    }
+    .width-275 {
+        width: 275px !important;
+    }
+    .width-300 {
+        width: 300px !important;
+    }
+    
+    .width-313 {
+        width: 313px !important;
+    }
+    
+    .width-360 {
+        width: 360px !important;
+    }
+    
+    .width-435 {
+        width: 437px !important;
+    }
+    
+    .width-440 {
+        width: 440px !important;
+    }
+    
+    .width-446 {
+        width: 446px !important;
+    }
+    
+    .width-450 {
+        width: 450px !important;
+    }
+    
+    .width-458 {
+        width: 458px !important;
+    }
+    
+    .width-460 {
+        width: 460px !important;
+    }
+    
+    .width-465 {
+        width: 463px !important;
+    }
+    
+    .width-470 {
+        width: 470px !important;
+    }
+    
+    .width-510 {
+        width: 510px !important;
+    }
+    .width-594 {
+        width: 594px !important;
+    }
+    
+    .width-545 {
+        width: 545px !important;
+    }
+    
+    .width-625 {
+        width: 625px !important;
+    }
+    
+    .width-630 {
+        width: 630px !important;
+    }
+    
+    .width-645 {
+        width: 645px !important;
+    }
+    
+    .width-653 {
+        width: 653px !important;
+    }
+    
+    .width-673 {
+        width: 673px !important;
+    }
+    
+    .width-677 {
+        width: 677px !important;
+    }
+    
+    .width-800 {
+        width: 800px !important;;
+    }
+    
+    .width-830 {
+        width: 830px !important;;
+    }
+    
+    .width-999 {
+        width: 999px !important;
+    }
+    
+    .width-1010 {
+        width: 1010px !important;
+    }
+    
+    .width-1020 {
+        width: 1020px !important;
+    }
+    
+    .width-1030 {
+        width: 1030px !important;
+    }
+    
+    .width-1040 {
+        width: 1036px !important;
+    }
+    
+    .width-1042 {
+        width: 1042px !important;
+    }
+    
+    .width-1050 {
+        width: 1050px !important;
+    }
+    
+    .width-1070 {
+        width: 1070px !important;
+    }
+    
+    .width-auto {
+        width: auto !important;;
+    }
+    
+    .margin-top-5 {
+        margin-top: 5px !important;
+    }
+    
+    .margin-left-10 {
+        margin-left: 10px !important;
+    }
+    
+    .margin-left-20 {
+        margin-left: 20px !important;
+    }
+    .margin-left-70 {
+        margin-left: 70px !important;
+    }
+
+    .margin-bottom-20 {
+        margin-bottom: 20px !important;
+    }
+    .margin-bottom-10 {
+        margin-bottom: 10px !important;
+    }
+    
+    .margin-top-10 {
+        margin-top: 10px !important;
+    }
+    
+    .margin-top-20 {
+        margin-top: 20px !important;
+    }
+    
+    .margin-side-10 {
+        margin: 10px 0 !important;
+    }
+    
+    .margin-10 {
+        margin: 10px !important;
+    }
+    
+    .padding-top-10 {
+        padding: 10px !important;
+    }
+    
+    .padding-10 {
+        padding: 10px !important;
+    }
+    /* 设置不同按钮高度 */
+    .btn-h-28 {
+        height: 28px!important;
+    }
+    .btn-h-30 {
+        height: 30px!important;
+    }
+    .btn-h-32 {
+        height: 32px!important;
+    }
+    .btn-h-34 {
+        height: 34px!important;
+    }
+    .btn-h-36 {
+        height: 36px!important;
+    }
+    .btn-h-40 {
+        height: 40px!important;
+    }
+    .save-btn {
+        text-align: center;
+        margin: 10px auto;
+    }
+}
+/* 1920以上分辨率 */
+@media screen and (min-width: 1921px)  {
+    .container .header-container {
+        width: 1600px!important;
+        height: 160px!important;
+        line-height: 160px!important;
+    }
+    .form-list-search .form-search-item {
+        width: 80%
+    }
+    .form-edit {
+        width: 100%;
+        padding: 0 100px;
+    }
+    .form-edit .list-form-width {
+        width: 400px;
+    }
+    .form-edit .ivu-select.list-form-width {
+        width: 400px;
+    }
+    .form-edit .date-picker-width {
+        width: 155px;
+    }
+    .table-btn-a {
+        padding: 0 8px!important;
+        height: 22px!important;
+        line-height: 22px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+        display: inline-block;
+    }
+    .search-form .ivu-select.list-form-width {
+        width: 300px;
+    }
+    .search-form .list-form-width {
+        width: 300px;
+    }
+    .layui-table-cell {
+        height: 30px;
+    }
+    .layui-table-cell span {
+        font-weight: normal;
+    }
+    .container .home-title {
+        font-size: 56px!important;
+    }
+    .container .login-box {
+        width: 500px!important;
+        top: 200px!important;
+        right: 220px!important;
+    }
+    .header-content, .header-container, .header-inner, .bdc-container{
+        width: 1400px!important;
+        margin: 0 auto!important;
+    }
+    .list-box {
+        padding: 10px 0;
+        width: 100%;
+    }
+    .list-box .list-title {
+        border-left: 3px solid #1d87d1;
+        padding-left: 10px;
+        font-size: 16px;
+        height: 16px;
+        line-height: 16px;
+        color: #333;
+        display: block;
+        cursor: pointer;
+    }
+    .font-size-16 {
+        font-size: 16px;
+    }
+    .font-size-20 {
+        font-size: 20px;
+    }
+    .font-size-18 {
+        font-size: 18px;
+    }
+    .font-weight-bold {
+        font-weight: bold;
+    }
+    .line-height-32 {
+        line-height: 32px;
+    }
+    .btn-center {
+        width: 100%!important;
+        padding: 60px 0!important;
+        text-align: center!important;
+    }
+    
+    .main-btn-a {
+        padding: 0 18px!important;
+        height: 32px!important;
+        line-height: 32px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+        display: inline-block;
+    }
+
+    .bdc-delete-btn {
+        background-color: #f54743!important;
+    }
+    
+    .back-btn-a {
+        padding: 0 18px!important;
+        height: 34px!important;
+        background-color: #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-a {
+        padding: 0 18px!important;
+        height: 34px!important;
+        background-color: #f3f4f6!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border: 1px solid #d0d5da!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-b {
+        padding: 0 10px!important;
+        height: 30px!important;
+        background-color: #f3f4f6!important;
+        border: 1px solid #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border-radius: 2px!important;
+        cursor: pointer!important;
+    }
+    
+    .secondary-btn-c {
+        padding: 0 5px!important;
+        height: 22px!important;
+        background-color: #f3f4f6!important;
+        border: 1px solid #d0d5da!important;
+        color: #333!important;
+        font-size: 14px!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+    
+    .main-btn-a-small {
+        display: inline-block!important;
+        padding: 0px 10px!important;
+        height: 30px!important;
+        background-color: #1d87d1!important;
+        color: #fff!important;
+        font-size: 14px!important;
+        border: none!important;
+        border-radius: 2px!important;
+        vertical-align: middle!important;
+        cursor: pointer!important;
+    }
+
+    body {
+        min-width: 596px;
+        color: #333;
+        line-height: 20px;
+        font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        min-height: 650px;
+    }
+    
+    .footer {
+        width: 100%;
+        height: 60px;
+        background-color: #ccc;
+        position: fixed;
+        bottom: 0;
+        line-height: 60px;
+        text-align: center;
+    }
+    .dot {
+        display: inline-block;
+        vertical-align: middle;
+        height: 4px;
+        width: 4px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 5px;
+    }
+    .line {
+        height: 14px;
+        display: inline-block;
+        border: 1px solid #fff;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    .count-yuan {
+        position: absolute;
+        right: 10px;
+        bottom:3px;
+        color: #999;
+    }
+    
+    .width-35 {
+        width: 35px !important;
+        display: inline-block;
+        padding: 0 5px !important;
+    }
+    
+    .width-60 {
+        width: 62px !important;
+    }
+
+    .width-80 {
+        width: 80px !important;
+    }
+    
+    .width-90 {
+        width: 90px !important;
+    }
+    
+    .width-100 {
+        width: 100px !important;
+    }
+    
+    .width-110 {
+        width: 110px !important;
+    }
+    .width-118{
+        width: 118px !important;
+    }
+    .width-120 {
+        width: 120px !important;
+    }
+    
+    .width-150 {
+        width: 150px !important;
+    }
+    
+    .width-160 {
+        width: 160px !important;
+    }
+    
+    .width-180 {
+        width: 180px !important;
+    }
+    
+    .width-190 {
+        width: 190px !important;
+    }
+    
+    .width-200 {
+        width: 200px !important;
+    }
+    
+    .width-210 {
+        width: 210px !important;
+    }
+    
+    .width-250 {
+        width: 250px !important;
+    }
+    
+    .width-264 {
+        width: 264px !important;
+    }
+    .width-275 {
+        width: 275px !important;
+    }
+    .width-300 {
+        width: 300px !important;
+    }
+    
+    .width-313 {
+        width: 313px !important;
+    }
+    
+    .width-360 {
+        width: 360px !important;
+    }
+    
+    .width-435 {
+        width: 437px !important;
+    }
+    
+    .width-440 {
+        width: 440px !important;
+    }
+    
+    .width-446 {
+        width: 446px !important;
+    }
+    
+    .width-450 {
+        width: 450px !important;
+    }
+    
+    .width-458 {
+        width: 458px !important;
+    }
+    
+    .width-460 {
+        width: 460px !important;
+    }
+    
+    .width-465 {
+        width: 463px !important;
+    }
+    
+    .width-470 {
+        width: 470px !important;
+    }
+    
+    .width-510 {
+        width: 510px !important;
+    }
+    .width-594 {
+        width: 594px !important;
+    }
+    
+    .width-545 {
+        width: 545px !important;
+    }
+    
+    .width-625 {
+        width: 625px !important;
+    }
+    
+    .width-630 {
+        width: 630px !important;
+    }
+    
+    .width-645 {
+        width: 645px !important;
+    }
+    
+    .width-653 {
+        width: 653px !important;
+    }
+    
+    .width-673 {
+        width: 673px !important;
+    }
+    
+    .width-677 {
+        width: 677px !important;
+    }
+    
+    .width-800 {
+        width: 800px !important;;
+    }
+    
+    .width-830 {
+        width: 830px !important;;
+    }
+    
+    .width-999 {
+        width: 999px !important;
+    }
+    
+    .width-1010 {
+        width: 1010px !important;
+    }
+    
+    .width-1020 {
+        width: 1020px !important;
+    }
+    
+    .width-1030 {
+        width: 1030px !important;
+    }
+    
+    .width-1040 {
+        width: 1036px !important;
+    }
+    
+    .width-1042 {
+        width: 1042px !important;
+    }
+    
+    .width-1050 {
+        width: 1050px !important;
+    }
+    
+    .width-1070 {
+        width: 1070px !important;
+    }
+    
+    .width-auto {
+        width: auto !important;;
+    }
+    
+    .margin-top-5 {
+        margin-top: 5px !important;
+    }
+    
+    .margin-left-10 {
+        margin-left: 10px !important;
+    }
+    
+    .margin-left-20 {
+        margin-left: 20px !important;
+    }
+
+    .margin-bottom-20 {
+        margin-bottom: 20px !important;
+    }
+    .margin-bottom-10 {
+        margin-bottom: 10px !important;
+    }
+    
+    .margin-top-10 {
+        margin-top: 10px !important;
+    }
+    
+    .margin-top-20 {
+        margin-top: 20px !important;
+    }
+    
+    .margin-side-10 {
+        margin: 10px 0 !important;
+    }
+    
+    .margin-10 {
+        margin: 10px !important;
+    }
+    
+    .padding-top-10 {
+        padding: 10px !important;
+    }
+    
+    .padding-10 {
+        padding: 10px !important;
+    }
+    /* 设置不同按钮高度 */
+    .btn-h-28 {
+        height: 28px!important;
+    }
+    .btn-h-30 {
+        height: 30px!important;
+    }
+    .btn-h-32 {
+        height: 32px!important;
+    }
+    .btn-h-34 {
+        height: 34px!important;
+    }
+    .btn-h-36 {
+        height: 36px!important;
+    }
+    .btn-h-40 {
+        height: 40px!important;
+    }
+    .save-btn {
+        text-align: center;
+        margin: 10px auto;
+    }
+}
+

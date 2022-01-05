@@ -1,0 +1,769 @@
+package cn.gtmap.msurveyplat.serviceol.service.impl;
+
+import cn.gtmap.msurveyplat.common.annotion.SystemLog;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.Repository;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.common.util.DataSecurityUtil;
+import cn.gtmap.msurveyplat.common.util.ProLog;
+import cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChgcMapper;
+import cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChxmMapper;
+import cn.gtmap.msurveyplat.serviceol.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.serviceol.core.service.UploadService;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.model.JsdwFbwtModel;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.service.PushDataToMqService;
+import cn.gtmap.msurveyplat.serviceol.model.PfUser;
+import cn.gtmap.msurveyplat.serviceol.service.DchyXmglReleaseEntrustService;
+import cn.gtmap.msurveyplat.serviceol.utils.Constants;
+import cn.gtmap.msurveyplat.serviceol.utils.PlatformUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.UserUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.map.type.CollectionLikeType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.o, 2020-11-28
+ * description
+ */
+
+@Service
+public class DchyXmglReleaseEntrustServiceImpl implements DchyXmglReleaseEntrustService, UploadService {
+    private final Log logger = LogFactory.getLog(DchyXmglReleaseEntrustServiceImpl.class);
+
+    @Autowired
+    EntityMapper entityMapper;
+    @Autowired
+    Repository repository;
+    @Autowired
+    DchyXmglChxmMapper dchyXmglChxmMapper;
+    @Autowired
+    DchyXmglChgcMapper dchyXmglChgcMapper;
+    @Autowired
+    PlatformUtil platformUtil;
+    @Autowired
+    PushDataToMqService pushDataToMqService;
+    @Autowired
+    DchyXmglZdService dchyXmglZdService;
+
+    private final String DELETED = "delete_";
+
+    @Override
+    @SystemLog(czmkMc = ProLog.CZMK_XSWT_MC, czmkCode = ProLog.CZMK_XSWT_CODE, czlxMc = ProLog.CZLX_SELECT_MC, czlxCode = ProLog.CZLX_SELECT_CODE)
+    public Page<Map<String, Object>> getEntrustByPage(Map<String, Object> map) {
+        Page<Map<String, Object>> jsdwList = null;
+        try {
+            Map<String, Object> data = (Map<String, Object>) map.get("data");
+            String gcbh = CommonUtil.formatEmptyValue(data.get("gcxmbh"));
+            String gcmc = CommonUtil.formatEmptyValue(data.get("gcxmmc"));
+            String wtbh = CommonUtil.formatEmptyValue(data.get("wtbh"));
+            String chdwmc = CommonUtil.formatEmptyValue(data.get("chdwmc"));
+            String wtzt = CommonUtil.formatEmptyValue(data.get("wtzt"));
+            String userid = UserUtil.getCurrentUserId();
+
+            int page = Integer.parseInt(CommonUtil.formatEmptyValue(data.get("page")));
+            int pageSize = Integer.parseInt(CommonUtil.formatEmptyValue(data.get("pageSize")));
+            Map paramMap = new HashMap();
+            paramMap.put("gcbh", gcbh);
+            paramMap.put("gcmc", gcmc);
+            paramMap.put("wtbh", wtbh);
+            paramMap.put("chdwmc", chdwmc);
+            paramMap.put("wtzt", wtzt);
+
+            if (StringUtils.isNotBlank(userid)) {
+                Example example = new Example(DchyXmglYhdw.class);
+                example.createCriteria().andEqualTo("yhid", userid);
+                List<DchyXmglYhdw> dchyXmglYhdwList = entityMapper.selectByExampleNotNull(example);
+                if (CollectionUtils.isNotEmpty(dchyXmglYhdwList)) {
+                    String dwbh = dchyXmglYhdwList.get(0).getDwbh();
+                    if (StringUtils.isNotEmpty(dwbh)) {
+                        Example yhidExample = new Example(DchyXmglYhdw.class);
+                        yhidExample.createCriteria().andEqualTo("dwbh", dwbh);
+                        List<DchyXmglYhdw> yhxxList = entityMapper.selectByExampleNotNull(yhidExample);
+                        if (CollectionUtils.isNotEmpty(yhxxList)) {
+                            List<String> usidList = Lists.newArrayList();
+                            for (DchyXmglYhdw yhxxLists : yhxxList) {
+                                String yhid = yhxxLists.getYhid();
+                                usidList.add(yhid);
+                            }
+                            paramMap.put("usidList", usidList);
+                        }
+
+                        jsdwList = repository.selectPaging("queryEntrustByPage", paramMap, page - 1, pageSize);
+
+                        if (null != jsdwList) {
+                            List<Map<String, Object>> content = jsdwList.getContent();
+                            if (CollectionUtils.isNotEmpty(content)) {
+
+                                for (Map<String, Object> objectMap : content) {
+                                    String wtztdm = MapUtils.getString(objectMap, "WTZT");
+                                    if (StringUtils.isNotBlank(wtztdm)) {
+                                        /*委托状态名称*/
+                                        String wtztMc = dchyXmglZdService.getDchyXmglByZdlxAndDm(Constants.DCHY_XMGL_CHXM_WTZT, wtztdm).getMc();
+                                        objectMap.put("WTZT", wtztMc);
+                                    }
+
+                                    String chxmid = MapUtils.getString(objectMap, "CHXMID");
+                                    if (StringUtils.isNotBlank(chxmid)) {
+                                        /*测绘单位信息*/
+                                        Example example1Chdwxx = new Example(DchyXmglChxmChdwxx.class);
+                                        example1Chdwxx.createCriteria().andEqualTo("chxmid", chxmid);
+                                        List<DchyXmglChxmChdwxx> chdwxxList = entityMapper.selectByExampleNotNull(example1Chdwxx);
+                                        if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                                            //目前测绘单位是单选
+                                            for (DchyXmglChxmChdwxx chdwxxLists : chdwxxList) {
+                                                String rechdwmc = chdwxxLists.getChdwmc();
+                                                String rechdwxxid = chdwxxLists.getChdwxxid();
+                                                objectMap.put("CHDWMC", rechdwmc);
+                                                objectMap.put("CHDWXXID", rechdwxxid);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
+        return jsdwList;
+    }
+
+    @Override
+    @SystemLog(czmkMc = ProLog.CZMK_XSWT_MC, czmkCode = ProLog.CZMK_XSWT_CODE, czlxMc = ProLog.CZLX_SELECT_MC, czlxCode = ProLog.CZLX_SELECT_CODE)
+    public List<Map<String, Object>> queryEntrustByChxmid(Map<String, Object> map) {
+        Map<String, Object> data = (Map<String, Object>) map.get("data");
+        String chxmid = CommonUtil.formatEmptyValue(data.get("chxmid"));
+        List<Map<String, Object>> chxxList = null;
+        if (StringUtils.isNotEmpty(chxmid)) {
+            Map paramMap = new HashMap();
+            paramMap.put("chxmid", chxmid);
+            chxxList = dchyXmglChxmMapper.queryEntrustByChxmid(paramMap);
+            if (CollectionUtils.isNotEmpty(chxxList)) {
+                for (Map chxxLists : chxxList) {
+                    List chxmidList = Lists.newArrayList();
+                    chxmidList.add(chxmid);
+                    Map paramMaps = new HashMap();
+                    paramMaps.put("chxmidList", chxmidList);
+                    List<Map<String, Object>> clsxList = dchyXmglChgcMapper.getClsxByChxmid(paramMaps);
+                    List clsxLists = new ArrayList();
+                    if (CollectionUtils.isNotEmpty(clsxList)) {
+                        for (Map<String, Object> mapTemp : clsxList) {
+                            String clsx = MapUtils.getString(mapTemp, "CLSX");
+                            clsxLists.add(clsx);
+                        }
+                    }
+                    chxxLists.put("CLSX", clsxLists);
+                    List<Map<String, Object>> chdwxxList = dchyXmglChgcMapper.getChxmChdwxxByChxmid(paramMaps);
+                    String mlkid = null;
+                    if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                        for (Map chdwxxLists : chdwxxList) {
+                            mlkid = MapUtils.getString(chdwxxLists, "MLKID");
+                        }
+                    }
+                    chxxLists.put("MLKID", mlkid);
+                }
+
+            }
+            DataSecurityUtil.decryptMapList(chxxList);
+        }
+
+        return chxxList;
+    }
+
+    @Override
+    public Map<String, Object> initEntrust() {
+        DchyXmglChxm dchyXmglChxm = new DchyXmglChxm();
+        dchyXmglChxm.setChxmid(UUIDGenerator.generate());
+        entityMapper.insertSelective(dchyXmglChxm);
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+        String xqfbbhLsh = obtainXqfbbh();
+        //委托编号(需求发布编号)为当天日期家三位数序列,如果序列为0的话跳过
+        if (StringUtils.equals("000", xqfbbhLsh)) {
+            xqfbbhLsh = obtainXqfbbh();
+        }
+        String wtbh = ("WT" + sdf2.format(new Date()) + xqfbbhLsh).replaceAll(" ", "");
+        //获取登录用户的yhdw表中的单位名称，存放wtdw中
+        String yhid = UserUtil.getCurrentUserId();
+        Example example = new Example(DchyXmglYhdw.class);
+        example.createCriteria().andEqualTo("yhid", yhid);
+        List<DchyXmglYhdw> dchyXmglYhdwList = entityMapper.selectByExampleNotNull(example);
+        String wtdw = "";
+        String lxr = "";
+        String lxdh = "";
+        if (CollectionUtils.isNotEmpty(dchyXmglYhdwList) && dchyXmglYhdwList.size() > 0) {
+            if (StringUtils.isNotBlank(dchyXmglYhdwList.get(0).getDwmc())) {
+                wtdw = dchyXmglYhdwList.get(0).getDwmc();
+            }
+        }
+
+        if (StringUtils.isNotBlank(yhid)) {
+            PfUser pfUser = entityMapper.selectByPrimaryKey(PfUser.class, yhid);
+            lxr = pfUser.getUserName();
+            lxdh = pfUser.getMobilePhone();
+        }
+        Map result = Maps.newHashMap();
+        result.put("chxmid", dchyXmglChxm.getChxmid());
+        result.put("wtbh", wtbh);
+        result.put("wtdw", wtdw);
+        result.put("lxr", lxr);
+        result.put("lxdh", lxdh);
+
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+    @SystemLog(czmkMc = ProLog.CZMK_XSWT_MC, czmkCode = ProLog.CZMK_XSWT_CODE, czlxMc = ProLog.CZLX_SAVE_MC, czlxCode = ProLog.CZLX_SAVE_CODE)
+    public boolean saveEntrust(Map<String, Object> map) {
+        try {
+            Map<String, Object> data = (Map<String, Object>) map.get("data");
+            String chgcbh = CommonUtil.formatEmptyValue(data.get("gcbh"));
+            String chxmid = CommonUtil.formatEmptyValue(data.get("chxmid"));
+
+            //测绘工程
+            DchyXmglChgc dchyXmglChgc = new DchyXmglChgc();
+            if (StringUtils.isNotEmpty(chgcbh)) {
+                Example chgcExample = new Example(DchyXmglChgc.class);
+                chgcExample.createCriteria().andEqualTo("gcbh", chgcbh);
+                List<DchyXmglChgc> dchyXmglChgcList = entityMapper.selectByExampleNotNull(chgcExample);
+                if (CollectionUtils.isNotEmpty(dchyXmglChgcList)) {
+                    //工程信息存在，并判断是否需要更新
+                    for (DchyXmglChgc chgc : dchyXmglChgcList) {
+                        dchyXmglChgc.setChgcid(chgc.getChgcid());
+                    }
+                } else {
+                    dchyXmglChgc.setChgcid(UUIDGenerator.generate18());
+                }
+            }else {
+                dchyXmglChgc.setChgcid(UUIDGenerator.generate18());
+            }
+            dchyXmglChgc.setGcbh(CommonUtil.formatEmptyValue(data.get("gcbh")));
+            dchyXmglChgc.setGcmc(CommonUtil.formatEmptyValue(data.get("gcmc")));
+            dchyXmglChgc.setLxr(CommonUtil.formatEmptyValue(data.get("lxr")));
+            dchyXmglChgc.setLxdh(CommonUtil.formatEmptyValue(data.get("lxdh")));
+            dchyXmglChgc.setGcdzs(CommonUtil.formatEmptyValue(data.get("gcdzs")));
+            dchyXmglChgc.setGcdzss(CommonUtil.formatEmptyValue(data.get("gcdzss")));
+            dchyXmglChgc.setGcdzqx(CommonUtil.formatEmptyValue(data.get("gcdzqx")));
+            dchyXmglChgc.setGcdzxx(CommonUtil.formatEmptyValue(data.get("gcdzxx")));
+            dchyXmglChgc.setWtdw(CommonUtil.formatEmptyValue(data.get("wtdw")));
+            dchyXmglChgc.setCjr(UserUtil.getCurrentUserId());
+            dchyXmglChgc.setXmly(Constants.XMLY_XSFB);
+            DataSecurityUtil.encryptSingleObject(dchyXmglChgc);
+            entityMapper.saveOrUpdate(dchyXmglChgc, dchyXmglChgc.getChgcid());
+
+            //测绘项目
+            DchyXmglChxm dchyXmglChxm = new DchyXmglChxm();
+            dchyXmglChxm.setChxmid(chxmid);
+            dchyXmglChxm.setChgcid(dchyXmglChgc.getChgcid());
+            dchyXmglChxm.setChgcbh(CommonUtil.formatEmptyValue(data.get("gcbh")));
+            dchyXmglChxm.setZdxm(CommonUtil.formatEmptyValue(data.get("zdxm")));//是否是重大项目
+            dchyXmglChxm.setFbr(UserUtil.getCurrentUserId());
+            dchyXmglChxm.setXmly(Constants.XMLY_XSWT);
+            dchyXmglChxm.setIshy(Constants.ISHY_WHY);
+            dchyXmglChxm.setXmzt(Constants.XMZT_DBA); //待备案
+            dchyXmglChxm.setWtzt(CommonUtil.formatEmptyValue(data.get("wtzt")));
+            dchyXmglChxm.setXmlx(CommonUtil.formatEmptyValue(data.get("xmlx")));
+            String ys = CommonUtil.formatEmptyValue(data.get("ys"));
+            if (StringUtils.isNotEmpty(ys)) {
+                dchyXmglChxm.setYs(Integer.parseInt(ys));
+            }
+
+            //委托时添加委托时间
+            String wtzt = CommonUtil.formatEmptyValue(data.get("wtzt"));
+            if(StringUtils.isNotEmpty(wtzt) && StringUtils.equals(wtzt,Constants.FBWT_QRWT)){
+                dchyXmglChxm.setFbsj(new Date());
+            }
+
+            //判断是否存在委托编号
+            String wtbh = null;
+            DchyXmglChxm dchyXmglChxms = entityMapper.selectByPrimaryKey(DchyXmglChxm.class, chxmid);
+            if (dchyXmglChxms != null) {
+                if (StringUtils.isNotEmpty(dchyXmglChxms.getXqfbbh())) {
+                    wtbh = dchyXmglChxms.getXqfbbh();
+                } else {
+                    wtbh = CommonUtil.formatEmptyValue(data.get("wtbh"));
+                }
+            }
+            dchyXmglChxm.setXqfbbh(wtbh);
+
+            //时间转换
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                String cgjfrqs = CommonUtil.formatEmptyValue(data.get("gcjfrq"));
+                if (StringUtils.isNotEmpty(cgjfrqs)) {
+                    Date cgjfrq = simpleDateFormat.parse(CommonUtil.formatEmptyValue(data.get("gcjfrq")));
+                    dchyXmglChxm.setCgjfrq(cgjfrq);
+                }
+            } catch (Exception e) {
+                logger.error(e);
+            }
+            entityMapper.saveOrUpdate(dchyXmglChxm, dchyXmglChxm.getChxmid());
+
+            //测绘事项
+            Example clsxExample = new Example(DchyXmglChxmClsx.class);
+            clsxExample.createCriteria().andEqualTo("chxmid", chxmid);
+            entityMapper.deleteByExampleNotNull(clsxExample);
+
+            /*保存测量事项和测量时限*//*
+            List<Map<String, Object>> clsxList = (List<Map<String, Object>>) data.get("clsx");
+            if(CollectionUtils.isNotEmpty(clsxList)){
+                List<DchyXmglChxmClsx> clsxes = this.generateClsx(chxmid, clsxList);
+                for (DchyXmglChxmClsx clsx : clsxes) {
+                    entityMapper.saveOrUpdate(clsx,clsx.getClsxid());
+                }
+            }*/
+            String clsx = CommonUtil.formatEmptyValue(data.get("clsx"));
+            if (StringUtils.isNotEmpty(clsx)) {
+                List<String> clsxList = Arrays.asList(clsx.split(","));//根据逗号分隔转化为list
+                DchyXmglChxmClsx dchyXmglChxmClsx = new DchyXmglChxmClsx();
+                for (Iterator<String> it = clsxList.iterator(); it.hasNext(); ) {
+                    String clsxs = it.next();
+                    String clsxid = UUIDGenerator.generate18();
+                    dchyXmglChxmClsx.setClsxid(clsxid);
+                    dchyXmglChxmClsx.setClsx(clsxs);
+                    dchyXmglChxmClsx.setChxmid(chxmid);
+                    entityMapper.saveOrUpdate(dchyXmglChxmClsx, dchyXmglChxmClsx.getClsxid());
+                }
+            }
+
+            //测绘单位
+            List<Map<String, Object>> chdwmcList = (List<Map<String, Object>>) data.get("chdwxx");
+            if (CollectionUtils.isNotEmpty(chdwmcList)) {
+                for (Map<String, Object> chdwidmap : chdwmcList) {
+                    DchyXmglChxmChdwxx dchyXmglChxmChdwxx = new DchyXmglChxmChdwxx();
+                    String chdwmc = MapUtils.getString(chdwidmap, "chdwmc");
+                    String chdwid = MapUtils.getString(chdwidmap, "chdwid");
+
+                    Example example = new Example(DchyXmglChxmChdwxx.class);
+                    example.createCriteria().andEqualTo("mlkid", chdwid).andEqualTo("chxmid", chxmid);
+                    List<DchyXmglChxmChdwxx> chdwxxList = entityMapper.selectByExampleNotNull(example);
+                    String chdwxxid = null;
+                    if (CollectionUtils.isNotEmpty(chdwxxList)) {
+                        for (DchyXmglChxmChdwxx chdwxxLists : chdwxxList) {
+                            chdwxxid = chdwxxLists.getChdwxxid();
+                        }
+                    } else {
+                        chdwxxid = UUIDGenerator.generate18();
+                    }
+
+                    dchyXmglChxmChdwxx.setChdwxxid(chdwxxid);
+                    dchyXmglChxmChdwxx.setChxmid(chxmid);
+                    dchyXmglChxmChdwxx.setChdwmc(chdwmc);
+                    dchyXmglChxmChdwxx.setMlkid(chdwid);
+                    dchyXmglChxmChdwxx.setPjzt(Constants.PJZT_WPJ);
+                    entityMapper.saveOrUpdate(dchyXmglChxmChdwxx, dchyXmglChxmChdwxx.getChdwxxid());
+                }
+            }
+
+            //确认委托,更新申请信息，加入待办任务
+            if (StringUtils.equals(wtzt, Constants.FBWT_QRWT)) {
+                DchyXmglSqxx dchyXmglSqxx = this.initSqxx(chxmid);
+                String sqxxid = dchyXmglSqxx.getSqxxid();
+                Map paramMap = Maps.newHashMap();
+                paramMap.put("sqxxid", sqxxid);
+                paramMap.put("zrryid", UserUtil.getCurrentUserId());
+                paramMap.put("sqzt", Constants.DCHY_XMGL_SQZT_DSH);
+                Map resultMap = this.insertDbrw(paramMap);
+                if (resultMap != null) {
+                    //用户消息
+                    String chdw = CommonUtil.formatEmptyValue(data.get("chdw"));
+                    Map<String, Object> yhxxMap = Maps.newHashMap();
+                    yhxxMap.put("chdwid", chdw);
+                    yhxxMap.put("wtdw", CommonUtil.formatEmptyValue(data.get("wtdw")));
+                    yhxxMap.put("chxmid", chxmid);
+                    yhxxMap.put("gcmc", CommonUtil.formatEmptyValue(data.get("gcmc")));
+                    this.sendMessage(yhxxMap);
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return java.util.List<cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmClsx>
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     * @param: chxmid
+     * @param: clsx
+     * @time 2020/12/13 14:19
+     * @description 组织测量事项
+     */
+    private List<DchyXmglChxmClsx> generateClsx(String chxmid, List<Map<String, Object>> clsxMap) {
+        List<DchyXmglChxmClsx> dchyXmglChxmClsxList = Lists.newArrayList();
+        Example dchyXmglChxmClsxExample = new Example(DchyXmglChxmClsx.class);
+        dchyXmglChxmClsxExample.createCriteria().andEqualTo("chxmid", chxmid);
+        List<DchyXmglChxmClsx> oldDchyXmglChxmClsxList = entityMapper.selectByExampleNotNull(dchyXmglChxmClsxExample);
+        if (CollectionUtils.isNotEmpty(clsxMap)) {
+            //List clsxList = Lists.newArrayList(Arrays.asList(clsx.split(Constants.DCHY_XMGL_CLSX_SEPARATOR)));//根据分号分隔转化为list
+            List clsxList = Lists.newArrayList();
+            for (Map<String, Object> clsxMaps : clsxMap) {
+                String clsx = MapUtils.getString(clsxMaps, "clsxdm");
+                clsxList.add(clsx);
+            }
+            // 匹配的测量事项，即仍需保存的测量事项id
+            List matchedClsxid = Lists.newArrayList();
+            List<DchyXmglChxmClsx> matchedClsxidMap = Lists.newArrayList();
+            if (CollectionUtils.isNotEmpty(oldDchyXmglChxmClsxList)) {
+                for (DchyXmglChxmClsx dchyXmglChxmClsx : oldDchyXmglChxmClsxList) {
+                    if (clsxList.contains(dchyXmglChxmClsx.getClsx())) {
+                        Map<String, Object> clsxidMaps = Maps.newHashMap();
+                        clsxidMaps.put("clsxid", dchyXmglChxmClsx.getClsxid());
+                        matchedClsxid.add(dchyXmglChxmClsx.getClsx());
+                        matchedClsxidMap.add(dchyXmglChxmClsx);
+
+                    } else {
+                        dchyXmglChxmClsx.setClsxid(DELETED + dchyXmglChxmClsx.getClsxid());
+                    }
+                    dchyXmglChxmClsxList.add(dchyXmglChxmClsx);
+                }
+            }
+            // 所有需要保存的测量事项，删除已有的测量事项后，仍需要保存的测量事项信息，直接新增
+            List clsxLfet = (List) CollectionUtils.removeAll(clsxList, matchedClsxid);
+            if (CollectionUtils.isNotEmpty(clsxLfet)) {
+                for (Map<String, Object> clsxMaps : clsxMap) {
+                    if (clsxLfet.contains(MapUtils.getString(clsxMaps, "clsxdm"))) {
+                        DchyXmglChxmClsx dchyXmglChxmClsx = new DchyXmglChxmClsx();
+                        String clsxs = MapUtils.getString(clsxMaps, "clsxdm");
+                        String jcrq = MapUtils.getString(clsxMaps, "jcrq");
+                        String yjjfrq = MapUtils.getString(clsxMaps, "yjjfrq");
+                        String clsxid = UUIDGenerator.generate18();
+                        dchyXmglChxmClsx.setClsxid(clsxid);
+                        dchyXmglChxmClsx.setClsx(clsxs);
+                        dchyXmglChxmClsx.setJcrq(CalendarUtil.formatDate(jcrq));
+                        dchyXmglChxmClsx.setYjjfrq(yjjfrq);
+                        dchyXmglChxmClsx.setChxmid(chxmid);
+                        dchyXmglChxmClsx.setClzt(Constants.DCHY_XMGL_CLSX_MRCLZT_ZC);
+                        dchyXmglChxmClsxList.add(dchyXmglChxmClsx);
+                    }
+                }
+            }
+            if (CollectionUtils.isNotEmpty(matchedClsxidMap)) {
+                for (Map<String, Object> clsxMaps : clsxMap) {
+                    for (DchyXmglChxmClsx matchedClsxidMaps : matchedClsxidMap) {
+                        if (StringUtils.equals(MapUtils.getString(clsxMaps, "clsxdm"), matchedClsxidMaps.getClsx())) {
+                            Date jcrq = CalendarUtil.formatDate(CommonUtil.formatEmptyValue(MapUtils.getString(clsxMaps, "jcrq")));
+                            String yjjfrq = MapUtils.getString(clsxMaps, "yjjfrq");
+                            String clsxid = matchedClsxidMaps.getClsxid();
+                            matchedClsxidMaps.setClsxid(clsxid);
+                            matchedClsxidMaps.setJcrq(jcrq);
+                            matchedClsxidMaps.setYjjfrq(yjjfrq);
+                            dchyXmglChxmClsxList.add(matchedClsxidMaps);
+                        }
+                    }
+                }
+            }
+        } else if (CollectionUtils.isNotEmpty(oldDchyXmglChxmClsxList)) {
+            // 要删除的数据进行设置
+            for (DchyXmglChxmClsx dchyXmglChxmClsx : dchyXmglChxmClsxList) {
+                dchyXmglChxmClsx.setClsxid(DELETED + dchyXmglChxmClsx.getClsxid());
+                dchyXmglChxmClsxList.add(dchyXmglChxmClsx);
+            }
+        }
+        return dchyXmglChxmClsxList;
+    }
+
+    public int sendMessage(Map<String, Object> hyxxMap) {
+        ///发送消息
+        Example jsdwExample = new Example(DchyXmglYhxxPz.class);
+        jsdwExample.createCriteria().andEqualTo("xxlx", Constants.DCHY_XMGL_ZD_XXNR_JSDWWT);
+        List<DchyXmglYhxxPz> xxnrzd = entityMapper.selectByExampleNotNull(jsdwExample);
+        String jsdwxxnr = null;
+        if (CollectionUtils.isNotEmpty(xxnrzd)) {
+            jsdwxxnr = xxnrzd.get(0).getXxnr().replaceAll("项目名称", MapUtils.getString(hyxxMap, "gcmc", StringUtils.EMPTY));
+        }
+
+        Example example = new Example(DchyXmglYhxxPz.class);
+        example.createCriteria().andEqualTo("xxlx", Constants.DCHY_XMGL_ZD_XXNR_CHDWWT);
+        List<DchyXmglYhxxPz> xxnrzds = entityMapper.selectByExampleNotNull(example);
+        String chdwxxnr = null;
+        if (CollectionUtils.isNotEmpty(xxnrzd)) {
+            chdwxxnr = xxnrzds.get(0).getXxnr();
+        }
+
+        //测绘单位消息
+        DchyXmglYhxx chdwYhxx = new DchyXmglYhxx();
+        chdwYhxx.setYhxxid(UUIDGenerator.generate18());
+        chdwYhxx.setJsyhid(MapUtils.getString(hyxxMap, "chdwid"));//接受方---测绘单位
+        chdwYhxx.setGlsxid(MapUtils.getString(hyxxMap, "chxmid"));
+        chdwYhxx.setXxnr(chdwxxnr);
+        chdwYhxx.setFsyhid(UserUtil.getCurrentUserId());//发送方---当前登录用户
+        chdwYhxx.setDqzt(Constants.INVALID);
+        chdwYhxx.setFssj(CalendarUtil.getCurHMSDate());
+        chdwYhxx.setDqsj(null);
+        chdwYhxx.setXxlx(Constants.DCHY_XMGL_ZD_XXNR_CHDWWT);
+        chdwYhxx.setSftz(Constants.XXTX_SFTZ_BTZ); //跳转
+        entityMapper.saveOrUpdate(chdwYhxx, chdwYhxx.getYhxxid());
+
+        //建设单位消息
+        DchyXmglYhxx jsdwYhxx = new DchyXmglYhxx();
+        jsdwYhxx.setFsyhid(UserUtil.getCurrentUserId());
+        jsdwYhxx.setFssj(CalendarUtil.getCurHMSDate());
+        jsdwYhxx.setDqzt(Constants.INVALID);//未读
+        jsdwYhxx.setYhxxid(UUIDGenerator.generate18());
+        jsdwYhxx.setJsyhid(MapUtils.getString(hyxxMap, "gcmc")); //接受方---建设单位
+        jsdwYhxx.setGlsxid(MapUtils.getString(hyxxMap, "chxmid"));
+        jsdwYhxx.setXxnr(jsdwxxnr); //消息内容
+        jsdwYhxx.setXxlx(Constants.DCHY_XMGL_ZD_XXNR_JSDWWT); //消息类型
+        jsdwYhxx.setSftz(Constants.XXTX_SFTZ_BTZ); //跳转
+        int result = entityMapper.saveOrUpdate(jsdwYhxx, jsdwYhxx.getYhxxid());
+        return result;
+    }
+
+    public DchyXmglSqxx initSqxx(String chxmid) {
+        //更新申请信息
+        DchyXmglSqxx dchyXmglSqxx = new DchyXmglSqxx();
+        /*生成sqxxid*/
+        String sqxxid = UUIDGenerator.generate18();
+        String blsx = Constants.BLSX_FBWT; //办理事项
+        String sqr = UserUtil.getCurrentUserId();
+        String sqzt = Constants.DCHY_XMGL_SQZT_DSH;//1:未审核
+        String sqbh = Calendar.getInstance().getTimeInMillis() + sqxxid;
+        Date sqsj = new Date();
+        dchyXmglSqxx.setSqxxid(sqxxid);
+        //通过用户id去dchy_xmgl_yhdw里查找dwmc保存
+        dchyXmglSqxx.setSqjgmc(getDwmc());
+        dchyXmglSqxx.setBlsx(blsx);
+        dchyXmglSqxx.setSqr(sqr);
+        dchyXmglSqxx.setSqrmc(dchyXmglChxmMapper.queryUsername(UserUtil.getCurrentUserId()));
+        dchyXmglSqxx.setSqsj(sqsj);
+        dchyXmglSqxx.setSqzt(sqzt);
+        dchyXmglSqxx.setGlsxid(chxmid);
+        dchyXmglSqxx.setSqbh(sqbh);
+        int result = entityMapper.saveOrUpdate(dchyXmglSqxx, dchyXmglSqxx.getSqxxid());
+        if (result > 0) {
+            return dchyXmglSqxx;
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前用户的单位名称
+     *
+     * @return
+     */
+    private String getDwmc() {
+        String yhId = UserUtil.getCurrentUserId();
+        Example example = new Example(DchyXmglYhdw.class);
+        example.createCriteria().andEqualTo("yhid", yhId);
+        List<DchyXmglYhdw> yhdwList = entityMapper.selectByExample(example);
+        if (CollectionUtils.isNotEmpty(yhdwList)) {
+            String dwmc = yhdwList.get(0).getDwmc();
+            if (StringUtils.isNotBlank(dwmc)) {
+                return dwmc;
+            }
+        }
+        return "";
+    }
+
+    public Map insertDbrw(Map<String, Object> paramMap) {
+        String zrryid = CommonUtil.formatEmptyValue(paramMap.get("zrryid"));
+        String sqxxid = CommonUtil.formatEmptyValue(paramMap.get("sqxxid"));
+        String sqzt = CommonUtil.formatEmptyValue(paramMap.get("sqzt"));
+        Map map = Maps.newHashMap();
+        String code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+        String msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        if (StringUtils.isNoneEmpty(zrryid, sqxxid)) {
+            Example example = new Example(DchyXmglDbrw.class);
+            example.createCriteria().andEqualTo("sqxxid", sqxxid);
+            List<DchyXmglDbrw> dchyXmglDbrwList = entityMapper.selectByExampleNotNull(example);
+            if (CollectionUtils.isNotEmpty(dchyXmglDbrwList)) {
+                msg = "该事项已申请";
+            } else {
+                DchyXmglDbrw dchyXmglDbrw = new DchyXmglDbrw();
+                dchyXmglDbrw.setDbrwid(UUIDGenerator.generate18());
+                dchyXmglDbrw.setSqxxid(sqxxid);
+                dchyXmglDbrw.setZrryid(zrryid);
+                dchyXmglDbrw.setZrsj(new Date());
+                dchyXmglDbrw.setDqjd(Constants.DQJD_SH);
+                entityMapper.insertSelective(dchyXmglDbrw);
+
+                DchyXmglSqxx dchyXmglSqxx = new DchyXmglSqxx();
+                dchyXmglSqxx.setSqxxid(sqxxid);
+                dchyXmglSqxx.setSqzt(sqzt);
+
+                entityMapper.updateByPrimaryKeySelective(dchyXmglSqxx);
+                code = ResponseMessage.CODE.SUCCESS.getCode();
+                msg = ResponseMessage.CODE.SUCCESS.getMsg();
+            }
+        }
+        map.put("msg", msg);
+        map.put("code", code);
+        return map;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean retrieveEntrust(Map<String, Object> map) {
+        try {
+            Map<String, Object> data = (Map<String, Object>) map.get("data");
+            String chxmid = CommonUtil.formatEmptyValue(data.get("chxmid"));
+            String wtzt = CommonUtil.formatEmptyValue(data.get("wtzt"));
+            Example chxmExample = new Example(DchyXmglChxm.class);
+            chxmExample.createCriteria().andEqualTo("chxmid", chxmid);
+            List<DchyXmglChxm> dchyXmglChxmList = entityMapper.selectByExampleNotNull(chxmExample);
+            if (CollectionUtils.isNotEmpty(dchyXmglChxmList)) {
+                for (DchyXmglChxm dchyXmglChxmLists : dchyXmglChxmList) {
+                    String ishy = dchyXmglChxmLists.getIshy();
+                    if (StringUtils.equals(ishy, "0")) {
+                        DchyXmglChxm chxm = new DchyXmglChxm();
+                        chxm.setWtzt(wtzt);
+                        chxm.setChxmid(chxmid);
+                        entityMapper.saveOrUpdate(chxm, chxm.getChxmid());
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional
+    @SystemLog(czmkMc = ProLog.CZMK_XSWT_MC, czmkCode = ProLog.CZMK_XSWT_CODE, czlxMc = ProLog.CZLX_DELETE_MC, czlxCode = ProLog.CZLX_DELETE_CODE)
+    public synchronized Map<String, Object> deleteEntrust(Map<String, Object> paramMap) {
+        JsdwFbwtModel jsdwFbwtModel = new JsdwFbwtModel();
+        String code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+        String msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        if (null != paramMap && paramMap.containsKey("data")) {
+            Map data = MapUtils.getMap(paramMap, "data");
+            String chxmid = MapUtils.getString(data, "chxmid");
+            if (StringUtils.isNotBlank(chxmid)) {
+                DchyXmglChxm dchyXmglChxm = entityMapper.selectByPrimaryKey(DchyXmglChxm.class, chxmid);
+                if (null != dchyXmglChxm) {
+                    if (StringUtils.isNoneBlank(dchyXmglChxm.getChgcbh(), dchyXmglChxm.getChgcid())) {
+                        Example dchyXmglChxmExample = new Example(DchyXmglChxm.class);
+                        dchyXmglChxmExample.createCriteria().andEqualTo("chgcbh", dchyXmglChxm.getChgcbh());
+                        List<DchyXmglChxm> dchyXmglChxmList = entityMapper.selectByExampleNotNull(dchyXmglChxmExample);
+                        if (CollectionUtils.size(dchyXmglChxmList) == 1 && StringUtils.isNotBlank(dchyXmglChxm.getChgcid())) {
+                            // 如果没有其他工程信息，删除现在的工程信息
+                            List<DchyXmglChgc> dchyXmglChgcList = Lists.newArrayList();
+                            dchyXmglChgcList.add(entityMapper.selectByPrimaryKey(DchyXmglChgc.class, dchyXmglChxm.getChgcid()));
+                            jsdwFbwtModel.setDchyXmglChgcList(dchyXmglChgcList);
+                            entityMapper.deleteByPrimaryKey(DchyXmglChgc.class, dchyXmglChxm.getChgcid());
+                        }
+                    }
+                    // 删除测量事项
+                    Example dchyXmglChxmClsxExample = new Example(DchyXmglChxmClsx.class);
+                    dchyXmglChxmClsxExample.createCriteria().andEqualTo("chxmid", dchyXmglChxm.getChxmid());
+                    entityMapper.deleteByExampleNotNull(dchyXmglChxmClsxExample);
+
+                    // 删除测绘项目
+                    List<DchyXmglChxm> dchyXmglChxmList = Lists.newArrayList();
+                    dchyXmglChxmList.add(dchyXmglChxm);
+                    jsdwFbwtModel.setDchyXmglChxmList(dchyXmglChxmList);
+                    entityMapper.deleteByPrimaryKey(DchyXmglChxm.class, chxmid);
+
+                    //删除测绘项目测绘单位信息表
+                    Example dchyXmglChxmChdwxxExample = new Example(DchyXmglChxmChdwxx.class);
+                    dchyXmglChxmChdwxxExample.createCriteria().andEqualTo("chxmid", dchyXmglChxm.getChxmid());
+                    entityMapper.deleteByExampleNotNull(dchyXmglChxmChdwxxExample);
+
+                    //删除测绘单位测绘事项信息表
+                    Example dchyXmglClsxChdwxxGxExample = new Example(DchyXmglClsxChdwxxGx.class);
+                    dchyXmglClsxChdwxxGxExample.createCriteria().andEqualTo("chxmid", dchyXmglChxm.getChxmid());
+                    entityMapper.deleteByExampleNotNull(dchyXmglClsxChdwxxGxExample);
+
+                    // 查询收件信息
+                    Example dchyXmglSjxxExample = new Example(DchyXmglSjxx.class);
+                    dchyXmglSjxxExample.createCriteria().andEqualTo("glsxid", chxmid);
+                    List<DchyXmglSjxx> dchyXmglSjxxList = entityMapper.selectByExampleNotNull(dchyXmglSjxxExample);
+                    jsdwFbwtModel.setDchyXmglSjxxList(dchyXmglSjxxList);
+                    if (CollectionUtils.isNotEmpty(dchyXmglSjxxList)) {
+                        Example dchyXmglSjclExample = new Example(DchyXmglSjcl.class);
+                        for (DchyXmglSjxx dchyXmglSjxx : dchyXmglSjxxList) {
+                            // 删除收件材料
+                            dchyXmglSjclExample.clear();
+                            dchyXmglSjclExample.createCriteria().andEqualTo("sjxxid", dchyXmglSjxx.getSjxxid());
+                            jsdwFbwtModel.setDchyXmglSjclList(entityMapper.selectByExample(dchyXmglSjclExample));
+                            entityMapper.deleteByExampleNotNull(dchyXmglSjclExample);
+
+                            // todo 删除filecenter
+                            // 删除收件信息
+                            entityMapper.deleteByPrimaryKey(DchyXmglSjxx.class, dchyXmglSjxx.getSjxxid());
+                        }
+                    }
+                    /*fileCenter数据删除*/
+                    int node = platformUtil.creatNode(chxmid);
+                    platformUtil.deleteNodeById(node);
+                    code = ResponseMessage.CODE.SUCCESS.getCode();
+                    msg = ResponseMessage.CODE.SUCCESS.getMsg();
+                } else {
+                    code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+                    msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+                }
+            } else {
+                code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+                msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+            }
+        } else {
+            code = ResponseMessage.CODE.DELETE_FAIL.getCode();
+            msg = ResponseMessage.CODE.DELETE_FAIL.getMsg();
+        }
+        Map resultMap = Maps.newHashMap();
+        resultMap.put("code", code);
+        resultMap.put("msg", msg);
+        return resultMap;
+    }
+
+    public String obtainXqfbbh() {
+        String xqfbbh = "";
+        String xqfbbhLsh = dchyXmglChxmMapper.queryMaxXqfbbh();
+        if (xqfbbhLsh.length() > 3) {
+            xqfbbh = xqfbbhLsh.substring(xqfbbhLsh.length() - 3, xqfbbhLsh.length());
+        } else {
+            xqfbbh = xqfbbhLsh;
+        }
+        return xqfbbh;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateWjzxid(String wjzxid, String glsxid) {
+        boolean updated = false;
+        if (StringUtils.isNotBlank(glsxid)) {
+            DchyXmglChxm dchyXmglChxm = new DchyXmglChxm();
+            dchyXmglChxm.setChxmid(glsxid);
+            dchyXmglChxm.setWjzxid(wjzxid);
+            int i = entityMapper.updateByPrimaryKeySelective(dchyXmglChxm);
+            if (i > 0) {
+                updated = true;
+            }
+        }
+        return updated;
+    }
+
+    @Override
+    public String getSsmkid() {
+        return Constants.SSMKID_FBWT;
+    }
+
+}

@@ -1,0 +1,41 @@
+<div class="widget-panel-title">现状分析</div>
+<div id="xzAnalysisPanel" class="panel-body" style="padding: 1px;padding-top: 5px;">
+    <div id="hideDiv">
+    <label class="text-info-o">数据来源：</label>
+    <div id="LOC_QUERY" class="div-data-source" style="z-index:99;">
+        <div class="div-dataSource-top"><span code="">数据来源</span>
+        <em><img src="/omp/static/js/map/widgets/XzAnalysis/img/multiple-select-diy.png"></em>
+    </div>
+    <ul class="ul-dataSource" id="dataTypeUl">
+        <li code="SK_LOC"> 定位信息</li>
+        <li code="SK_QUERY"> 查询属性</li>
+    </ul>
+    </div>
+    </div>
+</div>
+
+<!--现状多年份选择模板-->
+<script id="xzYearSelectTpl" type="x-tpl-handlebars">
+<div class="xz-analysis-sel-wrapper text-center">
+    <label class="text-info">现状年度：</label>
+    <select id="yearSelector">
+        {{#each years}}
+        <option value="{{year}}" data-dltb="{{dltb}}" data-xzdw="{{xzdw}}" {{selected}}>
+            {{year}}年
+        </option>
+        {{/each}}
+    </select>
+</div>
+</script>
+
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">模板类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>

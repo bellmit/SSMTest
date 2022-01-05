@@ -1,0 +1,17 @@
+server:
+  port: ${msurveyplat-portal.port}
+  context-path: /portal
+
+security:
+  basic:
+    enabled: false
+feign:
+  hystrix:
+    enabled: true
+
+springmvc:
+  view:
+  # 定位模板的目录
+    prefix: /
+    # 给返回的页面添加后缀名
+    suffix: .html

@@ -1,0 +1,93 @@
+<!--header-->
+<div class="map-popup-header">
+    <span class="map-popup-close text-primary" title="关闭"></span>
+    {{#link}}<a title="{{tip}}" href="{{url}}" target="_blank" class="map-popup-title"> {{/link}} {{title}}</a>
+    <!--<h5 class="map-popup-title" title="{{title}}">{{title}}</h5>-->
+</div>
+<!--main-->
+<div class="map-popup-content">
+    {{#ifContent content}}
+    {{content}}
+    {{/ifContent}}
+    {{#if isEdit}}
+    <form id="drawLayerForm" class="form-horizontal">
+        {{#fields}}
+        <div class="row">
+            <div class="col-md-4 col-xs-4 text-right popup-field-alias">
+                <span title="{{name}}">{{alias}}:</span>
+            </div>
+            <div class="col-md-8 col-xs-8 text-left popup-field-value">
+                <!--<input class="col-md-11 map-popup-input" name="{{value}}" type="text" />-->
+                <input class="col-md-11 map-popup-input" type="text" value="{{value}}"/>
+            </div>
+        </div>
+        {{/fields}}
+    </form>
+
+    <div class="row text-center">
+        <button class="btn btn-primary btn-primary xy-search-btn" id="drawEditSave">保存</button>
+    </div>
+    {{else}}
+    {{#fields}}
+    <div class="row">
+        <div class="col-md-4 col-xs-4 text-right popup-field-alias">
+            <span title="{{alias}}">{{alias}}:</span>
+        </div>
+
+        <div class="col-md-8 col-xs-8 text-left popup-field-value">
+            <span title="{{value}}">{{value}}</span>
+        </div>
+    </div>
+    {{/fields}}
+    {{/if}}
+</div>
+<!--<div class="map-popup-footer hidden" id="popupCopy">-->
+<!--<textarea id="input" class="hidden"></textarea>-->
+<!--<div class="text-center">-->
+<!--<botton type="button" class="btn btn-default btn-xs archiveBtn">复制</botton>-->
+<!--</div>-->
+<!--</div>-->
+<!--footer-->
+{{#bLinkEnabled}}
+<div class="map-popup-footer">
+    {{#link}}
+    <div class="text-center">
+        <a title="{{tip}}" href="javascript:void(0);" onclick="{{url}}" target="_blank" class="text-primary popup-link">
+            <!--<i class="iconfont">&#xe614;</i>-->
+            <button type="button" id="archiveBtn" class="btn btn-default btn-xs archiveBtn">{{tip}}</button>
+        </a>
+    </div>
+    {{/link}}
+    {{#secLink}}
+    <div style="float: left">
+        <a title="{{tip}}" href="{{url}}" style="text-align: center;" target="_blank" class="text-primary popup-link">
+            <button type="button" class="btn btn-default btn-xs archiveBtn" style="margin-left: 5px">{{tip}}</button>
+        </a>
+    </div>
+    {{/secLink}}
+</div>
+{{/bLinkEnabled}}
+
+{{#bdczt}}
+<div class="row">
+    <div class="col-md-4 col-xs-4 text-right popup-field-alias">
+        <span title="不动产状态" style="color: red">权利状态:</span>
+    </div>
+    <a class="col-md-8 col-xs-8 text-left popup-field-value" style="color: red;cursor: pointer" href="{{bdcUrl}}"
+       target="_blank">
+        <span title="{{#if xs}}现势、{{/if}}{{#if cf}}查封、{{/if}}{{#if dya}}抵押、{{/if}}{{#if dyi}}地役、{{/if}}{{#if sd}}锁定、{{/if}}{{#if ycf}}预查封、{{/if}}{{#if ydy}}预抵押、{{/if}}{{#if yg}}预告、{{/if}}{{#if yy}}异议、{{/if}}{{#if zjgcdy}}在建工程抵押、{{/if}}">
+            {{#if xs}}现势、{{/if}}
+            {{#if cf}}查封、{{/if}}
+            {{#if dya}}抵押、{{/if}}
+            {{#if dyi}}地役、{{/if}}
+            {{#if sd}}锁定、{{/if}}
+            {{#if ycf}}预查封、{{/if}}
+            {{#if ydy}}预抵押、{{/if}}
+            {{#if yg}}预告、{{/if}}
+            {{#if yy}}异议、{{/if}}
+            {{#if zjgcdy}}在建工程抵押、{{/if}}
+            {{#if empty}}无{{/if}}
+        </span>
+    </a>
+</div>
+{{/bdczt}}

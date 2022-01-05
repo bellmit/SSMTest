@@ -1,0 +1,125 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">成果评价</div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" :model="evaluateInfo" ref="project-info" :rules="ruleInline" :label-width="114">
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.babh" prop="babh" label="备案编号">
+                        <Input readonly v-model="evaluateInfo.babh" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.gcbh" prop="gcbh" label="工程编号">
+                        <Input readonly v-model="evaluateInfo.gcbh" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.gcmc" prop="gcmc" label="工程名称">
+                        <Input readonly v-model="evaluateInfo.gcmc" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.chdw" prop="chdw" label="测绘单位">
+                        <Input readonly v-model="evaluateInfo.chdw" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+               <FormItem v-model="evaluateInfo.cgpj" prop="cgpj" label="成果评价">
+                    <RadioGroup v-model="evaluateInfo.cgpj">
+                        <Radio label="1">合格</Radio>
+                        <Radio label="0">不合格</Radio>
+                    </RadioGroup>
+                </FormItem>
+            </Row>
+            <Row>
+                <FormItem v-model="evaluateInfo.pjyj" prop="pjyj" label="评价意见">
+                    <Input :readonly="readonly" v-model="evaluateInfo.pjyj" :rows="4" type="textarea" style="width: 80%"/>
+                </FormItem>
+            </Row>
+        </Form>
+        <div class="form-title">
+            <div class="list-title">附件材料</div>
+        </div>
+        <uploadFile
+            ref="upload-file" 
+            :ssmkid="ssmkid" 
+            :mlkid="cgccid"
+            :deleteColumns="deleteColumns"
+            :showDefaultTool="true"
+            :url="'/jcsjsq/cguploadfiles'"
+        ></uploadFile>
+        <div class="submit-back">
+            <Button type="primary" class="btn-h-36 bdc-major-btn" @click="submit()">确认</Button>
+            <Button class="margin-left-10 btn-h-36 btn-cancel" @click="cancel()">返回</Button>
+        </div>
+    </div>
+</template>
+<script>
+import uploadFile from "../../components/manage/upload-file";
+import { achievementevaluation } from "../../service/manage";
+
+export default {
+    components: {
+        uploadFile
+    },
+    data() {
+        return {
+            error: "",
+            unLastSubmit: true,
+            ssmkid: "21",
+            chxmid: "",
+            readonly: false,
+            cgccid:"",
+            deleteColumns: ["CLLX"],
+            evaluateInfo: {
+                cgpj: "1"
+            },
+            ruleInline: {
+                cgpj: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            }
+        }
+    },
+    mounted(){
+        if(this.$route.query.cgccid){
+            this.cgccid = this.$route.query.cgccid
+        }
+        this.evaluateInfo.babh = this.$route.query.babh || "";
+        this.evaluateInfo.gcbh = this.$route.query.gcbh || "";
+        this.evaluateInfo.gcmc = this.$route.query.gcmc || "";
+        this.evaluateInfo.chdw = this.$route.query.chdw || "";
+    },
+    methods: {
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+        cancel(){
+            this.$router.push("/manage/evaluate/list")
+        },
+        // 提交
+        submit(){
+            let validate = this.$refs["upload-file"].validate();
+            if(validate){
+                return
+            }
+            this.$loading.show("加载中...")
+            this.evaluateInfo.cgccid = this.$route.query.cgccid;
+            achievementevaluation(this.evaluateInfo).then(res => {
+                this.$loading.close();
+                this.$router.push("/manage/evaluate/list")
+            })
+            
+        }
+    },
+}
+</script>

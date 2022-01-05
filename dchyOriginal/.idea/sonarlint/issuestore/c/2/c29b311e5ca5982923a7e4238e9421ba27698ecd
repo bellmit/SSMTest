@@ -1,0 +1,15 @@
+
+c
+java:S4719="NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+T
+java:S4719L"9Replace charset name argument with StandardCharsets.UTF_8(ÇÒú±ùÿÿÿÿ
+,
+java:S3457š"Not enough arguments.(€¦ ¤
+W
+java:S3457>"AFormat specifiers should be used instead of string concatenation.(ğ«–
+M
+java:S2629>"7Use the built-in formatting to construct this argument.(ğ«–
+Z
+java:S3252P"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+0
+java:S3457C"Not enough arguments.(øô“Íÿÿÿÿÿ

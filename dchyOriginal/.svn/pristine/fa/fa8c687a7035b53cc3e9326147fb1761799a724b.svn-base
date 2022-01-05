@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    font-family: Microsoft YaHei;
+}
+
+.scroll-to {
+    display: block;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    list-style-type: none;
+}
+
+.scroll-to li {
+    height: 48px;
+}
+
+.scroll-arrow-down {
+    display: block;
+    background: url(../img/arrow-48.png) no-repeat top left;
+    background-position: 0 0;
+    width: 48px;
+    height: 48px;
+}
+
+.scroll-arrow-up {
+    display: block;
+    background: url(../img/arrow-48.png) no-repeat top left;
+    background-position: -49px 0;
+    width: 48px;
+    height: 48px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

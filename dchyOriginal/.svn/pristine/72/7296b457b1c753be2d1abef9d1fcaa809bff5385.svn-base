@@ -1,0 +1,20 @@
+<form class="form-horizontal" id="yearForm">
+    <input name="year" type='hidden' value="{{year}}"/>
+    <div class="form-group">
+        <label for="dltb" class="col-sm-4 control-label">地类图斑</label>
+        <div class="col-sm-8">
+            <input type="email" class="form-control" id="dltb" name="dltb" placeholder="地类图斑" value="{{dltb}}" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="xzdw" class="col-sm-4 control-label">现状地物</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="xzdw" name="xzdw" placeholder="现状地物" value="{{xzdw}}" />
+        </div>
+    </div>
+    <hr>
+    <div class="text-center">
+        <button type="button" class="btn btn-success" id="yearOkBtn">确定</button>
+        <button type="button" class="btn btn-info" id="yearCancelBtn">关闭</button>
+    </div>
+</form>

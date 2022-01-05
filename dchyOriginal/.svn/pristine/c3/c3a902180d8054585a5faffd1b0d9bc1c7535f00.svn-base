@@ -1,0 +1,221 @@
+package cn.gtmap.msurveyplat.serviceol.web;
+
+import cn.gtmap.msurveyplat.common.annotion.CheckInterfaceAuth;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.DchyXmglTjfxDto;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglXxtxDto;
+import cn.gtmap.msurveyplat.common.util.DataSecurityUtil;
+import cn.gtmap.msurveyplat.serviceol.core.service.BlsxBjService;
+import cn.gtmap.msurveyplat.serviceol.core.service.SendMlkxxService;
+import cn.gtmap.msurveyplat.serviceol.core.service.SendXsDataService;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.send.SendXmxgxxToXmglServiceImpl;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.send.SendXsxmxxToXmglServiceImpl;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.send.SendZxbjToXmglServiceImpl;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.service.Impl.MlkxxServiceImpl;
+import cn.gtmap.msurveyplat.serviceol.core.service.mq.service.PushDataToMqService;
+import cn.gtmap.msurveyplat.serviceol.utils.DsxYwljUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.PlatformUtil;
+import cn.gtmap.msurveyplat.serviceol.utils.PortalolFeignUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+public class TestController {
+
+    @Autowired
+    SendXmxgxxToXmglServiceImpl sendXmxgxxToXmglService;
+
+    @Autowired
+    SendXsxmxxToXmglServiceImpl sendXsxmxxToXmglService;
+
+    @Autowired
+    SendZxbjToXmglServiceImpl sendZxbjToXmglService;
+
+    @Autowired
+    PortalolFeignUtil portalolFeignUtil;
+
+    /*@Autowired
+    ChdwFbxfwServiceImpl obtainOnlinDataService;*/
+
+    @Autowired
+    MlkxxServiceImpl practitionersInfoService;
+
+    @Autowired
+    SendXsDataService sendXsDataService;
+
+    @Autowired
+    SendMlkxxService sendMlkxxService;
+
+    @Autowired
+    EntityMapper entityMapper;
+
+    @Autowired
+    PlatformUtil platformUtil;
+
+    @Autowired
+    PushDataToMqService pushDataToMqService;
+
+
+    @GetMapping("/v1.0/testinserttzgg/{sdfsd}")
+    @CheckInterfaceAuth(uri = "/v1.0/testinserttzgg")
+//    @SystemLog(event = "重置字典信息")
+    public Object testinserttzgg(@PathVariable String sdfsd) throws UnsupportedEncodingException {
+        Map map = Maps.newHashMap();
+        map.put("1", "2");
+//        String tzggid = UUIDGenerator.generate18();
+//        String ggnr = "<a id=\"cb_post_title_url\" class=\"postTitle2 vertical-middle\" href=\"https://www.cnblogs.com/tenWood/p/6676293.html\">\n" +
+//                "    <span>小峰mybatis（1） 处理clob，blob等。。</span>\n" +
+//                "    \n" +
+//                "\n" +
+//                "\n" +
+//                "</a>";
+//        DchyXmglTzgg dchyXmglTzgg = new DchyXmglTzgg();
+//        dchyXmglTzgg.setTzggid(tzggid);
+//        dchyXmglTzgg.setBt("标题");
+//        dchyXmglTzgg.setGglx("1");
+//        dchyXmglTzgg.setSfzd("0");
+//        dchyXmglTzgg.setGgnr(ggnr.getBytes("GB2312"));
+//        dchyXmglTzgg.setFbr(UserUtil.getCurrentUserId());
+//        dchyXmglTzgg.setFbsj(CalendarUtil.getCurHMSDate());
+//        entityMapper.saveOrUpdate(dchyXmglTzgg,dchyXmglTzgg.getTzggid());
+//        DchyXmglTzgg dchyXmglTzgg2 = entityMapper.selectByPrimaryKey(DchyXmglTzgg.class,"53RC4035J46JU501");
+        return map;
+    }
+
+    @GetMapping("/feign/getjson")
+//    @SystemLog(event = "重置字典信息")
+    public Object test() {
+        Map map = Maps.newHashMap();
+        map.put("1", "2");
+        BlsxBjService blsxBjService = DsxYwljUtil.getBlsxBjServiceByCode("1");
+        return map;
+    }
+
+    @GetMapping("/setDataToMq")
+    public Object testData() {
+        Map map = Maps.newHashMap();
+        Map param = Maps.newHashMap();
+        param.put("mlkid", "1");
+        param.put("chxmidSaveOrUpdate", "1");
+        param.put("chxmidDelete", "1");
+        String mlkId = "53JI5207BAX2P715";
+//        param.put("sqxxid", "1");
+        //String messageXxData = JSONObject.toJSONString(obtainOnlinDataService.getAllData(param));
+//        String messageMlkxx = JSONObject.toJSONString(practitionersInfoService.getAllData(param));
+        //sendXmxgxxToXmglService.sendDirectMsg(Constants.BSDT_XMGL_DIRECT_EXCHANGE, Constants.BSDT_XMGL_FWPJ_QUEUE_ROUTINGKEY, messageXxData + "--服务评价");
+//        sendXsxmxxToXmglService.sendDirectMsg(Constants.BSDT_XMGL_DIRECT_EXCHANGE, Constants.BSDT_XMGL_XMFB_QUEUE_ROUTINGKEY, messageMlkxx + "--项目发布信息");
+//        pushDataToMqService.pushMlkClsxToMq(mlkId);
+//        sendZxbjToXmglService.sendDirectMsg(Constants.BSDT_XMGL_DIRECT_EXCHANGE, Constants.BSDT_XMGL_ZXBJ_QUEUE_ROUTINGKEY, "--项目发布信息");
+        map.put("status", "success");
+        //map.put("XxData", messageXxData);
+//        map.put("Mlkxx", messageMlkxx);
+        return map;
+    }
+
+    @GetMapping("/testMQData")
+    public Object testMQData() {
+        Map map = Maps.newHashMap();
+        Map mapXsData = Maps.newHashMap();
+        Map mapMlkData = Maps.newHashMap();
+        Map resultMap = Maps.newHashMap();
+        String chxmid = "1";
+        mapXsData.put("mlkid", "1");
+//        mapXsData.put("sqxxid", "1");
+
+        mapMlkData.put("chxmidSaveOrUpdate", "1");
+        mapMlkData.put("chxmidDelete", "2");
+
+//        sendMlkxxService.sendMessage(mapXsData);
+//        sendXsDataService.sendMessage(mapMlkData);
+//        pushDataToMqService.pushJcsjMsgToMq(JSON.toJSONString(mapMlkData));
+
+//        String pzid = "1";
+        String jsyhid = "4CF945202TX2P52F";
+        DchyXmglXxtxDto dchyXmglXxtxDto = new DchyXmglXxtxDto();
+//        DchyXmglYhxxPz dchyXmglYhxxPz = entityMapper.selectByPrimaryKey(DchyXmglYhxxPz.class, pzid);
+        Example example = new Example(DchyXmglYhxx.class);
+        example.createCriteria().andEqualTo("jsyhid", jsyhid);
+        List<DchyXmglYhxx> dchyXmglYhxxList = entityMapper.selectByExample(example);
+
+        dchyXmglXxtxDto.setDchyXmglYhxxList(dchyXmglYhxxList);
+//        dchyXmglXxtxDto.setDchyXmglYhxxPz(dchyXmglYhxxPz);
+        resultMap.put("data", dchyXmglXxtxDto);
+//        pushDataToMqService.pushXxtxMsgToMq(JSON.toJSONString(resultMap));
+        //根据kssj,jssj获取返回结果*******************************
+        List<Map> xmslbyqxList = Lists.newArrayList();
+        Map map2 = Maps.newHashMap();
+        map.put("gcbh", "qwernpc");
+        map.put("gcmc", "南京市第一测绘单位");
+        xmslbyqxList.add(map2);
+
+        Map map1 = Maps.newHashMap();
+        map1.put("gcbh", "qwerabc");
+        map1.put("gcmc", "南京市第二测绘单位");
+        xmslbyqxList.add(map1);
+        //根据kssj,jssj获取返回结果*******************************
+
+        DchyXmglTjfxDto dchyXmglTjfxDto = new DchyXmglTjfxDto();
+        dchyXmglTjfxDto.setXmslbyqxList(xmslbyqxList);
+        pushDataToMqService.pushTjfxMsgToMq(dchyXmglTjfxDto);
+
+        map.put("status", "success");
+        return map;
+    }
+
+    /**
+     * 数据加密
+     *
+     * @return
+     */
+    @PostMapping(value = "encryptdata")
+    @Transactional(rollbackFor = {Exception.class})
+    public void testEncryptData() {
+        /*DchyXmglYhdw*/
+        Example yhdwExample = new Example(DchyXmglYhdw.class);
+        List<DchyXmglYhdw> yhdwList = entityMapper.selectByExample(yhdwExample);
+        /*加密*/
+        DataSecurityUtil.encryptObjectList(yhdwList);
+        entityMapper.batchSaveSelective(yhdwList);
+
+        /*DchyXmglChdw*/
+        Example chdwExample = new Example(DchyXmglChdw.class);
+        List<DchyXmglChdw> chdwList = entityMapper.selectByExample(chdwExample);
+        /*加密*/
+        DataSecurityUtil.encryptObjectList(chdwList);
+        entityMapper.batchSaveSelective(chdwList);
+
+        /*DchyXmglChgc*/
+        Example chgcExample = new Example(DchyXmglChgc.class);
+        List<DchyXmglChgc> chgcList = entityMapper.selectByExample(chgcExample);
+        /*加密*/
+        DataSecurityUtil.encryptObjectList(chgcList);
+        entityMapper.batchSaveSelective(chgcList);
+
+        /*DchyXmglMlk*/
+        Example mlkExample = new Example(DchyXmglMlk.class);
+        List<DchyXmglMlk> mlkList = entityMapper.selectByExample(mlkExample);
+        /*加密*/
+        DataSecurityUtil.encryptObjectList(mlkList);
+        entityMapper.batchSaveSelective(mlkList);
+    }
+
+    @GetMapping("/testFeign")
+    public Object testFeign() {
+//        return exchangeFeignUtil.changeUserState("liuqiang", "1");
+//        return exchangeFeignUtil.queryUserByUsername("1","10","liuqiang");
+        return portalolFeignUtil.changePassword("liuqiang", "1", "12");
+    }
+
+}

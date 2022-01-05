@@ -1,0 +1,263 @@
+
+.zjxx-contanier .bdc-tab-aside{
+	margin: 0;
+	padding: 0;
+	/*height:auto;*/
+}
+.zjxx-contanier .bdc-tab-aside .layui-tab-content .layui-tab-item{
+	border: none;
+	height: 100%;
+	overflow: auto;
+	width: 100%;
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+.zjxx-contanier .bdc-zjxq-content .content-top {
+	height: 470px;
+	position: relative;
+	width: 100%;
+}
+
+.zjxx-contanier .bdc-zjxq-content .content-top .left {
+	width: 240px;
+	height: 100%;
+	padding: 20px 10px 0;
+	box-sizing: border-box;
+	border: 1px solid #CCCCCC;
+}
+
+.zjxx-contanier .bdc-zjxq-content .content-top .left>h3 {
+	font-size: 16px;
+	margin-bottom: 12px;
+}
+
+.zjxx-contanier .bdc-zjxq-content .content-top .left>p {
+	font-size: 14px;
+	color: #999999;
+	margin-bottom: 15px;
+}
+
+.zjxx-contanier td,.zjxx-contanier th{
+	padding: 0;
+}
+/*质检详情*/
+.zjxx-contanier .bdc-zjxq-content .content-top .left .layui-tree-entry{
+	height: 34px;
+	padding: 0;
+}
+.zjxx-contanier .bdc-zjxq-content .content-top .left .layui-tree-txt {
+	/*background: #1d87d1;
+	color: white;*/
+	height: 34px;
+	line-height: 34px;
+	padding: 0 10px;
+}
+
+.zjxx-contanier .bdc-zjxq-content .content-top .right {
+	width: calc(100% - 250px);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	/* padding-left: 250px; */
+	box-sizing: border-box;
+}
+
+.zjxx-contanier .bdc-zjxq-content .content-top .right .right-content {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #CCCCCC;
+	box-sizing: border-box;
+}
+.zjxx-contanier .bdc-zjxq-content .content-top .right .right-content img{
+	width: 100%;
+	height: 100%;
+}
+.zjxx-contanier .bdc-zjxq-content .content-bottom {
+	/*border: 1px solid red;*/
+	margin-top: 18px;
+	width: 100%;
+}
+/*.zjxx-contanier .bdc-zjxq-content .content-bottom .bdc-title{*/
+/*	overflow: hidden;*/
+/*}*/
+.zjxx-contanier .bdc-zjxq-content .content-bottom .bdc-title span{
+	float: left;
+	margin-right: 30px;
+}
+
+/*其他错误*/
+.zjxx-contanier .layui-table-cell{
+	height: 38px;
+	line-height: 38px;
+}
+.zjxx-contanier .bdc-add-btn,.zjxx-contanier .bdc-upload-btn{
+	background: #1D87D1;
+}
+.zjxx-contanier .bdc-delete-btn{
+	background: #f24b43;
+}
+.zjxx-contanier .bdc-save-btn{
+	background: #FFFFFF;
+}
+/*.zjxx-contanier .layui-table-body{*/
+/*	overflow: hidden;*/
+/*}*/
+/*select下拉框*/
+/*----下拉选项选中背景色*/
+#otherError-table{
+	width: 100%;
+}
+
+.otherError-table-box .layui-form-select dl dd.layui-this{
+	background: #1D87D1;
+}
+
+/*----显示表格中的下拉选项*/
+.otherError-table-box .layui-table-cell, .layui-table-tool-panel li {
+overflow: visible !important;
+}
+
+.otherError-table-box .layui-form-select .layui-input {
+height: 38px;
+}
+
+.otherError-table-box .layui-table-box {
+overflow: visible !important;
+}
+
+/*.otherError-table-box .layui-table-body {*/
+/*overflow: visible !important;*/
+/*}*/
+
+
+
+.cgzj-page-contanier {
+	color: #333333;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top {
+	padding: 10px;
+	background: #f3f4f6;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header {
+	height: 45px;
+	line-height: 45px;
+	border-bottom: 1px dashed #c0bfbf;
+	position: relative;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header h3 {
+	font-size: 20px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header .layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom {
+	padding: 20px 0;
+	overflow: auto;
+	/* display: flex; */
+	height: 160px;
+	white-space: nowrap;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom .demo-tree-more{
+	width: 25%;
+	height: 139px;
+	max-height: 160px;
+	overflow: auto;
+	display: inline-block;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl {
+	width: 20%;
+	float: left;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl img {
+	width: 15px;
+	margin-top: 2px;
+	vertical-align: top;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl dt {
+	font-weight: bold;
+	margin-bottom: 17px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl dd {
+	padding-left: 20px;
+	margin-bottom: 14px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-bottom {
+	padding: 10px 0;
+}
+
+.cgzj-page-contanier .bdc-cgzj-bottom .bdc-title {
+	padding: 10px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.cgzj-page-contanier .cgzj-detail span {
+	margin-right: 10px;
+}
+
+.cgzj-page-contanier .cgzj-detail li,
+.cgzj-page-contanier .cgzj-detail p {
+	margin-bottom: 10px;
+}
+
+.header .header-right-btn .bdc-save-btn {
+	background: #1d87d1;
+}
+
+.header-right-btn{
+	position: absolute;
+	top: 0px;
+	right: 20px;
+}
+
+#hcjg-table{
+	width: 100%;
+}
+
+.bdc-tab-aside .layui-tab-content {
+	padding: 0 0 0 180px;
+	height: 100%;
+}
+
+.otherError-table-container{
+	width: 100%;
+}
+
+.addqtcwmodal{
+	padding: 15px;
+	box-sizing: border-box;
+}
+
+.layui-form-select dl dd.layui-this{
+	background: #1d87d1;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+	border-color: #1d87d1!important;
+	background-color: #1d87d1;
+	color: #fff;
+}
+
+.bdc-title .layui-progress-bar span::before{
+	background: transparent;
+}
+
+.layui-progress{
+	width: 350px;
+	display: inline-block;
+	top: 4px;
+	left: 10px;
+}

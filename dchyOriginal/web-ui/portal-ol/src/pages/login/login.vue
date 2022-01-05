@@ -1,0 +1,177 @@
+<template>
+    <div class="container">
+        <div class="header">
+            <div class="header-container">
+                <div class="home-title">{{placeSevice}}<span class="font-sun">“</span>多测合一<span class="font-sun">”</span>网上服务大厅</div>
+                <div class='header-title' @click='backToHome()'>
+                    <img src="static/images/back-to-index.png" alt="">
+                    返回网站首页
+                </div>
+            </div>
+        </div>
+        <div class="login-content">
+            <div class="login-box">
+                <div class="user-login">用户登录</div>
+                <div class="tab-login">
+                    <Form :model="loginForm" :label-width="0">
+                        <FormItem prop="userName">
+                            <Input prefix="icon fa fa-user" @keydown.enter.native.prevent="loginSubmit()" v-model="loginForm.userName" placeholder="请输入用户名"/>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input prefix="icon fa fa-lock" @keydown.enter.native.prevent="loginSubmit()" v-model="loginForm.password" :type="showPassword? '' :'password'" placeholder="请输入密码"/>
+                            <span @click="toggleShow" class="show-password">
+                                <img v-if="!showPassword" style="width: 20px" src="static/images/hide.png" alt="">
+                                <img v-else src="static/images/show.png" style="width: 26px" alt="">
+                            </span>
+                        </FormItem>
+                        <FormItem prop="yzm" class="yzm">
+                            <Input prefix="icon fa fa-th" @keydown.enter.native.prevent="loginSubmit()" v-model="loginForm.yzm" placeholder="请输入验证码" class="yzm" style="width: 200px;"/>
+                            <img :src="yzmSrc" @click="getYzm" class="yzm-png cursor-pointer margin-left-10" alt="">
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" style="width: 100%" @click="loginSubmit()" class="main-btn-a">登录</Button>
+                        </FormItem>
+                    </Form>
+                    <div v-if="showRegister" class="line-height-32 position-relative">
+                        <span>没有账号？<a href="javascript: void(0)" @click="register()">立即注册</a></span>
+                        <span class="position-right cursor-pointer"  @click="toFindPwd()">
+                            <a href="javascript:void(0)">忘记密码</a>
+                        </span>
+                    </div>
+                    <!-- <div class="line-height-32">
+                        <a href="javascript: void(0)">PC端网上办事指引</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { login, loginWithYzm } from "../../service/login"
+export default {
+    data() {
+        return {
+            loginForm: {
+                userName: "",
+                password: "",
+                yzm: ""
+            },
+            showYzm: false,
+            showRegister: config.showRegister,
+            yzmSrc: "",
+            showPassword: false,
+            placeSevice: config.placeSevice
+        }
+    },
+    mounted() {
+        this.getYzm();
+        // this.$nextTick(() => {
+        //     $("body").css({
+        //         "background-color":"#2293ea"
+        //     })
+        // })
+    },
+    methods: {
+        register(){
+            this.$router.push("/register")
+        },
+        toFindPwd(){
+            this.$router.push("/find_pwd")
+        },
+        backToHome() {
+            let token = sessionStorage.getItem("access_token") || ""
+            this.$router.push({
+                path: "/home",
+                query: {
+                    token
+                }
+            })
+        },
+        resetForm(){
+            this.loginForm = {
+                userName: "",
+                password: ""
+            }
+        },
+        toggleShow(){
+            this.showPassword = !this.showPassword
+        },
+        getYzm(){
+            this.yzmSrc = "";
+            this.yzmSrc = config.portalOlContext + "/common/kaptcha?d=" + encodeURI(new Date());
+        },
+        loginSubmit(){
+            let formData = new FormData();
+            if(!this.loginForm.userName){
+                this.getYzm();
+                layer.msg("用户名不能为空");
+                return;
+            }
+            if(!this.loginForm.password){
+                this.getYzm();
+                layer.msg("密码不能为空");
+                return;
+            }
+            if(!this.loginForm.yzm){
+                this.getYzm();
+                layer.msg("验证码不能为空");
+                return;
+            }
+            formData.append("username", this.loginForm.userName)
+            formData.append("password", this.loginForm.password)
+            formData.append("yzm", this.loginForm.yzm)
+            loginWithYzm(formData).then(res => {
+                setTimeout(() => {
+                    if (!location.origin) {
+                        location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                    }
+                    location.href = location.origin + "/portal-ol/yhdwZc/autoLogin?username=" + this.loginForm.userName + "&password=" + this.loginForm.password + "&yzm=" + this.loginForm.yzm;
+                },1000)
+            }).catch(err => {
+                this.getYzm();
+            })
+       }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import "./login.less";
+</style>
+<style scoped>
+    .tab-login >>> .ivu-tabs-tab {
+        font-size: 16px;
+        padding: 8px;
+    }
+    .tab-login >>> .ivu-tabs-ink-bar {
+        height: 3px;
+    }
+    .tab-login >>> .ivu-tabs-tabpane {
+        padding-right: 20px;
+    }
+    .tab-login >>> .ivu-icon {
+        font-family: "FontAwesome";
+        color: #1d87d1;
+        line-height: 48px;
+        font-size: 18px;
+    }
+    .tab-login >>> .ivu-input-prefix {
+        width: 40px;
+    }
+    .tab-login >>> .ivu-input-with-prefix {
+        padding-left: 38px;
+    }
+    .tab-login >>> .ivu-input {
+        height: 46px;
+        border-radius: 0;
+    }
+    .tab-login >>> .ivu-tabs-bar {
+        margin-bottom: 26px;
+    }
+    .yzm >>> .ivu-form-item-content {
+        display: flex;
+        justify-content: space-between;
+    }
+    .tab-login >>> .ivu-form-item {
+        margin-bottom: 20px!important;
+    }
+</style>

@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# VERSION 0.2
+
+CACHE:
+js/swfobject.js
+images/get_flash_player.gif
+
+NETWORK:
+*
+

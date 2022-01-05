@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+    <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+        <Version>14.00</Version>
+    </DocumentProperties>
+    <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+        <AllowPNG/>
+    </OfficeDocumentSettings>
+    <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+        <WindowHeight>10005</WindowHeight>
+        <WindowWidth>10005</WindowWidth>
+        <WindowTopX>120</WindowTopX>
+        <WindowTopY>135</WindowTopY>
+        <ActiveSheet>2</ActiveSheet>
+        <ProtectStructure>False</ProtectStructure>
+        <ProtectWindows>False</ProtectWindows>
+    </ExcelWorkbook>
+    <Styles>
+        <Style ss:ID="Default" ss:Name="Normal">
+            <Alignment ss:Vertical="Center"/>
+            <Borders/>
+            <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12"/>
+            <Interior/>
+            <NumberFormat/>
+            <Protection/>
+        </Style>
+        <Style ss:ID="s62">
+            <Font ss:FontName="宋体" x:CharSet="134" ss:Size="12" ss:Color="#0000FF"
+                  ss:Bold="1"/>
+            <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+        </Style>
+        <Style ss:ID="s63">
+            <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+        </Style>
+        <Style ss:ID="s64">
+            <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+        </Style>
+    </Styles>
+    <#assign fixed>
+    0.00
+   </#assign>
+    <Worksheet ss:Name="批而未供分析结果">
+        <Table ss:ExpandedColumnCount="255" ss:ExpandedRowCount="255" x:FullColumns="1"
+               x:FullRows="1" ss:DefaultColumnWidth="230" ss:DefaultRowHeight="16.5">
+            <Row ss:AutoFitHeight="0">
+                <Cell><Data ss:Type="String" ss:width="150">项目名称</Data></Cell>
+                <Cell><Data ss:Type="String">报批面积</Data></Cell>
+                <Cell><Data ss:Type="String">已供面积</Data></Cell>
+                <Cell><Data ss:Type="String">未供面积</Data></Cell>
+                <Cell><Data ss:Type="String">宗地</Data></Cell>
+            </Row>
+            <#list detailDataList as data>
+            <Row ss:AutoFitHeight="0">
+                <Cell><Data ss:Type="String">${data["XMMC"]!}</Data></Cell>
+                <Cell><Data ss:Type="String">${data["DKMJ"]!?string(fixed)}</Data></Cell>
+                <Cell><Data ss:Type="String">${data["wgArea"]!?string(fixed)}</Data></Cell>
+                <Cell><Data ss:Type="String">${data["ygArea"]!?string(fixed)}</Data></Cell>
+                <Cell><Data ss:Type="String">${data["zd"]!0}</Data></Cell>
+            </Row>
+        </#list>
+        <Row ss:AutoFitHeight="0">
+            <Cell><Data ss:Type="String">合计</Data></Cell>
+            <Cell><Data ss:Type="String">${sumMap["DKMJ"]!?string(fixed)}</Data></Cell>
+            <Cell><Data ss:Type="String">${sumMap["wgArea"]!?string(fixed)}</Data></Cell>
+            <Cell><Data ss:Type="String">${sumMap["ygArea"]!?string(fixed)}</Data></Cell>
+            <Cell><Data ss:Type="String">${sumMap["zd"]!0}</Data></Cell>
+        </Row>
+    </Table>
+    <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+        <Unsynced/>
+        <ProtectObjects>False</ProtectObjects>
+        <ProtectScenarios>False</ProtectScenarios>
+    </WorksheetOptions>
+</Worksheet>
+
+        </Workbook>

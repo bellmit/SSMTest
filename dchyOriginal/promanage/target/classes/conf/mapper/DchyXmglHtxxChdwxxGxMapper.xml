@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglHtxxChdwxxGxMapper">
+
+    <select id="getChdwxxByChxmid" parameterType="map" resultType="map">
+        SELECT k.mlkid AS chdwid,k.dwmc AS chdwmc
+        FROM DCHY_XMGL_HTXX_CHDWXX_GX g
+        INNER JOIN DCHY_XMGL_CHXM_CHDWXX z ON z.chdwxxid = g.chdwxxid
+        INNER JOIN DCHY_XMGL_HTXX x ON g.htxxid = x.htxxid
+        INNER JOIN
+        (SELECT mlkid,dwmc,'1' AS dwlx FROM dchy_xmgl_mlk
+         UNION ALL
+         SELECT chdwid AS mlkid,chdwmc AS dwmc,'2' AS dwlx FROM dchy_xmgl_chdw
+        ) k ON k.mlkid = z.mlkid
+        <where>
+            <if test="htxxid != null and htxxid !=''">
+                AND g.htxxid = #{htxxid}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

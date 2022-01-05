@@ -1,0 +1,263 @@
+<template>
+  <div>
+    <div class="search-form">
+      <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+        <Row>
+          <i-col span="6">
+            <FormItem label="备案编号" class="form-list-search" prop="babh">
+              <Input type="text" class="form-search-item" v-model="formInline.babh" placeholder=""
+                @keydown.enter.native.prevent="getReviewList(1, formInline.pageSize)"
+              />
+            </FormItem>
+          </i-col>
+          <i-col span="6">
+            <FormItem label="工程编号" class="form-list-search" prop="gcbh">
+              <Input type="text" class="form-search-item" v-model="formInline.gcbh" placeholder=""
+                @keydown.enter.native.prevent="getReviewList(1, formInline.pageSize)"
+              />
+            </FormItem>
+          </i-col>
+          <i-col span="6">
+            <FormItem label="工程名称" class="form-list-search" prop="gcmc">
+              <Input type="text" class="form-search-item" v-model="formInline.gcmc" placeholder=""
+                @keydown.enter.native.prevent="getReviewList(1, formInline.pageSize)"
+              />
+            </FormItem>
+          </i-col>
+          <i-col span="6">
+            <FormItem label="测绘单位" class="form-list-search" prop="chdwmc">
+              <Input type="text" class="form-search-item" v-model="formInline.chdwmc" placeholder=""
+                @keydown.enter.native.prevent="getReviewList(1, formInline.pageSize)"
+              />
+            </FormItem>
+          </i-col>
+        </Row>
+        <Row>
+          <i-col span="6">
+            <FormItem label="当前状态" class="form-list-search" prop="xmzt">
+              <Select v-model="formInline.xmzt" clearable class="form-search-item">
+                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{
+                  item.MC
+                }}</Option>
+              </Select>
+            </FormItem>
+          </i-col>
+          <i-col span="6">
+            <FormItem :label-width="50">
+              <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getReviewList(1, formInline.pageSize)">查询</Button>
+              <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+            </FormItem>
+          </i-col>
+        </Row>
+      </Form>
+    </div>
+    <div>
+      <Table
+        :cols="tableCols"
+        :data="reviewList"
+        :count="totalNum"
+        :page="formInline.page"
+        :size="formInline.pageSize"
+        :func="getReviewList"
+        :operation="operationList"
+        @view="viewDetail"
+        @deleteOpr="deleteOpr"
+      ></Table>
+    </div>
+  </div>
+</template>
+<script>
+import { queryReviewList } from "../../../service/review";
+import { getDictInfo } from "../../../service/manage";
+export default {
+  data() {
+    const _self = this;
+    return {
+      ksOptions: {},
+      jsOptions: {},
+      form: {
+        page: 1,
+        size: 10,
+      },
+      ztList: [],
+      formInline: {
+        gcbh: "",
+        gcmc: "",
+        babh: "",
+        jsdwmc: "",
+        chdwmc: "",
+        page: 1,
+        pageSize: 10,
+      },
+      ruleInline: {},
+      reviewList: [
+        {
+          index: 1,
+          XMZT: "已备案",
+        },
+        {
+          index: 1,
+          XMZT: "已备案",
+        },
+      ],
+      totalNum: 0,
+      mlkid: "",
+      dbrwid: "",
+      visible: false,
+      operationList: ["view"],
+      selectedList: [],
+      tableCols: [
+        {
+          field: "ROWNUM_",
+          title: "序号",
+          width: 70,
+          align: "center",
+          fixed: "left",
+        },
+        {
+          title: "备案编号",
+          align: "center",
+          field: "BABH",
+        },
+        {
+          field: "GCBH",
+          title: "工程编号",
+          align: "center",
+        },
+        {
+          field: "GCMC",
+          title: "工程名称",
+          align: "center",
+        },
+        {
+          field: "JSDWMC",
+          title: "建设单位",
+          align: "center",
+        },
+        {
+          field: "CHDWMC",
+          title: "测绘单位",
+          align: "center",
+        },
+        {
+          field: "SQFS",
+          title: "申请方式",
+          align: "center",
+        },
+        {
+          field: "SQSJ",
+          title: "申请时间",
+          align: "center",
+        },
+        {
+          field: "XMZT",
+          title: "当前状态",
+          align: "center",
+        },
+        {
+          title: "操作",
+          align: "center",
+          minWidth: 280,
+          toolbar: "#operation",
+        },
+      ],
+    };
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.fullPath.startsWith("/changzhou/manage/badj/view")) {
+      this.pageInfo["checkPageInfo"] = { ...this.formInline };
+    } else {
+      this.pageInfo["checkPageInfo"] = null;
+    }
+    next();
+  },
+  created() {
+    if (this.pageInfo["checkPageInfo"]) {
+      this.formInline = { ...this.pageInfo["checkPageInfo"] };
+    }
+  },
+  mounted() {
+    this.getDictInfo();
+    this.getReviewList();
+  },
+  methods: {
+    getReviewList(page, size) {
+      if (page) {
+        this.formInline.page = page;
+        this.formInline.pageSize = size;
+      }
+      this.$loading.show("加载中...");
+      queryReviewList(this.formInline).then((res) => {
+        this.$loading.close();
+        // this.reviewList = res.data.dataList || [];
+        this.totalNum = res.data.totalNum || 0;
+      });
+    },
+    cancelApply() {
+      this.visible = false;
+    },
+    // 获取字典信息
+    getDictInfo() {
+      let params = {
+        zdlx: ["XMZT"],
+      };
+      getDictInfo(params).then((res) => {
+        this.ztList = res.data.dataList;
+        this.ztList.unshift({
+          DM: "",
+          MC: "全部",
+        });
+      });
+    },
+    // 重置查询条件
+    resetForm() {
+      this.$refs["formInline"].resetFields();
+    },
+    // 查看
+    viewDetail(data) {
+      this.$router.push({
+        path: "/apply/completed/view",
+      });
+    },
+    checkList(list) {
+      this.selectedList = [...list];
+    },
+    // 禁止某项选中
+    deleteOpr() {
+      this.reviewList.forEach((list, index) => {
+        if (list.XMZT != "已备案") {
+          $('th[data-field="0"] input[type="checkbox"]').prop("disabled", true);
+          $(".layui-table tr[data-index=" + index + "] input[type='checkbox']")
+            .next()
+            .prop("disabled", true);
+          $(
+            ".layui-table tr[data-index=" + index + "] input[type='checkbox']"
+          ).prop("disabled", true);
+        }
+      });
+    },
+    // 基础数据申请
+    applyData() {
+      if (!this.selectedList.length) {
+        layer.msg("未选择需要进行数据申请的项目");
+      } else {
+        this.visible = true;
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+.content-title {
+  margin-bottom: 20px;
+}
+.tab-review >>> .ivu-tabs-ink-bar {
+  width: 110px !important;
+}
+.tab-review >>> .ivu-tabs-tab > div span {
+  margin-right: 10px;
+}
+.tab-review >>> .ivu-tabs-tab > div .ivu-badge-count {
+  background-color: #f24b43;
+}
+</style>

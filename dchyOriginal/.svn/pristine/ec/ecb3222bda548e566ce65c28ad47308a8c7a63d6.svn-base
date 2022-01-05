@@ -1,0 +1,472 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-width: 320px;
+    background-color: #eaedf1;
+    width: 750px;
+    color: #333;
+    box-sizing: border-box;
+}
+div {
+    box-sizing: border-box;
+}
+.required-star {
+    display: inline-block;
+    margin-right: 10px;
+    color: #f24b43
+}
+/* 公共样式 */
+.cursor-pointer {
+    cursor: pointer!important;
+}
+.margin-top-10 {
+    margin-top: 10px!important;
+}
+.margin-bottom-10 {
+    margin-bottom: 10px!important;
+}
+.margin-left-10 {
+    margin-left: 10px!important;
+}
+.margin-left-20 {
+    margin-left: 20px!important;
+}
+.margin-right-10 {
+    margin-right: 10px!important;
+}
+.margin-top-20 {
+    margin-top: 20px!important;
+}
+.margin-bottom-20 {
+    margin-bottom: 20px!important;
+}
+.line-solid {
+    border-top: 1px solid #333;
+}
+.step-bottom-btn {
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-around;
+}
+.step-btn.van-button {
+    width: calc(50% - 38px)!important
+}
+/* 修改弹框默认样式 */
+.van-dialog {
+    border-radius: 8px!important;
+    min-height: 224px!important;
+    width: auto!important;
+    min-width: 320px!important;
+}
+.van-dialog__header {
+    padding-top: 48px!important;
+}
+.van-dialog__header {
+    font-size: 36px;
+    color: #333;
+}
+.van-dialog__message--has-title {
+    padding-top: 48px!important;
+}
+.van-dialog__message  {
+    font-size: 32px!important;
+    color: #333!important;
+    line-height: 48px!important;
+}
+.van-dialog__footer {
+    padding: 24px 0;
+    border: none!important;
+    display: block!important;
+    position: relative!important;
+    text-align: center!important;
+}
+.van-hairline--top::after {
+    border-top-width: 0px!important
+}
+.van-button {
+    width: auto!important;
+    height: 64px!important;
+    background-color: #1d87d1!important;
+    font-size: 28px!important;
+    color: #fff!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 0 24px!important;
+    margin: 0 auto;
+}
+.van-dialog__footer .van-button {
+    margin: 0 auto!important;
+}
+.van-dialog__footer .van-dialog__cancel {
+    margin-right: 10px!important;
+    color: #333!important;
+    background-color: #f3f4f6!important;
+    border: 1px solid #d0d5da!important;
+} 
+/* 修改提示信息加载中样式 */
+.van-toast--loading {
+    min-width: 160px!important;
+    min-height: 160px!important;
+    border-radius: 8px!important;
+    font-size: 28px!important;
+}
+.van-toast  {
+    border-radius: 8px!important;
+    font-size: 28px!important;
+    line-height: 46px!important;
+    box-sizing: border-box!important;
+}
+.van-toast--text {
+    min-height: 80px!important;
+    max-width: 530px!important;
+    padding: 13px 30px!important;
+}
+.van-toast--loading .van-toast__text {
+    margin-top: 24px!important;
+}
+.van-loading__spinner--spinner {
+    min-width: 50px!important;
+    min-height: 50px!important;
+}
+/* 按钮 */
+.new-lg-btn {
+    color: white!important;
+    background: #1d87d1!important;
+    height: 80px!important;
+    line-height: 80px!important;
+    font-size: 32px!important;
+    border-radius: 5px!important;
+    width: 690px!important;
+}
+.cancel-lg-btn {
+    color: #333!important;
+    background: #f3f4f6!important;
+    height: 80px!important;
+    line-height: 80px!important;
+    font-size: 32px!important;
+    border-radius: 5px!important;
+    width: 690px!important;
+    border: 1px solid #d0d5da!important;
+}
+/* 标签栏 */
+.van-tabbar {
+    height: 98px!important;
+    background-color: #eaedf1!important;
+}
+.van-tabbar .van-tabbar-item__icon {
+    font-size: 44px!important;
+    margin-bottom: 8px;
+}
+.van-tabbar-item--active {
+    background-color: #eaedf1!important;
+}
+.van-tabbar .van-tabbar-item__text {
+    font-size: 28px!important;
+}
+.van-tabbar-item--active {
+    color: #1d87d1!important;
+}
+/* 单元格 */
+body .van-cell {
+    font-size: 32px;
+    padding: 15px 30px;
+    line-height: 54px;
+    color: #333;
+}
+body .van-cell .van-cell__left-icon, .van-cell__right-icon {
+    line-height: 54px;
+    font-size: 30px;
+}
+body .van-cell::after {
+    left: 0;
+    right: 0;
+}
+body .van-cell__left-icon {
+    color: #1d87d1;
+    font-size: 30px;
+    margin-right: 26px;
+}
+body .cell-item {
+    padding-left: 50px;
+    color: #666;
+    font-size: 28px;
+    height: 94px;
+    line-height: 64px;
+}
+.cell-item-img {
+    margin-right: 24px;
+    vertical-align: middle;
+    width: 34px;
+}
+body .cell-item .van-cell__left-icon, 
+body .van-cell__right-icon {
+    line-height: 65px;
+    font-size: 30px;
+}
+body .home-cell-head {
+    height: 70px;
+    line-height: 40px;
+}
+.title-list {
+    display: inline-block;
+    vertical-align: middle;
+    height: 32px;
+    border-left: 6px solid #1d87d1;
+    margin-top: -9px;
+    margin-right: 12px;
+}
+.title-tip {
+    font-size: 32px;
+}
+.step-title {
+    font-size: 36px;
+}
+/* 输入框 */
+body .van-field__left-icon {
+    margin-right: 30px;
+}
+body .van-field__control {
+    color: #333;
+}
+body .van-field__control::placeholder {
+    color: #999;
+}
+body .van-field--error .van-field__control, 
+body .van-field--error .van-field__control::placeholder {
+    color: #999;
+}
+.yzm-btn {
+    position: absolute!important;
+    top: 0;
+    right: -25px;
+    background: #fff!important;
+    color: #1d87d1!important;
+    border: 1px solid #1d87d1!important;
+    height: 60px!important;
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}
+/* 表单 */
+body .van-form .van-cell {
+    font-size: 28px;
+    line-height: 80px;
+    padding: 0;
+}
+body .van-login-form .van-cell {
+    font-size: 28px;
+    line-height: 52px;
+    padding: 15px 30px;
+}
+.blue {
+    color: #1d87d1;
+}
+.green {
+    color: #32b032;
+}
+.red {
+    color: #f54743;
+}
+.orange {
+    color: #f28943;
+}
+.van-form .van-checkbox__icon {
+    font-size: 24px;
+    margin-right: 16px;
+}
+.van-checkbox {
+    overflow: visible!important;
+}
+.van-checkbox__label {
+    color: #333!important;
+}
+.van-tabbar .van-tabbar-item__icon img {
+    width: 44px!important;
+    height: 44px!important;
+}
+.van-picker__cancel, .van-picker__confirm {
+    font-size: 28px!important;
+}
+.form-edit .van-field__label {
+    border: 1px solid #d0d5da;
+    padding-right: 12px;
+    background-color: #f3f4f6 ;
+    margin-right: 0;
+}
+.form-edit .van-cell:nth-child(n+2) .van-field__label{
+    border-top: none;
+}
+.form-edit .van-cell__value {
+    border: 1px solid #d0d5da;
+    border-left: none;
+    padding-left: 12px;
+}
+.form-edit .van-cell:nth-child(n+2) .van-cell__value{
+    border-top: none;
+}
+.form-edit .van-uploader__upload,
+.form-edit .van-uploader__preview-image {
+    width: 189px;
+    height: 169px;
+}
+.form-edit .van-uploader__upload {
+    border: 1px solid #d0d5da;
+}
+.form-edit .van-uploader__upload-icon {
+    font-size: 48px;
+    color: #d0d5da;
+}
+.form-edit .van-uploader__preview-delete {
+    width: 28px;
+    height: 28px;
+    border-radius: 0 0 0 26px;
+}
+.form-edit .van-uploader__preview-delete-icon {
+    font-size: 28px;
+}
+.submit-btn {
+    margin-top: 60px;
+}
+.van-cell::after {
+    border-bottom: 1px solid #d0d5da!important;
+}
+.van-form .van-cascader__title,
+.van-form .van-cascader__option,
+.van-form .van-tab,
+.van-form .van-picker-column {
+    font-size: 24px;
+}
+.van-form .van-tabs__line {
+    width: 80px
+}
+.requireStar .van-field__label:before{
+	content: '*';
+	display: inline-block;
+	margin-right: 8px;
+	line-height: 1;
+	font-family: SimSun;
+	font-size: 16px;
+	color: #ed4014;
+}
+.search-input .van-cell {
+    box-sizing: border-box;
+    line-height: 50px!important;
+}
+.search-input .van-field__left-icon .van-icon,
+.search-input .van-icon-clear {
+    font-size: 28px!important;
+}
+/* 空数据样式 */
+.nodata {
+    width: 100%;
+    text-align: center;
+    margin-top: 60px;
+}
+.nodata .nodata-text {
+    font-size: 24px;
+    color: #666;
+}
+.moreinfo {
+    text-align: center;
+    display: block;
+    background-color: #fff;
+}
+/* 竖向进度条样式调整 */
+.step-vertical .van-step--vertical .van-step__circle-container {
+    font-size: 28px;
+}
+.step-vertical .van-step--vertical .van-step__circle-container .van-icon-checked::before {
+    content: '';
+}
+.step-vertical .van-step--vertical .van-step__circle-container .van-step__circle,
+.step-vertical .van-step--vertical .van-step__circle-container .van-icon-checked {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+.step-vertical .van-step__icon--active {
+    background-color: #1d87d1;
+}
+.step-vertical .van-step__title .step-name,
+.step-vertical .van-step__title p {
+    padding-left: 20px;
+}
+.step-vertical .van-step__title .step-name{
+    color: #333;
+    font-size: 32px;
+}
+.step-vertical .van-step__title p {
+    font-size: 28px;
+    color: #666;
+    margin-top: 30px;
+}
+.step-vertical .van-step__icon--active, 
+.step-vertical .van-step__icon--finish, 
+.step-vertical .van-step__title--active, 
+.step-vertical .van-step__title--finish {
+    color: #1d87d1;
+}
+.step-vertical .van-step--vertical {
+    min-height: 180px;
+}
+.step-vertical .van-step__circle-container .van-step__circle,
+.step-vertical .van-step__line {
+    background-color: #d0d5da;
+}
+.step-vertical [class*=van-hairline]::after {
+    border: none;
+}
+.step-active .van-step__circle-container .van-step__circle {
+    background-color: #1d87d1;
+}
+.step-active .van-step__line {
+    background-color: #1d87d1;
+}
+/* tab切换 */
+.tab-custom.van-tabs--line  .van-tabs__wrap {
+    height: 80px;
+    box-sizing: border-box;
+}
+.tab-custom .van-tab__text--ellipsis {
+    font-size: 32px;
+    overflow: visible;
+    color: #999;
+}
+.tab-custom .van-tab--active .van-tab__text--ellipsis {
+    color: #333;
+}
+.tab-custom .van-tabs__line {
+    width: 30%;
+    height: 6px;
+    background-color: #1d87d1;
+    border-radius: 0;
+}
+/* 搜索框 */
+.search-top .van-cell {
+    line-height: 50px!important;
+    font-size: 28px!important;
+}
+.search-top .van-field__left-icon {
+    display: flex;
+    justify-content: flex-start;
+}
+.search-top .line-search {
+    height: 20px;
+    border-left: 1px solid #999;
+    margin-left: 20px;
+    margin-top: 14px;
+}
+.search-top .van-field__left-icon .van-icon {
+    font-size: 28px;
+}
+.search-top .van-icon-clear {
+    font-size: 28px;
+}
+.tab-custom .van-tabs__wrap {
+   border-bottom: 1px solid #d0d5da; 
+}

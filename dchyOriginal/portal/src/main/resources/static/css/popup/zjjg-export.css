@@ -1,0 +1,22 @@
+.zjjg-export-contanier{
+    padding: 20px;
+}
+.zjjg-export-contanier ul li{
+   height: 38px;
+   line-height: 38px;
+   position: relative;
+   border-bottom: 1px solid #ccc;
+}
+/* .zjjg-export-contanier ul li:first-child{
+    border-bottom: 1px solid #ccc;
+} */
+.zjjg-export-contanier ul li .layui-btn{
+    position: absolute;
+    top: 8px;
+    right: 0;
+    height: 22px;
+    line-height: 22px;
+    background: #1d87d1;
+    font-size: 12px;
+    padding: 0 10px;
+}

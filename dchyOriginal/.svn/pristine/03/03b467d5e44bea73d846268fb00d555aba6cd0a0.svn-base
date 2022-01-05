@@ -1,0 +1,169 @@
+db.driver=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@127.0.0.1:1521:orcl
+db.username=yzt
+db.password=yzt
+#
+default.year=current
+
+
+
+# 空间分析实现方式
+# ARC_SDE
+# ORACLE_SPATIAL
+#FEATURE_SERVICE
+spatial.engine=ARC_SDE
+
+#土地利用现状分析结果展示权属单位名称
+tdlyxz.showQsdwmc=true
+
+#分析保存日志
+analysis.saveLog=true
+
+# 适应版本 provincial（省级） municipal（市县级）
+main.level=provincial
+
+# 版本主标题
+local.title=江苏省
+
+# 版本相应资源路径
+local.path=jiangsu
+
+#filestore存储路径
+file.store.location = F:\\filestore
+
+#
+search.update=false
+#office版本 old/new
+office.plugin.version=new
+
+#土地规划检查分析图层名连接
+tdghsc.LAYER_MIDDLE_FIX=_EF_
+
+#现状分析精度过滤
+xzanalysis.useRange=true
+xzanalysis.range=0
+
+#------视频监控配置------#
+
+#海康平台配置 hk/海康
+video.platform=hw
+video.userName=admin
+video.userPwd=qwer1234
+video.server=192.168.90.7
+video.port=7302
+#华为平台配置 hw/华为
+
+#服务地址（全景，预设位拍照...）
+ptz.server=http://192.168.90.44:8081
+#ptz参数的p的偏移量，为数字
+ptz.p.offset=20
+#ptz参数的t的偏移量，为数字
+ptz.t.offset=0
+
+
+#--------视频项目配置---------#
+#预警功能接口调用token
+alarm.token=3aaf6f66-3003-4280-9324-a6d2e71b64fd
+#发送巡查记录开关
+send.inspect.record=false
+#新增项目时关联设备的默认预设位
+project.default.preset=true
+#新建项目行政区可选（无权限）
+project.create.showxzq=true
+
+#--------智能识别开关--------#
+intelligent.recognition.analysis=true
+
+#--------海康ptz接口地址(新郑)-----#
+hik.ptz.http.enable=true
+hik.ptz.set.url=http://10.10.2.16:6065/hikpano/api/ptzCtrl
+hik.ptz.get.url=http://10.10.2.16:6065/hikpano/api/getPTZ
+
+
+#------分析配置--------#
+#analysis hub
+analysis.useHub=false
+# 使用cs的分析工具进行土地利用现状分析
+analysis.useWcf=false
+wcfUrl=http://192.168.1.125:81/GtMapService/GPAreaAnalyseService/AreaAnalyseWeb/?wsdl
+wcfMethod=DoAnalyseJson
+
+# 拓扑检查时的容差值
+topology.tolerance=0.05
+
+#------GP-----------#
+#导出cad的GP服务地址
+dwg.exp.url=http://192.168.90.112:6080/arcgis/rest/services/GP/ShpExportToCAD/GPServer/Shp%20Convert%20To%20CAD
+#解析dwg的GP服务地址
+dwg.imp.url=http://192.168.90.112:6080/arcgis/rest/services/GP/CAD2PoylgonFeatureSets/GPServer/CAD%20File%20Transform%20to%20Poylgon%20FeatureSets%20Python%20Script
+
+
+
+#------视频控件回调url地址[每隔60秒请求一次]-----------#
+video.callback.url=http://10.4.1.16:8088/leas/test1;http://10.4.1.16:8088/leas/test2
+
+#------ DB part -------#
+
+# sde数据连接
+# sde 服务连接 参数
+#sde.db.dsname=tdly
+#sde.db.server=127.0.0.1
+#sde.db.instance=5151
+#sde.db.username=XZ_TDDC
+#sde.db.password=XZ_TDDC
+
+# sde 直连 参数
+#sde.db.server=none
+#sde.db.instance=sde:oracle11g
+#sde.db.username=sde
+#sde.db.password=sde@192.168
+# .90.9_orcl
+
+
+sde.db.dsname=sde
+sde.db.server=127.0.0.1
+sde.db.instance=5151
+sde.db.username=sde
+sde.db.password=sde
+
+#sde.db.dsname=sde
+#sde.db.server=192.168.90.27
+#sde.db.instance=5151
+#sde.db.username=sde
+#sde.db.password=sde
+
+#sde.db.dsname=sde
+#sde.db.server=127.0.0.1
+#sde.db.instance=5151
+#sde.db.username=sde
+#sde.db.password=M190095
+#
+#sde2.db.dsname=yzt
+#sde2.db.server=127.0.0.1
+#sde2.db.instance=5151
+#sde2.db.username=yzt
+#sde2.db.password=yzt
+#
+#sde3.db.dsname=sde
+#sde3.db.server=127.0.0.1
+#sde3.db.instance=5151
+#sde3.db.username=sde
+#sde3.db.password=M190095
+
+
+
+
+# hibernate
+hibernate.debug=false
+hibernate.hbm2ddl.auto=none
+hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+
+
+#多方位拍照客户端设置
+#camera.client=http://127.0.0.1:8001|http://127.0.0.1:8082|http://127.0.0.1:8083
+#camera.client=http://172.18.2.219:8001|http://172.18.2.219:8082|http://172.18.2.219:8083
+camera.client=http://172.18.2.219:6005|http://172.18.2.219:6007|http://172.18.2.219:6009
+camera.onLine=1000
+camera.offLine=200  
+
+cameraLogOrgan =第一国土所,第一国土所|第二国土所,第二国土所|第三国土所,第三国土所|海州分局,海州分局|第七国土所,第七国土所|第八国土所,第八国土所|直属分局,直属分局|第五国土所,第五国土所|第六国土所,第六国土所|连云分局,连云分局|第九国土所,第九国土所|开发区分局,开发区分局|第四国土所,第四国土所|徐圩区分局,徐圩区分局

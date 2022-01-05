@@ -1,0 +1,16 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import cn.gtmap.msurveyplat.promanage.model.ErrorInfoModel;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipInputStream;
+
+public interface CheckZipFileService {
+
+    List<ErrorInfoModel> checkZipFiles(byte[] zipBytes, String bh, Map mlMap, String slbh, String gcbh, String chxmid, String glsxid) throws IOException;
+
+    String getCode();
+
+}

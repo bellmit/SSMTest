@@ -1,0 +1,28 @@
+<div id="add-layers-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="m-header">
+                <a class="close-btn"></a>
+                <a class="m-title">添加地图服务</a>
+            </div>
+            <div class="m-body">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-4 column">
+                            <div class="tree-panel">
+                                <i>无数据</i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 column">
+                            <div class="layers-panel panel panel-default">
+                                <div class="panel-body list-group">
+                                    <i>无服务</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

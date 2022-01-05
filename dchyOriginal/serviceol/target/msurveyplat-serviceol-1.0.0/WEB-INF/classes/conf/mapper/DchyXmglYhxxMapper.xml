@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglYhxxMapper">
+
+    <select id="queryYhxxByMlkidByPage" resultType="map" parameterType="map">
+        SELECT yhxxid,jsyhid,glsxid,xxnr,fsyhid,fssj,dqsj,dqzt,xxlx
+        FROM DCHY_XMGL_YHXX
+        <where>
+            <if test="mlkid != null and mlkid !=''">
+                AND jsyhid = #{mlkid}
+            </if>
+            <if test="dqzt != null and dqzt !=''">
+                AND dqzt = #{dqzt}
+            </if>
+            <if test="jssjq !=null and jssjq !=''">
+                AND fssj <![CDATA[>=]]> to_date(#{jssjq},'yyyy-mm-dd')
+            </if>
+            <if test="jssjz !=null and jssjz !=''">
+                AND fssj <![CDATA[<]]> to_date(#{jssjz},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        ORDER BY fssj DESC
+
+    </select>
+
+</mapper>

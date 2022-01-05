@@ -1,0 +1,65 @@
+
+1
+java:S3457"Not enough arguments.(à¼´†ÿÿÿÿÿ
+e
+java:S3252G"PUse static access with "com.gtis.common.util.CommonUtil" for "formateDateToStr".(‚ù_
+Q
+java:S1141ˆ"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+]
+java:S1192;"GDefine a constant instead of duplicating this literal "glsxid" 3 times.(ŠöĞ
+X
+java:S3457È"AFormat specifiers should be used instead of string concatenation.(Ëì”
+F
+java:S3740™"/Provide the parametrized type for this generic.(¾ÜÖü
+K
+java:S3740Ğ"/Provide the parametrized type for this generic.(Å˜–Ğıÿÿÿÿ
+X
+java:S3457ä"AFormat specifiers should be used instead of string concatenation.(éŠ  
+K
+java:S3740‡"/Provide the parametrized type for this generic.(ô¼ÿíûÿÿÿÿ
+1
+java:S3457–"Not enough arguments.(à¼´†ÿÿÿÿÿ
+X
+java:S3457á"AFormat specifiers should be used instead of string concatenation.(Ëì”
+N
+java:S2629È"7Use the built-in formatting to construct this argument.(Ëì”
+F
+java:S3740Š"/Provide the parametrized type for this generic.(õäŸı
+E
+java:S37407"/Provide the parametrized type for this generic.(’¡æë
+J
+java:S3740i"/Provide the parametrized type for this generic.(äíµùÿÿÿÿ
+N
+java:S2629á"7Use the built-in formatting to construct this argument.(Ëì”
+[
+java:S3252¬"DUse static access with "com.alibaba.fastjson.JSON" for "parseArray".(Ç€¡¥
+^
+java:S1192j"HDefine a constant instead of duplicating this literal "content" 3 times.(­·Øã
+m
+java:S37762"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(ì‡ìùÿÿÿÿÿ
+F
+java:S3740Œ"/Provide the parametrized type for this generic.(ŸøÚÒ
+F
+java:S3740ª"/Provide the parametrized type for this generic.(ÔµŒğ
+E
+java:S37406"/Provide the parametrized type for this generic.(Ëó‘Î
+K
+java:S3740"/Provide the parametrized type for this generic.(¥êË’ûÿÿÿÿ
+N
+java:S2629Ë"7Use the built-in formatting to construct this argument.(éŠ  
+X
+java:S3457Ë"AFormat specifiers should be used instead of string concatenation.(éŠ  
+J
+java:S37402"/Provide the parametrized type for this generic.(ì‡ìùÿÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(Èà¾µşÿÿÿÿ
+E
+java:S3740c"/Provide the parametrized type for this generic.(¾Ü¥‘
+F
+java:S3740Ù"/Provide the parametrized type for this generic.(ş†¨²
+K
+java:S3740‡"/Provide the parametrized type for this generic.(ô¼ÿíûÿÿÿÿ
+N
+java:S2629ä"7Use the built-in formatting to construct this argument.(éŠ  
+K
+java:S2209M"5Change this instance-reference to a static reference.(Öá®§

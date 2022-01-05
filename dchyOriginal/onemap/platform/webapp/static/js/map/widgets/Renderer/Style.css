@@ -1,0 +1,15 @@
+.form-group {
+    margin-right: -5px;
+    overflow: hidden;
+}
+
+.btn-renderer{
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: solid #F0F0F0 1px;
+}
+
+.layer-select, .layer-input {
+    width: 190px !important;
+}

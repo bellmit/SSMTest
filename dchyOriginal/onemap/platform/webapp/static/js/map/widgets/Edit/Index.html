@@ -1,0 +1,33 @@
+<div class="widget-panel-title">
+   图形编辑
+</div>
+<div class="panel-body edit-wrapper">
+    <div class="btn-wrapper">
+        <button class="btn btn-primary" data-geotype="polygon">多边形</button>
+        <button class="btn btn-primary" data-geotype="freehandpolygon">自由绘制</button>
+    </div>
+    <div class="edit-prop-wrapper">
+        
+    </div>
+</div>
+
+<script id="propTpl" type="x-tpl-handlebars">
+ <form class="form-horizontal">
+ {{#each fields}}
+  <div class="form-group">
+    <label for="input{{name}}" class="col-sm-4 control-label">{{label}}</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="input{{name}}" name="{{name}}" {{#if value}}value="{{value}}"{{/if}}>
+    </div>
+  </div>
+  {{/each}}
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-3">
+      <a class="btn btn-primary btn-edit-prop" data-type="submit" href="javascript:;">提交</a>
+    </div>
+    <div class="col-sm-3">
+      <a class="btn btn-default btn-edit-prop" data-type="cancel" href="javascript:;">取消</a>
+    </div>
+  </div>
+</form>
+</script>

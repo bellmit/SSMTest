@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChgcMapper">
+
+    <select id="queryChgcxxByPage" parameterType="map" resultType="map">
+        SELECT gc.gcbh,gc.gcmc,gc.chgcid,xm.slsj,xm.slbh,xm.xmzt,xm.chxmid,cg.rksj,xm.babh,clsx.cgtjzt,zd.mc AS
+        cgtjztMC,zd1.mc AS xmztMc
+        FROM DCHY_XMGL_CHXM xm
+        INNER JOIN DCHY_XMGL_CHGC gc ON gc.chgcid=xm.chgcid
+        INNER JOIN DCHY_XMGL_CHXM_CLSX clsx
+        on clsx.chxmid = xm.chxmid
+
+        LEFT JOIN DCHY_XMGL_zd zd
+        on zd.dm = clsx.cgtjzt and zd.zdlx='XMCGZT'
+        LEFT JOIN DCHY_XMGL_zd zd1
+        on zd1.dm = xm.xmzt and zd1.zdlx='XMZT'
+        INNER JOIN (SELECT DISTINCT g.chxmid ,g.rksj FROM(SELECT chxmid,rksj,ROW_NUMBER() OVER(PARTITION BY
+        chxmid ORDER BY rksj DESC) rowss1
+        FROM DCHY_XMGL_CLCG) g where g.rowss1 = '1' ) cg ON cg.chxmid = xm.chxmid
+        <where>
+            <if test="gcbh != null and gcbh !=''">
+                AND gc.gcbh LIKE '%' || #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND gc.gcmc LIKE '%' || #{gcmc} || '%'
+            </if>
+            <if test="(dba != null and dba != '') and (yba != null and yba != '')">
+                AND xm.xmzt in (#{dba},#{yba})
+            </if>
+            <if test="xmzt != null and xmzt !=''">
+                AND xm.xmzt = #{xmzt}
+            </if>
+            <if test="xmcgzt != null and xmcgzt !=''">
+                AND clsx.xmcgzt = #{xmcgzt}
+            </if>
+            <if test="babh != null and babh !=''">
+                AND xm.babh LIKE '%' || #{babh} || '%'
+            </if>
+            <if test="chxmidList != null and chxmidList.size >0">
+                AND xm.chxmid IN
+                <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY cg.rksj DESC NULLS LAST
+    </select>
+
+    <select id="queryChgcxx" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChgc"
+            parameterType="map">
+        SELECT g.slbh,g.gcbh,g.gcmc,g.wtdw,g.chgcid
+        FROM DCHY_XMGL_CHGC g LEFT JOIN DCHY_XMGL_CHXM m ON g.chgcid=m.chgcid
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid !=''">
+                    m.chxmid = #{chxmid}
+                </when>
+                <when test="gcbh != null and gcbh !=''">
+                    g.gcbh = #{gcbh}
+                </when>
+
+                <otherwise>
+                    g.gcbh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY m.fbsj DESC NULLS LAST
+    </select>
+
+    <select id="queryClcgByGcbh" resultType="map" parameterType="map">
+        SELECT g.gcbh, g.chgcid, m.slsj, m.chxmid,cl.clsxid,m.xmzt
+        FROM DCHY_XMGL_CHGC g
+        INNER JOIN DCHY_XMGL_CHXM m
+        ON g.chgcid = m.chgcid and m.xmly in ('2','3')
+        INNER JOIN dchy_xmgl_chxm_clsx cl
+        on cl.chxmid = m.chxmid
+        <where>
+            <if test="gcbh != null and gcbh !=''">
+                AND g.gcbh = #{gcbh}
+            </if>
+            <if test="babh != null and babh !=''">
+                AND m.babh = #{babh}
+            </if>
+            <if test="clsx != null and clsx !=''">
+                AND cl.clsx = #{clsx}
+            </if>
+        </where>
+        ORDER BY m.slsj DESC NULLS LAST
+    </select>
+
+
+    <select id="queryChgcxxByClcgxx" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChgc"
+            parameterType="map">
+        SELECT DISTINCT E.WTDW, E.GCDZS, E.GCDZSS, E.GCDZQX, E.GCDZXX,E.Gcbh,E.GCMC
+        FROM DCHY_XMGL_CLCG A
+        INNER JOIN DCHY_XMGL_CHGC E ON A.CHGCBH = E.GCBH
+        WHERE A.SQXXID = #{sqxxid}
+    </select>
+
+    <select id="queryHtxxByChgcbhAndClsx" resultType="map" parameterType="map">
+        SELECT htxx.htxxid,clsx.clsx,clsx.clsxid,chxm.chgcbh,chxm.chxmid
+        FROM dchy_xmgl_clsx_htxx_gx htxx
+        LEFT JOIN dchy_xmgl_chxm_clsx clsx
+        ON htxx.clsxid = clsx.clsxid
+        LEFT JOIN dchy_xmgl_chxm chxm
+        ON chxm.chxmid = clsx.chxmid
+        WHERE chxm.xmly in ('2','3')
+
+        <if test="gcbh != null and gcbh !=''">
+            AND chxm.chgcbh = #{gcbh}
+        </if>
+        <if test="babh != null and babh !=''">
+            AND chxm.babh = #{babh}
+        </if>
+        <if test="clsx != null and clsx !=''">
+            AND clsx.clsx = #{clsx}
+        </if>
+        <if test="clsx == null and gcbh == null ">
+            AND chxm.chgcbh = 'emptyParamValue'
+        </if>
+        AND rownum = 1
+    </select>
+
+</mapper>

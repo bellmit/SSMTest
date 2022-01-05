@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>应用分析</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/yyfx.css" media="all">
+</head>
+<body>
+<form class="layui-form" style="padding: 20px">
+    <div class="layui-inline">
+        <label class="layui-form-label">备案时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="kssj" placeholder="请选择开始时间"
+                   autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-inline">~</div>
+
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="jssj" placeholder="请选择结束时间"
+                   autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <div class="layui-form-item">
+            <div class="jsdw">
+                <label class="layui-form-label">建设单位：</label>
+                <div class="layui-input-block" style="margin-top: 5px">
+                    <select name="jsdw" lay-filter="jsdw" lay-search></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <div class="layui-form-item">
+            <div class="chdw">
+                <label class="layui-form-label">测绘单位：</label>
+                <div class="layui-input-block" style="margin-top: 5px">
+                    <select name="chdw" lay-filter="chdw" lay-search></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <button class="layui-btn sum-btn pf-major-btn" id="search" type="button"
+                style="margin-left: 20px">查询
+        </button>
+        <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="reset"
+                style="margin-left: 20px;">重置
+        </button>
+    </div>
+
+    <hr>
+
+</form>
+
+<div class="layui-inline" style="margin-left: 20px">
+    <div id="jsdwwtsl">
+        <div class="block">
+            <span style="margin-left: 20px">
+                建设单位委托项目数量排行
+                <a target="_blank" style="margin-left: 450px;color: #1d87d2" id="moreJsdw">更多>></a>
+            </span>
+        </div>
+        <div id="jsdw_left" style="width:100%;height: 300px;">
+        </div>
+    </div>
+
+    <div id="chdwcjsl">
+        <div class="block">
+            <span style="margin-left: 20px">
+                测绘单位承接项目数量排行
+             <a target="_blank" style="margin-left:450px;color: #1d87d2" id="moreChdw">更多>></a>
+            </span>
+        </div>
+        <div id="chdw_right" style="width: 100%;height: 300px">
+        </div>
+    </div>
+</div>
+
+<hr style="margin-left: 20px;margin-right: 20px">
+
+<div style="padding: 20px">
+    <div class="block"><p style="margin-left:20px">项目备案记录</p></div>
+    <table id="xmbajl"></table>
+    <div id="xmbajl_page"></div>
+</div>
+
+
+<!-- 查看弹出框内容 -->
+<script type="text/html" id="jsdwModal">
+    <div class="tck" style="background-color: white;padding: 20px">
+        <div class="layui_show_table">
+            <table id="LAY_table_jsdw" lay-filter="LAY_table_jsdw"></table>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="chdwModal">
+    <div class="tck" style="background-color: white;padding: 20px">
+        <div class="layui_show_table">
+            <table id="LAY_table_chdw" lay-filter="LAY_table_chdw"></table>
+        </div>
+    </div>
+</script>
+
+
+<script src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script src="../lib/echarts/echarts.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/yyfx.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+.ga-wrapper {
+    margin-top: 20px;
+    padding-bottom: 10px !important;
+}
+.ret-wrapper {
+    margin: 0.8em;
+}
+
+.ret-wrapper .tab-pane {
+    overflow-x: auto;
+}
+
+.ret-wrapper .table th {
+    text-align: center;
+    min-width: 80px;
+    vertical-align: middle;
+}
+

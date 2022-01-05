@@ -1,0 +1,115 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">问题回复</div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" ref="adviceForm" :model="adviceForm" :rules="adviceRules">
+            <FormItem label="提问人" prop="twr"  :label-width="140">
+                <Input type="text" readonly style="width: 800px" v-model="adviceForm.twr" placeholder=""/>
+            </FormItem>
+            <FormItem label="主题" prop="title" :label-width="140">
+                <Input type="text" readonly style="width: 800px" v-model="adviceForm.title" placeholder=""/>
+            </FormItem>
+            <FormItem label="正文" prop="issuesContent"  :label-width="140">
+                <Input type="textarea" readonly :rows="10" v-model="adviceForm.issuesContent" placeholder=""/>
+            </FormItem>
+            <FormItem label="回复" prop="content" :label-width="140">
+                <Input type="textarea" :rows="10" v-model="adviceForm.content" placeholder=""/>
+            </FormItem>
+            <FormItem  :label-width="140">
+                <Checkbox  v-model="adviceForm.sfgk">留言公开</Checkbox>
+            </FormItem>
+        </Form>
+         <div class="submit-btn save-btn">
+            <Button type="primary" class="btn-h-34 bdc-major-btn" @click="saveAnswer()">确认回复</Button>
+            <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel">返回</Button>
+        </div>
+    </div>
+</template>
+<script>
+import { adviceReply, queryIssuseInfo } from "../../../service/advice"
+export default {
+    data(){
+        return {
+            error: "",
+            adviceForm: {
+                content: "",
+                title: ""
+            },
+            adviceRules:{
+                content: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            },
+            unLastSubmit: true,
+            issuesid: "",
+            answerid: ""
+        }
+    },
+    mounted() {
+        this.issuesid = this.$route.query.issuesid
+        this.queryIssuseInfo()
+    },
+    methods:{
+        queryIssuseInfo(){
+            let params = {
+                issuesid: this.issuesid
+            }
+            queryIssuseInfo(params).then(res => {
+                this.adviceForm = res.data.data || {}
+                this.adviceForm.sfgk = res.data.data&&res.data.data.isOpen == "1" ? true: false
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&this.error!=error&&!this.unLastSubmit){
+                this.error = error
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = ""
+                    this.$error.close();
+                },1000)
+            }
+        },
+        // 回复
+        saveAnswer(){
+            this.unLastSubmit = false;
+            this.$refs["adviceForm"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true;
+                },500)
+                if(valid){
+                    let msg = this.adviceForm.sfgk ? "回复是否确认公开" : "回复是否确认不公开"
+                    layer.confirm(msg,(index) => {
+                        layer.close(index)
+                        this.$loading.show("加载中...")
+                        let params = {
+                            issuesid: this.issuesid,
+                            isOpen: this.adviceForm.sfgk ? "1" : "0",
+                            content: this.adviceForm.content
+                        }
+                        adviceReply(params).then(res => {
+                            this.$loading.close();
+                            layer.msg("回复成功")
+                            this.cancel();
+                        })
+                    })
+                }
+            })
+        },
+        cancel(){
+            this.$router.go(-1)
+        }
+    }
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .submit-btn {
+        margin-top: 100px
+    }
+</style>

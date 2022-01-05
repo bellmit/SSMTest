@@ -1,0 +1,62 @@
+<div class="widget-panel-title">实时监控
+    <a class="btn btn-primary btn-sm monitor-appoint" id="appointBtn">实时指派</a>
+</div>
+<div id="monitorContainer" class="monitor-container">
+</div>
+
+<script id="deviceTpl" type="x-tpl-mustache">
+  {{#each list}}
+        {{#if online}}
+            <li data-id={{deviceId}}><label style="color: #5FB878 !important; font-weight: bolder !important;">{{deviceName}}</label></li>
+         {{/if}}
+        {{#if offline}}
+            <li data-id={{deviceId}}><label>{{deviceName}}</label></li>
+        {{/if}}
+    {{/each}}
+</script>
+
+<script id="departTpl" type="x-tpl-mustache">
+    <div class="depart-ztree-container">
+        <ul id="departTree" class="ztree">
+
+        </ul>
+    </div>
+</script>
+
+<script id="appointDepartTpl" type="x-tpl-mustache">
+    <div class="appoint-ztree-container">
+        <ul id="appointTree" class="ztree">
+        </ul>
+    </div>
+</script>
+
+
+<script id="padInfoTpl" type="x-tpl-mustache">
+<div class="pda-info">
+<form id="" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right">巡查单位：</label>
+        <div class="col-xs-7" style="form-clear">{{data.orgName}}</div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right">联系方式：</label>
+        <div class="col-xs-4" style="form-clear"><input class="form-control input-sm layer-input query-val" id="telephone" type=text value="{{data.mobile}}"></div>
+        <div class="col-xs-3" style="form-clear"><a id="qSearchBtn" class="btn btn-primary btn-sm">短信调度</a></div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-5 control-label text-right">设备编号：</label>
+        <div class="col-xs-7" style="form-clear">{{data.deviceId}}</div>
+    </div>
+
+    <div class="checkbox">
+         <label>
+          <input class="path-check" type="checkbox" {{#if data.checked}}checked=true{{/if}} data-id={{data.deviceId}}> 显示设备实时巡查路线
+        </label>
+    </div>
+
+    </form>
+</div>
+
+
+</script>

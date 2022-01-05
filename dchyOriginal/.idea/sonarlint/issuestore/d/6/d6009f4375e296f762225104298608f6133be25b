@@ -1,0 +1,7 @@
+
+<
+java:S1170"!Make this final field static too.(æµ†Ôúÿÿÿÿ
+D
+java:S1481/")Remove this unused "temp" local variable.(Â¹¬ìûÿÿÿÿ
+V	java:S125H"<This block of commented-out lines of code should be removed.(íÉ­£üÿÿÿÿ
+r	java:S116"XRename this field "SEPARATOR_STR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æµ†Ôúÿÿÿÿ

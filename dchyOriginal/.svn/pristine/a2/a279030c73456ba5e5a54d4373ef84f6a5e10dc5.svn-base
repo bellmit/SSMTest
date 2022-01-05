@@ -1,0 +1,128 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">成果评价</div>
+            <div>
+                <Button class="btn-cancel btn-h-36" @click="cancel()">返回</Button>
+            </div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" :model="evaluateInfo" ref="project-info" :rules="ruleInline" :label-width="114">
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.xmbabh" prop="xmbabh" label="项目编号">
+                        <Input readonly v-model="evaluateInfo.xmbabh" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.gcbh" prop="gcbh" label="项目代码">
+                        <Input readonly v-model="evaluateInfo.gcbh" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.gcmc" prop="gcmc" label="工程名称">
+                        <Input readonly v-model="evaluateInfo.gcmc" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="evaluateInfo.chdwmc" prop="chdwmc" label="承揽测绘单位">
+                        <Input readonly v-model="evaluateInfo.chdwmc" style="width: 80%"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+               <FormItem v-model="evaluateInfo.cgpj" prop="cgpj" label="成果评价">
+                    <RadioGroup v-model="evaluateInfo.cgpj">
+                        <Radio :disabled="readonly" label="1">合格</Radio>
+                        <Radio :disabled="readonly" label="0">不合格</Radio>
+                    </RadioGroup>
+                </FormItem>
+            </Row>
+            <Row>
+                <FormItem v-model="evaluateInfo.pjyj" prop="pjyj" label="评价意见">
+                    <Input :readonly="readonly" v-model="evaluateInfo.pjyj" :rows="4" type="textarea" style="width: 80%"/>
+                </FormItem>
+            </Row>
+        </Form>
+        <div class="form-title">
+            <div class="list-title">可供下载的附件</div>
+        </div>
+        <uploadFileInfo
+            ref="upload-file" 
+            :ssmkid="ssmkid" 
+            :glsxid="cgccid"
+            :url="'/jcsjsq/getPjSjcl'"
+        ></uploadFileInfo>
+    </div>
+</template>
+<script>
+import uploadFileInfo from "../../../components/survey/upload-file-info";
+import { evaluationCheckResultsView } from "../../../service/evaluate"
+import _ from "loadsh"
+export default {
+    components: {
+        uploadFileInfo
+    },
+    data() {
+        return {
+            error: "",
+            unLastSubmit: true,
+            ssmkid: "21",
+            chxmid: "",
+            readonly: false,
+            cgccid: "",
+            deleteColumns: ["页数","类型"],
+            evaluateInfo: {},
+            ruleInline: {
+                cgpj: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            }
+        }
+    },
+    created(){
+        this.readonly = true
+    },
+    mounted() {
+        if(this.$route.query.cgccid){
+            this.cgccid = this.$route.query.cgccid
+        }
+        this.getEvaluateInfo();
+    },
+    methods: {
+        getEvaluateInfo(){
+            this.$loading.show("加载中...")
+            evaluationCheckResultsView({cgccid: this.cgccid}).then(res => {
+                this.$loading.close();
+                if(res.data.data && res.data.data[0]){
+                    let info = res.data.data[0]
+                    for(let key in info){
+                        info[_.toLower(key)]= info[key]
+                    }
+                    this.evaluateInfo = {...info};
+                }
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+        cancel(){
+            this.$router.push("/survey/evaluation")
+        },
+        submit(){
+            this.$router.push("/survey/evaluation")
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

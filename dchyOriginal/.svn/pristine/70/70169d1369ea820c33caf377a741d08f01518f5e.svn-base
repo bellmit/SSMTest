@@ -1,0 +1,122 @@
+spring.application.name=portal-ol
+spring.jmx.enabled=false
+spring.jmx.default-domain=${spring.application.name}
+spring.http.encoding.charset=UTF-8
+spring.http.encoding.force=true
+spring.http.multipart.max-file-size=500MB
+spring.http.multipart.max-request-size=1000MB
+spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone=GMT+8
+spring.jackson.serialization.fail-on-empty-beans=false
+
+spring.datasource.initialize=false
+#数据库配置
+spring.datasource.dchy.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.dchy.url=jdbc:oracle:thin:@192.168.0.19:1521:orcl
+spring.datasource.dchy.username=dchy
+spring.datasource.dchy.password=gtis
+spring.datasource.dchy.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+
+#数据库配置 备份库
+spring.datasource.plat.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.plat.url=jdbc:oracle:thin:@192.168.2.83:1521:orcl
+spring.datasource.plat.username=bdcdj_platform
+spring.datasource.plat.password=gtis
+spring.datasource.plat.publickey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK8ev+xi3qANIZpQGhndeKtc2EOlsPd48VIhphnl3OoOKqynJuQo7qZrJekk8iqXHgvze3bnFrFyTtf3vxGIamsCAwEAAQ==
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+# 连接池的配置信息
+# 初始化大小，最小，最大
+spring.datasource.initialSize=5
+spring.datasource.minIdle=5
+spring.datasource.maxActive=20
+# 配置获取连接等待超时的时间
+spring.datasource.maxWait=60000
+# 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+spring.datasource.timeBetweenEvictionRunsMillis=60000
+# 配置一个连接在池中最小生存的时间，单位是毫秒
+spring.datasource.minEvictableIdleTimeMillis=300000
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle=true
+spring.datasource.testOnBorrow=false
+spring.datasource.testOnReturn=false
+# 打开PSCache，并且指定每个连接上PSCache的大小
+spring.datasource.poolPreparedStatements=true
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+# 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+spring.datasource.filters=stat,wall,log4j
+# 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+spring.datasource.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#spring 消息
+spring.messages.basename=conf/message/messages, conf/message/errors
+#spring 服务名、端口
+server.context-path=/${spring.application.name}
+server.port=${portal-ol.port}
+management.security.enabled=false
+resources.static-locations=classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file../../images
+#CASip
+#cas.host=http://192.168.0.19:9999
+cas.mode=jszwfw
+cas.host=${base.url}
+#CAS服务地址getResourceAuthorty
+cas.server.host.url=${cas.host}/cas
+#CAS服务登录地址
+cas.server.host.login_url=${cas.server.host.url}/login
+#CAS服务登出地址
+cas.server.host.logout_url=${cas.server.host.url}/logout?service=${app.server.host.url}
+#登录首页地址地址
+index.login.url=${portalol.url}/home
+#应用访问地址
+app.server.host.url=${portalol.url}
+#应用登录地址，此处比较坑，不能是实际可以访问的地址，否则改地址会无法访问
+app.login.url=/home2
+#应用登出地址
+app.logout.url=/logout
+#server.context-path=/portal
+security.basic.enabled=false
+feign.hystrix.enabled=true
+# 定位模板的目录
+spring.mvc.view.prefix=/
+# 给返回的页面添加后缀名
+spring.mvc.view.suffix=.html
+#是否启用验证码功能,true为启用，false为不启用
+yzm.use=false
+#是否启用短信验证,true为启用，false为不启用
+dxyzm.use=true
+#是否启用接口验证,true为启用，false为不启用
+jkyzm.use=true
+#短信实现选择
+sms.choose=aliyun
+#阿里云短信参数,可以在平台上找到
+AccessId=LTAI4G6m524x8wyAowLvi6kt
+AccessKeySecret=ZQUUmcJ9liWpgB4Vd7yaai90ROCsf2
+#签名
+SignName=多测合一项目管理
+MNSEndpoint=https://dysms.console.aliyun.com/dysms.htm?spm=5176.8195934.907839.sms8.1b454183o6pAkA#/develop/api
+#阿里云短信主题名称
+Topic=sms.topic-cn-hangzhou
+#短信模板
+model=SMS_206535884
+#联通======
+#短信实现选择
+#sms.choose=ums
+#企业编号（需要和短信平台申请 并且重新配置）
+usm_sms.spcode=244535
+#用户名（需要和短信平台申请 并且重新配置）
+usm_sms.loginname=admin1
+#密码（需要和短信平台申请 并且重新配置）
+usm_sms.password=Adminbdc123
+#请求地址
+usm_yzm_url_heb=https://api.ums86.com:9600/sms/Api/Send.do
+
+#-----------------------------------------常州政务服务配置---------------------------------------------#
+#appkey
+jszwfw.appkey=16f5fec7f1904673ac9e1e07dd674dff
+#appsecret
+jszwfw.appsecret=6f0361d574db4c57918eea966f6a1a90
+#江苏政务服务网页单点登录地址：
+jszwfw.sso=http://58.216.242.111/gsp/Auth.aspx?appKey=${jszwfw.appkey}&retUrl=${portalol.url}/login/jszwlogin
+#江苏政务服务网页获取用户地址：
+jszwfw.getuser=http://58.216.242.111/gsp/WebService/AuthService.asmx/FindUserByToken?appKey=${jszwfw.appkey}&appSecret=${jszwfw.appsecret}&token={token}
+#江苏政务服务网页获取用户地址：
+jszwfw.getcorp=http://58.216.242.111/gsp/WebService/AuthService.asmx/FindCorporationByToken?appKey=${jszwfw.appkey}&appSecret=${jszwfw.appsecret}&token={token}
+

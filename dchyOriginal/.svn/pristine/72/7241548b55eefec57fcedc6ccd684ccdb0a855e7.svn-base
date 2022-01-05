@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>onemap-server</display-name>
+    <description>Onemap Server Web Application</description>
+
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>oms.root</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:/applicationContext.xml
+        </param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>webResourceOptimizer</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>wroFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <!--    <filter>
+            <filter-name>monitoring</filter-name>
+            <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+            <init-param>
+                <param-name>system-actions-enabled</param-name>
+                <param-value>true</param-value>
+            </init-param>
+            <init-param>
+                <param-name>disabled</param-name>
+                <param-value>true</param-value>
+            </init-param>
+        </filter>-->
+
+    <filter>
+        <filter-name>solrRequestFilter</filter-name>
+        <filter-class>cn.gtmap.onemap.server.index.solr.SolrDispatchFilter</filter-class>
+        <init-param>
+            <param-name>path-prefix</param-name>
+            <param-value>/s2</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>jpaOpenEntityManager</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>secContextFilter</filter-name>
+        <filter-class>cn.gtmap.onemap.security.web.SecContextFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>sitemeshFilter</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>webResourceOptimizer</filter-name>
+        <url-pattern>/static/wro/*</url-pattern>
+    </filter-mapping>
+
+    <!--    <filter-mapping>
+            <filter-name>monitoring</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>-->
+
+    <filter-mapping>
+        <filter-name>solrRequestFilter</filter-name>
+        <url-pattern>/s2/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>jpaOpenEntityManager</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>secContextFilter</filter-name>
+        <url-pattern>*.ftl</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemeshFilter</filter-name>
+        <url-pattern>/console/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/applicationContext-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>freemarker</servlet-name>
+        <servlet-class>cn.gtmap.onemap.core.support.sitemesh.FreemarkerDecoratorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>freemarker</servlet-name>
+        <url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>net.bull.javamelody.SessionListener</listener-class>
+    </listener>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

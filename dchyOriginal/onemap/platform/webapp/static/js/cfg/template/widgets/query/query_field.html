@@ -1,0 +1,59 @@
+<div class="container" style="width:98%;padding:15px;">
+    <form class="form-horizontal" id="modifyFieldPropsFrom">
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">字段类型</label>
+            </div>
+            <div class="col-xs-10">
+                <div class="ui fluid search selection dropdown" id="types">
+                    <input type="hidden" name="type" value="{{type}}">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">请选择类型</div>
+                    <div class="menu">
+                        <div class="item" data-value="STRING">string</div>
+                        <div class="item" data-value="DOUBLE">double</div>
+                        <div class="item" data-value="DATE">date</div>
+                        <div class="item" data-value="INT">int</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">操作符</label>
+            </div>
+            <div class="col-xs-10">
+                <div class="ui fluid search selection dropdown" id="operators">
+                    <input type="hidden" name="operator" value="{{operator}}">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">请选择操作符</div>
+                    <div class="menu">
+                        <div class="item" data-value="like"> like </div>
+                        <div class="item" data-value=">"> > </div>
+                        <div class="item" data-value="<"> < </div>
+                        <div class="item" data-value="!="> != </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">默认查询值</label>
+            </div>
+            <div class="col-xs-10">
+                    <input type="text" class="form-control" name="defaultValue" id="defaultValue" value="{{defaultValue}}" placeholder="如有多个值则以逗号分隔">
+            </div>
+        </div>
+        <input type="hidden" name="name" value="{{name}}"/>
+
+        <div class="form-group">
+            <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" id="modifyFieldPropsBtn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>

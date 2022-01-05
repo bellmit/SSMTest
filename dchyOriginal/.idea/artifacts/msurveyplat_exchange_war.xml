@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="msurveyplat-exchange:war">
+    <output-path>$PROJECT_DIR$/exchange/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>msurveyplat-exchange</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="msurveyplat-exchange-1.0.0.war">
+      <element id="artifact" artifact-name="msurveyplat-exchange:war exploded" />
+    </root>
+  </artifact>
+</component>

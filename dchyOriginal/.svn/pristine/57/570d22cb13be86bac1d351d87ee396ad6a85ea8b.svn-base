@@ -1,0 +1,50 @@
+package cn.gtmap.msurveyplat.promanage.web.main;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.promanage.core.service.ResultsManagementService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.o, 2021-01-05
+ * description
+ */
+@Controller
+@RequestMapping("/management")
+public class ResultsManagementController {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Autowired
+    ResultsManagementService resultsManagementService;
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 成果管理台账
+     */
+    @PostMapping(value = "/queryResultsManagement")
+    @ResponseBody
+    public ResponseMessage queryResultsManagement(@RequestBody Map<String, Object> param) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            Page<Map<String, Object>> managerList = resultsManagementService.queryResultsManagement(param);
+            responseMessage = ResponseUtil.wrapResponseBodyByPage(managerList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e);
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+}

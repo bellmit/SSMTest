@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmClsxMapper">
+
+    <!--通过测绘项目id查询测量事项-->
+    <select id="queryClsxByChxmid" parameterType="map" resultType="string">
+        SELECT clsx FROM DCHY_XMGL_CHXM_CLSX
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--通过chxmid查询项目设计的测绘阶段-->
+    <select id="queryClsxJdByChxmid" parameterType="map" resultType="map">
+        SELECT clsx.clsxid,clsx.clsx,zd.fdm FROM DCHY_XMGL_CHXM_CLSX clsx
+        LEFT JOIN DCHY_XMGL_ZD zd ON zd.dm = clsx.clsx
+        <where>
+            AND zd.zdlx='CLSX'
+            <if test="chxmid != null and chxmid !=''">
+                AND clsx.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <!--进场日期、预计交付日期置空-->
+    <update id="updateClsxByClsxid" parameterType="String">
+        UPDATE DCHY_XMGL_CHXM_CLSX t
+        SET t.yjjfrq =null,t.jcrq = null
+        WHERE t.clsxid= #{clsxid,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="getChxmClsxByHtxxGhxmid" parameterType="map" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmClsx">
+        SELECT distinct A.CLSX, a.CLSXID,a.chxmid
+        FROM DCHY_XMGL_CHXM_CLSX A
+        INNER JOIN DCHY_XMGL_CLSX_HTXX_GX B ON A.CLSXID = B.CLSXID
+        <where>
+            <choose>
+                <when test="chxmidList != null and chxmidList.size() > 0">
+                    AND
+                    <foreach collection="chxmidList" item="chxmid" open="(" separator=" or " close=")" >
+                        b.chxmid = #{chxmid}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND b.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryClsxByChqx" parameterType="map" resultType="map">
+        SELECT clsx.clsxid,clsx.chxmid,clsx.clsx,chxm.xmzt,chgc.wtdw,chgc.gcbh,chgc.gcmc
+        FROM dchy_xmgl_chxm_clsx clsx
+        LEFT JOIN dchy_xmgl_chxm chxm ON clsx.chxmid=chxm.chxmid
+        LEFT JOIN dchy_xmgl_chgc chgc ON chxm.chgcid=chgc.chgcid
+        <where>
+            AND chxm.xmzt <![CDATA[<>]]> '99' AND (chxm.sfgq = '0' OR chxm.sfgq IS NULL)
+            <if test="yjjfrq  != null and yjjfrq != ''">
+                AND to_char(clsx.jcrq+clsx.yjjfrq,'yyyy-mm-dd') <![CDATA[<=]]> #{yjjfrq}
+            </if>
+            <if test="chxmid  != null and chxmid != ''">
+                AND chxm.chxmid = #{chxmid}
+            </if>
+
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,17 @@
+.edit-wrapper {
+    margin: 8px auto;
+}
+
+.edit-wrapper .btn-wrapper {
+    text-align: center;
+    padding: 8px 6px;
+    border-bottom: 1px solid #4285f4;
+}
+
+.edit-wrapper .btn-wrapper .btn {
+    margin-right: 8px;
+}
+
+.edit-prop-wrapper {
+    padding: 16px 0px;
+}

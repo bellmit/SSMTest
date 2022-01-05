@@ -1,0 +1,29 @@
+<div style="width: 100%">
+    <div class="pull-left layerLeft">
+        <h4 class="text-center" style="color: #428bca;">服务及图层列表</h4>
+        <hr>
+        <div id="serviceTree">
+
+        </div>
+    </div>
+
+    <div class="pull-left fieldsRight">
+        <div id="opFields">
+            <table class="table table-hover table-bordered table-striped" width="100%">
+                <caption><h4 style="color: #428bca;">图层字段信息</h4>
+                    <hr>
+                </caption>
+                <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">别名</th>
+                    <th class="text-center">字段类型</th>
+                </tr>
+                </thead>
+                <tbody id="fieldRows">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="widget-panel-title">
+    <div class="title-icon"></div>项目查询
+    <div class="pull-right omp-switch" id="spaceTreeiSwitchBtn"><em>关</em><i></i></div>
+    <span></span>
+</div>
+<div class="panel-body">
+    <div class="tab-pane active" id="attrSpaceTreeQueryPanelContent">
+        <div class="tab-pane active" id="attrSpaceTreeQueryPanel"></div>
+        <div id="attrspaceTreeQueryResultPanel"></div>
+    </div>
+</div>
+</div>
+<!-- 图层查询默认显示 -->
+<script id="layersSpaceTreeTpl" type="x-tpl-handlebars">
+    <form id="spaceTreelayerForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right">项目编号</label>
+            <div class="col-xs-7">
+                <input type="text" name="XMBH" class="form-control input-sm layer-input query-val" placeholder="请输入查询条件" value=""> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right">项目名称</label>
+            <div class="col-xs-7">
+                <input type="text" name="XMMC" class="form-control input-sm layer-input query-val" placeholder="请输入查询条件" value=""> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label text-right">项目地址</label>
+            <div class="col-xs-7">
+                <input type="text" name="XMDZ" class="form-control input-sm layer-input query-val" placeholder="请输入查询条件" value=""> 
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="col-xs-4 control-label text-right">预编不动产单元（宗地）代码</label>
+            <div class="col-xs-7">
+                <input type="text" name="YBBDCDYZDDM" class="form-control input-sm layer-input query-val" placeholder="请输入查询条件" value=""> 
+            </div>
+        </div>
+        <div id="spaceTreeLayerSelect" class="form-group">
+            <label class="col-xs-4 control-label text-right">查询图层</label>
+            <div class="col-xs-7">
+                <select id="spaceTreeLayersSelect" class="form-control input-sm search-select chosen-select">
+                    {{#each layers}}
+                    <option value="{{serviceId}}-{{layerIndex}}">{{layerName}}</option>
+                {{/each}}
+                </select>
+            </div>
+        </div>
+        <div id="spaceTreelayerCondition">
+
+        </div>
+        <div class="btn-opt">
+            <a id="spaceTreeqSearchBtn" class="btn btn-primary btn-sm" data-loading-text="查询中 ...">
+                <i class="iconfont">&#xe602;</i>查询
+            </a> &nbsp;&nbsp;
+            <a id="spaceTreeqResetBtn" class="btn btn-default btn-sm">
+                <i class="iconfont">&#xe644;</i>重置
+            </a>
+        </div>
+    </form>
+</script>
+
+<!-- 图层查询结果反馈信息模板 -->
+<script id="attrSpaceTreeTpl" type="x-tpl-mustache">
+    <div class="row result-info">
+        <span class="text-primary">共 <strong>{{size}}</strong>&nbsp;条记录</span>
+        <button id="spaceTreeqReturnBtn" class="btn btn-primary btn-xs pull-right">
+		    清除
+		</button>
+    </div>
+    <div id="spaceTreeAttr_result" style="padding-top:15px;"></div>
+    <div id=pageTool class="text-center"></div>
+</script>
+
+<!-- 空间查询结果反馈信息模板 -->
+<script id="spaceTreeSpatialResultTpl" type="x-tpl-mustache">
+    <div class="row result-info">
+        <span class="text-primary">共 <strong>{{size}}</strong>&nbsp;条记录</span>
+    </div>
+    <div id="spaceTreeSpatial_result" style="padding-top:15px;"></div>
+    <div id=pageTool class="text-center"></div>
+</script>
+<!-- 动态条件显示模板 -->
+<script id="spaceTreelayersSearchTpl" type="x-tpl-mustache">
+    {{#each fields}}
+    <div class="form-group t-input">
+        <label class="col-xs-4 control-label text-right">{{alias}}</label>
+        <div class="col-xs-7">
+            {{#if isArray}}
+            <select name="{{name}}" class="form-control input-sm search-select query-val q-chosen-select" multiple>
+              {{#each defaultValue}}
+                <option value="{{value}}">{{key}}</option>
+              {{/each}}
+          </select> {{else}} {{#equals type '===' 'DATE'}}
+            <input id="startDate{{name}}" type="text" class="form-control input-sm col-xs-3 layer-input-date" data-field="{{name}}" data-order="0"
+            />
+            <span class="pull-left" style="line-height: 30px;">~</span>
+            <input id="endDate{{name}}" type="text" class="form-control input-sm col-xs-3 layer-input-date" data-field="{{name}}" data-order="1"
+            /> {{else}} {{#equals type '===' 'COORDS'}}
+            <span class="pull-left" style="line-height: 30px;">X</span>
+            <input id="X{{name}}" type="text" placeholder="请输入X轴坐标/经度" class="form-control input-sm col-xs-3 point-select" data-field="{{name}}"
+                data-order="0" />
+            <span class="pull-left" style="line-height: 30px;">Y</span>
+            <input id="Y{{name}}" type="text" placeholder="请输入Y轴坐标/纬度" class="form-control input-sm col-xs-3 point-select" data-field="{{name}}"
+                data-order="1" /> {{else}} {{#equals range '===' 'true'}}
+            <select data-opt="from" data-field="{{name}}" class="range-select">
+                        {{#each defaultValue}}
+                            <option value="{{value}}" {{#if @first}}selected{{/if}}>{{key}}</option>
+                        {{/each}}
+                    </select>
+            <span style="line-height: 30px;">~</span>
+            <select data-opt="to" data-field="{{name}}" class="range-select">
+                        {{#each defaultValue}}
+                            <option value="{{value}}" {{#if @last}}selected{{/if}}>{{key}}</option>
+                        {{/each}}
+                    </select> {{else}}
+            <input type="text" name="{{name}}" class="form-control input-sm layer-input query-val" placeholder="请输入查询条件" value="{{defaultValue}}">            {{/equals}} {{/equals}} {{/equals}} {{/if}}
+        </div>
+    </div>
+    {{/each}}
+</script>

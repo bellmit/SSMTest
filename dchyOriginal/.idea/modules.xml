@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/msurveyplat.iml" filepath="$PROJECT_DIR$/msurveyplat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/msurveyplat-common.iml" filepath="$PROJECT_DIR$/common/msurveyplat-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exchange/msurveyplat-exchange.iml" filepath="$PROJECT_DIR$/exchange/msurveyplat-exchange.iml" />
+      <module fileurl="file://$PROJECT_DIR$/promanage/msurveyplat-promanage.iml" filepath="$PROJECT_DIR$/promanage/msurveyplat-promanage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serv/msurveyplat-serv.iml" filepath="$PROJECT_DIR$/serv/msurveyplat-serv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/msurveyplat-server.iml" filepath="$PROJECT_DIR$/server/msurveyplat-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serviceol/msurveyplat-serviceol.iml" filepath="$PROJECT_DIR$/serviceol/msurveyplat-serviceol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/portal.iml" filepath="$PROJECT_DIR$/portal/portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal-ol/portal-ol.iml" filepath="$PROJECT_DIR$/portal-ol/portal-ol.iml" />
+    </modules>
+  </component>
+</project>

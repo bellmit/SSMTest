@@ -1,0 +1,41 @@
+
+D
+java:S1144Z".Remove this unused private "basicNACK" method.(¤´Àÿ
+^
+java:S1192™"GDefine a constant instead of duplicating this literal "chxmid" 3 times.(¿£ÿ
+\
+java:S3457I"AFormat specifiers should be used instead of string concatenation.(ªÉÐÎþÿÿÿÿ
+L
+java:S2629B"7Use the built-in formatting to construct this argument.(È”Ó|
+a	java:S112Ê"FDefine and throw a dedicated exception instead of using a generic one.(Ïã¡Ýþÿÿÿÿ
+x
+java:S2629ž"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(ÓÎËÇýÿÿÿÿ
+\
+java:S3457>"AFormat specifiers should be used instead of string concatenation.(•×ªôýÿÿÿÿ
+V
+java:S3457B"AFormat specifiers should be used instead of string concatenation.(È”Ó|
+T
+java:S4719r"9Replace charset name argument with StandardCharsets.UTF_8(ÇÒú±ùÿÿÿÿ
+Z
+java:S3252r"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+K
+java:S3740ž"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+X
+java:S1854Â"<Remove this useless assignment to local variable "fileName".(©—¼‡ûÿÿÿÿ
+`	java:S112m"FDefine and throw a dedicated exception instead of using a generic one.(ˆÔñþÿÿÿÿ
+c
+java:S4719A"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñÞZ
+]
+java:S3457ž"AFormat specifiers should be used instead of string concatenation.(ÓÎËÇýÿÿÿÿ
+o
+java:S2139Ä"XEither log this exception and handle it, or rethrow it with some contextual information.(”ý¾
+m
+java:S3776l"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(ˆÔñþÿÿÿÿ
+I
+java:S1481Â"-Remove this unused "fileName" local variable.(©—¼‡ûÿÿÿÿ
+I
+java:S1135À"2Complete the task associated to this TODO comment.(…ïœ†
+V
+java:S1854Á":Remove this useless assignment to local variable "wjzxid".(Ïä³‰úÿÿÿÿ
+G
+java:S1481Á"+Remove this unused "wjzxid" local variable.(Ïä³‰úÿÿÿÿ

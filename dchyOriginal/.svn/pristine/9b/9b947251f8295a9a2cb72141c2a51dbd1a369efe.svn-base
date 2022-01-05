@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglSqrMapper">
+    <!-- 根据申请人ID批量删除成果管理系统申请人 -->
+    <delete id="deleteBatchDchyCgglSqr">
+        DELETE FROM DCHY_CGGL_SQR a
+        <where>
+            <if test="sqridList != null">
+                AND a.qlrid IN
+                <foreach collection="sqridList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+
+
+    <!-- 根据项目ID查询成果管理系统申请人 -->
+    <select id="queryDchyCgglSqrByXmid" parameterType="java.lang.String" resultType="cn.gtmap.msurveyplat.common.domain.DchyCgglSqrDO">
+        select  t.* from DCHY_CGGL_SQR t
+        <where>
+            <if test="xmid !=null and xmid !=''">
+                and t.xmid=#{xmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getChdw" resultType="cn.gtmap.msurveyplat.common.domain.DchyZdChdwDo">
+        select dm,mc,lxdh from DCHY_ZD_CHDW
+    </select>
+</mapper>

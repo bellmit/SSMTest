@@ -1,0 +1,44 @@
+<button type="button" class="close" aria-hidden="true">
+    &times;
+</button>
+<div style="width: 300px">
+    <div class="title">
+        {{title}}
+
+    </div>
+    <div class="split-line">
+
+    </div>
+
+    <div class="scroll">
+            {{#fields}}
+            <div id="{{name}}" class="all-width-content">
+                <div class="pro-alias" title="{{alias}}">
+                    {{alias}}
+                </div>
+                <div style="float: left;">
+                    :&nbsp;
+                </div>
+
+                <nobr class="pro-value" title="{{value}}">
+                    {{value}}
+                </nobr>
+            </div>
+        <br>
+            {{/fields}}
+
+            {{#link}}
+            <div style="text-align: right;">
+                <div class="super-link">
+                    <a href="{{url}}" target="_blank">{{tip}}</a>
+                </div>
+
+            </div>
+            {{/link}}
+
+    </div>
+    <div>
+
+    </div>
+
+</div>

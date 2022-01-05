@@ -1,0 +1,101 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title"><span>机构基本信息</span></div>
+            <div>
+                <Button type="primary" class="btn-h-32 bdc-major-btn" @click="editRecord">变更记录</Button>
+                <Button type="primary" class="btn-h-32 bdc-major-btn margin-left-10" @click="viewFj">附件材料</Button>
+                <Button class="btn-cancel btn-h-34 margin-left-10" @click="cancel">返回</Button>
+            </div>
+        </div>
+        <agencyInfo
+            ref="agencyInfo"
+            :agencyInfoData="agencyInfoData" 
+            :readonly="readonly"
+            :mlkid="mlkid" 
+        ></agencyInfo>
+        <div class="form-title margin-top-10">
+            <div class="list-title"><span>附件材料</span></div>
+        </div>
+        <uploadFileInfo
+            ref="upload-file-info"
+            :ssmkid="ssmkid" 
+            :deleteColumns="deleteColumns"
+            :mlkid="mlkid" 
+        ></uploadFileInfo>
+    </div>
+</template>
+<script>
+import agencyInfo from "../../../components/survey/agency-info"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import { reviewCheck } from "../../../service/review"
+export default {
+    components: {
+        agencyInfo,
+        uploadFileInfo
+    },
+    data() {
+        return {
+            agencyInfoData: {},
+            readonly: true,
+            ssmkid: "1",
+            deleteColumns: ["opeartion"],
+            mlkid: ""
+        }
+    },
+    mounted() {
+        this.mlkid = this.$route.query.mlkid || "";
+        this.getMlkInfo();
+    },
+    methods: {
+        // 获取名录库信息
+        getMlkInfo(){
+            this.$loading.show("加载中...")
+            reviewCheck({mlkid: this.mlkid}).then(res => {
+                this.$loading.close();
+                if(res.data.dataList && res.data.dataList.length){
+                    let info = res.data.dataList[0];
+                    for(let key in info){
+                        info[_.toLower(key)] = info[key];
+                        delete info[key]
+                    }
+                    if(info.clsxdms){
+                        let clsxList = info.clsxdms.split(";");
+                        this.$refs["agencyInfo"].setClsxList(clsxList)
+                    }
+                    this.agencyInfoData = {...info}
+                    this.readonly = true;
+                }
+            })
+        },
+        // 变更记录
+        editRecord(){
+            this.$router.push({
+                path: "/survey/edit/record",
+                query: {
+                    mlkid: this.mlkid,
+                    dwmc: this.agencyInfoData.dwmc,
+                    from: this.$route.fullPath
+                }
+            })
+        },
+        // 附件查看
+        viewFj(){
+            const {href} = this.$router.resolve({
+                path: '/review/fj',
+                query: {mlkid: this.mlkid}
+            })
+            window.open(href);
+        },
+        cancel(){
+            this.$router.push("/admin/mlk/list")
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

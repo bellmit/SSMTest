@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClgcpzMapper">
+    <resultMap id="queryBaseResultMap" type="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgTjjl">
+        <id column="TJJLID" property="tjjlid" jdbcType="VARCHAR"/>
+        <result column="CHGCID" property="chgcid" jdbcType="VARCHAR"/>
+        <result column="CHGCBH" property="chgcbh" jdbcType="VARCHAR"/>
+        <result column="CHXMID" property="chxmid" jdbcType="VARCHAR"/>
+        <result column="TJSJ" property="tjsj" jdbcType="DATE"/>
+        <result column="SQXXID" property="sqxxid" jdbcType="VARCHAR"/>
+        <result column="SFTJ" property="sftj" jdbcType="VARCHAR"/>
+        <result column="CWXX" property="cwxx"
+                typeHandler="cn.gtmap.msurveyplat.promanage.config.typehandler.BlobTypeHandler"/>
+    </resultMap>
+
+    <select id="queryclcgpz" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgpz">
+        SELECT t.clcgpzid,t.clmc,t.wjlx,t.clsx,t.pclcgpzid
+         FROM DCHY_XMGL_CLCGPZ t WHERE t.pclcgpzid IS NULL
+    </select>
+
+    <select id="queryclcgpzByPclcgpzid" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgpz" parameterType="string">
+        SELECT t.clcgpzid,t.clmc,t.wjlx,t.clsx,t.pclcgpzid
+         FROM DCHY_XMGL_CLCGPZ t
+         WHERE t.pclcgpzid = #{pclcgpzid}
+    </select>
+
+    <insert id="insertDchyXmglClcgTjjl" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgTjjl">
+        insert into DCHY_XMGL_CLCG_TJJL (TJJLID, CHGCID, CHGCBH, CHXMID, SQXXID, TJSJ, CWXX, SFTJ)
+        values(
+          #{tjjlid,jdbcType=VARCHAR},
+          #{chgcid,jdbcType=VARCHAR},
+          #{chgcbh,jdbcType=VARCHAR},
+          #{chxmid,jdbcType=VARCHAR},
+          #{sqxxid,jdbcType=VARCHAR},
+          #{tjsj,jdbcType=DATE},
+          #{cwxx,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.promanage.config.typehandler.BlobTypeHandler},
+          #{sftj,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateDchyXmglClcgTjjl" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgTjjl">
+        UPDATE DCHY_XMGL_CLCG_TJJL t
+        SET
+          t.chgcid = #{chgcid,jdbcType=VARCHAR},
+          t.chgcbh = #{chgcbh,jdbcType=VARCHAR},
+          t.chxmid =  #{chxmid,jdbcType=VARCHAR},
+          t.sqxxid = #{sqxxid,jdbcType=VARCHAR},
+          t.tjsj = #{tjsj,jdbcType=DATE},
+          t.cwxx = #{cwxx,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.promanage.config.typehandler.BlobTypeHandler},
+          t.sftj =  #{sftj,jdbcType=VARCHAR}
+        WHERE t.TJJLID= #{tjjlid,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryClcgTjjl" resultMap="queryBaseResultMap" parameterType="string">
+        SELECT t.TJJLID,t.CHGCID,t.CHGCBH,t.CHXMID,t.SQXXID,t.TJSJ,t.CWXX,t.SFTJ
+         FROM DCHY_XMGL_CLCG_TJJL t
+         WHERE t.sqxxid = #{sqxxid,jdbcType=VARCHAR}
+         ORDER BY t.TJSJ DESC
+    </select>
+</mapper>
+
+

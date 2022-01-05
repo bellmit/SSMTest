@@ -1,0 +1,36 @@
+.tools-wrapper {
+    height: 27px;
+    line-height: 27px;
+}
+
+.row {
+    margin-right: 55px;
+    margin-left: 0px;
+}
+
+.analysis-sel-wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.text-info {
+    display: inline-block;
+    margin-top: 20px;
+
+}
+
+.text-info-o {
+    display: inline-block;
+    margin-top: 15px;
+    margin-left: 17%;
+}
+
+#pewgYearSelector {
+    width: 45%;
+    display: inline-block;
+}
+
+.btn-margin {
+    margin-right:75px;
+    margin-top: 5px;
+}

@@ -1,0 +1,21 @@
+
+k
+java:S1192L"PDefine a constant instead of duplicating this literal "é”™è¯¯ä¿¡æ¯:{}" 9 times.(§ê‰øÿÿÿÿ
+u
+java:S1192°"YDefine a constant instead of duplicating this literal "application/octet-stream" 3 times.(ñÁø•ûÿÿÿÿ
+Y
+java:S2259Õ"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+Q
+java:S1854E";Remove this useless assignment to local variable "message".(ïÒğÑ
+R
+java:S1854¥";Remove this useless assignment to local variable "message".(ïÒğÑ
+R
+java:S1854º";Remove this useless assignment to local variable "message".(ïÒğÑ
+R
+java:S1854";Remove this useless assignment to local variable "message".(ïÒğÑ
+i
+java:S3776¢"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(ö´”ş
+F
+java:S2093¶"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+D
+java:S1481³".Remove this unused "httpState" local variable.(¡ØšE

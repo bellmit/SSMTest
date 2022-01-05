@@ -1,0 +1,322 @@
+<template>
+  <div>
+    <div class="search-form">
+      <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+        <Row>
+            <i-col span="6">
+              <FormItem label="受理编号" class="form-list-search" prop="slbh">
+                  <Input type="text" class="form-search-item"
+                  @keydown.enter.native.prevent="getReviewList(1,formInline.size)" v-model="formInline.slbh"
+                  placeholder="" />
+              </FormItem>
+            </i-col>
+            <!-- <i-col span="6">
+              <FormItem label="工程编号" class="form-list-search" prop="gcbh">
+                <Input type="text" class="form-search-item"
+                  @keydown.enter.native.prevent="getReviewList(1,formInline.size)" v-model="formInline.gcbh"
+                  placeholder="" />
+              </FormItem>
+            </i-col> -->
+            <!-- <i-col span="6">
+              <FormItem label="工程名称" class="form-list-search" prop="gcmc">
+                <Input type="text" class="form-search-item"
+                  @keydown.enter.native.prevent="getReviewList(1,formInline.size)" v-model="formInline.gcmc"
+                  placeholder="" />
+              </FormItem>
+            </i-col> -->
+            <i-col span="6">
+              <FormItem label="测绘单位" class="form-list-search" prop="chdw">
+                <Input type="text" class="form-search-item"
+                  @keydown.enter.native.prevent="getReviewList(1,formInline.size)" v-model="formInline.chdw"
+                  placeholder="" />
+              </FormItem>
+            </i-col>
+            <i-col span="6">
+              <FormItem label="建设单位" class="form-list-search" prop="jsdw">
+                <Input type="text" class="form-search-item"
+                  @keydown.enter.native.prevent="getReviewList(1,formInline.size)" v-model="formInline.jsdw"
+                  placeholder="" />
+              </FormItem>
+            </i-col>
+            <i-col span="6">
+              <FormItem :label-width='50'>
+                <Button type="primary" class="btn-h-32 bdc-major-btn"
+                  @click="getReviewList(1,formInline.size)">查询</Button>
+                <Button type="primary" class="btn-h-32 btn-cancel margin-left-10"
+                  @click="resetForm()">重置</Button>
+              </FormItem>
+            </i-col>
+        </Row>
+      </Form>
+    </div>
+    <div>
+      <Table 
+        :cols="tableCols" 
+        :data="reviewList" 
+        :count="totalNum" 
+        :page="formInline.page"
+        :size="formInline.size" 
+        :func="getReviewList" 
+        :operation="operationList"
+        @deliver="deliverDetail"
+        @view="viewDetail"
+        @check="checkDetail"
+        @deleteOpr="deleteOpr"
+        @dataMake="dataMake"
+      ></Table>
+    </div>
+  </div>
+</template>
+<script>
+import { queryReviewList, initSqxx } from "../../../service/data-apply";
+import uploadDataTable from "../../../components/manage/upload-apply-file"
+export default {
+  components: {
+    uploadDataTable
+  },
+  data() {
+    const _self = this;
+    return {
+      ksOptions: {},
+      jsOptions: {},
+      form: {
+        page: 1,
+        size: 10,
+      },
+      formInline: {
+        gcbh: "",
+        gcmc: "",
+        slbh: "",
+        jsdw: "",
+        chdw: "",
+        page: 1,
+        size: 10,
+      },
+      ruleInline: {},
+      reviewList: [],
+      totalNum: 0,
+      mlkid: "",
+      dbrwid: "",
+      visible: false,
+      operationList: ["view","check","deliver","dataMake"],
+      selectedList: [],
+      visible: false,
+      uploadApplyData: [],
+      uploadOperation: ["upload"],
+      applyCols: [
+        {
+          field: "ROWNUM_",
+          title: "序号",
+          width: 70,
+          align: "center",
+          fixed: "left",
+        },
+        {
+          title: "材料名称",
+          align: "center",
+          field: "clmc",
+        },
+        {
+          title: "份数",
+          align: "center",
+          field: "fs",
+        },
+        {
+          title: "操作",
+          align: "center",
+          minWidth: 280,
+          toolbar: "#uploadOperation",
+        }
+      ],
+      wdid: "",
+      tableCols: [
+        {
+          field: "ROWNUM_",
+          title: "序号",
+          width: 70,
+          align: "center",
+          fixed: "left",
+        },
+        {
+          title: "项目编号",
+          align: "center",
+          field: "BABH",
+        },
+        {
+          field: "GCBH",
+          title: "工程编号",
+          align: "center",
+        },
+        {
+          field: "text1",
+          title: "受理编号",
+          align: "center",
+        },
+        {
+          field: "GCMC",
+          title: "工程名称",
+          align: "center",
+        },
+        {
+          field: "CHDWMC",
+          title: "测绘单位",
+          align: "center",
+        },
+        {
+          field: "text2",
+          title: "建设单位",
+          align: "center",
+        },
+        {
+          field: "SQFS",
+          title: "申请方式",
+          align: "center",
+          width: 140
+        },
+        {
+          field: "SQSJ",
+          title: "申请时间",
+          align: "center",
+        },
+        {
+          field: "DQZT",
+          title: "当前状态",
+          align: "center",
+          width: 120,
+          templet: function(d){
+              let className = d.DQZT==="审核中" ? "color-processing": d.DQZT ==="待制作" ? "color-unfinish": "color-finish"
+              let DQZT = d.DQZT ? d.DQZT : "/"
+              return "<span class='"+className+"'>"+DQZT+"</span>"
+          }
+        },
+        {
+          title: "操作",
+          align: "center",
+          width: 180,
+          toolbar: "#operation",
+        },
+      ],
+    };
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.fullPath.startsWith("/apply/review/check") || to.fullPath.startsWith("/apply/completed/check")) {
+      this.pageInfo["checkPageInfo"] = { ...this.formInline };
+    } else {
+      this.pageInfo["checkPageInfo"] = null;
+    }
+    next();
+  },
+  created() {
+    if (this.pageInfo["checkPageInfo"]) {
+      this.formInline = { ...this.pageInfo["checkPageInfo"] };
+    }
+  },
+  mounted() {
+    this.getReviewList();
+    this.initSubmitSqxx();
+  },
+  methods: {
+    // 初始化wdid
+    initSubmitSqxx(){
+        initSqxx().then(result => {
+            this.wdid = result.data.sqxxid;
+        })
+    },
+    getReviewList(page, size) {
+      if (page) {
+        this.formInline.page = page;
+        this.formInline.size = size;
+      }
+      this.$loading.show("加载中...");
+      queryReviewList(this.formInline).then((res) => {
+        this.$loading.close();
+        res.data.content&&res.data.content.forEach((c,index) => {
+          c.ROWNUM_ = (index + 1) + this.formInline.size*(this.formInline.page - 1);
+        })
+        this.reviewList = res.data.content || [];
+        this.totalNum = res.data.totalElements || 0;
+      });
+    },
+    cancelApply(){
+      this.visible = false;
+    },
+    // 重置查询条件
+    resetForm() {
+      this.$refs["formInline"].resetFields();
+    },
+    // 审核
+    checkDetail(data) {
+      let href = `/portal/view/service-page.html?taskid=${data.taskId}&chxmid=${data.CHXMID}&reviewType=verify&xmid=${data.text9}&gzlslid=${data.procInsId}&formKey=&wdid=${this.wdid}&type=db&ywlx=FCCH`
+      window.open(href)
+    },
+    // 制作
+    dataMake(data) {
+      let href = `/portal/view/service-page.html?taskid=${data.taskId}&chxmid=${data.CHXMID}&reviewType=make&xmid=${data.text9}&gzlslid=${data.procInsId}&formKey=&wdid=${this.wdid}&type=db&ywlx=FCCH`
+      window.open(href)
+    },
+    deliverDetail(data){
+      if(!data.DQZT || data.DQZT == "已交付"){
+        return;
+      }
+      let href = `/portal/view/service-page.html?taskid=${data.taskId}&chxmid=${data.CHXMID}&reviewType=dataApply&xmid=${data.text9}&gzlslid=${data.procInsId}&formKey=&wdid=${this.wdid}&type=db&ywlx=FCCH`
+      window.open(href)
+    },
+    viewDetail(data){
+      let type = "view"
+      let path = "/apply/review/check"
+      if(data.DQZT == "待交付" || data.DQZT == "已交付"){
+        type = "dataApply";
+        path = "/apply/completed/view"
+      }
+      this.$router.push({
+          path,
+          query: {
+            reviewType: type,
+            type: "view",
+            chxmid: data.CHXMID,
+            xmid: data.text9,
+            glsxid: data.procInsId,
+            taskid: data.taskId,
+            slbh: data.text1
+          }
+      });
+    },
+    checkList(list){
+      this.selectedList = [...list]
+    },
+    // 禁止某项选中
+    deleteOpr(){
+      this.reviewList.forEach((list,index) => {
+        if(list.DQZT == "审核中"){
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='deliver']").remove()
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='dataMake']").remove()
+        } else if(list.DQZT == "待制作" || list.DQZT == "制作中"){
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='deliver']").remove()
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='check']").remove()
+        } else if(list.DQZT == "待交付"){
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='check']").remove()
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='dataMake']").remove()
+        } else {
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='check']").remove()
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='dataMake']").remove()
+          $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='deliver']").addClass("table-btn-disabled cursor-not-allowed");
+        }
+      });
+    }
+  },
+};
+</script>
+<style scoped>
+.content-title {
+  margin-bottom: 20px;
+}
+.tab-review >>> .ivu-tabs-ink-bar {
+  width: 110px !important;
+}
+.tab-review >>> .ivu-tabs-tab > div span {
+  margin-right: 10px;
+}
+.tab-review >>> .ivu-tabs-tab > div .ivu-badge-count {
+  background-color: #f24b43;
+}
+</style>

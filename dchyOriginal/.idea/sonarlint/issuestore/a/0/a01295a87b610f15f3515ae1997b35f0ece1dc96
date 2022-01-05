@@ -1,0 +1,9 @@
+
+\
+java:S3252!"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ºÒ® 
+O
+java:S1854$"9Remove this useless assignment to local variable "mlkId".(Ê”¢ì
+@
+java:S1481$"*Remove this unused "mlkId" local variable.(Ê”¢ì
+[
+java:S3252!"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ºÒ® 

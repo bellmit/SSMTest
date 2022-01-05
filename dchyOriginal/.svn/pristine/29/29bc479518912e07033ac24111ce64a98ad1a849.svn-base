@@ -1,0 +1,184 @@
+.monitor-container {
+    margin-top: 10px;
+    padding: 1px;
+}
+
+/*header start*/
+.monitor-header {
+    margin: 0 8px;
+}
+
+.number {
+    font-size: 20px;
+    padding-left: 8px;
+    color: #408fc6;
+}
+
+.monitor-appoint {
+    float: right;
+    margin-right: 25px;
+    color:white !important;
+}
+
+.monitor-view-ul {
+    border-bottom: none !important;
+}
+
+.monitor-view-ul > li.active > a {
+    border-bottom-color: #dddddd !important;
+}
+
+.monitor-view-btn {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px !important;
+    padding: 5px 7px !important;
+}
+
+/*header end*/
+
+/*main start*/
+.monitor-main {
+    /*border-top: solid 1px #CBCDD2;*/
+    /*margin-top: 12px;*/
+    border-top: solid 1.5px #0091ff;
+    padding: 8px 0;
+}
+
+.monitor-main fieldset {
+    border: none;
+    padding: 0;
+    border-top: 1px solid #ccc;
+}
+
+.monitor-main fieldset legend {
+    width: auto;
+    border: none;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.monitor-main ul {
+    list-style-type: none;
+    padding-left: 2px;
+}
+
+/*--organs--*/
+.organs-wrapper {
+    padding: 5px;
+}
+
+#organSelBtn{
+    width:60%;
+}
+
+.organs-wrapper .caret {
+    margin-top: 8px;
+}
+
+/*--organs end--*/
+
+.monitor-main-li-list {
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid #0091FF;
+    padding-bottom: 8px;
+    padding-left: 8px;
+}
+
+.monitor-main-li-group {
+    display: block;
+    background-color: #eee;
+    padding: 10px;
+    box-shadow: inset 0 1px 0 #fff;
+    margin: 8px 0;
+}
+
+.monitor-main-li-group ul {
+    padding-left: 15px;
+}
+
+.monitor-main-li-group ul > li {
+    margin: 5px;
+}
+
+.gps-active {
+    color: #408fc6;
+}
+
+/*main end*/
+
+/*monitor form*/
+.monitor-appoint-form {
+    width: 98%;
+    padding: 10px;
+}
+
+.device-list{
+    border: 1px solid #ccc;
+}
+.device-list>li label{
+    padding-left:20px;
+    line-height: 30px;
+    font-size:14px;
+    cursor: pointer;
+}
+
+.device-selected{
+    background:#d3d3d3;
+}
+
+.pda-online-info{
+    height:30px;
+    width:100%;
+    font-size:14px;
+    font-weight:700;
+    line-height: 30px;
+    background: #add8e6;
+    text-align: center;
+}
+#departTree{
+    padding-left:15px!important;
+}
+
+.depart-ztree-container{
+    position: absolute;
+    z-index: 10;
+    top: 100px;
+    background: white;
+    border: 1px solid #ccc;
+    padding:10px;
+    left:35px;
+}
+
+.appoint-ztree-container{
+    position: absolute;
+    z-index: 10;
+    top: 92px;
+    background: white;
+    border: 1px solid #ccc;
+    left: 408px;
+    width: 166px;
+}
+#appointTree{
+    padding-left:15px;
+}
+
+.pda-info{
+    border: 1px solid #ccc;
+}
+
+.on-line-device{
+    color:#5FB878;
+}
+
+.form-clear{
+    height:20px;line-height:20px;padding-top:7px
+}
+
+
+

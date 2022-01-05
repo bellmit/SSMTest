@@ -1,0 +1,10 @@
+
+W	java:S125ƒ"<This block of commented-out lines of code should be removed.(Á–÷¥øÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(óÍ¦øÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(Ëõµ“
+^
+java:S1226L"CIntroduce a new variable instead of reusing the parameter "xsSqbh".(‹Ø¤æıÿÿÿÿ
+@
+java:S1068#"*Remove this unused "LOGGER" private field.(Ÿ÷‹à
+X
+java:S1226O"CIntroduce a new variable instead of reusing the parameter "xsSqbh".(”éÆe

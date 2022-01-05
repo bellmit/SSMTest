@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title class="bdc_processDefName">“多测合一”信息管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../../../../thirdparty/layui/css/layui.css" media="all" rel="stylesheet">
+    <link href="../../../../css/theme/light-blue/dchyxxglpt/dchyxmsmx.css" media="all" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <h3>“多测合一”信息管理平台</h3>
+    </div>
+    <div class="management-contanier">
+        <div class="main-axis">
+            <p class="line"></p>
+        </div>
+        <div class="main-content" id="mainContent"></div>
+        <div class="mapping-content">
+            <table id="mappingTable" lay-filter="LAY-mapping-table" class="mapping-table"></table>
+        </div>
+        <input type="text" name="_url" id="_url" style="display: none;" />
+    </div>
+
+    <!--项目生命线-->
+    <script type="text/html" id="stageItemTpl">
+        {{# layui.each(d, function(index, item){ }}
+        <div class="stage-item">
+            <h4>{{item.chjdmc}}</h4>
+            <div class="stage-item-content">
+                <div class="circle big-circle {{item.sfdqchjd?'stage-ing':'after-stage'}}" data-check="{{item.sfdqchjd}}">{{index+1}}</div>
+                <ul>
+                    {{# if(item.chjdmc == "竣工验收"){ }} {{# layui.each(item.surveyItemVoList, function(index, v){ }}
+                    <li class="jgys-content">
+                        <div class="circle small-circle {{v.sfwcsx?'after-stage':'before-stage'}}"></div>
+                        <dl>
+                            <dd class="{{v.sfwcsx?'after-stage':'before-stage'}}">
+                                {{v.chsxmc}}
+                            </dd>
+                        </dl>
+                    </li>
+                    {{# })}} {{# } else { }} {{# layui.each(item.surveyItemVoList, function(index, v){ }}
+                    <li>
+                        <div class="circle small-circle {{v.sfwcsx?'after-stage':'before-stage'}}"></div>
+                        <dl>
+                            <dd class="{{v.sfwcsx?'after-stage':'before-stage'}}">
+                                {{v.chsxmc}}
+                            </dd>
+                        </dl>
+                    </li>
+                    {{# })}} {{# }}}
+                </ul>
+                <div class="circle mini-circle {{item.sfdqchjd?'before-stage':'after-stage'}}"></div>
+            </div>
+        </div>
+        {{# })}}
+    </script>
+    <script type="text/html" id="xmztTpl">
+        {{# if(d.xmzt === '1'){ }}
+        <span>已办结</span> {{# } else { }} 办理中 {{# } }}
+    </script>
+    <!--查看操作按钮-->
+    <script id="lookTpl" type="text/html">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm layui-btn-normal bdc-look-btn" lay-event="lookBtn">查看</button>
+        </div>
+    </script>
+    <script src="../../../../thirdparty/jquery/jquery.min.js"></script>
+    <script src="../../../../thirdparty/layui/layui.js"></script>
+    <script src="../../../../js/common.js"></script>
+    <script src="../../../../js/dchyxxglpt/dchyxmsmx.js"></script>
+
+</body>
+
+</html>

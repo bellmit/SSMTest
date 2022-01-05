@@ -1,0 +1,151 @@
+<div class="analysis">
+    <div class="title">{{label}}功能配置</div>
+    <div class="pull-left" style="margin-right: 30px;">
+        <div class="container-fluid">
+            <form class="form-horizontal" id="analysisForm">
+                <div class="row lineSpacing">
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">标题</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                               value="{{label}}"/>
+                    </div>
+                    <div class="col-xs-2  text-right">
+                        <label class="lableTitle">图标</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="ui search selection dropdown" id="icons">
+                            <input type="hidden" name="icon" value="{{icon}}">
+                            <i class="dropdown icon"></i>
+
+                            <div class="default text">请选择</div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                        class="tags"> 属性</span></h4>
+
+                <div class="contentConfig">
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">图层名称</label>
+                        </div>
+                        <div class="col-xs-8">
+                            <input type="hidden" name="layerAlias" class="form-control" id="layerAlias" placeholder="请填写标题"
+                                   value="{{config.layerAlias}}"/>
+                            <input type="text" name="layerName" class="form-control" id="layerName" placeholder="请填写标题"
+                                   value="{{config.layerName}}"/>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <button class="btn btn-primary" type="button" id="addService">选择图层</button>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">标题字段</label>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <div class="ui fluid search selection dropdown" id="titleFields">
+                                <input type="hidden" name="titleField" value="{{config.titleField}}">
+                                <i class="dropdown icon"></i>
+
+                                <div class="default text">选择标题字段</div>
+                                <div class="menu">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing" style="clear: both;">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">数据源</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="ui selection dropdown" id="dataSource">
+                                <input type="hidden" name="dataSource" value="{{config.dataSource}}"/>
+                                <i class="dropdown icon"></i>
+
+                                <div class="default text"></div>
+                                <div class="menu">
+                                    {{#sdeConfs}}
+                                    <div class="item" data-value="{{.}}">{{.}}</div>
+                                    {{/sdeConfs}}
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-xs-6">-->
+                            <!--<div class="ui toggle checkbox showPie">-->
+                                <!--<input type="checkbox" name="showPie" {{isShowPie}}>-->
+                                <!--<label>是否显示饼状图</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">返回字段</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <input class="form-control" id="returnFieldsSelect" multiple placeholder="添加字段"></input>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">分组字段</label>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <input class="form-control" id="groupFieldsSelect" multiple placeholder="添加字段"></input>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing" style="clear: both;">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">导入类型</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <div class="ui search multiple selection dropdown" id="import">
+                                <input name="importType" type="hidden" value="{{config.importType}}">
+                                <i class="dropdown icon"></i>
+
+                                <div class="default text">导入类型</div>
+                                <div class="menu">
+                                    <div class="item" data-value="bj">电子报件</div>
+                                    <div class="item" data-value="cad">cad文件</div>
+                                    <div class="item" data-value="shp">shape文件</div>
+                                    <div class="item" data-value="txt">txt文件</div>
+                                    <div class="item" data-value="xls">excel文件</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">超链接</label>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <input type="text" name="url" class="form-control" id="URL1" placeholder="请填写链接地址"
+                                   value="{{config.link.url}}"/>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="serviceId" value=""/>
+                </div>
+
+                <div class="text-center" style="margin-top: 25px;">
+                    <button type="button" class="btn btn-success disabled1" style="width: 150px;" id="analysisSaveBtn">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>

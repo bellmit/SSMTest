@@ -1,0 +1,169 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form :model="recordForm" ref="search-form" inline :label-width="120">
+                <Row>
+                    <i-col span="12">
+                        <FormItem label="操作时间" style="width: 100%">
+                            <Row class="form-list-search">
+                                <i-col span="11">
+                                    <DatePicker class="form-search-item"  @on-change="kssjChange" format="yyyy-MM-dd" :options="ksOptions" v-model="recordForm.kssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                                <i-col span="1">
+                                    <div style="text-align:center">-</div>
+                                </i-col>
+                                <i-col span="12">
+                                    <DatePicker class="form-search-item" @on-change="jssjChange" format="yyyy-MM-dd" :options="jsOptions" v-model="recordForm.jssj" type="date" placeholder="请选择"></DatePicker>
+                                </i-col>
+                            </Row>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="50">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryList(1,recordForm.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <div>
+            <Table
+                ref="tableRef"
+                :cols="tableCols"
+                :data="recordList"
+                :count="totalNum"
+                :page="recordForm.page"
+                :size="recordForm.size"
+                :func="queryList"
+                :operation="operationList"
+                @record-param="recordParam"
+            ></Table>
+        </div>
+        <Modal 
+            class="modal-base form-record" 
+            v-model="visible" 
+            :title="'操作参数'"
+            width="700"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <div class="pre-content">
+                <pre>{{selectRecord.CZCSXQ}}</pre>
+            </div>
+        	<div class="save-btn">
+                <Button class="btn-h-34 bdc-major-btn" type="primary" @click="cancelRecord()">确定</Button>
+            </div>
+    </Modal>
+    </div>
+</template>
+<script>
+import moment from "moment";
+import { queryRecordList } from "../../service/manage"
+export default {
+    data() {
+        return {
+            recordForm: {
+                page: 1,
+                size: 10,
+                kssj: "",
+                jssj: ""
+            },
+            totalNum: 0,
+            ksOptions: {},
+            jsOptions: {},
+            recordList: [],
+            visible: false,
+            selectRecord: {},
+            operationList: ["record-param"],
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "CZR",
+                    title: "操作人",
+                    align: "center"
+                },
+                {
+                    field: "CZSJ",
+                    title: "操作时间",
+                    align: "center",
+                },
+                {
+                    field: "CZLXMC",
+                    title: "操作类型",
+                    align: "center",
+                },
+                {
+                    field: "operation",
+                    title: "操作",
+                    align: "center",
+                    width: 150,
+                    toolbar: "#operation",
+                }
+            ]
+        }
+    },
+    mounted() {
+        this.queryList();
+    },
+    methods: {
+        // 重置查询项
+        resetForm(){
+            this.recordForm = {
+                page: this.recordForm.page,
+                size: this.recordForm.size
+            }
+        },      
+        // 查询
+        queryList(page,size){
+            if(page){
+                this.recordForm.page = page;
+                this.recordForm.size = size;
+            }
+            this.recordForm.kssj = this.recordForm.kssj ? moment(this.recordForm.kssj).format("YYYY-MM-DD") : "";
+            this.recordForm.jssj = this.recordForm.jssj ? moment(this.recordForm.jssj).format("YYYY-MM-DD") : "";
+            this.$loading.show("加载中...");
+            queryRecordList(this.recordForm).then(res => {
+                this.$loading.close();
+                this.recordList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        // 控制结束时间可选状态
+        kssjChange(select){
+            this.jsOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select){
+            this.ksOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() > moment(select).unix());
+            }
+        },
+        // 显示操作参数
+        recordParam(select){
+            select.CZCSXQ = JSON.parse(select.CZCS);
+            this.selectRecord = select;
+            this.visible = true;
+        },
+        cancelRecord(){
+            this.visible = false;
+        }
+    },
+}
+</script>
+<style scoped>
+    .pre-content {
+        padding: 10px;
+        background-color: #000;
+        color: #fff;
+    }    
+</style>

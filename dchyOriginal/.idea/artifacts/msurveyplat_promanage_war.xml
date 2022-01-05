@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="msurveyplat-promanage:war">
+    <output-path>$PROJECT_DIR$/promanage/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>msurveyplat-promanage</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="msurveyplat-promanage-1.0.0.war">
+      <element id="artifact" artifact-name="msurveyplat-promanage:war exploded" />
+    </root>
+  </artifact>
+</component>

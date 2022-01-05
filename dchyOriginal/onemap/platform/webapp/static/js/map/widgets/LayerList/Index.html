@@ -1,0 +1,34 @@
+<div class="widget-panel-title">图层控制</div>
+<div class="panel-body">
+    <ul id="layer-list" class="list-group"></ul>
+</div>
+<!--图层列表模板-->
+<script id="layersTpl" type="x-tpl-handlebars">
+{{#each layers}}
+<li class="list-group-item" id="{{id}}">
+    <div class="layer-item" style="height: 25px;">
+    <a href="javascript:void();" data-toggle="collapsePreset"
+       data-target="#t_{{id}}" data-service="{{id}}" data-opacity={{opacityOfPercent}} data-alias="{{alias}}" class="layer-list-item"><i title="点击展开" class="fa fa-caret-square-o-right" aria-hidden="true"></i>&nbsp;{{alias}}</a>
+       
+    </div>
+    <div id="t_{{id}}" class="collapse operation-content">
+        <div class="opacity-content">
+            <div style="margin-bottom:5px;margin-top:10px;">透明度：<span id="op_{{id}}" >{{opacityOfPercent}}%</span></div>
+            <div id="slider_{{id}}" class="opacity-slider"></div>
+        </div>
+        <div class="btn-group spy-content" data-toggle="buttons">
+            <label class="operation-btn" data-type="spy" data-id="{{id}}" id="spy-switch_{{id}}">
+                <input type="checkbox" name="options" autocomplete="off">通透镜
+            </label>&nbsp;|
+            <label class="operation-btn" data-type="swipe" data-id="{{id}}" id="swipe-switch_{{id}}">
+                <input type="checkbox" name="options" autocomplete="off">卷帘
+            </label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="bdc-layer-tree" id="layerTree_{{id}}" data-alias="{{alias}}"></div>
+    </div>
+    
+</li>
+{{/each}}
+
+</script>

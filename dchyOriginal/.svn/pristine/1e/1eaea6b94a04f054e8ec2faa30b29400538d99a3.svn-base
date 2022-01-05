@@ -1,0 +1,23 @@
+.panel-body {
+    margin-top: 10px;
+}
+
+.row-input {
+    margin-top: 10px;
+}
+
+.row-input label {
+    margin-top: 2px;
+    padding-left: 1px;
+}
+
+#drawDiv {
+    margin-top: 10px;
+    margin-left: 40px
+}
+#insertClearBtn {
+    margin-top: 10px;
+}
+.display{
+    display: none;
+}

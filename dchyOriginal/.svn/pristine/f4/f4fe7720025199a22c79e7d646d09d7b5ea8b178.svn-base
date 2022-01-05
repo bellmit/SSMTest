@@ -1,0 +1,229 @@
+<template>
+    <div>
+        <Tabs :value="tabSelect">
+            <TabPane label="委托双方信息" name="jsdwwtxx">
+                <div class="form-title">
+                    <div class="list-title">建设单位基本信息</div>
+                </div>
+                <projectInfo :projectInfoData="projectInfoData"></projectInfo>
+                <div class="form-title margin-top-20">
+                    <div class="list-title">测绘单位基本信息</div>
+                </div>
+                <div class="form-edit" style="width: 100%">
+                    <Form ref="formValidate" :model="agencyInfoData" inline :label-width='142'>
+                        <Row>
+                            <i-col span="12">
+                                <FormItem label="测绘单位 " prop="dwmc">
+                                    <Tooltip v-if="agencyInfoData.dwmc" style="width: 100%" :content="agencyInfoData.dwmc">
+                                        <Input readonly  v-model="agencyInfoData.dwmc"/>
+                                    </Tooltip>
+                                     <Input v-else readonly  v-model="agencyInfoData.dwmc"/>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="12">
+                                <FormItem label="统一社会信用代码 " prop="tyshxydm">
+                                    <Tooltip v-if="agencyInfoData.tyshxydm" style="width: 100%" :content="agencyInfoData.tyshxydm">
+                                        <Input readonly  v-model="agencyInfoData.tyshxydm"/>
+                                    </Tooltip>
+                                    <Input v-else readonly  v-model="agencyInfoData.tyshxydm"/>
+                                </FormItem>
+                            </i-col>
+                        </Row>
+                        <Row>
+                            <i-col span="12">
+                                <FormItem label="联系人 " prop="lxr">
+                                    <Input readonly  v-model="agencyInfoData.lxr"/>
+                                </FormItem>
+                            </i-col>
+                            <i-col span="12">
+                                <FormItem label="联系电话 " prop="lxdh">
+                                    <Input readonly  v-model="agencyInfoData.lxdh"/>
+                                </FormItem>
+                            </i-col>
+                        </Row>
+                    </Form>
+                </div>
+            </TabPane>
+            <TabPane label="委托项目信息" name="chdwblxx">
+                <div class="form-title">
+                    <div class="list-title">委托办理信息</div>
+                </div>
+                <commissionInfo :checkedClsxList="checkedClsxList" :projectInfoData="projectInfoData"></commissionInfo>
+                <div class="form-title margin-top-20">
+                    <div class="list-title">合同（协议书）材料</div>
+                </div>
+                <div class="upload-info">
+                    <uploadFileInfo 
+                        :glsxid="chxmid"
+                        :deleteColumns="deleteColumns"
+                        :url="'/fileoperation/getsjclHtxxByGlsxid'"
+                    ></uploadFileInfo>
+                </div>
+                <div class="form-title margin-top-20">
+                    <div class="list-title">附件材料</div>
+                </div>
+                <div class="upload-info">
+                    <uploadFileInfo 
+                        :ssmkid="ssmkid"
+                        :needclsx="true"
+                        :clsxList="checkedClsxList"
+                        :deleteColumns="deleteColumns"
+                        :glsxid="chxmid"
+                        :url="'/fileoperation/getsjclByGlsxid'"
+                    ></uploadFileInfo>
+                </div>
+            </TabPane>
+            <TabPane label="项目进度信息" name="xmjdxx">
+                <div class="xmjdxx-content">
+                    <processStep
+                        :steps="steps"
+                        :current="current"
+                    ></processStep>
+                </div>
+            </TabPane>
+            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="fjHandlerClick" slot="extra">附件材料</Button>
+            <Button @click="close()" class="btn-h-32 margin-left-10 btn-cancel" slot="extra">返回</Button>
+        </Tabs>
+        <div class="submit-back">
+        </div>
+    </div>
+</template>
+<script>
+import uploadFileInfo from "../../../components/survey/upload-file-info";
+import projectInfo from "../../../components/survey/project-info"
+import commissionInfo from "../../../components/survey/commission-info"
+import payInfo from "../../../components/survey/pay-info"
+import { queryJsdwWtxx,queryOnlineProcess } from "../../../service/myproject"
+import _ from "loadsh"
+import processStep from "../../../components/step/process-step"
+export default {
+    components: {
+        uploadFileInfo,
+        projectInfo,
+        commissionInfo,
+        payInfo,
+        processStep
+    },
+    data() {
+        return {
+            tabSelect: "",
+            uploadList: [], //需要上传的材料
+            agencyInfoData: {
+                yxqksrq: "",
+                yxqjsrq: "",
+            }, //测绘单位基本信息
+            mlkid: "",
+            deleteColumns: ["opeartion"],
+            checkedClsxList: [],
+            steps: [],
+            current: 1,
+            projectInfoData: {},
+            commissionList: [], //委托办理信息
+            commissionTotal: 0, //委托办理信息总条数
+            payInfoData: {}, //支付信息
+            uploadTime: "", //建设单位上传合同时间
+            slbh: "",
+            typeList: ["online","record","submit","finish"],
+            chxmid: "",
+            chdwxxid: "",
+            ssmkid: "18",
+        }
+    },
+    created(){
+        this.chxmid = this.$route.query.chxmid || "";
+    },
+    mounted() {
+        this.slbh = this.$route.query.slbh || "";
+        this.chdwxxid = this.$route.query.chdwxxid || "";
+        this.mlkid = this.$route.query.mlkid || "";
+        this.getJsdwWtxx()
+        this.queryOnlineProcess();
+    },
+    methods: {
+        // 查询项目进度
+        queryOnlineProcess(){
+            let params = {
+                chxmid: this.chxmid
+            }
+            queryOnlineProcess(params).then(res => {
+                let steps = res.data.dataList || [];
+                steps.forEach((item,index) => {
+                    item.details = item.details || [];
+                    let details = _.cloneDeep(item.details);
+                    let newDetails = []
+                    details.forEach(detail => {
+                        for(let key in detail) {
+                            let find = newDetails.find(n => n.title == key)
+                            newDetails.push(
+                                {
+                                    title: key,
+                                    content: detail[key]
+                                }
+                            )
+                        }
+                    })
+                    item.details = _.cloneDeep(newDetails);
+                    item.orderNumber = index + 1;
+                    item.stepName = item.name;
+                    item.type = this.typeList[index]
+                })
+                this.steps = steps;
+            })
+        },
+        // 获取委托基本信息
+        getJsdwWtxx(){
+            let params = {
+                chxmid: this.chxmid,
+                chdwxxid: this.chdwxxid
+            }
+            this.$loading.show("加载中...")
+            queryJsdwWtxx(params).then(res => {
+                this.$loading.close();
+                let info = res.data.dataList&&res.data.dataList.length ? res.data.dataList[0] : {};
+                info.dwmc = info.CHDWMC;
+                info.xmdz = (info.GCDZS || "") + (info.GCDZSS || "") + (info.GCDZQX || "") + (info.GCDZXX || "");
+                for(let key in info){
+                    info[_.toLower(key)] = info[key]
+                }
+                this.checkedClsxList = info.clsx ? info.clsx.split(",") : [];
+                this.agencyInfoData.dwmc = info.chdwmc;
+                this.agencyInfoData.tyshxydm = info.chjgtyshxydm;
+                this.agencyInfoData.lxr = info.chjglxr;
+                this.agencyInfoData.lxdh = info.chjglxdh;
+                this.projectInfoData = {...info}
+            })
+        },
+        close(){
+            this.$router.push(this.$route.query.from)
+        },
+        // 附件材料
+        fjHandlerClick(){
+            const {href} = this.$router.resolve({
+                path: '/review/fj',
+                query: {
+                    chxmid: this.chxmid,
+                    clsx: this.checkedClsxList.join(","),
+                    type: "xm"
+                }
+            })
+            window.open(href);
+        }
+    },
+}
+</script>
+<style scoped>
+    .xmjdxx-content {
+        padding: 120px 10px 0;
+        width: 100%;
+    }
+    .xmjdxx-content >>> .ivu-steps {
+       position: relative; 
+    }  
+    .commission-step {
+        width: 25%;
+        height: auto;
+        position: absolute;
+        top: 30px;
+        left: 20px
+    }
+</style>

@@ -1,0 +1,259 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">项目信息</div>
+            <div>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="handlerCancel">返回</Button>
+            </div>
+        </div>
+         <Form class="form-edit" @on-validate="validateChecked" ref="commission-form" :model="applyInfo" :rules="ruleInline" :label-width="114">
+            <Row>
+                 <i-col span="12">
+                    <FormItem v-model="applyInfo.babh" prop="babh" label="项目编号">
+                        <Input :readonly="readonly" v-model="applyInfo.babh"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcbh" prop="gcbh" label="项目代码">
+                        <Input :readonly="true" v-model="applyInfo.gcbh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcmc" prop="gcmc" label="工程名称">
+                        <Input :readonly="readonly" v-model="applyInfo.gcmc"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.wtdw" prop="wtdw" label="建设单位">
+                        <Input :readonly="true" v-model="applyInfo.wtdw"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.chdwmc" prop="chdwmc" label="测绘单位">
+                        <Input readonly v-model="applyInfo.chdwmc"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcdz" prop="gcdz" label="工程地点">
+                        <Input readonly v-model="applyInfo.gcdz"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+             <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.xmzt" prop="xmzt" label="项目状态">
+                        <Input :readonly="readonly" v-model="applyInfo.xmzt"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row class="margin-top-20">
+                <FormItem v-model="applyInfo.clsx" prop="clsx" label="测绘事项">
+                    <div class="stage-tree">
+                        <Row class="select-row-tree">
+                        <div v-for="(tree,index) in treeList" :key="index">
+                                <Tree :data="tree" show-checkbox></Tree>
+                        </div>
+                        </Row>
+                    </div>
+                </FormItem>
+            </Row>
+        </Form>
+        <!-- 暂时隐藏 -->
+        <!-- <div class="form-title">
+            <div class="list-title">基础数据范围</div>
+        </div>
+         <Table 
+            :showPage="false"
+            :showDefaultTool="true"
+            :data="jfsjList"
+            :cols="jsfjCols"
+            :operation="operationList"
+            @download="downLoadFile"
+        ></Table> -->
+    </div>
+</template>
+<script>
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import { getDictInfo } from "../../../service/mlk"
+import { applicationInfoView } from "../../../service/myproject"
+export default {
+    components: {
+        uploadFileInfo
+    },
+    data() {
+        return {
+            error: "",
+            ssmkid: "22",
+            chxmid: "",
+            checkedClsxList: [],
+            verifyForm: {
+                sftg: "1",
+                shyj: ""
+            },
+            visible: false,
+            fileRule: {
+                sftg: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            },
+            jfsjList: [],
+            jsfjCols: [
+                {
+                    field: "xh",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left",
+                    templet: function(d){
+                        return d.xh + 1
+                    }
+                },
+                {
+                    title: "材料名称",
+                    align: "center",
+                    field: "clmc",
+                },
+                {
+                    title: "份数",
+                    align: "center",
+                    field: "fs",
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    width: 120,
+                    toolbar: "#operation",
+                }
+            ],
+            operationList: ["download"],
+            unLastSubmit: true,
+            applyInfo: {},
+            ruleInline: {},
+            readonly: false,
+            isVerify: false,
+            treeList: [],
+            wjzxid: "",
+            dictionaryTree: []
+        }
+    },
+    mounted() {
+        this.readonly = true;
+        if(this.$route.query.type == "verify"){
+            this.isVerify = true
+        }
+        if(this.$route.query.chxmid){
+            this.chxmid = this.$route.query.chxmid;
+        }
+        this.getDictInfo();
+        this.getaApplicationInfoView();
+    },
+    methods: {
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error) {
+            if (error && this.error != error && !this.unLastSubmit) {
+                this.error = error;
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = "";
+                    this.$error.close();
+                }, 1000);
+            }
+        },
+        checkChange(){},
+        cancel(){
+            this.$router.go(-1)
+        },
+        clickHandler(){
+            this.visible = true;
+        },
+        getaApplicationInfoView(){
+            this.$loading.show("加载中...")
+            applicationInfoView({chxmid: this.chxmid}).then(res => {
+                this.$loading.close();
+                let baxxList = {}
+                let data = res.data.baxxList && res.data.baxxList.length ? res.data.baxxList[0] : {}
+                for(let key in data){
+                    baxxList[_.toLower(key)] = data[key]
+                }
+                this.jfsjList = res.data.jcsjfw ? [res.data.jcsjfw] : [];
+                this.wjzxid = res.data.jcsjfw.wjzxid || ""
+                this.applyInfo = {...baxxList}
+                this.checkedClsxList = res.data.baClsxList.map(clsx => clsx.DM);
+                this.renderTreeList();
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryTree = res.data.dataList || []
+                this.renderTreeList();
+            })
+        },
+        renderTreeList(){
+            let clsxList = this.dictionaryTree || [];
+            let treeList = []
+            clsxList.forEach(list => {
+                if(!list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.push({title: list.MC, dm: Number(list.DM),disabled:this.readonly, expand: true,id: list.DM, children: []})
+                }
+            })
+            clsxList.forEach(list => {
+                if(list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.forEach(tree => {
+                        if(tree.id == list.FDM){
+                            tree.children.push({title: list.MC, checked: this.checkedClsxList.includes(list.DM), disabled:this.readonly, id: list.DM})
+                        }
+                    })
+                }
+            })
+            treeList = _.orderBy(treeList,['dm'],['asc'])
+            this.treeList = []
+            treeList.forEach(tree => {
+                this.treeList.push([tree])
+            })
+        },
+        verify(){},
+        cancelVerify(){
+            this.visible = false;
+            this.$refs["verify-form"].resetFields();
+        },
+        handlerCancel(){
+            this.$router.go(-1)
+        },
+        downLoadFile(){
+            if(!this.wjzxid){
+                layer.msg('暂无材料')
+                return
+            }
+            if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            location.href=location.origin + '/msurveyplat-serviceol/jcsjsq/downloadFile?wjzxid=' +this.wjzxid
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-verify .form-edit {
+        padding: 0 10px !important;
+    }
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-row-tree  {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .select-row-tree>div {
+        margin-right: 20px;
+    }
+</style>

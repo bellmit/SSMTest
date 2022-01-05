@@ -1,0 +1,21 @@
+
+\
+java:S34570"AFormat specifiers should be used instead of string concatenation.(°‚íşÿÿÿÿ
+[
+java:S3252f"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(½’
+g
+java:S1128"QRemove this unused import 'cn.gtmap.msurveyplat.promanage.web.utils.EhcacheUtil'.(ß¦ÄÊ
+`	java:S112]"FDefine and throw a dedicated exception instead of using a generic one.(ÔÏ„úÿÿÿÿ
+D
+java:S1144J".Remove this unused private "basicNACK" method.(¤´Àÿ
+c
+java:S47193"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+i
+java:S4719b"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+b
+java:S1128"LRemove this unused import 'cn.gtmap.msurveyplat.common.dto.DchyXmglTjfxDto'.(ıëóÀ
+X	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+k
+java:S1128"URemove this unused import 'cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglYhdw'.(à³ÁÙ
+\
+java:S34579"AFormat specifiers should be used instead of string concatenation.(ÜŞŞ»ıÿÿÿÿ

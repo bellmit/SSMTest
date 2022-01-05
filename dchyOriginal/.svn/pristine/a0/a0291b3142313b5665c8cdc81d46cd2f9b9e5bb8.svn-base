@@ -1,0 +1,25 @@
+db.driver=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@127.0.0.1:1521:orcl
+db.username=yzt
+db.password=yzt
+
+hibernate.debug=false
+hibernate.hbm2ddl.auto=none
+hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+jpa.dialect=org.springframework.orm.jpa.vendor.Database.ORACLE
+
+# 是否只显示当前用户行政区范围内的服务片段,默认 false
+service.region.segment= false
+
+#白名单
+white.key=oms,omp
+
+kanq.server.url=http://172.18.2.70:7879
+kanq.server.username=yum
+kanq.server.password=000000
+
+sys.admins={yztadmin:'yzt', yztadmin1:'yzt1', yztadmin2:'yzt2', yztadmin3:'yzt3', yztadmin4:'yzt4'}
+
+#msurveyplat-server url
+msurveyplat-server.url=http://192.168.50.38/msurveyplat-server
+

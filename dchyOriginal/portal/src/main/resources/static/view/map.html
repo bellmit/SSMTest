@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>building Map</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.12/esri/css/esri.css" />
+    <script src="https://js.arcgis.com/3.12/"></script>
+    <script>
+        var myMap;
+        require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "dojo/domReady!"], function (Map, ArcGISTiledMapServiceLayer) {
+            myMap = new Map("viewDiv");
+
+            var buildingUrl = "http://192.168.2.113:6080/arcgis/rest/services/多测合一/MapServer";
+            var layer = new esri.layers.ArcGISDynamicMapServiceLayer(buildingUrl);
+            myMap.addLayer(layer);
+        });
+    </script>
+</head>
+
+<body style="height: 100%; width:100%">
+    <div id="viewDiv" style="height: 100%; width:100%"></div>
+</body>
+</html>

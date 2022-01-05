@@ -1,0 +1,232 @@
+
+.tools-wrapper {
+    height: 27px;
+    line-height: 27px;
+}
+
+.filter-group {
+    margin-left: 10px;
+    display: none;
+}
+
+.filter-group .dropdown-menu {
+    min-width: 80px !important;
+}
+
+.filter-group .dropdown-menu > li > a {
+    padding: 3px 10px !important;
+}
+
+.filter-group .dropdown-menu > li > a > i {
+    visibility: hidden;
+}
+
+.filter-menu-sel {
+    background: #428bca !important;;
+    color: #fff !important;;
+}
+
+.filter-menu-sel > i {
+    visibility: visible !important;
+}
+
+.mark-tabs {
+    border-bottom: none !important;
+}
+
+.mark-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.mark-table > thead > tr > th,
+.mark-table > tbody > tr > th,
+.mark-table > tfoot > tr > th,
+.mark-table > thead > tr > td,
+.mark-table > tbody > tr > td,
+.mark-table > tfoot > tr > td {
+    padding: 8px 10px;
+    line-height: 1.428571429;
+    border-top: 1px solid #dddddd;
+    text-align: center;
+}
+
+.mark-table-hover > tbody > tr:hover > td,
+.mark-table-hover > tbody > tr:hover > th {
+    background-color: #f5f5f5;
+}
+
+/*opt btn*/
+.opt-cbx {
+    float: left;
+    margin-left: 8px;
+}
+
+.item-closeIcon {
+    display: none;
+    line-height: 30px;
+    opacity: 0.85;
+}
+
+.item-closeIcon-hover:hover a {
+    display: inline !important;
+}
+
+.unLog-detail {
+    padding-left: 30px;
+    font-size: 18px;
+}
+
+.mark-detail {
+    width: 80%;
+    font-size: 14px;
+    height: 28px;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    float: left;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.li-label {
+    display: none;
+}
+
+.li-label-hover:hover span {
+    display: inline !important;
+}
+
+.delete-mark {
+    width: 20px;
+    float: right;
+    /*position: absolute;*/
+    /*right: 5px;*/
+}
+
+.badge {
+    min-width: 5px;
+    padding: 0 2px;
+    font-size: 4px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #999999;
+    border-radius: 5px;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+.mark-style {
+    height: 50px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #d4d4c3;
+    margin-left: 2px;
+    margin-right: 10px;
+}
+
+.add-mark {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    margin: 0 20px;
+    /*z-index: -1;*/
+}
+
+.ob-position {
+    float: right;
+    margin-right: 6px;
+}
+
+.btn-pro-preview,
+.btn-pro-preview:hover,
+.btn-pro-history,
+.btn-pro-history:hover {
+    margin-right: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+
+.panel-body > .tab-content {
+    padding: 8px 6px;
+}
+
+.pro-list-panel {
+    min-height: 20px;
+    padding: 9px;
+}
+
+#addBtn {
+    margin-bottom: 10px;
+}
+
+/*form 表单样式*/
+.form-horizontal {
+    /*overflow: hidden;*/
+}
+
+.form-horizontal .form-group {
+    margin-right: -5px;
+}
+
+.form-group label, input {
+    color: #546e7a !important;
+}
+
+.mark-radio {
+    width: 30px;
+    height: 30px;
+}
+
+.mark-label {
+    float: left;
+    width: 20%;
+    text-align: right;
+}
+
+.mark-input {
+    float: left;
+    width: 80%;
+}
+
+.modify-mark {
+    float: left;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/*mark info form*/
+.mark-info-form {
+    width: 480px;
+    height: 230px
+}
+
+.mark-info-form .form-group:first-child {
+    margin-top: 20px;
+}
+
+.mark-info-form #modifyMark {
+    float: left;
+    cursor: pointer;
+    margin-top: 15px
+}
+
+.mark-info-form #markList {
+    margin-top: 20px;
+    display: none;
+    text-align: center;
+}
+
+#marksContainer {
+    margin-top: 20px;
+}

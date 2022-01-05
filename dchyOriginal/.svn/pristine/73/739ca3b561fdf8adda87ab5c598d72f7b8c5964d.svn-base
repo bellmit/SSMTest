@@ -1,0 +1,191 @@
+<template>
+    <div class="upload-info">
+        <uploadTable
+            :data="uploadList" 
+            :deleteColumns="deleteColumns"
+            :ssmkid="ssmkid"
+            :SSCLSXList="SSCLSXList"
+            :showDefaultTool="false"
+            :typeSelect="false"
+            :type="'download'"
+        ></uploadTable>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import uploadTable from "../table/upload-table"
+import { getUploadList, getXsBfData, getDictInfo } from "../../service/mlk";
+export default {
+    name: "uploadFileInfo",
+    components: {
+        uploadTable
+    },
+    props: {
+        ssmkid: {
+            type: String,
+            default: ""
+        },
+        needclsx: {
+            type: Boolean,
+            default: false
+        },
+        mlkid: {
+            type: String,
+            default: ""
+        },
+        clsxList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        deleteFileList: { // 不需要展示的文件名称
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        deleteColumns: { // 需要隐藏的列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        isHqXs: {
+            type: Boolean,
+            default: false
+        },
+        url: {
+            type: String,
+            default: '/fileoperation/getsjcl'
+        },
+        wtzt: {
+            type: String, //项目委托状态
+            default: ''
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            uploadList: [],
+            newFileForm: {
+                YS: 1,
+                FS: 1
+            },
+            SSCLSXList: [],
+            fileRule: {},
+            chooseUploadFile: [],
+            deleteAll: false,
+            rejectZt: ["已备案","待备案","已接受","待接受","已拒绝"]
+        }
+    },
+    watch: {
+        mlkid: function(newVal,oldVal) {
+            if(newVal != oldVal){
+                this.getUploadList();
+            }
+        }
+    },
+    mounted() {
+        if(!this.needclsx&&this.mlkid){
+            this.getUploadList();
+        }
+        if(this.needclsx){
+            this.getDictInfo()
+        }
+    },
+    methods: {
+        getDictInfo(){
+            let params= {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                res.data.dataList.forEach(list => {
+                    if(list.FDM && list.ZDLX == "CLSX"){
+                        this.SSCLSXList.push(list)
+                    }
+                })
+                if(this.mlkid && this.clsxList.length){
+                    this.getUploadList();
+                }
+            })
+        },
+        validate(){
+            let errorMsg = '';
+            this.uploadList.forEach(upload => {
+                if(upload.NEED == 1 && !upload.WJZXID){
+                    errorMsg = upload.CLMC + "未上传材料"
+                }
+            })
+            if(errorMsg){
+                this.$error.show(errorMsg)
+            }
+            return errorMsg
+        },
+        // 获取需要上传的文件
+        getUploadList(){
+            let params = {
+                ssmkid: this.ssmkid,
+                glsxid: this.mlkid,
+                chxmid: this.mlkid,
+                clsxList: this.rejectZt.includes(this.wtzt) ? null : this.clsxList
+            }
+            this.uploadList = [];
+            if(this.isHqXs){
+                getXsBfData(params).then(res => {
+                    let uploadList = res.data.dataList || [];
+                    uploadList.forEach((list,index) => {
+                        list.children = [];
+                        list.clid = 'name'+index;
+                    })
+                    this.uploadList = [...uploadList]
+                })
+            } else {
+                getUploadList(this.url, params).then(res => {
+                    let uploadList = res.data.dataList || [];
+                    uploadList.forEach((list,index) => {
+                        list.children = [];
+                        list.clid = 'name'+index;
+                        list.CLMC = list.SJCLPZCLMC || list.CLMC || "";
+                        let clsxList = list.CLSXLIST || list.CLSXS || [];
+                        if(clsxList){
+                            list.SSCLSXMC = "";
+                            let selectC = [];
+                            clsxList.forEach(clsx => {
+                                if(this.clsxList.includes(clsx.DM)){
+                                    selectC.push(clsx)
+                                }
+                            })
+                            list.SSCLSXMC = selectC.map(s => s.MC).join('、')
+                        }
+                    })
+                    this.uploadList = [...uploadList]
+                })
+            }
+        },
+        // 获取uploadList
+        queryUploadList(){
+            return this.uploadList;
+        },
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

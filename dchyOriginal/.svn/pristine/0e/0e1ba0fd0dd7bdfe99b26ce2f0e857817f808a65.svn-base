@@ -1,0 +1,201 @@
+package cn.gtmap.msurveyplat.serviceol.core.service.mq.model;
+
+import cn.gtmap.msurveyplat.common.annotion.DescribeAno;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.*;
+import cn.gtmap.msurveyplat.common.dto.DchyXmglHtxxDto;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">lijingmo</a>
+ * @version 1.0, 2021/02/24
+ * @description 建设单位发布委托信息实体
+ */
+public class JsdwFbwtModel {
+
+    //多测合一测绘工程
+    private List<DchyXmglChgc> dchyXmglChgcList;
+
+    //多测合一测绘项目
+    private List<DchyXmglChxm> dchyXmglChxmList;
+
+    //多测合一测绘项目测量事项
+    private List<DchyXmglChxmClsx> dchyXmglClsxList;
+
+    //多测合一测绘项目测绘单位
+    private List<DchyXmglChxmChdwxx> dchyXmglChxmChdwxxList;
+
+    //多测合一测量事项与测绘单位关系
+    private List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxList;
+
+    //多测合一收件材料
+    private List<DchyXmglSjcl> dchyXmglSjclList;
+
+    //多测合一收件信息
+    private List<DchyXmglSjxx> dchyXmglSjxxList;
+
+    /*合同信息*/
+    private List<DchyXmglHtxx> dchyXmglHtxxList;
+
+    /*测绘单位信息与合同*/
+    private List<DchyXmglHtxxChdwxxGx> chdwxxGxList;
+
+    /*测量事项与合同*/
+    private List<DchyXmglClsxHtxxGx> clsxHtxxGxList;
+
+    /*收件材料与合同*/
+    private List<DchyXmglSjcl> dchyXmglSjclHtList;
+
+    /*收件信息与合同*/
+    private List<DchyXmglSjxx> dchyXmglSjxxHtList;
+
+    /*代办信息*/
+    private List<DchyXmglDbrw> dchyXmglDbrwList;
+
+    @DescribeAno("合同信息")
+    List<DchyXmglHtxxDto> dchyXmglHtxxDtoList;
+
+    Map<String, List<Map<String, String>>> sjcl;
+
+    List<Map<String, String>> sjclList;
+
+    public List<Map<String, String>> getSjclList() {
+        return sjclList;
+    }
+
+    public void setSjclList(List<Map<String, String>> sjclList) {
+        this.sjclList = sjclList;
+    }
+
+    public List<DchyXmglHtxxDto> getDchyXmglHtxxDtoList() {
+        return dchyXmglHtxxDtoList;
+    }
+
+    public void setDchyXmglHtxxDtoList(List<DchyXmglHtxxDto> dchyXmglHtxxDtoList) {
+        this.dchyXmglHtxxDtoList = dchyXmglHtxxDtoList;
+    }
+
+    public Map<String, List<Map<String, String>>> getSjcl() {
+        return sjcl;
+    }
+
+    public void setSjcl(Map<String, List<Map<String, String>>> sjcl) {
+        this.sjcl = sjcl;
+    }
+
+    /*申请信息*/
+    private List<DchyXmglSqxx> dchyXmglSqxxList;
+
+    public List<DchyXmglSjcl> getDchyXmglSjclHtList() {
+        return dchyXmglSjclHtList;
+    }
+
+    public void setDchyXmglSjclHtList(List<DchyXmglSjcl> dchyXmglSjclHtList) {
+        this.dchyXmglSjclHtList = dchyXmglSjclHtList;
+    }
+
+    public List<DchyXmglSjxx> getDchyXmglSjxxHtList() {
+        return dchyXmglSjxxHtList;
+    }
+
+    public void setDchyXmglSjxxHtList(List<DchyXmglSjxx> dchyXmglSjxxHtList) {
+        this.dchyXmglSjxxHtList = dchyXmglSjxxHtList;
+    }
+
+    public List<DchyXmglSqxx> getDchyXmglSqxxList() {
+        return dchyXmglSqxxList;
+    }
+
+    public void setDchyXmglSqxxList(List<DchyXmglSqxx> dchyXmglSqxxList) {
+        this.dchyXmglSqxxList = dchyXmglSqxxList;
+    }
+
+    public List<DchyXmglHtxx> getDchyXmglHtxxList() {
+        return dchyXmglHtxxList;
+    }
+
+    public void setDchyXmglHtxxList(List<DchyXmglHtxx> dchyXmglHtxxList) {
+        this.dchyXmglHtxxList = dchyXmglHtxxList;
+    }
+
+    public List<DchyXmglHtxxChdwxxGx> getChdwxxGxList() {
+        return chdwxxGxList;
+    }
+
+    public void setChdwxxGxList(List<DchyXmglHtxxChdwxxGx> chdwxxGxList) {
+        this.chdwxxGxList = chdwxxGxList;
+    }
+
+    public List<DchyXmglClsxHtxxGx> getClsxHtxxGxList() {
+        return clsxHtxxGxList;
+    }
+
+    public void setClsxHtxxGxList(List<DchyXmglClsxHtxxGx> clsxHtxxGxList) {
+        this.clsxHtxxGxList = clsxHtxxGxList;
+    }
+
+    public List<DchyXmglDbrw> getDchyXmglDbrwList() {
+        return dchyXmglDbrwList;
+    }
+
+    public void setDchyXmglDbrwList(List<DchyXmglDbrw> dchyXmglDbrwList) {
+        this.dchyXmglDbrwList = dchyXmglDbrwList;
+    }
+
+    public List<DchyXmglChxmClsx> getDchyXmglClsxList() {
+        return dchyXmglClsxList;
+    }
+
+    public void setDchyXmglClsxList(List<DchyXmglChxmClsx> dchyXmglClsxList) {
+        this.dchyXmglClsxList = dchyXmglClsxList;
+    }
+
+    public List<DchyXmglChxmChdwxx> getDchyXmglChxmChdwxxList() {
+        return dchyXmglChxmChdwxxList;
+    }
+
+    public void setDchyXmglChxmChdwxxList(List<DchyXmglChxmChdwxx> dchyXmglChxmChdwxxList) {
+        this.dchyXmglChxmChdwxxList = dchyXmglChxmChdwxxList;
+    }
+
+    public List<DchyXmglChgc> getDchyXmglChgcList() {
+        return dchyXmglChgcList;
+    }
+
+    public void setDchyXmglChgcList(List<DchyXmglChgc> dchyXmglChgcList) {
+        this.dchyXmglChgcList = dchyXmglChgcList;
+    }
+
+    public List<DchyXmglChxm> getDchyXmglChxmList() {
+        return dchyXmglChxmList;
+    }
+
+    public void setDchyXmglChxmList(List<DchyXmglChxm> dchyXmglChxmList) {
+        this.dchyXmglChxmList = dchyXmglChxmList;
+    }
+
+    public List<DchyXmglClsxChdwxxGx> getDchyXmglClsxChdwxxGxList() {
+        return dchyXmglClsxChdwxxGxList;
+    }
+
+    public void setDchyXmglClsxChdwxxGxList(List<DchyXmglClsxChdwxxGx> dchyXmglClsxChdwxxGxList) {
+        this.dchyXmglClsxChdwxxGxList = dchyXmglClsxChdwxxGxList;
+    }
+
+    public List<DchyXmglSjcl> getDchyXmglSjclList() {
+        return dchyXmglSjclList;
+    }
+
+    public void setDchyXmglSjclList(List<DchyXmglSjcl> dchyXmglSjclList) {
+        this.dchyXmglSjclList = dchyXmglSjclList;
+    }
+
+    public List<DchyXmglSjxx> getDchyXmglSjxxList() {
+        return dchyXmglSjxxList;
+    }
+
+    public void setDchyXmglSjxxList(List<DchyXmglSjxx> dchyXmglSjxxList) {
+        this.dchyXmglSjxxList = dchyXmglSjxxList;
+    }
+}

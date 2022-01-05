@@ -1,0 +1,41 @@
+
+E
+java:S3740r"/Provide the parametrized type for this generic.(ÔµŒğ
+X
+java:S3457©"AFormat specifiers should be used instead of string concatenation.(Ëì”
+J
+java:S37400"/Provide the parametrized type for this generic.(ì‡ìùÿÿÿÿÿ
+X
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Ëì”
+K
+java:S2209K"5Change this instance-reference to a static reference.(Öá®§
+J
+java:S3740a"/Provide the parametrized type for this generic.(á¶ Íıÿÿÿÿ
+E
+java:S3740`"/Provide the parametrized type for this generic.(¾Ü¥‘
+E
+java:S37404"/Provide the parametrized type for this generic.(Ëó‘Î
+F
+java:S3740¡"/Provide the parametrized type for this generic.(ş†¨²
+e
+java:S3252E"PUse static access with "com.gtis.common.util.CommonUtil" for "formateDateToStr".(‚ù_
+N
+java:S2629"7Use the built-in formatting to construct this argument.(Ëì”
+E
+java:S37405"/Provide the parametrized type for this generic.(’¡æë
+X
+java:S3457¬"AFormat specifiers should be used instead of string concatenation.(éŠ  
+N
+java:S2629©"7Use the built-in formatting to construct this argument.(Ëì”
+J
+java:S3740p"/Provide the parametrized type for this generic.(Èà¾µşÿÿÿÿ
+N
+java:S2629¬"7Use the built-in formatting to construct this argument.(éŠ  
+Z
+java:S3252t"DUse static access with "com.alibaba.fastjson.JSON" for "parseArray".(Ç€¡¥
+X
+java:S3457“"AFormat specifiers should be used instead of string concatenation.(éŠ  
+N
+java:S2629“"7Use the built-in formatting to construct this argument.(éŠ  
+K
+java:S3740˜"/Provide the parametrized type for this generic.(Å˜–Ğıÿÿÿÿ

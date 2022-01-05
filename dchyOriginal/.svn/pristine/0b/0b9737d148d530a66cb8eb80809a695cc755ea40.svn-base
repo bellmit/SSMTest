@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclMapper">
+
+    <select id="querySjclBySjclpzIdAndSjxxId" parameterType="java.lang.String" resultType="java.util.Map">
+        SElECT n.SJCLID
+             , n.SJXXID
+             , n.CLMC
+             , n.FS
+             , n.CLLX
+             , m.MC AS CLLXMC
+             , n.WJZXID
+             , n.CLRQ
+             , n.YS
+             , n.XH
+             , n.CLSX
+             , f.DM AS CLSXMC
+             , n.SJCLPZID
+             , h.GLSXID
+             , h.SSMKID
+             , h.SJSJ
+             , h.SJR
+             , h.TJR
+        FROM DCHY_XMGL_SJCL n
+                 LEFT JOIN DCHY_XMGL_SJXX h ON n.SJXXID = h.SJXXID
+                 LEFT JOIN (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') m ON n.CLLX = m.DM
+                 LEFT JOIN (SELECT MC, DM FROM DCHY_XMGL_ZD WHERE ZDLX = 'CLLX') f ON n.CLSX = f.DM
+        WHERE n.SJCLPZID = #{sjclpzId}
+          AND h.GLSXID = #{glsxId}
+    </select>
+
+    <select id="getHtxxSjclXx" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        c2.chxmid,
+        c2.htxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        z.need
+        from dchy_xmgl_sjxx sj
+        inner join dchy_xmgl_sjcl cl on cl.sjxxid = sj.sjxxid
+        inner join dchy_xmgl_htxx c2 on c2.htxxid = sj.glsxid
+        left join dchy_xmgl_sjclpz z on z.clmc = cl.clmc
+        <where>
+            <choose>
+                <when test="glsxid != null and glsxid != ''">
+                    and c2.chxmid = #{glsxid}
+                </when>
+                <otherwise>
+                    and c2.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getSjclList" resultType="map" parameterType="map">
+        SELECT DISTINCT sj.sjxxid,cl.sjclid,cl.clmc,cl.fs,cl.cllx,cl.ys,z.need,z.SSCLSX_NotUse,cl.wjzxid
+        FROM dchy_xmgl_sjxx sj
+        LEFT JOIN dchy_xmgl_sjcl cl ON cl.sjxxid = sj.sjxxid
+        LEFT JOIN dchy_xmgl_sjclpz z ON z.clmc = cl.clmc
+        <where>
+            <if test="glsxid != null and glsxid != ''">
+                AND sj.glsxid = #{glsxid}
+            </if>
+            <if test="ssmkId != null and ssmkId != ''">
+                AND z.ssmkid = #{ssmkId}
+            </if>
+            <if test="clsxList != null and clsxList.size() > 0 ">
+                <choose>
+                    <when test="clsxList != null and clsxList.size() > 0 ">
+                        AND
+                        <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                            z.SSCLSX_NotUse = #{item}
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        AND z.SSCLSX_NotUse = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="querySjclBySsmkIdAndGlsxid" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT N.SJXXID AS SJXXID
+             , N.GLSXID
+             , N.SSMKID
+             , N.SJSJ
+             , N.SJR
+             , N.TJR
+             , M.SJCLID
+             , M.CLMC
+             , M.FS
+             , M.CLLX
+             , M.WJZXID
+             , M.CLRQ
+             , M.YS
+             , M.XH
+             , M.CLSX
+             , SJCLPZID
+        FROM DCHY_XMGL_SJXX N,
+             DCHY_XMGL_SJCL M
+        WHERE N.SJXXID = M.SJXXID
+          AND N.SSMKID = #{ssmkId}
+          AND N.GLSXID = #{glsxId}
+    </select>
+</mapper>

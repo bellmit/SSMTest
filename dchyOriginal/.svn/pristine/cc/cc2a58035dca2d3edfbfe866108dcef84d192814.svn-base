@@ -1,0 +1,44 @@
+package cn.gtmap.msurveyplat.promanage.core.mapper;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public interface DchyXmglSjclMapper {
+    /**
+     * 获取到收件材料信息
+     *
+     * @param glsxid
+     * @return
+     */
+    List<Map<String, Object>> getHtxxSjclXx(@Param(value = "glsxid") String glsxid);
+
+    /**
+     * 获取到收件材料附件列表，并过滤
+     *
+     * @param paramMap
+     * @return
+     */
+    List<Map<String, Object>> getSjclList(Map<String, Object> paramMap);
+
+    /**
+     * query Sjcl By SsmkId And Glsxid
+     *
+     * @param ssmkId String
+     * @param glsxId String
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> querySjclBySsmkIdAndGlsxid(@Param("ssmkId") String ssmkId, @Param("glsxId") String glsxId);
+
+    /**
+     * query SjclBySjclpzId And SjxxId
+     *
+     * @param sjclpzId String
+     * @param glsxId   String
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> querySjclBySjclpzIdAndSjxxId(@Param("sjclpzId") String sjclpzId, @Param("glsxId") String glsxId);
+}

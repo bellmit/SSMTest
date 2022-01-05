@@ -1,0 +1,259 @@
+<template>
+    <div class="table">
+        <form id="uploadForm">
+            <input type="file" class="bdc-hide" multiple id="attachmentUploadFileInput"/>
+        </form>
+        <div class="layui-table-tool" v-if="showDefaultTool" style="border: 1px solid #e6e6e6;border-bottom: none">
+            <span class="layui-btn main-btn-a" @click="addNew">新增</span>
+            <span class="layui-btn main-btn-a bdc-delete-btn margin-left-10" @click="deleteFile">删除</span>
+        </div>
+        <table class="file-data-table">
+            <thead>
+                <tr>
+                    <th data-field="attachmentName" v-if="showDefaultTool">
+                        <div>
+                            <checkbox @on-change="checkAll" v-model="allCheck"></checkbox>
+                        </div>
+                    </th>
+                    <th data-field="attachmentTypeIndex">
+                        <div class="layui-table-cell " align="center">
+                            <span v-if="type=='upload'">展开/收起</span>
+                            <span v-else>序号</span>
+                        </div>
+                    </th>
+                    <th data-field="attachmentName">
+                        <div class="layui-table-cell " align="center"><span>材料名称</span>
+                        </div>
+                    </th>
+                    <th data-field="attachmentName" v-if="ssmkid=='18'">
+                        <span>所属测量事项</span>
+                    </th>
+                    <th data-field="attachmentCount">
+                        <div class="layui-table-cell " align="center"><span>份数</span>
+                        </div>
+                    </th>
+                    <th data-field="attachmentType" v-if="type!='download'">
+                        <div class="layui-table-cell " align="center"><span>材料类型</span>
+                        </div>
+                    </th>
+                    <th data-field="5" v-if="!deleteColumns.includes('opeartion')">
+                        <div class="layui-table-cell " align="center"><span>操作</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="fileTableData" class="form-edit" >
+                <template v-for="(item,index) in data">
+                    <tr data-index="N" :class="type!='download' ? 'data-type-zone': ''" :key="index">
+                        <td data-field="attachmentName" v-if="showDefaultTool">
+                            <div>
+                                <checkbox v-model="item.checked" :disabled="item.NEED==1" @on-change="checkOne(item,index)"></checkbox>
+                            </div>
+                        </td>
+                        <td data-field="attachmentTypeIndex" style="width: 15%" align="center">
+                            <div v-if="type=='upload'" class="layui-table-cell laytable-cell-5-attachmentTypeIndex">
+                                <span class="telescopic-sign-right pointer hide" @click="openPoint(index)">点击展开<i class="fa fa-caret-right"></i></span>
+                                <span class="telescopic-sign-down pointer" v-if="item.children&&item.children.length" @click="downPoint(index)">点击收起<i class="fa fa-caret-down"></i></span>
+                            </div>
+                            <div v-else class="layui-table-cell laytable-cell-5-attachmentTypeIndex">
+                                <span>{{index+1}}</span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentName" style="width: 25%" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentName"><span v-if="item.NEED==1" class="required-star">*</span>{{item.CLMC}}</div>
+                        </td>
+                        <td data-field="attachmentName" v-if="ssmkid=='18'" style="width: 25%" align="center">
+                            <div :title="item.SSCLSXMC">{{item.SSCLSXMC || '-'}}</div>
+                        </td>
+                        <td data-field="attachmentCount" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentCount">
+                                <span v-if="type=='download'">{{item.FS}}</span>
+                                <Input v-else v-model="item.FS"/>
+                            </div>
+                        </td>
+                        <td data-field="attachmentPageSize" v-if="type!='download'" align="center">
+                            <div class="layui-table-cell laytable-cell-5-attachmentPageSize">
+                                <Select @on-change="selectChange(item,index)" v-model="item.CLLX">
+                                    <Option v-for="(opt,j) in typeHtmlList" :key="j" :value="opt.value">{{opt.label}}</Option>
+                                </Select>
+                            </div>
+                        </td>
+                        <td data-field="5" align="center" data-content="" v-if="!deleteColumns.includes('opeartion')" class="position-relative">
+                            <span class="table-btn-a" v-if="type=='upload'" @click="uploadAttachment(item,index)">上传</span>
+                            <span class="table-btn-a bdc-delete-btn" v-if="type=='upload'&&item.WJZXID" @click="deleteFj(item)">删除</span>
+                            <span class="table-btn-a" v-if="type!='upload'" @click="downloadFj(item,index)">下载</span>
+                        </td>
+                    </tr>
+                    <template v-for="(_item,i) in item.children">
+                        <tr v-if="item.children&&item.children.length" :key="'under'+i+index" class="data-file-zone" :data-index="index">
+                            <td data-field="attachmentName" align="center" :colspan="showDefaultTool?7:type=='download'?4:6" :key="'name'+i">
+                                <div class="layui-table-cell laytable-cell-5-attachmentName file-name-limit" :title="_item.name">{{_item.name}}</div>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<script>
+import _ from "lodash";
+export default {
+    name: "Table",
+    props: {
+        data: { //表数据
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        showDefaultTool: { //是否显示头部操作
+            type: Boolean,
+            default: false
+        },
+        deleteColumns: { // 需要隐藏的列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        ssmkid: {
+            type: String,
+            default: ""
+        },
+        SSCLSXList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        type: {
+            type: String,
+            default: 'upload'
+        }
+    },
+    data() {
+        return {
+            table: "",
+            laypage: "",
+            form: "",
+            curUploadId: "",
+            allCheck: false,
+            typeHtmlList: [
+                {
+                    value: "1",
+                    label: "原件正本"
+                },
+                {
+                    value: "2",
+                    label: "正本复印件"
+                },
+                {
+                    value: "3",
+                    label: "原件副本"
+                },
+                {
+                    value: "4",
+                    label: "副本复印件"
+                },
+                {
+                    value: "5",
+                    label: "其它"
+                }
+            ]
+        }
+    },
+    mounted() {
+        //上传事件订阅
+        let _self = this;
+        $("#attachmentUploadFileInput").on("change", function () {
+            let selected = {
+                files: this.files,
+                index: _self.curUploadId,
+                elem: $(this)
+            }
+            $("tbody .data-type-zone:eq("+_self.curUploadId+") .telescopic-sign-down").show();
+            _self.$emit("upload",selected);
+        });
+    },
+    methods: {
+        uploadAttachment(item,index){
+            this.curUploadId = index;
+            document.getElementById('uploadForm')&&document.getElementById('uploadForm').reset();
+            $("#attachmentUploadFileInput").click();
+        },
+        deleteFj(item){
+            layer.confirm("确认删除该附件？",(index) => {
+                item.wjzxid = item.WJZXID;
+                layer.close(index)
+                let select = {
+                    file: item
+                }
+                this.$emit("deleteFj",select)
+            })
+        },
+        downloadFj(item,i){
+            if(!item.WJZXID){
+                layer.msg("暂无材料")
+            } else if(item.WJZXID){
+                if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                location.href=location.origin + '/msurveyplat-serviceol/fileoperation/download?wjzxid=' +item.WJZXID
+            }
+        },
+        openPoint(index){
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-right").hide();
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-down").show();
+            $("tbody .data-file-zone[data-index='"+index+"']").show();
+        },
+        addNew(){
+            this.$emit("tooladd")
+        },
+        deleteFile(){
+            this.$emit("tooldelete")
+        },
+        downPoint(index){
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-right").show();
+            $("tbody .data-type-zone:eq("+index+") .telescopic-sign-down").hide();
+            $("tbody .data-file-zone[data-index='"+index+"']").hide();
+        },
+        selectChange(select,index){
+            select.index = index;
+            this.$emit("select",select)
+        },
+        checkAll(select){
+            this.$emit("selectall",select)
+        },
+        checkOne(item,index){
+            item.index = index;
+            this.$emit("radio",item)
+        }
+    },
+}
+</script>
+<style scoped>
+    .table >>> .layui-table-body {
+        overflow: visible;
+    }
+    .table >>> .layui-table-box {
+        overflow: visible;
+    }
+    #operation > span {
+        display: inline-block;
+    }
+    .telescopic-sign-right i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top: 2px;
+    }
+    .telescopic-sign-down i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top:2px;
+    }
+    
+</style>

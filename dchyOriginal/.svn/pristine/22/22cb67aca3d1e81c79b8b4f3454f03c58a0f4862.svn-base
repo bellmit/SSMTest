@@ -1,0 +1,39 @@
+<div class="container monitor-appoint-form">
+    <form class="form-horizontal" id="appointForm">
+        <input name="colZpCjbmid" type="hidden" value="{{userId}}"/>
+		<input name="colZpZpbmid" id="colZpZpbmid" type="hidden" value=""/>
+        <div style="width:0px;height: 0px;overflow: hidden;">
+            <textarea id="geoString" name="colGeostring">{{geoString}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="taskName" class="col-xs-2 control-label text-right">任务名称</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" name="colZpDkmc" id="taskName" placeholder="" datatype="*"
+                       nullmsg="<i class='fa fa-info'></i>&nbsp;任务名称不可为空" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="landResource" class="col-xs-2 control-label text-right">地块来源</label>
+            <div class="col-xs-4">
+                <select class="form-control" placeholder="" name="colZpYwlx" id="landResource">
+                </select>
+            </div>
+            <label for="userRoleId" class="col-xs-2 control-label text-right">巡查单位</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" name="colZpZpbmmc" id="userRoleId" placeholder="" datatype="*"
+                       nullmsg="" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="xcnr" class="col-xs-2 control-label text-right">巡查内容</label>
+            <div class="col-xs-10">
+                <textarea class="form-control" placeholder="" name="colZpXcyq" id="xcnr"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 text-center">
+                <button class="btn btn-primary" id="postBtn"> 确定指派 </button>
+            </div>
+        </div>
+    </form>
+</div>

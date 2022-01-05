@@ -1,0 +1,197 @@
+<template>
+    <div class="table upload-table">
+        <form id="uploadForm">
+            <input type="file" class="bdc-hide" multiple id="attachmentUploadFileInput"/>
+        </form>
+        <div class="layui-table-tool" v-if="showDefaultTool" style="border: 1px solid #e6e6e6;border-bottom: none">
+            <span class="layui-btn main-btn-a" @click="addNew">新增</span>
+            <span class="layui-btn main-btn-a bdc-delete-btn margin-left-10" @click="deleteFile">删除</span>
+        </div>
+         <table class="file-data-table">
+            <thead>
+                <tr>
+                    <th data-field="attachmentName" v-if="showDefaultTool">
+                        <div>
+                            <checkbox @on-change="checkAll" v-model="allCheck"></checkbox>
+                        </div>
+                    </th>
+                    <th data-field="attachmentTypeIndex">
+                        <div class="layui-table-cell " align="center">
+                            <span v-if="!readonly">展开/收起</span>
+                            <span v-else>序号</span>
+                        </div>
+                    </th>
+                    <th data-field="attachmentName" v-for="(col,colIndex) in columns" :key="colIndex">
+                        <div class="layui-table-cell " align="center"><span>{{col.title}}</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="fileTableData" class="form-edit" >
+                <template v-for="(item,index) in data">
+                    <tr data-index="N" class="data-type-zone" :key="index">
+                        <td data-field="attachmentName" v-if="showDefaultTool">
+                            <div>
+                                <checkbox v-model="item.checked" :disabled="item.NEED==1" @on-change="checkOne(item,index)"></checkbox>
+                            </div>
+                        </td>
+                        <td data-field="attachmentTypeIndex" style="width: 15%" align="center">
+                            <div v-if="!readonly" class="layui-table-cell laytable-cell-5-attachmentTypeIndex">
+                                <span class="telescopic-sign-right pointer hide" @click="openPoint(index)">点击展开<i class="fa fa-caret-right"></i></span>
+                                <span class="telescopic-sign-down pointer" v-if="item.children&&item.children.length" @click="downPoint(index)">点击收起<i class="fa fa-caret-down"></i></span>
+                            </div>
+                            <div v-else class="layui-table-cell laytable-cell-5-attachmentTypeIndex">
+                                <span>{{index+1}}</span>
+                            </div>
+                        </td>
+                        <td data-field="attachmentName" v-for="(col) in columns" :key="col.field" align="center">
+                            <div data-field="5" align="center" data-content="" v-if="col.type == 'operation'" class="position-relative">
+                                <span class="table-btn-a" v-if="!readonly" @click="uploadAttachment(item,index)">上传</span>
+                                <span class="table-btn-a bdc-delete-btn" v-if="!readonly&&item.WJZXID" @click="deleteFj(item)">删除</span>
+                                <span class="table-btn-a" v-if="readonly" @click="downloadFj(item,index)">下载</span>
+                            </div>
+                            <Input v-else-if="!readonly&&col.type=='input'" v-model="item[col.field]"/>
+                            <Select v-else-if="!readonly&&col.type=='select'" @on-change="changeSelect(item,col,index)" v-model="item[col.field]">
+                                <Option v-for="(opt,index) in col.options" :key='index' :value="opt[col.value]">{{opt[col.label]}}</Option>
+                            </Select>
+                            <div v-else class="layui-table-cell laytable-cell-5-attachmentName"><span v-if="col.field=='CLMC'&&item.NEED==1" class="required-star">*</span>{{item[col.field]}}</div>
+                        </td>
+                    </tr>
+                    <template v-for="(_item,i) in item.children">
+                        <tr v-if="item.children&&item.children.length" :key="'under'+i+index" class="data-file-zone" :data-index="index">
+                            <td data-field="attachmentName" align="center" :colspan="showDefaultTool?(columns.length + 2):(columns.length + 1)" :key="'name'+i">
+                                <div class="layui-table-cell laytable-cell-5-attachmentName file-name-limit" :title="_item.name">{{_item.name}}</div>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</template>
+<script>
+export default {
+    props: {
+        data: { //表数据
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        showDefaultTool: { //是否显示头部操作
+            type: Boolean,
+            default: false
+        },
+        columns: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        readonly: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            allCheck: false
+        }
+    },
+    mounted() {
+        //上传事件订阅
+        let _self = this;
+        $("#attachmentUploadFileInput").on("change", function () {
+            let selected = {
+                files: this.files,
+                index: _self.curUploadId,
+                elem: $(this)
+            }
+            $(".upload-table tbody .data-type-zone:eq("+_self.curUploadId+") .telescopic-sign-down").show();
+            _self.$emit("upload",selected);
+        });
+    },
+    methods: {
+        uploadAttachment(item,index){
+            this.curUploadId = index;
+            document.getElementById('uploadForm')&&document.getElementById('uploadForm').reset();
+            $("#attachmentUploadFileInput").click();
+        },
+        checkAll(select){
+            this.$emit("selectall",select)
+        },
+        changeSelect(item,col,index){
+            let select = item;
+            select.field = col.field;
+            select.index = index;
+            this.$emit('select',select)
+        },
+        deleteFj(item){
+            layer.confirm("确认删除该附件？",(index) => {
+                item.wjzxid = item.WJZXID;
+                layer.close(index)
+                let select = {
+                    file: item
+                }
+                this.$emit("deleteFj",select)
+            })
+        },
+        openPoint(index){
+            $(".upload-table tbody .data-type-zone:eq("+index+") .telescopic-sign-right").hide();
+            $(".upload-table tbody .data-type-zone:eq("+index+") .telescopic-sign-down").show();
+            $(".upload-table tbody .data-file-zone[data-index='"+index+"']").show();
+        },
+        downPoint(index){
+            $(".upload-table tbody .data-type-zone:eq("+index+") .telescopic-sign-right").show();
+            $(".upload-table tbody .data-type-zone:eq("+index+") .telescopic-sign-down").hide();
+            $(".upload-table tbody .data-file-zone[data-index='"+index+"']").hide();
+        },
+        downloadFj(item,i){
+            if(!item.WJZXID){
+                layer.msg("暂无材料")
+            } else if(item.WJZXID){
+                if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                location.href=location.origin + '/msurveyplat-serviceol/fileoperation/download?wjzxid=' +item.WJZXID
+            }
+        },
+        addNew(){
+            this.$emit("tooladd")
+        },
+        deleteFile(){
+            this.$emit("tooldelete")
+        },
+        checkOne(item,index){
+            item.index = index;
+            this.$emit("radio",item)
+        }
+    },
+}
+</script>
+<style scoped>
+    .table {
+        background-color: #fff;
+    }
+    .table >>> .layui-table-body {
+        overflow: visible;
+    }
+    .table >>> .layui-table-box {
+        overflow: visible;
+    }
+    #operation > span {
+        display: inline-block;
+    }
+    .telescopic-sign-right i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top: 2px;
+    }
+    .telescopic-sign-down i{
+        padding-left: 5px;
+        font-size:150%;
+        position: relative;
+        top:2px;
+    }
+</style>

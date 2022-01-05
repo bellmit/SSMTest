@@ -1,0 +1,23 @@
+const data = {
+    state: {
+        userInfo: {},
+        mlkEditInfo: {},
+        commissionEditInfo: null
+    },
+    setUserInfoAction(newValue){
+        this.state.userInfo = {...newValue}
+    },
+    setMlkInfo(value){
+        this.state.mlkEditInfo = {...value}
+    },
+    setCommissionInfo(value){
+        this.state.commissionEditInfo = value ? {...value} : null
+    },
+    getMlkInfo(){
+        return this.state.mlkEditInfo
+    },
+    getCommissionInfo(){
+        return this.state.commissionEditInfo
+    }
+}
+export default data;

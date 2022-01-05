@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title class="bdc_processDefName">“多测合一”成果管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../../layui/css/layui.css" media="all" rel="stylesheet">
+    <link href="../../css/dchyxxglpt/management.css" media="all" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <h3>“多测合一”信息管理平台</h3>
+        <p>
+            <button class="layui-btn project-tree-btn">成果管理</button>
+            <button class="layui-btn project-tree-btn">成果共享</button>
+        </p>
+    </div>
+    <div class="management-contanier">
+        <div class="left-widgets">
+            <ul class="left-nav">
+                <li>
+                    <a href="javascript:;">
+						<i class="fa fa-file-text-o"></i>
+						<p>资源服务</p>
+					</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+						<i class="fa fa-database"></i>
+						<p>图层控制</p>
+					</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+						<i class="fa fa-life-ring"></i>
+						<p>属性识别</p>
+					</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+						<i class="fa fa-search"></i>
+						<p>信息查询</p>
+					</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+						<i class="fa fa-bar-chart"></i>
+						<p>分析统计</p>
+					</a>
+                </li>
+            </ul>
+            <div class="map-left-pane">
+                <div class="widget-pane resource-content show-detail">
+                    <div class="widget-pane-top">
+                        <span class="widget-label">
+                             <i>◎</i>
+                             资源服务
+                         </span>
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="widget-pane-detail">
+                        <p class="detail-query">
+                            <input type="text" name="query" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" title="重置">
+                                <i class="layui-icon">&#xe666;</i>
+                            </button>
+                        </p>
+                        <div id="treeMenu" class="demo-tree-more"></div>
+                    </div>
+                </div>
+                <div class="widget-pane layer-content">
+                    <div class="widget-pane-top">
+                        <span class="widget-label">
+                             <i>◎</i>
+                             图层控制
+                         </span>
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="widget-pane-detail">
+                        <div class="slider-content">
+                            <h3><i class="layui-icon layui-icon-triangle-r"></i>“多测合一”图层</h3>
+                            <div id="slideTest2" class="demo-slider"></div>
+                        </div>
+
+                        <form class="layui-form" action="">
+                            <ul class="layer-list-control" id="layerList">
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工范围" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工基地面积图" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工分层房屋面" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工地下室" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工绿地面积图" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="规划竣工内部道路" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//4/images/24df11f5b383e4f08dc97138ef5060ec"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="房屋基底范围" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="地下室范围" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="界址点" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//1/images/03460beb13999164aa30f5a4c30d2f23"
+                                            alt="">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-check-box">
+                                        <i class="layui-icon layui-icon-triangle-d"></i>
+                                        <input type="checkbox" name="ghjgfw" lay-skin="primary" title="宗地" checked="">
+                                    </div>
+                                    <div class="layer-img">
+                                        <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//10/images/61c9bd006ef436d8d7f1d69e98dbfd08"
+                                            alt="">
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+                <div class="widget-pane sxsb-content">
+                    <div class="widget-pane-top">
+                        <span class="widget-label">
+                             <i>◎</i>
+                             属性识别
+                         </span>
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="widget-pane-detail">
+                        <form class="layui-form" action="">
+                            <div class="detail-top">
+                                <input type="checkbox" name="ghjgfw" lay-skin="primary" title="保留结果" checked>
+                                <span class="delete-btn">
+                                    <i class="layui-icon layui-icon-delete"></i>清空
+                                </span>
+                            </div>
+                        </form>
+                        <div class="directionDiv-0">
+                            <div class="directionDiv-0-1">
+                                <img src="../../image/management/click.png" alt="请点击地图">
+                            </div>
+                            <div class="attention-box">
+                                <img id="attentionImg" src="../../image/management/attention.png" alt="注意">
+                                <span>请直接点击地图查询</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="widget-pane message-content">
+                    <div class="widget-pane-top">
+                        <span class="widget-label">
+                             <i>◎</i>
+                             信息查询
+                         </span>
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="widget-pane-detail">
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">输入面板</li>
+                                <li>查询结果</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <form class="layui-form" action="">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">选择图层</label>
+                                            <div class="layui-input-block">
+                                                <select name="city" lay-verify="required">
+                                                    <option value=""></option>
+                                                    <option value="0">规划竣工测量</option>
+                                                    <option value="1">地籍测量</option>
+                                                    <option value="2">房产测量</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">选择字段</label>
+                                            <div class="layui-input-block">
+                                                <select name="city" lay-verify="required">
+                                                    <option value=""></option>
+                                                    <option value="0">规划竣工范围</option>
+                                                    <option value="1">规划竣工基地面积图</option>
+                                                    <option value="2">规划竣工分层房屋面</option>
+                                                    <option value="3">规划竣工地下室</option>
+                                                    <option value="4">规划竣工绿地面积图</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn message-query-btn" lay-submit lay-filter="message-query">查询</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="layui-tab-item query-result">
+                                    <form class="layui-form" action="">
+                                        <div class="detail-top">
+                                            <input type="checkbox" name="ghjgfw" lay-skin="primary" title="保留结果" checked>
+                                            <span class="total-count">
+                                                共计：<span>4</span>条
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <ul class="message-list" id="messageResult"></ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="widget-pane analyse-content">
+                    <div class="widget-pane-top">
+                        <span class="widget-label">
+                             <i>◎</i>
+                             分析统计
+                         </span>
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="widget-pane-detail">
+                        <div class="analyse-btn">
+                            <button class="layui-btn upload-btn">
+                                <i class="layui-icon layui-icon-upload-drag"></i>
+                                上传</button>
+                            <button class="layui-btn pointer-btn">
+                                <i class="layui-icon layui-icon-edit"></i>
+                                绘面</button>
+                            <button class="layui-btn delete-btn">
+                                <i class="layui-icon layui-icon-delete"></i>
+                                清除</button>
+                        </div>
+                        <div>
+                            <form class="layui-form" action="">
+                                <select>
+                                <option value=""></option>
+                                <option value="0">规划竣工范围统计</option>
+                                <option value="1">规划竣工基地面积统计</option>
+                                <option value="2">规划竣工绿地面积统计</option>
+                            </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 地图 -->
+        <div class="right-map">
+            <img src="../../image/dchyxxglpt/index/u0.jpg" alt="" class="bdc-map-img" id="mapImg"/>
+            <img src="../../image/management/u107.png" alt="" class="bdc-map-tool" />
+        </div>
+        <!-- 地图工具条 -->
+        <div class="tool-widgets">
+            <div class="tool-control-btn">
+                <i class="layui-icon layui-icon-triangle-r"></i>
+            </div>
+            <ul>
+                <li class="tool-list-box">
+                    <a href="javascript:;">
+                        <span><i class="layui-icon layui-icon-location"></i>行政区定位</span>	
+                    </a>
+                    <div class="tool-item">
+                        <h3>行政区定位
+                            <i class="layui-icon layui-icon-close" title="关闭"></i>
+                        </h3>
+                        <div class="tool-content">
+                            <ol>
+                                <li class="active"><a href="javascript:;">徐州市</a>
+                                </li>
+                                <li><a href="javascript:;">南京市</a></li>
+                                <li><a href="javascript:;">苏州市</a></li>
+                                <li><a href="javascript:;">扬州市</a></li>
+                                <li><a href="javascript:;">镇江市</a></li>
+                                <li><a href="javascript:;">南通市</a></li>
+                                <li><a href="javascript:;">无锡市</a></li>
+                                <li><a href="javascript:;">淮安市</a></li>
+                                <li><a href="javascript:;">宿迁市</a></li>
+                                <li><a href="javascript:;">泰州市</a></li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="tool-list-box">
+                    <a href="javascript:;">
+                        <span><i class="layui-icon layui-icon-form"></i>添加服务</span>
+                    </a>
+                    <div class="tool-item">
+                        <h3>添加服务
+                            <i class="layui-icon layui-icon-close" title="关闭"></i>
+                        </h3>
+                        <div class="tool-content ">
+                            <div class="add-service-box">
+                                <form class="layui-form" action="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label"><i class="required-icon">*</i>服务名称</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入服务名称" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label"><i class="required-icon">*</i>服务类型</label>
+                                        <div class="layui-input-block">
+                                            <select name="interest" lay-filter="aihao" placeholder="请选择服务类型"> 
+                                            <option value=""></option>
+                                            <option value="0">静态切片</option>
+                                            <option value="1">动态服务</option>
+
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <input type="text" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-item btn-box">
+                                        <button class="layui-btn add-btn">添加</button>
+                                        <button class="layui-btn clear-btn">清除</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="tool-list-box">
+                    <a href="javascript:;">
+                        <span><i class="layui-icon layui-icon-upload-drag"></i>导入文件</span>
+                    </a>
+                    <div class="tool-item">
+                        <h3>导入文件
+                            <i class="layui-icon layui-icon-close" title="关闭"></i>
+                        </h3>
+                        <div class="tool-content ">
+                            <div class="upload-box">
+                                <div class="layui-upload-drag" id="test10">
+                                    <i class="layui-icon"></i>
+                                    <p>点击上传，或将文件拖拽到此处</p>
+                                    <div class="layui-hide" id="uploadDemoView">
+                                        <hr>
+                                        <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                                    </div>
+                                </div>
+                                <i>支持 shp/txt/excel/dwg/zip 文件导入</i>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="tool-list-box">
+                    <a href="javascript:;">
+                        <span><i class="layui-icon layui-icon-set"></i>地图工具</span>
+                    </a>
+                    <div class="tool-item map-tool">
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">地图量算</li>
+                                <li>地图打印</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <ul class="map-measurement">
+                                        <li>
+                                            <i class="layui-icon layui-icon-set"></i>
+                                            <p>测距</p>
+                                        </li>
+                                        <li>
+                                            <i class="layui-icon layui-icon-component"></i>
+                                            <p>测面</p>
+                                        </li>
+                                        <li>
+                                            <i class="layui-icon layui-icon-location"></i>
+                                            <p>坐标点拾取</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="layui-tab-item map-print">
+                                    <form class="layui-form" action="">
+
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">纸张选择</label>
+                                            <div class="layui-input-block">
+                                                <select name="zzxz" lay-filter="zzxz" placeholder="请选择"> 
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">输出格式</label>
+                                            <div class="layui-input-block">
+                                                <select name="scgs" lay-filter="scgs" placeholder="请选择"> 
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">标题</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入打印标题" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">作者</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="author" lay-verify="author" autocomplete="off" placeholder="请输入作者" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">版权</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="copyright" lay-verify="copyright" autocomplete="off" placeholder="请输入版权" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item btn-box">
+                                            <button class="layui-btn delete-btn">
+                                            <i class="layui-icon layui-icon-print"></i>
+                                            打印</button>
+                                            <button class="layui-btn delete-btn">
+                                            <i class="layui-icon layui-icon-export"></i>
+                                            导出</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 项目信息 -->
+        <div class="project-info">
+            <div class="btn-box">
+                <a href="dchyxmsmx.html" target="_blank"><button class="layui-btn project-tree-btn">项目一棵树</button></a>
+                <a href="spaceTree.html" target="_blank"><button class="layui-btn space-tree-btn">空间一棵树</button></a>
+            </div>
+            <h4>项目信息</h4>
+            <table class="layui-table">
+                <tbody>
+                    <tr>
+                        <td>项目编号</td>
+                        <td>江阴市交通运输局 （2020）00101号</td>
+                    </tr>
+                    <tr>
+                        <td>项目名称</td>
+                        <td>港城大道西延段工程</td>
+                    </tr>
+                    <tr>
+                        <td>项目地址</td>
+                        <td>璜土镇东起扬子江路，西至常州界</td>
+                    </tr>
+                    <tr>
+                        <td>建设单位</td>
+                        <td>江阴市交通运输局</td>
+                    </tr>
+                    <tr>
+                        <td>已完成测量事项</td>
+                        <td>
+                            <form class="layui-form" action="">
+                                <input type="checkbox" name="" title="地形测量" lay-skin="primary" checked/>
+                                <input type="checkbox" name="" title="规划核实测量" lay-skin="primary" />
+                                <input type="checkbox" name="" title="拨地测量" lay-skin="primary" />
+                                <input type="checkbox" name="" title="地籍测量" lay-skin="primary" />
+                                <input type="checkbox" name="" title="防线测量" lay-skin="primary" />
+                                <input type="checkbox" name="" title="房产测量" lay-skin="primary" />
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 弹出项目信息隐形框 -->
+        <div class="invisible-div">
+
+        </div>
+    </div>
+    <!--图层控制-->
+    <!-- <script type="text/html" id="layerTpl">
+        {{# layui.each(d, function(index, item){ }}
+        <li>
+            <div class="list-check-box">
+                <i class="layui-icon layui-icon-triangle-r"></i>
+                 <span>{{item.title}}</span> 
+                <input type="checkbox" lay-skin="primary" checked=""/>
+            </div>
+            <div class="layer-img">
+                <img src="http://192.168.1.46:9011/resp/ff8080816c8588c3016c889a93e4000a/ags_rest//1/images/03460beb13999164aa30f5a4c30d2f23"
+                    alt="">
+            </div>
+        </li>
+        {{# })}}
+    </script> -->
+    <!--信息查询结果-->
+    <script type="text/html" id="messageResultTpl">
+        {{# layui.each(d, function(index, item){ }}
+        <li>
+            <p>{{item.num}}</p>
+            <div>
+                <div class="left">
+                    <p>标识码：{{item.bsm}}</p>
+                    <p>要素代码：{{item.ysdm}}</p>
+                </div>
+                <div class="right">
+                    <i class="layui-icon layui-icon-location"></i>
+                </div>
+            </div>
+        </li>
+        {{# })}}
+    </script>
+    <script src="../../lib/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/dchyxxglpt/management.js"></script>
+    <script>
+        layui.config({
+            base: '../../lib/layui_exts/' //配置 layui 文件tree扩展组件存放的基础目录
+        }).extend({
+            protree: 'proTree/protree'
+        }).use(['protree'], function () {
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyCgglGxywrzMapper">
+    <!--获取共享业务日志信息分页数据 -->
+    <select id="getGxywrzxxByPage" parameterType="java.util.Map" resultType="map">
+        SELECT t.gxbmmc,t.gxjsmc,t.gxywmc,count(t.rzid) AS gxcs
+        FROM DCHY_CGGL_GXYWRZ t
+        <where>
+            <if test="gxbmid != null and gxbmid !=''">
+                AND t.gxbmid=#{gxbmid}
+            </if>
+            <if test="gxjsid != null and gxjsid !=''">
+                AND t.gxjsid=#{gxjsid}
+            </if>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.gxsj <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.gxsj <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY t.gxbmmc,t.gxjsmc,t.gxywmc
+    </select>
+
+    <select id="getGxywrzTjxx" parameterType="java.util.Map" resultType="map">
+        SELECT t.gxywmc,count(t.rzid) AS gxcs
+        FROM DCHY_CGGL_GXYWRZ t
+        <where>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.gxsj <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.gxsj <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="gxbmid != null and gxbmid !=''">
+                AND t.gxbmid=#{gxbmid}
+            </if>
+            <if test="gxjsid != null and gxjsid !=''">
+                AND t.gxjsid=#{gxjsid}
+            </if>
+        </where>
+        GROUP BY t.gxywmc
+    </select>
+
+
+    <select id="getGxywrzjlByPage" parameterType="java.util.Map" resultType="map">
+        SELECT t.GXBMMC,t.GXJSMC,t.GXRMC,t.GXYWMC,
+        to_char(t.GXSJ,'yyyy-mm-dd hh24:mi:ss') as gxsj
+        FROM DCHY_CGGL_GXYWRZ t
+        <where>
+            <if test="gxbmid != null and gxbmid !=''">
+                AND t.gxbmid=#{gxbmid}
+            </if>
+            <if test="gxjsid != null and gxjsid !=''">
+                AND t.gxjsid=#{gxjsid}
+            </if>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.gxsj <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.gxsj <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="gxywmc != null and gxywmc !=''">
+                AND t.gxywmc like '%'||#{gxywmc}||'%'
+            </if>
+        </where>
+        order by t.gxsj desc
+    </select>
+
+</mapper>

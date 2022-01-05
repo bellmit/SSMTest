@@ -1,0 +1,139 @@
+
+]
+java:S3457×"AFormat specifiers should be used instead of string concatenation.(ÊöÃøÿÿÿÿ
+W
+java:S3457¸"AFormat specifiers should be used instead of string concatenation.(ÆÿÉ
+<
+java:S1905Q"&Remove this unnecessary cast to "Map".(¹øÆú
+S
+java:S2629Ô"7Use the built-in formatting to construct this argument.(ÊŸ³éÿÿÿÿÿ
+i
+java:S3776ô"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(Óº¯Œ
+X
+java:S3457Ö"AFormat specifiers should be used instead of string concatenation.(¶Ú†
+n
+java:S3776o"SRefactor this method to reduce its Cognitive Complexity from 204 to the 15 allowed.(ğşşÿÿÿÿ
+`
+java:S1192×"IDefine a constant instead of duplicating this literal "fileName" 7 times.(¬¼™Ş
+U
+java:S2629—"7Use the built-in formatting to construct this argument.(Î¥•8Ïúê™/
+P
+java:S4719ÿ"9Replace charset name argument with StandardCharsets.UTF_8(€ò­·
+]
+java:S3457Õ"AFormat specifiers should be used instead of string concatenation.(ùÔ«Òıÿÿÿÿ
+X
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Š¼µ
+]
+java:S3457»"AFormat specifiers should be used instead of string concatenation.(¤Áúñúÿÿÿÿ
+^
+java:S1192Ú"GDefine a constant instead of duplicating this literal "chgcid" 4 times.(›ĞÕ
+s
+java:S2629Ì"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(ĞŞ“ä
+]
+java:S3457½"AFormat specifiers should be used instead of string concatenation.(ÅÕÜúÿÿÿÿ
+,
+java:S3457ª"Not enough arguments.(î®µ
+N
+java:S2629Ö"7Use the built-in formatting to construct this argument.(¶Ú†
+Q
+java:S1141—"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+f
+java:S1192Ô"JDefine a constant instead of duplicating this literal "*********" 4 times.(ÊŸ³éÿÿÿÿÿ
+R	java:S125ü"<This block of commented-out lines of code should be removed.(İï˜
+g
+java:S1192™"PDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› :{}" 3 times.(î®µ
+S
+java:S2629»"7Use the built-in formatting to construct this argument.(¤Áúñúÿÿÿÿ
+S
+java:S2589­"7Remove this expression which always evaluates to "true"(¦·úÓøÿÿÿÿ
+,
+java:S3457"Not enough arguments.(î®µ
+]
+java:S3457Ê"AFormat specifiers should be used instead of string concatenation.(ó™í‹øÿÿÿÿ
+`
+java:S3252P"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(´ÅÖ°şÿÿÿÿ
+s
+java:S2629"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(Š¼µ
+_
+java:S3457¶"AFormat specifiers should be used instead of string concatenation.(Ã§û¯8Ïúê™/
+S
+java:S2629Õ"7Use the built-in formatting to construct this argument.(ùÔ«Òıÿÿÿÿ
+j
+java:S4719’"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(«òæÒúÿÿÿÿ
+j
+java:S4719‡"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(«òæÒúÿÿÿÿ
+X
+java:S3457Ì"AFormat specifiers should be used instead of string concatenation.(ĞŞ“ä
+U
+java:S11182":Add a private constructor to hide the implicit public one.(ì¥Šÿÿÿÿÿ
+8
+java:S1643™"Use a StringBuilder instead.(‘ÿÚÉøÿÿÿÿ
+S
+java:S2629×"7Use the built-in formatting to construct this argument.(ÊöÃøÿÿÿÿ
+^
+java:S1192Õ"GDefine a constant instead of duplicating this literal "glsxid" 9 times.(—¬ÛÇ
+_
+java:S1192ò"HDefine a constant instead of duplicating this literal "chxmid" 12 times.(€¶¹¹
+F
+java:S2093¢"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+a
+java:S3252û"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(Ç…”ùÿÿÿÿ
+=
+java:S1168²"&Return an empty array instead of null.(¥¹ï
+J
+java:S3740t"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+^
+java:S1192Ù"GDefine a constant instead of duplicating this literal "chgcbh" 4 times.(•ÌëÓ
+X
+java:S2259¶"AA "NullPointerException" could be thrown; "map" is nullable here.(Ñ××
+b
+java:S1192X"GDefine a constant instead of duplicating this literal "sqxxid" 7 times.(öòı¥ÿÿÿÿÿ
+Y	java:S125Ø"<This block of commented-out lines of code should be removed.(Û‹ÑŠ8Ïúê™/
+,
+java:S3457™"Not enough arguments.(î®µ
+1
+java:S3457"Not enough arguments.(Öšºüÿÿÿÿ
+i
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(˜œøö
+x
+java:S2629Ê"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(ó™í‹øÿÿÿÿ
+]
+java:S2259¯"AA "NullPointerException" could be thrown; "map" is nullable here.(ºÈ†ñıÿÿÿÿ
+i
+java:S3776¾"RRefactor this method to reduce its Cognitive Complexity from 46 to the 15 allowed.(‡¼›
+g
+java:S3776H"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(¼Î»
+c
+java:S1192ñ"GDefine a constant instead of duplicating this literal "clsxid" 6 times.(·–õıÿÿÿÿ
+2
+java:S3626´"Remove this redundant jump.(ÉŠ©ƒ
+K
+java:S3740¶"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+K
+java:S3740¸"/Provide the parametrized type for this generic.(¢Ä´Øùÿÿÿÿ
+K
+java:S3740º"/Provide the parametrized type for this generic.(‘¤¥™úÿÿÿÿ
+]
+java:S3457Ë"AFormat specifiers should be used instead of string concatenation.(ëÿÕ¾ûÿÿÿÿ
+n
+java:S3776ò"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(ÃÚ»¹úÿÿÿÿ
+r
+java:S2629¸"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(ÆÿÉ
+S
+java:S2629½"7Use the built-in formatting to construct this argument.(ÅÕÜúÿÿÿÿ
+h
+java:S3776…"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(öÒ0
+<
+java:S1905ü"&Remove this unnecessary cast to "Map".(—Ïû2
+J
+java:S3740o"/Provide the parametrized type for this generic.(ğşşÿÿÿÿ
+x
+java:S2629Ë"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(ëÿÕ¾ûÿÿÿÿ
+L
+java:S1751ş"5Remove this "break" statement or make it conditional.(›ûä·
+_
+java:S3457—"AFormat specifiers should be used instead of string concatenation.(Î¥•8Ïúê™/
+]
+java:S3457Ô"AFormat specifiers should be used instead of string concatenation.(ÊŸ³éÿÿÿÿÿ
+]
+java:S1192Ô"FDefine a constant instead of duplicating this literal "bytes" 7 times.(ùˆè·

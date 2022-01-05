@@ -1,0 +1,97 @@
+<div class="attrs">
+    <div class="tab-content">
+        <!--全局配置内容-->
+        <div role="tabpanel" class="tab-pane active clear-fix" id="home">
+            <div class="pull-left attrs-wrapper">
+                <form class="form-horizontal" id="global-form">
+                    <div class="form-group">
+                        <label for="attr_xzqdm" class="col-sm-3 control-label">行政区代码</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-input save-global" id="attr_xzqdm" name="defaultRegionCode" placeholder="" value="{{defaultRegionCode}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="btwz" class="col-sm-3 control-label">标题文字</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-input save-global" id="btwz" name="title" placeholder="" value="{{title}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="btwz" class="col-sm-3 control-label">标题图片</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-input save-global" id="bttp" name="logo" value="{{logo}}">
+                            <a href="#" title="" class="file">
+                                <input type="file" id="file" name="file"/>
+                                <i class="fa fa-cloud-upload" aria-hidden="true"></i> 上传图片
+                            </a>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="logo" class="col-sm-3 control-label">logo可见性</label>-->
+                        <!--<div class="col-sm-8" data-on-label="显示" data-off-label="隐藏">-->
+                            <!--<input type="checkbox" data-field="logoVisible" class="form-control switch-box form-input"-->
+                                   <!--data-on-label="显示" data-off-label="隐藏" id="logo" {{#if logoVisible}}checked{{/if}}>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="zbkjx" class="col-sm-3 control-label">坐标可见</label>
+                        <div class="col-sm-8" data-on-label="显示" data-off-label="隐藏">
+                            <input type="checkbox" data-field="coordinateVisible" class="form-control switch-box form-input" id="zbkjx" {{#if coordinateVisible}}checked{{/if}}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mbmc" class="col-sm-3 control-label">模板名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-input save-global" id="mbmc" name="name" placeholder="" value="{{name}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="msxx" class="col-sm-3 control-label">描述信息</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control form-input save-global" id="msxx" name="description">{{description}}</textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="pull-left geometry-service">
+                <form class="form-horizontal " id="dlfwdz-form">
+                    <div class="form-group">
+                        <label for="dlfwdz" class="col-sm-2 control-label">地理服务地址</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-input save-global" id="dlfwdz" name="geometryService.url" placeholder="" value="{{geometryService.url}}">
+                        </div>
+                    </div>
+                </form>
+                <!--地图初始范围设置等-->
+                <div class="form-group extent-setting-wrapper">
+                    <label class="col-sm-2 control-label">地图初始范围</label>
+                    <div class="col-sm-9"><a class="btn btn-default" id="extentSetBtn">点击设置</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style scoped>
+    .attrs-wrapper {
+        width: 50%;
+        padding: 30px;
+        margin-top: 10px;
+        border-right: #e8eaf6 solid 1px;
+    }
+
+    .geometry-service {
+        width: 50%;
+        padding: 30px;
+        margin-top: 10px;
+    }
+
+    .extent-setting-wrapper{
+        margin-left: -15px;
+        margin-right: -15px;
+        line-height: 34px;
+    }
+
+    .extent-setting-wrapper >label{
+        text-align: right;
+    }
+</style>

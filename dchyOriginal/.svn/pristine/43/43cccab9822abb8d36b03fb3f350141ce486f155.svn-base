@@ -1,0 +1,226 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="工程编号" class="form-list-search" prop="gcbh">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getPublishList(1,formInline.pageSize)" v-model="formInline.gcbh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称" class="form-list-search" prop="gcmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getPublishList(1,formInline.pageSize)" v-model="formInline.gcmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="当前状态" class="form-list-search" prop="xmzt">
+                            <Select v-model="formInline.xmzt" clearable class="form-search-item">
+                                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='20'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getPublishList(1,formInline.pageSize)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div>
+            <Table
+                :cols="tableCols"
+                :data="publishList"
+                :count="totalNum"
+                :page="formInline.page"
+                :size="formInline.pageSize"
+                :func="getPublishList"
+                :operation="operationList"
+                :tool="tool"
+                @view="viewDetail"
+                @edit="editDetail"
+                @delete="deletePublish"
+                @btn1="publishNew"
+                @deleteOpr="deleteOpr"
+            ></Table>
+        </div>
+    </div>
+</template>
+<script>
+import { getPublishList, initPublish, deleteInitInfo } from "../../../service/publish"
+import { getDictInfo } from "../../../service/mlk"
+export default {
+    data() {
+        return {
+            formInline: {
+                gcbh: "",
+                gcmc: "",
+                xmzt: "",
+                page: 1,
+                pageSize: 10
+            },
+            ruleInline: {},
+            ztList: [],
+            publishList: [],
+            totalNum: 0,
+            operationList: ["view","edit","delete"],
+            tool: '<div>' +
+                    '<span class="layui-btn main-btn-a" lay-event="btn1">发布新需求</span>' +
+                '</div>',
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                {
+                    field: "XQFBBH",
+                    title: "需求发布编号",
+                    align: "center"
+                },
+                {
+                    field: "GCBH",
+                    title: "工程编号",
+                    align: "center"
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center",
+                },
+                {
+                    field: "CGFS",
+                    title: "采购方式",
+                    align: "center"
+                },
+                {
+                    field: "CLSX",
+                    title: "测绘事项",
+                    align: "center"
+                },
+                {
+                    field: "FBSJ",
+                    title: "发布时间",
+                    align: "center"
+                },
+                {
+                    field: "XMZT",
+                    title: "当前状态",
+                    align: "center",
+                    templet: function(d){
+                        let className= d.XMZT==="已办结" ? "color-finish" :d.XMZT==="已备案"?"color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+d.XMZT+"</span>"
+                    }
+                },
+                {
+                    title: "操作",
+                    minWidth: 240,
+                    align: "center",
+                    toolbar: "#operation"
+                }
+            ],
+            userInfo: {}
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/construction/publish/add")&&to.query.type!="add"){
+            this.pageInfo["publishPageInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["publishPageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["publishPageInfo"]){
+            this.formInline = {...this.pageInfo["publishPageInfo"]}
+        }
+    },
+    mounted() {
+        this.getPublishList();
+        this.getDictInfo();
+        this.userInfo = sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem("userInfo")) : ""
+    },
+    methods: {
+        getDictInfo(){
+            let params = {
+                zdlx: ["XMZT"]
+            }
+            getDictInfo(params).then(res => {
+                this.ztList = res.data.dataList;
+                this.ztList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        // 初始化发布信息
+        initPublish(){
+            initPublish().then(res => {
+                this.$router.push({path:"/construction/publish/add",query: {chxmid: res.data.chxmid,type:"add",xqfbbh: res.data.xqfbbh}})
+            })
+        },
+        // 删除操作
+        deleteOpr(obj) {
+            let userInfo = sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem("userInfo")) : ""
+            this.publishList.forEach((list, index) => {
+                if (list.FBR != userInfo.id || list.XMZT == "已备案" || list.XMZT == "已办结") {
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='edit']").addClass("table-btn-disabled cursor-not-allowed");
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='delete']").addClass("table-btn-disabled cursor-not-allowed");
+                }
+            });
+        },
+        // 重置查询表单
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                pageSize: this.formInline.pageSize
+            }
+        },
+        // 查询
+        getPublishList(page,size){
+            if(page){
+                this.formInline.page = page
+                this.formInline.pageSize = size
+            }
+            this.$loading.show("加载中...")
+            getPublishList(this.formInline).then(res => {
+                this.$loading.close()
+                this.publishList = res.data.dataList||[];
+                this.totalNum = res.data.totalNum||0;
+            })
+        },
+        viewDetail(data){
+           this.$router.push({path: "/construction/publish/add", query: {gcbh: data.GCBH,type:"view",chxmid: data.CHXMID}})
+        },
+        editDetail(data){
+            if(data.FBR != this.userInfo.id || data.XMZT == "已备案" || data.XMZT == "已办结"){
+                return;
+            }
+            this.$router.push({path: "/construction/publish/add", query: {gcbh: data.GCBH,type:"edit",chxmid: data.CHXMID}})
+        },
+        deletePublish(data){
+            if(data.FBR != this.userInfo.id || data.XMZT == "已备案" || data.XMZT == "已办结"){
+                return;
+            }
+            layer.confirm("确认删除?",(index) => {
+                let params = {
+                    chxmid: data.CHXMID
+                }
+                this.$loading.show("删除中...")
+                deleteInitInfo(params).then(res => {
+                    this.$loading.close();
+                    this.getPublishList();
+                })
+                layer.close(index)
+            })
+        },
+        publishNew(){
+            this.initPublish()
+        }
+    },
+}
+</script>

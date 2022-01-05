@@ -1,0 +1,76 @@
+<div class="widget-panel-title">
+    坐标查询
+</div>
+<div class="panel-body">
+    <div class="row tools-wrapper">
+        <div class="col-md-7 col-xs-7">
+            <span class="text-muted pull-left" style="width: 100%;" id="iDescPointSpan">无信息</span>
+        </div>
+        <div class="col-md-5 col-xs-5" style="padding: 0 5px">
+            <div class="pull-right omp-switch omp-switch-on" id="iSwitchPointBtn"><em>开</em><i></i></div>
+            <a class="btn btn-primary btn-xs pull-right text-primary hidden m-r-5" id="iClearPointBtn"><i class="iconfont">&#xe60b;</i>清空</a>
+        </div>
+    </div>
+    <div id="resultPointDiv" class="identify-content">
+        <ul id="layerFoldlPoint" class="Huifold hidden">
+        </ul>
+    </div>
+</div>
+
+<script id="identifyResultHuiTpl" type="x-tpl-mustache">
+<li class="item" data-layerId={{layerName}}>
+    <h4>
+        {{layerName}}
+        <span class="badge pull-right">{{count}}</span>
+        <b><i class="Hui-iconfont Hui-iconfont-arrow2-bottom"></i></b>
+    </h4>
+    <div class="info">
+        <hr/>
+        <div class="scrollContent">
+            {{#result}}
+            <div class="item-content" data-objectid={{objectid}} data-layerid="{{layerName}}">
+                {{#data}}
+                <p>{{key}}:&nbsp;{{value}}</p>
+                {{/data}}
+            </div>
+            {{/result}}
+        </div>
+    </div>
+</li>
+</script>
+
+<script id="identifyResultTpl" type="x-tpl-mustache">
+{{#result}}
+<div class="item-content" data-objectid={{objectid}}>
+    <h4>图层:{{layerName}}</h4>
+    {{#data}}
+    <p>{{key}}:{{value}}</p>
+    {{/data}}
+</div>
+{{/result}}
+</script>
+
+<script id="infoContentTpl" type="x-tpl-mustache">
+ <div class="info-content">
+     <ul style="text-align:left;">
+         {{#data}}
+         <li title="{{value}}">{{key}}:{{value}}</li>
+         {{/data}}
+     </ul>
+ </div>
+</script>
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>
+
+
+
+

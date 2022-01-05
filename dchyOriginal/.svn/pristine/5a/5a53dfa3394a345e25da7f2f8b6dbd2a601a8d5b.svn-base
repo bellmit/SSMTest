@@ -1,0 +1,127 @@
+<template>
+    <div class="upload-info">
+        <uploadTable
+            :data="uploadList" 
+            :showDefaultTool="false"
+            :typeSelect="false"
+            :type="type"
+            :deleteColumns="deleteColumns"
+        ></uploadTable>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import uploadTable from "../table/upload-table"
+import moment from "moment"
+import util from "../../service/util"
+import { getUploadList } from "../../service/manage";
+export default {
+    name: "uploadFileInfo",
+    components: {
+        uploadTable
+    },
+    props: {
+        ssmkid: {
+            type: String,
+            default: ""
+        },
+        mlkid: {
+            type: String,
+            default: ""
+        },
+        type: {
+            type: String,
+            default: "download"
+        },
+        deleteColumns: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        completeFiles: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            uploadList: [],
+            newFileForm: {
+                YS: 1,
+                FS: 1
+            },
+            fileRule: {},
+            chooseUploadFile: [],
+            deleteAll: false
+        }
+    },
+    watch: {
+        mlkid: function(newVal,oldVal) {
+            if(newVal != oldVal){
+                this.getUploadList();
+            }
+        }
+    },
+    mounted() {
+        if(this.mlkid){
+            this.getUploadList();
+        }
+    },
+    methods: {
+        // 获取需要上传的文件
+        getUploadList(){
+            let params = {
+                ssmkid: this.ssmkid,
+                glsxid: this.mlkid
+            }
+            getUploadList(params).then(res => {
+                let uploadList = res.data.dataList;
+                uploadList.forEach((list,index) => {
+                    list.children = [];
+                    list.clid = 'name'+index;
+                })
+                this.uploadList = [...uploadList]
+            })
+        },
+        validate(){
+            let errorMsg = '';
+            this.uploadList.forEach(upload => {
+                if(upload.NEED == 1 && !upload.WJZXID){
+                    errorMsg = upload.CLMC + "未上传材料"
+                }
+            })
+            if(errorMsg){
+                this.$error.show(errorMsg)
+            }
+            return errorMsg
+        },
+        // 获取uploadList
+        queryUploadList(){
+            return this.uploadList;
+        },
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

@@ -1,0 +1,89 @@
+
+^
+java:S5361Ó"HReplace this call to "replaceAll()" by a call to the "replace()" method.(šÌ¬
+^
+java:S1192š"GDefine a constant instead of duplicating this literal "clsxdm" 4 times.(Ëø«Ü
+F
+java:S3740¤"/Provide the parametrized type for this generic.(üÊÊ…
+K
+java:S3740¦"/Provide the parametrized type for this generic.(ï«ÃÛşÿÿÿÿ
+7
+java:S1170<"!Make this final field static too.(­šÑù
+K
+java:S3740¦"/Provide the parametrized type for this generic.(ï«ÃÛşÿÿÿÿ
+F
+java:S3740ò"/Provide the parametrized type for this generic.(šÙÉõ
+F
+java:S3740©"/Provide the parametrized type for this generic.(ç‰—ı
+m
+java:S3776@"RRefactor this method to reduce its Cognitive Complexity from 71 to the 15 allowed.(Ã¿¬ƒıÿÿÿÿ
+n
+java:S3776í"RRefactor this method to reduce its Cognitive Complexity from 35 to the 15 allowed.(œö±Œùÿÿÿÿ
+N
+java:S1854ï"8Remove this useless assignment to local variable "code".(Í¹Ú
+_
+java:S5361Î"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ˆ‡¥
+K
+java:S3740»"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+F
+java:S3740÷"/Provide the parametrized type for this generic.(Ÿñíì
+n
+java:S3776í"RRefactor this method to reduce its Cognitive Complexity from 29 to the 15 allowed.(æ÷ÒÆùÿÿÿÿ
+I
+java:S1135¥"2Complete the task associated to this TODO comment.(ö”ÄØ
+J
+java:S3740M"/Provide the parametrized type for this generic.(Øÿìªüÿÿÿÿ
+F
+java:S3740©"/Provide the parametrized type for this generic.(ç‰—ı
+F
+java:S3740"/Provide the parametrized type for this generic.(üÍƒ„
+N
+java:S1854ğ"7Remove this useless assignment to local variable "msg".(‚ÉĞÄ
+K
+java:S3740Ÿ"/Provide the parametrized type for this generic.(Øÿìªüÿÿÿÿ
+E
+java:S3740£"/Provide the parametrized type for this generic.(ãú
+K
+java:S3740´"/Provide the parametrized type for this generic.(˜±¥Ùıÿÿÿÿ
+J
+java:S3740M"/Provide the parametrized type for this generic.(Øÿìªüÿÿÿÿ
+i
+java:S3776š"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(±ß¶…
+]
+java:S1192Ø"GDefine a constant instead of duplicating this literal "chdwid" 3 times.(Š²z
+F
+java:S3740˜"/Provide the parametrized type for this generic.(­ÚŠ
+K
+java:S3740¬"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+K
+java:S3740Ÿ"/Provide the parametrized type for this generic.(Øÿìªüÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(£õÅıÿÿÿÿ
+Q
+java:S1141¹"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+c
+java:S1192ô"GDefine a constant instead of duplicating this literal "sqxxid" 3 times.(™£êûøÿÿÿÿ
+g	java:S116<"RRename this field "DELETED" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­šÑù
+F
+java:S3740ó"/Provide the parametrized type for this generic.(ˆÎÙ½
+c
+java:S1192"HDefine a constant instead of duplicating this literal "chxmid" 17 times.(Ûª¦üÿÿÿÿ
+F
+java:S3740à"/Provide the parametrized type for this generic.(¶£Ê¶
+]
+java:S1192G"GDefine a constant instead of duplicating this literal "chdwmc" 3 times.(›ƒ±Å
+F
+java:S3740¯"/Provide the parametrized type for this generic.(Ì­şî
+u
+java:S1192’"RDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› {}ï¼š" 4 times.(ªÇ†ıÿÿÿÿ8±íí—£/
+Y	java:S125Î"<This block of commented-out lines of code should be removed.(ºİÃ8±íí—£/
+p
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(êÒ’Ü8±íí—£/
+u
+java:S3776ã"RRefactor this method to reduce its Cognitive Complexity from 86 to the 15 allowed.(…Ûâ‘ÿÿÿÿÿ8±íí—£/
+:
+java:S2153¸"Remove the boxing of "jsrq".(©¿›8±íí—£/
+>
+java:S2129¸" Remove this "Double" constructor(©¿›8±íí—£/
+T
+java:S1144ã"1Remove this unused private "generateChtl" method.(…Ûâ‘ÿÿÿÿÿ8±íí—£/

@@ -1,0 +1,22 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcg;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgShjl;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+public interface FileUploadCheckService {
+    /**
+     * @param
+     * @return
+     * @description 2021/4/13 基础数据与文件推送，定时查询文件进行推送
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     */
+    void fileUploadCheck();
+
+
+}

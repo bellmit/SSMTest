@@ -1,0 +1,165 @@
+<div class="widget-panel-title"><div class="title-icon"></div>信息查询<span></span></div>
+<div class="panel-body">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="nav-tab active" id="attributeQuery"><a href="#attrQueryPanelContent" role="tab" data-toggle="tab" id="videoTab">属性查询</a>
+        </li>
+        <li role="presentation" class="nav-tab" id="spatialQuery"><a href="#spatialQueryPanelContent" role="tab" data-toggle="tab" id="proTab">空间查询</a></li>
+    </ul>
+    <div class="tab-content" id="query_panel">
+        <div class="tab-pane active" id="attrQueryPanelContent">
+            <div class="tab-pane active" id="attrQueryPanel"></div>
+            <div id="attrQueryResultPanel"></div> 
+        </div>
+
+        <div class="tab-pane" id="spatialQueryPanelContent">
+        <div id="spatialQueryPanel" class="tab-pane">
+            <div class="col-sm-3 col-xs-3"><div class="point-choose spatial-geo-icon" data-type="point"></div><div class="choose-title">点选</div></div>
+            <div class="col-sm-3 col-xs-3"><div class="line-choose spatial-geo-icon" data-type="polyline"></div><div class="choose-title">线选</div></div>
+            <div class="col-sm-3 col-xs-3"><div class="frame-choose spatial-geo-icon" data-type="rect"></div><div class="choose-title">框选</div></div>
+            <div class="col-sm-3 col-xs-3"><div class="polygon-choose spatial-geo-icon" data-type="polygon"></div><div class="choose-title">多边形</div></div>
+        </div>
+        <div id="spatialQueryResultPanel"></div>
+        </div>
+    </div>
+</div>
+<!-- 图层查询默认显示 -->
+<script id="layersDefaultTpl" type="x-tpl-handlebars"> 
+    <form id="layerForm" class="form-horizontal">
+        <div id="layerSelect" class="form-group">
+            <label class="col-xs-4 control-label text-right">查询图层</label>
+            <div class="col-xs-7">
+                <select id="layersSelect" class="form-control input-sm search-select chosen-select">
+                {{#each layers}}
+                    <option value="{{serviceId}}-{{layerIndex}}">{{layerName}}</option>
+                {{/each}}
+                </select>
+            </div>
+        </div>
+        <div id="layerCondition">
+
+        </div>
+        <div class="btn-opt">
+            <a id="qSearchBtn" class="btn btn-primary btn-sm" data-loading-text="查询中 ...">
+                <i class="iconfont">&#xe602;</i>查询
+            </a>
+            &nbsp;&nbsp;
+            <a id="qResetBtn" class="btn btn-default btn-sm">
+                <i class="iconfont">&#xe644;</i>重置
+            </a>
+        </div>
+    </form>
+</script>
+
+<!-- 图层查询结果反馈信息模板 -->
+<script id="attrResultTpl" type="x-tpl-mustache">
+	<div class="row result-info"> 
+	    <span class="text-primary">共 <strong>{{size}}</strong>&nbsp;条记录</span>
+	    <button id="qReturnBtn" class="btn btn-primary btn-xs pull-right">
+		    清除
+		</button>
+		<button id="qAddBtn" class="btn btn-primary btn-xs pull-right">
+		    增添
+		</button>
+		{{#exportData}}
+		 <button id="qExportBtn" class="btn btn-primary btn-xs pull-right" style="margin-right:5px">
+		    <i class="iconfont">&#xe617;</i>导出
+		</button>
+		{{/exportData}}
+	</div>
+	<div id="attr_result" style="padding-top:15px;"></div>
+	<div id=pageTool class="text-center"></div>
+</script>
+
+<!-- 空间查询结果反馈信息模板 -->
+<script id="spatialResultTpl" type="x-tpl-mustache">
+	<div class="row result-info">
+	    <span class="text-primary">共 <strong>{{size}}</strong>&nbsp;条记录</span>
+	    <button id="qReturnBtn" class="btn btn-primary btn-xs pull-right">
+		    清除
+		</button>
+		{{#exportData}}
+		 <button id="qExportBtn" class="btn btn-primary btn-xs pull-right" style="margin-right:5px">
+		    <i class="iconfont">&#xe617;</i>导出
+		</button>
+		{{/exportData}}
+	</div>
+	<div id="spatial_result" style="padding-top:15px;"></div>
+	<div id=pageTool class="text-center"></div>
+</script>
+<!-- 动态条件显示模板 -->
+<script id="layersSearchTpl" type="x-tpl-mustache">
+{{#each fields}}
+  <div class="form-group t-input">
+      <label class="col-xs-4 control-label text-right">{{alias}}</label>
+      <div class="col-xs-7">
+          {{#if isArray}}
+          <select name="{{name}}" class="form-control input-sm search-select query-val q-chosen-select" multiple>
+              {{#each defaultValue}}
+                <option value="{{value}}">{{key}}</option>
+              {{/each}}
+          </select>
+          {{else}}
+          {{#equals type '===' 'DATE'}}
+            <input id="startDate{{name}}" type="text" class="form-control input-sm col-xs-3 layer-input-date" data-field="{{name}}" data-order="0"/>
+                <span class="pull-left" style="line-height: 30px;">~</span>
+            <input id="endDate{{name}}" type="text" class="form-control input-sm col-xs-3 layer-input-date" data-field="{{name}}" data-order="1"/>
+          {{else}}
+            {{#equals type '===' 'COORDS'}}
+                <span class="pull-left" style="line-height: 30px;">X</span>
+            <input id="X{{name}}" type="text" placeholder="请输入X轴坐标/经度" class="form-control input-sm col-xs-3 point-select" data-field="{{name}}" data-order="0"/>
+                <span class="pull-left" style="line-height: 30px;">Y</span>
+            <input id="Y{{name}}" type="text" placeholder="请输入Y轴坐标/纬度" class="form-control input-sm col-xs-3 point-select" data-field="{{name}}" data-order="1"/>
+            {{else}}
+                {{#equals range '===' 'true'}}
+                    <select data-opt="from" data-field="{{name}}" class="range-select">
+                        {{#each defaultValue}}
+                            <option value="{{value}}" {{#if @first}}selected{{/if}}>{{key}}</option>
+                        {{/each}}
+                    </select>
+                    <span style="line-height: 30px;">~</span>
+                    <select data-opt="to" data-field="{{name}}"  class="range-select">
+                        {{#each defaultValue}}
+                            <option value="{{value}}" {{#if @last}}selected{{/if}}>{{key}}</option>
+                        {{/each}}
+                    </select>
+                {{else}}
+                    <input type="text" name="{{name}}" class="form-control input-sm layer-input query-val"
+                        placeholder="请输入查询条件" value="{{defaultValue}}">
+                {{/equals}}
+              {{/equals}}
+          {{/equals}}
+          {{/if}}
+      </div>
+  </div>
+{{/each}}
+</script>
+
+<!--信息窗-->
+<script id="infoContentTpl" type="x-tpl-mustache">
+    <div class="info-content" style="overflow-y:auto;overflow-x:hidden; height:300px;">
+    <form id="drawLayerForm" class="form-horizontal" style="margin-right:0">
+        {{#data}}
+        <div class="row">
+        <div class="col-md-4 col-xs-4 text-right popup-field-alias">
+            <span title="{{key}}">{{key}}:</span>
+        </div>
+
+        <div class="col-md-8 col-xs-8 text-left popup-field-value">
+            <span title="{{value}}">{{value}}</span>
+        </div>
+    </div>
+        {{/data}}
+    </form>
+ </div>
+</script>
+
+<script id="export-select-tpl" type="x-handlebars-template">
+    <div class="io-export-select">
+        <label class="pull-left">导出类型：</label>
+        <select class="form-control input-sm">
+            {{#each types}}
+            <option value="{{value}}">{{alias}}</option>
+            {{/each}}
+        </select>
+    </div>
+</script>

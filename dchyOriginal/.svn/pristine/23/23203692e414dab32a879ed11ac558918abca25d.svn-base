@@ -1,0 +1,102 @@
+<template>
+    <div class="upload-info">
+        <configTable
+            :data="uploadList" 
+            :showDefaultTool="false"
+            :typeSelect="false"
+            :type="type"
+        ></configTable>
+    </div>
+</template>
+<script>
+import _ from "loadsh"
+import configTable from "../table/config-table"
+import moment from "moment"
+import util from "../../service/util"
+import { getUploadList } from "../../service/manage";
+export default {
+    name: "uploadFileInfo",
+    components: {
+        configTable
+    },
+    props: {
+        type: {
+            type: String,
+            default: "download"
+        },
+        completeFiles: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        }
+    },
+    data() {
+        return {
+            selectedFile: [],
+            visible: false,
+            uploadList: [{
+                FS: "1"
+            }],
+            newFileForm: {
+                YS: 1,
+                FS: 1
+            },
+            fileRule: {},
+            chooseUploadFile: [],
+            deleteAll: false
+        }
+    },
+    watch: {
+        mlkid: function(newVal,oldVal) {
+            if(newVal != oldVal){
+                this.getUploadList();
+            }
+        }
+    },
+    mounted() {
+        if(this.mlkid){
+            this.getUploadList();
+        }
+    },
+    methods: {
+        // 获取需要上传的文件
+        getUploadList(){
+            let params = {
+                ssmkid: this.ssmkid,
+                glsxid: this.mlkid
+            }
+            getUploadList(params).then(res => {
+                let uploadList = res.data.dataList;
+                uploadList.forEach((list,index) => {
+                    list.children = [];
+                    list.clid = 'name'+index;
+                })
+                this.uploadList = [...uploadList]
+            })
+        },
+        // 获取uploadList
+        queryUploadList(){
+            return this.uploadList;
+        },
+    },
+}
+</script>
+<style scoped>
+   .upload-info >>> .layui-border-box, .layui-border-box * {
+       margin: 0;
+   }
+   .upload-info >>> td:nth-last-child(2) .layui-table-cell {
+       overflow: visible;
+   }
+   .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

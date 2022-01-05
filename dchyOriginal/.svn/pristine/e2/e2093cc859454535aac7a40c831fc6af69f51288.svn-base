@@ -1,0 +1,304 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-13T11:21:51Z</Created>
+  <LastSaved>2014-10-20T06:29:46Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>11640</WindowHeight>
+  <WindowWidth>19200</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+     <Style ss:ID="s63">
+         <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+     </Style>
+     <Style ss:ID="s64">
+         <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+     </Style>
+ </Styles>
+    <#assign fixed>
+    <#switch unit>
+    <#case 'SQUARE'>0.##<#break>
+    <#case 'ACRES'>0.####<#break>
+    <#case 'HECTARE'>0.####<#break>
+    <#default>0.##
+    </#switch>
+  </#assign>
+
+<#if result?size &gt; 0>
+ <#assign firstA=result[0].analysis.categoryA>
+ <#assign firstB=result[0].analysis.categoryB>
+</#if>
+ <Worksheet ss:Name="一级分类">
+  <Table ss:ExpandedColumnCount="255" ss:ExpandedRowCount="${result?size+1}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+      <Row ss:AutoFitHeight="0">
+        <#if (result?size>0)>
+          <Cell>
+              <Data ss:Type="String">地块编号</Data>
+          </Cell>
+		  <Cell>
+              <Data ss:Type="String">地块名称</Data>
+          </Cell>
+          <Cell>
+              <Data ss:Type="String">行政区名称</Data>
+          </Cell>
+          <Cell>
+              <Data ss:Type="String">合计</Data>
+          </Cell>
+          <#list firstA as infoItem>
+           <#if infoItem["dlbm"]?contains(',')><#else><Cell><Data ss:Type="String">${infoItem["dlmc"]!}(${infoItem["dlbm"]!})</Data></Cell></#if>
+          </#list>
+        </#if>
+      </Row>
+   <#list result as xzq>
+    <#assign areaInfo=xzq.analysis.categoryA>
+    <Row ss:AutoFitHeight="0">
+     <Cell><Data ss:Type="String">${xzq.dkbh}</Data></Cell>
+	 <Cell><Data ss:Type="String">${xzq.dkmc}</Data></Cell>
+     <#assign analysis = xzq.analysis/>
+     <Cell><Data ss:Type="String">${analysis.xzqmc}</Data></Cell>
+     <Cell><Data ss:Type="String">${xzq.analysis.sumArea!}</Data></Cell>
+     <#list areaInfo as item>
+       <#if item["dlbm"]?contains(',')><#else ><Cell><Data ss:Type="String">${item["area"]!?string(fixed)}</Data></Cell></#if>
+     </#list>
+    </Row>
+   </#list>
+</Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>200</HorizontalResolution>
+    <VerticalResolution>200</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>1</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="二级分类">
+  <Table ss:ExpandedColumnCount="255" ss:ExpandedRowCount="${result?size+2}" x:FullColumns="1"
+   x:FullRows="1" ss:StyleID="s16" ss:DefaultColumnWidth="49.5"
+   ss:DefaultRowHeight="13.5">
+       <Row ss:AutoFitHeight="0" ss:Height="43.5">
+          <Cell ss:MergeDown="1"><Data ss:Type="String">项目编号</Data></Cell>
+		  <Cell ss:MergeDown="1"><Data ss:Type="String">项目名称</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">合计</Data></Cell>
+
+          <Cell ss:MergeDown="1"><Data ss:Type="String">耕地（01）</Data></Cell>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">园地（02）</Data></Cell>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">林地（03）</Data></Cell>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">草地（04）</Data></Cell>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">城镇村及工矿用地（20）</Data></Cell>
+          <Cell ss:MergeAcross="4"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">交通运输用地（10）</Data></Cell>
+          <Cell ss:MergeAcross="5"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">水域及水利设施用地（11）</Data></Cell>
+          <Cell ss:MergeAcross="8"><Data ss:Type="String">其中</Data></Cell>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">其他用地</Data></Cell>
+          <Cell ss:MergeAcross="5"><Data ss:Type="String">其中</Data></Cell>
+      </Row>
+      <Row ss:AutoFitHeight="0" ss:Height="73.5">
+          <Cell ss:Index="5"><Data ss:Type="String">水田（011）</Data></Cell>
+          <Cell><Data ss:Type="String">水浇地（012）</Data></Cell>
+          <Cell><Data ss:Type="String">旱地（013）</Data></Cell>
+          <Cell ss:Index="9"><Data ss:Type="String">果园（021）</Data></Cell>
+          <Cell><Data ss:Type="String">茶园（022）</Data></Cell>
+          <Cell><Data ss:Type="String">其他园地（023）</Data></Cell>
+          <Cell ss:Index="13"><Data ss:Type="String">有林地（031）</Data></Cell>
+          <Cell><Data ss:Type="String">灌木林地（032）</Data></Cell>
+          <Cell><Data ss:Type="String">其他林地（033）</Data></Cell>
+          <Cell ss:Index="17"><Data ss:Type="String">天然牧草地（041）</Data></Cell>
+          <Cell><Data ss:Type="String">人工牧草地（042）</Data></Cell>
+          <Cell><Data ss:Type="String">其他草地（043）</Data></Cell>
+          <Cell ss:Index="21"><Data ss:Type="String">城市（201）</Data></Cell>
+          <Cell><Data ss:Type="String">建制镇（202）</Data></Cell>
+          <Cell><Data ss:Type="String">村庄（203）</Data></Cell>
+          <Cell><Data ss:Type="String">采矿用地（204）</Data></Cell>
+          <Cell><Data ss:Type="String">风景名胜及特殊用地（205）</Data></Cell>
+          <Cell ss:Index="27"><Data ss:Type="String">铁路用地（101）</Data></Cell>
+          <Cell><Data ss:Type="String">公路用地（102）</Data></Cell>
+          <Cell><Data ss:Type="String">农村道路（104）</Data></Cell>
+          <Cell><Data ss:Type="String">机场用地（105）</Data></Cell>
+          <Cell><Data ss:Type="String">港口码头用地（106）</Data></Cell>
+          <Cell><Data ss:Type="String">管道运输用地（107）</Data></Cell>
+          <Cell ss:Index="34"><Data ss:Type="String">河流水面（111）</Data></Cell>
+          <Cell><Data ss:Type="String">湖泊水面（112）</Data></Cell>
+          <Cell><Data ss:Type="String">水库水面（113）</Data></Cell>
+          <Cell><Data ss:Type="String">坑塘水面（114）</Data></Cell>
+          <Cell><Data ss:Type="String">沿海滩涂（115）</Data></Cell>
+          <Cell><Data ss:Type="String">内陆滩涂（116）</Data></Cell>
+          <Cell><Data ss:Type="String">水渠（117）</Data></Cell>
+          <Cell><Data ss:Type="String">水工建筑用地（118）</Data></Cell>
+          <Cell><Data ss:Type="String">冰川及永久积雪（119）</Data></Cell>
+          <Cell ss:Index="44"><Data ss:Type="String">设施农用地（122）</Data></Cell>
+          <Cell><Data ss:Type="String">田坎（123）</Data></Cell>
+          <Cell><Data ss:Type="String">盐碱地（124）</Data></Cell>
+          <Cell><Data ss:Type="String">沼泽地（125）</Data></Cell>
+          <Cell><Data ss:Type="String">沙地（126）</Data></Cell>
+          <Cell><Data ss:Type="String">裸地（127）</Data></Cell>
+      </Row>
+  <#list result as xzq>
+  <#assign item=xzq.analysis.categoryB>
+  <Row ss:AutoFitHeight="0">
+       <Cell><Data ss:Type="String">${xzq.dkbh!}</Data></Cell>
+	   <Cell><Data ss:Type="String">${xzq.dkmc!}</Data></Cell>
+       <Cell><Data ss:Type="String">${xzq.analysis.sumArea!}</Data></Cell>
+      <Cell><Data ss:Type="String">${item["01"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["011"]??>${item["011"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["012"]??>${item["012"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["013"]??>${item["013"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["02"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["021"]??>${item["021"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["022"]??>${item["022"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["023"]??>${item["023"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["03"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["031"]??>${item["031"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["032"]??>${item["032"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["033"]??>${item["033"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["04"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["041"]??>${item["041"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["042"]??>${item["042"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["043"]??>${item["043"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["20"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["201"]??>${item["201"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["202"]??>${item["202"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["203"]??>${item["203"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["204"]??>${item["204"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["205"]??>${item["205"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["10"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["101"]??>${item["101"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["102"]??>${item["102"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["104"]??>${item["104"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["105"]??>${item["105"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["106"]??>${item["106"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["107"]??>${item["107"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["11"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["111"]??>${item["111"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["112"]??>${item["112"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["113"]??>${item["113"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["114"]??>${item["114"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["115"]??>${item["115"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["116"]??>${item["116"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["117"]??>${item["117"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["118"]??>${item["118"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["119"]??>${item["119"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String">${item["12"]!?string(fixed)}</Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["122"]??>${item["122"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["123"]??>${item["123"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["124"]??>${item["124"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["125"]??>${item["125"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["126"]??>${item["126"]!?string(fixed)}<#else >0</#if></Data></Cell>
+      <Cell><Data ss:Type="String"><#if item["127"]??>${item["127"]!?string(fixed)}<#else >0</#if></Data></Cell>
+     </Row>
+    </#list>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>200</HorizontalResolution>
+    <VerticalResolution>200</VerticalResolution>
+   </Print>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>2</ActiveRow>
+     <ActiveCol>2</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+<#if firstB?keys?seq_contains('农用地') >
+<Worksheet ss:Name="三大类">
+<Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="${result?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+    <Row>
+        <Cell><Data ss:Type="String">地块编号</Data></Cell>
+		<Cell><Data ss:Type="String">地块名称</Data></Cell>
+        <Cell><Data ss:Type="String">合计</Data></Cell>
+        <Cell><Data ss:Type="String">农用地</Data></Cell>
+        <Cell><Data ss:Type="String">建设用地</Data></Cell>
+        <Cell><Data ss:Type="String">未利用地</Data></Cell>
+    </Row>
+    <#list result as xzq>
+      <Row>
+          <#assign itemB=xzq.analysis.categoryB>
+          <Cell><Data ss:Type="String">${xzq.dkbh!}</Data></Cell>
+		  <Cell><Data ss:Type="String">${xzq.dkmc!}</Data></Cell>
+          <Cell><Data ss:Type="String">${xzq.analysis.sumArea!}</Data></Cell>
+          <Cell><Data ss:Type="String"><#if firstB?keys?seq_contains('农用地') >${itemB["农用地"]!?string(fixed)}</#if></Data></Cell>
+          <Cell><Data ss:Type="String"><#if firstB?keys?seq_contains('建设用地') >${itemB["建设用地"]!?string(fixed)}</#if></Data></Cell>
+          <Cell><Data ss:Type="String"><#if firstB?keys?seq_contains('未利用地') >${itemB["未利用地"]!?string(fixed)}</#if></Data></Cell>
+      </Row>
+</#list>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+    <PageSetup>
+        <Header x:Margin="0.3"/>
+        <Footer x:Margin="0.3"/>
+        <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+    </PageSetup>
+    <Selected/>
+    <Panes>
+        <Pane>
+            <Number>3</Number>
+            <ActiveRow>1</ActiveRow>
+            <ActiveCol>2</ActiveCol>
+        </Pane>
+    </Panes>
+    <ProtectObjects>False</ProtectObjects>
+    <ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+</Worksheet>
+</#if>
+</Workbook>

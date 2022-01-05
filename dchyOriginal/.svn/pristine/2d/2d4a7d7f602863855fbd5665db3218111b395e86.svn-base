@@ -1,0 +1,27 @@
+#collectResultPanel {
+    padding: 20px 0px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#collectDrawPanel {
+    margin: 6px auto;
+    border-bottom: 2px solid #4285f4;
+}
+
+#collectOptPanel {
+    /*display: none;*/
+    position: absolute;
+    bottom: 15px;
+    left: 30%;
+}
+
+#collectOptPanel .btn:last-child {
+    margin-left: 12px;
+}
+
+.highLight {
+    border: 2px solid #0092da;
+    width: 47px;
+    height: 47px;
+}

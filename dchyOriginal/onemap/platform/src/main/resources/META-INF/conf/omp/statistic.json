@@ -1,0 +1,133 @@
+﻿{
+    "nodes": [
+        {
+            "id": "1",
+            "name": "土地利用现状",
+            "url": "",
+            "parentId": "",
+            "children": [
+                {
+                    "id": "11",
+                    "name": "分类面积",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdlyxz&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "1",
+                    "children": []
+
+                },
+                {
+                    "id": "12",
+                    "name": "基本农田情况",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdly_jbnt&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "1",
+                    "children": []
+
+                },
+                {
+                    "id": "13",
+                    "name": "地类图斑数",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdly_dltb&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "1",
+                    "children": []
+
+                },
+                {
+                    "id": "14",
+                    "name": "行政区域",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdly_qsdw&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "1",
+                    "children": []
+
+                }
+            ]
+
+        },
+        {
+            "id": "2",
+            "name": "土地利用规划",
+            "url": "",
+            "parentId": "",
+            "children": [
+                {
+                    "id": "21",
+                    "name": "市级土地利用规划",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdgh_c&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "2",
+                    "children": []
+
+                },
+                {
+                    "id": "22",
+                    "name": "县级土地利用规划",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdgh_d&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "2",
+                    "children": []
+
+                },
+                {
+                    "id": "23",
+                    "name": "乡镇级土地利用规划",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Ftdgh_e&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "2",
+                    "children": []
+
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "name": "土地业务管理",
+            "url": "",
+            "parentId": "",
+            "children": [
+                {
+                    "id": "31",
+                    "name": "建设用地报批",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Fglsj_bp&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "3",
+                    "children": []
+
+                },
+                {
+                    "id": "32",
+                    "name": "建设用地供地",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Fglsj_gd&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "3",
+                    "children": []
+
+                },
+                {
+                    "id": "33",
+                    "name": "土地整治",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Fglsj_tdzz&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "3",
+                    "children": []
+
+                }
+            ]
+        },{
+            "id": "4",
+            "name": "矿产资源管理",
+            "url": "",
+            "parentId": "",
+            "children": [
+                {
+                    "id": "31",
+                    "name": "采矿权",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Fglsj_kczy_ck&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "4",
+                    "children": []
+
+                },
+                {
+                    "id": "32",
+                    "name": "探矿权",
+                    "url": "/analytics/saw.dll?PortalPages&PortalPath=%2Fshared%2FComponents%2F_portal%2Fglsj_kczy_tk&NQUser=weblogic&NQPassword=gtis1234",
+                    "parentId": "4",
+                    "children": []
+
+                }
+            ]
+
+        }
+    ]
+}

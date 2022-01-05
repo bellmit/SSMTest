@@ -1,0 +1,160 @@
+<template>
+  <div>
+    <div class="form-title">
+      <div class="list-title">填写模板信息</div>
+      <div>
+        <Button type="primary" class="btn-h-34 bdc-major-btn" @click="save()" >确定</Button>
+        <Button class="btn-h-34 margin-left-20 btn-cancel" @click="cancel()" >返回</Button>
+      </div>
+    </div>
+    <Form
+      class="form-edit"
+      ref="template-info"
+      @on-validate="validateChecked"
+      :model="templateForm"
+      :rules="ruleInline"
+      :label-width="120"
+    >
+      <FormItem label="模板名称" :class="{'requireStar': btxyzList.includes('mbmc')}" v-model="templateForm.mbmc" prop="mbmc">
+        <Input style="width: 400px" v-model="templateForm.mbmc" />
+      </FormItem>
+      <FormItem label="模板类型" :class="{'requireStar': btxyzList.includes('mblx')}" v-model="templateForm.mblx" prop="mblx">
+        <Select
+          v-model="templateForm.mblx"
+          placeholder="请选择"
+          style="width: 400px"
+        >
+          <Option
+            v-for="(mblx, index) in mblxList"
+            :key="index"
+            :value="mblx.value"
+            >{{ mblx.label }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="备注" :class="{'requireStar': btxyzList.includes('bz')}" v-model="templateForm.bz" prop="bz">
+        <Input type="textarea" :rows="3" style="width: 400px" v-model="templateForm.bz" />
+      </FormItem>
+      <FormItem label="状态" :class="{'requireStar': btxyzList.includes('mbqyzt')}" v-model="templateForm.mbqyzt" prop="mbqyzt">
+        <RadioGroup v-model="templateForm.mbqyzt">
+          <Radio label="enable">启用</Radio>
+          <Radio label="disable">禁用</Radio>
+        </RadioGroup>
+      </FormItem>
+    </Form>
+    <div class="form-title">
+      <div class="list-title">上传新模板</div>
+    </div>
+    <uploadFile
+      v-if="!readonly"
+      :mlkid="mbid"
+      ref="upload-file"
+      :ssmkid="ssmkid"
+    ></uploadFile>
+    <uploadFileInfo
+      v-if="readonly"
+      :mlkid="mbid"
+      :ssmkid="ssmkid"
+    ></uploadFileInfo>
+  </div>
+</template>
+<script>
+import { addTemplate } from "../../../service/template";
+import { cancelTemplate } from "../../../service/template";
+import yz_mixins from "../../../service/yz_mixins"
+import uploadFile from "../../../components/survey/upload-file"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+export default {
+  mixins: [yz_mixins],
+  components: {
+    uploadFile,
+    uploadFileInfo
+  },
+  data() {
+    return {
+      templateForm: {
+        mbid: "",
+        mbmc: "",
+        mblx: "",
+        bz: "",
+        mbqyzt: "enable",
+        ssmkid: ""
+      },
+      ssmkid: "5",
+      bdid: "5",
+      mbid: "",
+      readonly: false,
+      ruleInline: {
+          mbmc: {message: "必填项不能为空"},
+          mblx: {message: "必填项不能为空"},
+          xmb: {message: "必填项不能为空"},
+          bz: {message: "必填项不能为空"},
+          mbqyzt: {message: "必填项不能为空"}
+      },
+      mblxList: [
+        {
+          value: "0",
+          label: "合同模板",
+        },
+        {
+          value: "1",
+          label: "申请表模板",
+        },
+        {
+          value: "2",
+          label: "其他",
+        },
+      ],
+      tzggid: "",
+    };
+  },
+  mounted() {
+    if(this.$route.query.mbid){
+      this.mbid = this.$route.query.mbid
+    }
+  },
+  methods: {
+    cancel() {
+      let params = {
+        mbid: this.mbid
+      }
+      cancelTemplate(params).then(res => {
+        this.$router.push("/admin/template");
+      })
+    },
+    // 确认添加
+    save() {
+      this.unLastSubmit = false;
+      this.$refs["template-info"].validate((valid) => {
+        this.unLastSubmit = true;
+        if (valid) {
+          if (this.templateForm.mbqyzt == "enable") {
+            this.templateForm.mbqyzt = 1;
+          } else if (this.templateForm.mbqyzt == "disable") {
+            this.templateForm.mbqyzt = 0;
+          }
+          let validate = this.$refs["upload-file"].validate();
+          if(validate){
+              return;
+          }
+          this.templateForm.ssmkid = this.ssmkid;
+          this.templateForm.mbid = this.mbid;
+          // this.$set(this.templateForm,'mdid',this.mdid)
+          addTemplate(this.templateForm).then((res) => {
+            layer.msg("保存成功")
+            this.$router.push("/admin/template");
+          });
+        }
+      });
+    }
+  },
+};
+</script>
+<style scoped>
+.form-edit >>> .ivu-form-item {
+  margin-bottom: 20px !important;
+}
+ .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

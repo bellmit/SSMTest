@@ -1,0 +1,23 @@
+
+F
+java:S1066Ü"/Merge this if statement with the enclosing one.(ÿò’İ
+`	java:S112l"FDefine and throw a dedicated exception instead of using a generic one.(ˆÆŠúÿÿÿÿ
+m
+java:S3776l"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(ˆÆŠúÿÿÿÿ
+c
+java:S4719A"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+i
+java:S4719q"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(î¾¸áüÿÿÿÿ
+>
+java:S1481v"(Remove this unused "key" local variable.(¬ã’¾
+[	java:S112ë"FDefine and throw a dedicated exception instead of using a generic one.(‰Æáe
+M
+java:S1854v"7Remove this useless assignment to local variable "key".(¬ã’¾
+Z
+java:S3252t"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+D
+java:S1144X".Remove this unused private "basicNACK" method.(¤´Àÿ
+^
+java:S3457>"AFormat specifiers should be used instead of string concatenation.(õÒÊ8àúí—£/
+c
+java:S3457G"AFormat specifiers should be used instead of string concatenation.(ĞğÑßøÿÿÿÿ8àúí—£/

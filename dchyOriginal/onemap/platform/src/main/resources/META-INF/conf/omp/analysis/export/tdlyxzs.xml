@@ -1,0 +1,376 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-13T11:21:51Z</Created>
+  <LastSaved>2014-10-20T06:29:46Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>11640</WindowHeight>
+  <WindowWidth>19200</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>90</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+  </Style>
+     <Style ss:ID="s63">
+         <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+     </Style>
+     <Style ss:ID="s64">
+         <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+     </Style>
+ </Styles>
+    <#assign fixed>
+    <#switch unit>
+    <#case 'SQUARE'>0.##<#break>
+    <#case 'ACRES'>0.####<#break>
+    <#case 'HECTARE'>0.####<#break>
+    <#default>0.##
+    </#switch>
+  </#assign>
+ <Worksheet ss:Name="一级分类">
+  <Table ss:ExpandedColumnCount="255" ss:ExpandedRowCount="30" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+      <Row ss:AutoFitHeight="0">
+          <Cell ss:MergeDown="2" ss:MergeAcross="2"><Data ss:Type="String"></Data></Cell>
+          <#list data as dataRow>
+          <#assign dataRowSize = dataRow.analysisData?size>
+          <#assign cellIndex=dataRow_index>
+          <#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+          <#assign tot=analysisTotal.categoryB>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">${dataRow.year!}年度分析</Data></Cell>
+          </#list>
+      </Row>
+      <Row ss:AutoFitHeight="0">
+          <#list data as dataRow>
+          <#assign cellIndex=dataRow_index>
+          <#if cellIndex==0>
+          <Cell ss:Index="4" ss:MergeDown="1"><Data ss:Type="String">合计</Data></Cell>
+          <Cell ss:MergeAcross="1"><Data ss:Type="String">其中</Data></Cell>
+          <#else>
+          <Cell ss:MergeDown="1"><Data ss:Type="String">合计</Data></Cell>
+          <Cell ss:MergeAcross="1"><Data ss:Type="String">其中</Data></Cell>
+          </#if>
+          </#list>
+      </Row>
+        <Row ss:AutoFitHeight="0">
+            <#list data as dataRow>
+            <#assign cellIndex=(dataRow_index+1)*3+2>
+            <Cell ss:Index="${cellIndex}"><Data ss:Type="String">国有面积</Data></Cell>
+            <Cell><Data ss:Type="String">集体面积</Data></Cell>
+            </#list>
+         </Row>
+        <Row ss:AutoFitHeight="0">
+            <Cell ss:MergeDown="21"><Data ss:Type="String">拟占用土地总面积</Data></Cell>
+            <Cell ss:MergeAcross="1"><Data ss:Type="String">总面积</Data></Cell>
+            <#list data as dataRow>
+            <#assign dataRowSize = dataRow.analysisData?size>
+            <#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+            <#assign tot=analysisTotal.categoryB>
+            <Cell><Data ss:Type="String">${analysisTotal.sumArea!?string(fixed)}</Data></Cell>
+            <Cell><Data ss:Type="String">${analysisTotal.sumAreaGy!?string(fixed)}</Data></Cell>
+            <Cell><Data ss:Type="String">${analysisTotal.sumAreaJt!?string(fixed)}</Data></Cell>
+            </#list>
+         </Row>
+        <Row ss:AutoFitHeight="0">
+            <Cell ss:Index="2" ss:MergeDown="10"><Data ss:Type="String">农用地</Data></Cell>
+            <Cell ><Data ss:Type="String">小计</Data></Cell>
+            <#list data as dataRow>
+            <#assign dataRowSize = dataRow.analysisData?size>
+            <#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+            <#assign tot=analysisTotal.categoryB>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("农用地")>${tot["农用地"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("农用地_gy")>${tot["农用地_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("农用地_jt")>${tot["农用地_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+        <Row ss:AutoFitHeight="0">
+            <Cell ss:Index="3"><Data ss:Type="String">耕地</Data></Cell>
+            <#list data as dataRow>
+            <#assign dataRowSize = dataRow.analysisData?size>
+            <#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+            <#assign tot=analysisTotal.categoryB>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("01")>${tot["01"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("01_gy")>${tot["01_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("01_jt")>${tot["01_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+                </#list>
+        </Row>
+        <Row ss:AutoFitHeight="0">
+            <Cell ss:Index="3"><Data ss:Type="String">园地</Data></Cell>
+            <#list data as dataRow>
+            <#assign dataRowSize = dataRow.analysisData?size>
+            <#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+            <#assign tot=analysisTotal.categoryB>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("02")>${tot["02"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("02_gy")>${tot["02_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+            <Cell><Data ss:Type="String"><#if tot?keys?seq_contains("02_jt")>${tot["02_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+                </#list>
+        </Row>
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">林地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("03")>${tot["03"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("03_gy")>${tot["03_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("03_jt")>${tot["03_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">天然牧草地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("041")>${tot["041"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("041_gy")>${tot["041_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("041_jt")>${tot["041_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">人工牧草地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("042")>${tot["042"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("042_gy")>${tot["042_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("042_jt")>${tot["042_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">农村道路</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("104")>${tot["104"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("104_gy")>${tot["104_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("104_jt")>${tot["104_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">坑塘水面</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("114")>${tot["114"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("114_gy")>${tot["114_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("114_jt")>${tot["114_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沟渠</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("117")>${tot["117"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("117_gy")>${tot["117_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("117_jt")>${tot["117_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">设施农用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("122")>${tot["122"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("122_gy")>${tot["122_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("122_jt")>${tot["122_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">田坎</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("123")>${tot["123"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("123_gy")>${tot["123_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("123_jt")>${tot["123_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="2" ss:MergeDown="6"><Data ss:Type="String">建设用地</Data></Cell>
+<Cell ><Data ss:Type="String">小计</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地")>${tot["建设用地"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地_gy")>${tot["建设用地_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地_jt")>${tot["建设用地_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">城镇及工矿用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("20")>${tot["20"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("20_gy")>${tot["20_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("20_jt")>${tot["20_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">铁路用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("101")>${tot["101"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("101_gy")>${tot["101_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("101_jt")>${tot["101_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">公路用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("102")>${tot["102"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("102_gy")>${tot["102_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("102_jt")>${tot["102_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">机场用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("105")>${tot["105"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("105_gy")>${tot["105_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("105_jt")>${tot["105_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">港口码头用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("106")>${tot["106"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("106_gy")>${tot["106_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("106_jt")>${tot["106_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">管道运输用地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("107")>${tot["107"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("107_gy")>${tot["107_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("107_jt")>${tot["107_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="2" ss:MergeDown="2"><Data ss:Type="String">未利用地</Data></Cell>
+<Cell ><Data ss:Type="String">小计</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地")>${tot["未利用地"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地_gy")>${tot["未利用地_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地_jt")>${tot["未利用地_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">沙地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("126")>${tot["126"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("126_gy")>${tot["126_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("126_jt")>${tot["126_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+<Row ss:AutoFitHeight="0">
+<Cell ss:Index="3"><Data ss:Type="String">裸地</Data></Cell>
+<#list data as dataRow>
+<#assign dataRowSize = dataRow.analysisData?size>
+<#assign analysisTotal=dataRow.analysisData[dataRowSize-1]>
+<#assign tot=analysisTotal.categoryB>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("127")>${tot["127"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("127_gy")>${tot["127_gy"]!?string(fixed)}<#else >0</#if></Data></Cell>
+<Cell><Data ss:Type="String"><#if tot?keys?seq_contains("127_jt")>${tot["127_jt"]!?string(fixed)}<#else >0</#if></Data></Cell>
+        </#list>
+        </Row>
+
+</Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>200</HorizontalResolution>
+    <VerticalResolution>200</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>1</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

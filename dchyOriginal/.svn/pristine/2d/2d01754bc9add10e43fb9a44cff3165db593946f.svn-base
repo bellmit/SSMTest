@@ -1,0 +1,174 @@
+<template>
+    <div>
+        <Header :showUser="false"></Header>
+        <div>
+            <div class="bdc-location">
+                <img src="static/images/index-home.png" alt="">
+                <span>当前位置:&nbsp;</span>
+                <span class="layui-breadcrumb" lay-separator=">" lay-filter="location">
+                <span @click="toHome()" style="cursor:pointer;">首页</span>
+                <span lay-separator>></span>
+                <a @click="toDetailList()" v-if="toName"><cite>{{toName}}</cite></a>
+                <span lay-separator v-if="toName">></span>
+                <a><cite>{{toName}}详情</cite></a>
+                </span>
+            </div>
+        </div>
+        <div class="mlk-container bdc-container detail-container">
+            <div class="bdc-content-title">
+                <span class="bdc-now-name">{{toName}}详情</span>
+                <div class="online-handle" v-if="toName=='办事指南'">
+                    <Button type="primary" class="bdc-major-btn" @click="linkToPortalMenu(item)">在线办理</Button>
+                </div>
+            </div> 
+            <div class="detail-header">
+                <div>{{detail.bt}}</div>
+            </div>
+            <div class="content-detail">
+                <div class="detail-fbsj">
+                    <span>发布日期:</span>
+                    <span>{{detail.fbsj}}</span>
+                </div>
+                <div class="content-detail" v-html="content"></div>
+                <div class="detail-fj">
+                    <span>附件: </span>
+                    <a href="javascript: void(0)" @click="dwonloadFj()">附件材料</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { queryNoticeDetail, queryFileList } from "../../service/home"
+import { linkToPortal } from "../../service/request";
+export default {
+    data() {
+        return {
+            content: "",
+            tzggid: "",
+            uploadList: [],
+            ssmkid: '7',
+            wjzxid: "",
+            detail: {},
+            toName: "",
+            access_token: ""
+        }
+    },
+    mounted() {
+        if(this.$route.query.tzggid){
+            this.tzggid = this.$route.query.tzggid
+        }
+        this.toName = this.$route.query.name;
+        this.queryNoticeDetail();
+        this.queryFileList();
+        this.access_token = sessionStorage.getItem("access_token") || ""
+    },
+    methods: {
+        queryFileList(){
+            queryFileList({ssmkid: this.ssmkid,glsxid:this.tzggid}).then(res => {
+                this.uploadList = res.data.dataList
+            })
+        },
+        toHome(){
+            let token = sessionStorage.getItem("access_token") || ""
+            this.$router.push({
+                path: "/home",
+                query: {
+                    token
+                }
+            })
+        },
+        toDetailList(){
+            this.$router.go(-1);
+        },
+        queryNoticeDetail(){
+            let params = {
+                tzggid: this.tzggid
+            }
+            queryNoticeDetail(params).then(res => {
+                this.detail = res.dataList
+                this.content = res.dataList.ggnr;
+                this.wjzxid = res.dataList.wjzxid;
+            })
+        },
+        // 用户跳转
+        linkToPortalMenu(menuId=""){
+            if(!this.access_token){
+                linkToPortal();
+                return;
+            }
+            if (!location.origin) {
+                location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            location.href = location.origin + "/portal-ol/login/disPatcher?token=" + this.access_token + "&rid=" + menuId
+        },
+        dwonloadFj(){
+            if(!this.wjzxid){
+                layer.msg('暂无材料')
+                return
+            }
+            if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+            }
+            location.href=location.origin + '/portal-ol/fileoperation/download?wjzxid=' +this.wjzxid
+        }
+    },
+}
+</script>
+<style scoped>
+    .mlk-container {
+        border: 1px solid #d0d5da;
+    }
+    .detail-container {
+        min-height: calc(100vh - 110px);
+        background-color: #fff;
+        margin-top: 10px;
+    }
+    .list-title {
+        height: 14px;
+        line-height: 14px;
+        border-left-width: 3px;
+    }
+    .detail-header {
+        height: 68px;
+        text-align: center;
+        line-height: 68px;
+        font-size: 24px;
+        border-bottom: 1px solid #d0d5da;
+    }
+    .bdc-content-title {
+        position: relative;
+    }
+    .online-handle {
+        position: absolute;
+        right: 10px;
+        top: 0;
+    }
+    .content-detail {
+        padding: 20px 100px;
+        line-height: 32px;
+    }
+    .detail-fbsj {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .detail-fj {
+        margin-top: 60px;
+        padding: 0 100px;
+    }
+    .section-title {
+        height: 40px;
+        line-height: 40px;
+        background-color: #fff;
+        color: #333;
+        font-size: 16px;
+        font-family: 'SimHei';
+        padding-left: 15px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+    .content-detail {
+        word-wrap: break-word; 
+        word-break: normal;
+    }
+</style>

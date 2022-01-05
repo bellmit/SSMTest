@@ -1,0 +1,29 @@
+<div class="widget-panel-title">一键查看</div>
+<div class="panel-body panel-container">
+    <ul id="display-list" class="list-group">
+
+    </ul>
+</div>
+
+<script id="displayLstTpl" type="x-tpl-mustache">
+ {{#each displays}}
+    <li class="list-group-item">
+        <div class="display-title" role="tab" id="headingOne">
+              <a class="list-a" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{id}}" aria-expanded="true" aria-controls="collapseOne">
+                 {{showName}}
+               </a>
+        </div>
+        <div id="{{id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="tree-{{id}} tree-node">
+                <ul id="dirTree{{id}}" class="ztree"></ul>
+            </div>
+             <div class="panel-body" id="content-{{id}}">
+                {{#each excels}}
+                    <button type="button" class="btn btn-success export-excel" data-rId="{{rId}}" data-dataSource="{{dataSource}}" data-layerName="{{sourceLayer}}"
+                    data-where="{{where}}" data-showName="{{showName}}">{{showName}}</button>
+                {{/each}}
+             </div>
+        </div>
+     </li>
+ {{/each}}
+</script>

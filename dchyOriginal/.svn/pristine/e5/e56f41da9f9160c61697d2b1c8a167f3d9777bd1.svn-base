@@ -1,0 +1,46 @@
+package cn.gtmap.msurveyplat.promanage.service;
+
+import cn.gtmap.msurveyplat.promanage.model.ReceiveConfigModel;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+public interface ConfigureSystemService {
+
+    /**
+     * add Configure
+     *
+     * @param receiveConfigModel ReceiveConfigModel
+     * @return Boolean
+     */
+    Boolean addConfigure(ReceiveConfigModel receiveConfigModel);
+
+    /**
+     * edit Configure info
+     *
+     * @param receiveConfigModel ReceiveConfigModel
+     * @return Boolean
+     */
+    Boolean editConfigure(ReceiveConfigModel receiveConfigModel);
+
+    /**
+     * drop Configure
+     *
+     * @param id String
+     * @return boolean
+     */
+    boolean dropConfigure(String id);
+
+    /**
+     * findConfigure
+     *
+     * @return List<ReceiveConfigModel>
+     */
+    List<Map<String, Object>> findConfigure();
+}

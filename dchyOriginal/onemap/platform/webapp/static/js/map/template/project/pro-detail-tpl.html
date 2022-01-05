@@ -1,0 +1,48 @@
+<div class="pro-detail-content" style="width:500px">
+    <div class={{layerHide}}>
+        <button type="button" class="close" aria-hidden="true">
+            &times;
+        </button>
+        <div class="title">
+            {{proName}}
+        </div>
+        <div class="split-line">
+        </div>
+    </div>
+    <table class="table" style="margin-bottom: 8px;">
+        <tr>
+            <th>项目名称</th>
+            <td>{{proName}}</td>
+            <th>项目类型</th>
+            <td>{{proType}}</td>
+        </tr>
+        <tr>
+            <th>关联监控:</th>
+            <td colspan="3">
+                <div class="center-block pro-cameras-div">
+                    {{#cameras}}
+                    <span class="label label-primary pro-camera-span" data-toggle="collapse" href="#{{indexCode}}"
+                          aria-expanded="false" aria-controls="collapsePreset">{{name}}</span>
+                    {{/cameras}}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        {{#cameras}}
+        {{#if hasPresets}}
+        {{> presetTpl presetsParam = presets}}
+        {{else}}
+        <div class="collapse" id="{{indexCode}}">
+            <div class="preset-new-panel">
+                <strong>没有预置位! </strong>
+                <a class="btn btn-sm btn-primary" style="color:#FFFFFF" name="addPresetBtn" data-indexcode="{{indexCode}}">新增</a>
+                <a class="btn btn-link" style="padding: 0;margin: 0;" name="previewBtn">查看视频</a>
+            </div>
+        </div>
+        {{/if}}
+        {{/cameras}}
+    </div>
+
+</div>

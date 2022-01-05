@@ -1,0 +1,147 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="姓名" class="form-list-search" prop="name">
+                            <Input type="text" class="form-search-item" v-model="formInline.name" @keydown.enter.native.prevent="getAnthList(1,formInline.pageSize)" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="证件号码" class="form-list-search" prop="zjid">
+                            <Input type="text" class="form-search-item" v-model="formInline.zjid" @keydown.enter.native.prevent="getAnthList(1,formInline.pageSize)" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="启用状态" class="form-list-search" porp="qyzt">
+                            <Select v-model="formInline.qyzt" clearable class="form-search-item">
+                                <Option v-for="item in qyztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='50' class="form-list-search">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getAnthList(1,formInline.pageSize)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <Table 
+            :cols="tableCols"
+            :data="myAuthList"
+            :count="totalNum"
+            :page="formInline.page"
+            :size="formInline.pageSize"
+            :tool="tool"
+            :func="getAnthList"
+            :operation="operationList"
+            @enable="enable"
+            @disable="disable"
+            @btn1="authDownload"
+            @check="checkList"
+        ></Table>
+    </div>
+</template>
+<script>
+export default {
+    data() {
+        return {
+            formInline: {
+                name: "",
+                id: "",
+                qyzt: "",
+                page: 1,
+                pageSize: 10
+            },
+            tool: '<div>' +
+                    '<span class="layui-btn main-btn-a" lay-event="btn1">授权委托书下载</span>'+
+                '</div>',
+            tableCols: [
+                {
+                    type: "checkbox",
+                    align: "center",
+                    width: 50,
+                    fixed: "left",
+                },
+                {
+                    field: "ROWNUM_",
+                    width: 70,
+                    align: "center",
+                    title: "序号",
+                    fixed: "left"
+                },
+                {
+                    field: "NAME",
+                    align: "center",
+                    title: "姓名"
+                },
+                {
+                    field: "ZJLX",
+                    align: "center",
+                    title: "证件类型"
+                },
+                {
+                    field: "ZJID",
+                    align: "center",
+                    title: "证件号码"
+                },
+                {
+                    field: "QYZT",
+                    align: "center",
+                    title: "启用状态",
+                    templet: function(d){
+                        let className= d.QYZT==="启用中" ? "color-finish" : "color-unfinish"
+                        return "<span class='"+className+"'>"+d.QYZT+"</span>"
+                    }
+                },
+                {
+                    align: "center",
+                    title: "操作",
+                    toolbar: "#operation",
+                    minWidth: 180
+                }
+            ],
+            operationList: ["enable","disable"],
+            totalNum: 0,
+            myAuthList:[],
+            qyztList:[
+            ],
+            ruleInline:{}, 
+            selectedList: []       
+        }
+    },
+    methods: {
+        getAnthList(){
+
+        },
+        checkList(list){
+            this.selectedList = [...list]
+        },
+        // 重置查询条件
+        resetForm() {
+            this.$refs["formInline"].resetFields();
+        },
+        //授权书下载
+        authDownload(){
+            if(!this.selectedList.length){
+                layer.msg("请至少选择一项")
+            }
+        },
+        // 删除操作
+        deleteOpr(data){
+            if(this.myAuthList && this.myAuthList.length){
+                this.myAuthList.forEach((list, index) => {
+                if (list.QYZT == "未启用") {
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='disable']").remove();
+                } else {
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='enable']").remove();
+                }
+            });
+            }
+        },
+    }
+}
+</script>

@@ -1,0 +1,99 @@
+
+.review-header {
+    margin-top: -20px;
+    height: 48px;
+    border-bottom: 1px solid #d0d5da;
+}
+.content-left {
+    width: 320px;
+    margin-right: 10px;
+}
+.left-tree {
+    height: 380px;
+    border: 1px solid #d0d5da;
+}
+.tree-header {
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    padding-left: 10px;
+    border-bottom: 1px solid #d0d5da;
+}
+.tree-content {
+    height: 340px;
+    overflow: auto;
+}
+.content {
+    padding: 10px;
+    margin-top: 10px!important;
+    background-color: #fff;
+    display: flex;
+    height: calc( 100vh - 70px );
+    justify-content: space-between;
+}
+
+.content-right {
+    width: calc(100% - 320px);
+    border: 1px solid #d0d5da;
+}
+.file-operation {
+    height: 46px;
+    line-height: 46px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d0d5da;
+}
+.opr-right {
+    margin-top: 3px;
+}
+.file-detail {
+    height: calc(100% - 46px);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+.file-opr {
+    display: inline-block;
+    font-size: 24px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #d0d5da;
+    background-color:#f3f4f6;
+}
+.icon-file {
+    font-size: 50px;
+    color: #ecce6a;
+}
+.icon-file-detail {
+    font-size: 50px;
+}
+.file-item {
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 40px;
+    margin-top: 10px;
+}
+.detail-content {
+    padding: 10px 20px;
+}
+.detail-content > div {
+    line-height: 34px;
+}
+.file-item-active {
+    background-color: #f3f4f6;
+}
+.tree-content {
+    padding: 10px;
+}
+.left-detail {
+    height: calc(100% - 390px);
+    margin-top: 10px;
+    border: 1px solid #d0d5da;
+}

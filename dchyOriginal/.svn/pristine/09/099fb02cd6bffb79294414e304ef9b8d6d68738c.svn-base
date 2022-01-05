@@ -1,0 +1,61 @@
+<div id="ghAnalysisResultContainer">
+    <div id="headContainer">
+        <div class="gh-ana-content">
+            <div class="pro-info">{{proname}}&nbsp;&nbsp;&nbsp;&nbsp;{{pcArea}}&nbsp;&nbsp;&nbsp;&nbsp;地块面积:{{dkArea}}</div>
+            <span class="pro-info-unit">(单位：公顷)</span>
+        </div>
+    </div>
+
+    <div id="infoContainer" style="clear: both;margin-top: 10px;">
+        <ul class="nav nav-tabs" role="tablist" id="firstTab">
+            {{#each info}}
+               <li role="presentation" class="{{#enableActive @index 0}}{{/enableActive}}" data-id="{{key}}"><a href="#{{key}}"  role="tab" data-toggle="tab" style="font-size: 14px;">{{key}}</a></li>
+            {{/each}}
+            <button class="btn btn-large btn-primary" style="float:right" id="exportSuit">导出符合规划</button>
+            <div class="btn-group" style="padding: 0 10px 0 0;float: right;">
+                <button class="btn btn-large btn-primary active" id="summary">概要信息</button>
+                <button class="btn btn-large btn-primary" id="detail">详细信息</button>
+            </div>
+        </ul>
+        <div class="tab-content" id="tabContainer">
+            {{#each info}}
+                <div role="tabpanel" class="tab-pane fade {{#enableActive @index 1}}{{/enableActive}}" id="{{key}}">
+                    <div id="{{key}}summary" style="display:block">
+                        <table>
+                            <tr>
+                                <th>分类名称</th>
+                                <th>所占面积</th>
+                                <th>所占比例（%）</th>
+                            </tr>
+                            {{#each value.info}}
+                                <tr>
+                                    <td>{{lxmc}}</td>
+                                    <td>{{area}}</td>
+                                    <td>{{per}}</td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+                    <div id="{{key}}detail" style="display: none">
+                        <table>
+                            <tr>
+                                <th>地块名称</th>
+                                <th>地块类型</th>
+                                <th>图斑原面积</th>
+                                <th>所占面积</th>
+                            </tr>
+                            {{#each value.detail}}
+                            <tr>
+                                <td class="location-gra" data-geo="{{geo}}"><a href="javascript:void(0)">{{OG_PRO_PLOT_NAME}}</a></td>
+                                <td class="location-gra" data-geo="{{geo}}"><a href="javascript:void(0)">{{lxmc}}</a></td>
+                                <td class="location-gra" data-geo="{{geo}}"><a href="javascript:void(0)">{{OG_SHAPE_AREA}}</a></td>
+                                <td class="location-gra" data-geo="{{geo}}"><a href="javascript:void(0)">{{SHAPE_AREA}}</a></td>
+                            </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

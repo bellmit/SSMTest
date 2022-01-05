@@ -1,0 +1,71 @@
+
+J
+java:S3740Z"/Provide the parametrized type for this generic.(­»Â¯ûÿÿÿÿ
+K
+java:S3740¸"/Provide the parametrized type for this generic.(ğí–¶øÿÿÿÿ
+F
+java:S3740»"/Provide the parametrized type for this generic.(©öµŞ
+K
+java:S3740¼"/Provide the parametrized type for this generic.(­»Â¯ûÿÿÿÿ
+K
+java:S3740ó"/Provide the parametrized type for this generic.(­»Â¯ûÿÿÿÿ
+K
+java:S3740Æ"/Provide the parametrized type for this generic.(ÌŒœÂÿÿÿÿÿ
+K
+java:S3740È"/Provide the parametrized type for this generic.(¯öÄ„úÿÿÿÿ
+K
+java:S3740İ"/Provide the parametrized type for this generic.(ÌŒœÂÿÿÿÿÿ
+K
+java:S3740ß"/Provide the parametrized type for this generic.(¯öÄ„úÿÿÿÿ
+K
+java:S3740ô"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+K
+java:S3740"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+c
+java:S1192ƒ"GDefine a constant instead of duplicating this literal "sjclid" 4 times.(±‰Ğõúÿÿÿÿ
+c
+java:S1192‡"GDefine a constant instead of duplicating this literal "sjxxid" 4 times.(µíæéÿÿÿÿÿ
+`
+java:S1192d"JDefine a constant instead of duplicating this literal "loginname" 4 times.(¼¤¯¥
+_
+java:S1192g"IDefine a constant instead of duplicating this literal "tyshxydm" 6 times.(ı’Ú
+_
+java:S1192c"IDefine a constant instead of duplicating this literal "username" 6 times.(¯ÜÌ
+b
+java:S1192]"GDefine a constant instead of duplicating this literal "glsxid" 6 times.(Ğ‚Ï¾ùÿÿÿÿ
+_
+java:S1192j"IDefine a constant instead of duplicating this literal "password" 7 times.(³È€•
+\
+java:S1192h"FDefine a constant instead of duplicating this literal "jsdwm" 4 times.(×ö‹Ù
+x
+java:S2629£"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(×µ¿ˆüÿÿÿÿ
+x
+java:S2629¥"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(«÷¦æøÿÿÿÿ
+x
+java:S2629²"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(×µ¿ˆüÿÿÿÿ
+x
+java:S2629´"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(«÷¦æøÿÿÿÿ
+_
+java:S2583ƒ"CChange this condition so that it does not always evaluate to "true"(›Àùÿÿÿÿ
+^
+java:S1128"HRemove this unused import 'cn.gtmap.msurveyplat.common.util.SsmkidEnum'.(¯»Ù‹
+g
+java:S3776Y"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÖÚÌm
+[
+java:S4143"DVerify this is the key that was intended; it was already set before.(ˆ´«å
+]
+java:S3457£"AFormat specifiers should be used instead of string concatenation.(×µ¿ˆüÿÿÿÿ
+]
+java:S3457¥"AFormat specifiers should be used instead of string concatenation.(«÷¦æøÿÿÿÿ
+1
+java:S3457©"Not enough arguments.(§ê‰øÿÿÿÿ
+Y
+java:S1854¼"=Remove this useless assignment to local variable "resultMap".(­»Â¯ûÿÿÿÿ
+]
+java:S3457²"AFormat specifiers should be used instead of string concatenation.(×µ¿ˆüÿÿÿÿ
+]
+java:S3457´"AFormat specifiers should be used instead of string concatenation.(«÷¦æøÿÿÿÿ
+1
+java:S3457¸"Not enough arguments.(§ê‰øÿÿÿÿ
+h
+java:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(áÑç

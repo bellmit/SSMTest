@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/cgtj.css" media="all">
+</head>
+<body>
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this" data-type="myd">满意度统计</li>
+        <li data-type="zl">质量统计</li>
+    </ul>
+    <div class="export-btn">
+        <button class="layui-btn sum-btn pf-major-btn" type="button" id="export">统计报告输出</button>
+    </div>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form">
+                <div class="mydtj">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">评价时间：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="mydpjkssj" placeholder="请选择开始时间"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">~</div>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="mydpjjssj" placeholder="请选择结束时间"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-form-item">
+                            <div class="mydchdw">
+                                <label class="layui-form-label">测绘单位：</label>
+                                <div class="layui-input-block" style="margin-top: 5px">
+                                    <select name="mydchdw" lay-filter="mydchdw" lay-search></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn sum-btn pf-major-btn" id="mydsearch" type="button"
+                                style="margin-left: 20px">查询
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="mydreset"
+                                style="margin-left: 20px;">重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+
+            <div class="layui-inline" id="cgzl-export">
+                <div id="mydsltj">
+                    <div class="block"><p style="margin-left: 20px">成果满意度数量统计</p></div>
+                    <div id="myd_left" style="width:100%;height: 250px;float:left">
+                    </div>
+                </div>
+
+                <div id="mydzbtj">
+                    <div class="block"><p style="margin-left: 20px">成果满意度占比统计</p></div>
+                    <div id="myd_right" style="width: 100%;height: 230px;">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div style="padding: 20px">
+                <div class="block"><p style="margin-left:20px">建设单位评价记录</p></div>
+                <table id="jsdwpjjl"></table>
+                <div id="jsdwpjjl_page"></div>
+            </div>
+
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form">
+                <div class="mydtj">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">评价时间：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="zlpjkssj" placeholder="请选择开始时间"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">~</div>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="zlpjjssj" placeholder="请选择结束时间"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-form-item">
+                            <div class="zlchdw">
+                                <label class="layui-form-label">测绘单位：</label>
+                                <div class="layui-input-block" style="margin-top: 5px">
+                                    <select name="zlchdw" lay-filter="zlchdw" lay-search></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn sum-btn pf-major-btn" id="zlsearch" type="button"
+                                style="margin-left: 20px">查询
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="zlreset"
+                                style="margin-left: 20px;">重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="layui-inline" id="zl-export">
+                <div id="zlsltj">
+                    <div class="block"><p style="margin-left: 20px">成果质量数量统计</p></div>
+                    <div id="zl_left" style="width: 700px;height: 250px">
+                    </div>
+                </div>
+
+                <div id="zlzbtj">
+                    <div class="block"><p style="margin-left: 20px">成果质量占比统计</p></div>
+                    <div id="zl_right" style="width: 700px;height: 200px">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div style="padding: 20px">
+                <div class="block"><p style="margin-left:20px">管理单位抽查结果</p></div>
+                <table id="gldwccjg"></table>
+                <div id="gldwccjg_page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../lib/jspdf.debug.js"></script>
+<script type="text/javascript" src="../lib/html2canvas.js"></script>
+<script src="../lib/echarts/echarts.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/cgtj.js"></script>
+</body>
+</html>

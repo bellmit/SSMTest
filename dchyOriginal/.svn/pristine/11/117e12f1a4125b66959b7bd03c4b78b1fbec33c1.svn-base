@@ -1,0 +1,72 @@
+<div class="widget-panel-title">系统管理</div>
+<div class="panel-body" style="padding: 2px!important;">
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="nav-tab active"><a href="#geo_panel" role="tab" data-toggle="tab">GeoJSON</a></li>
+        <li role="presentation" class="nav-tab"><a href="#draw_panel" role="tab" data-toggle="tab">绘制</a></li>
+        <li role="presentation" class="nav-tab"><a href="#other_panel" role="tab" data-toggle="tab">其他</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="geo_panel">
+            <textarea rows="30" cols="40" id="rawTextArea" placeholder="输入GEOJSON"></textarea>
+            <div class="col-md-12">
+                <a class="btn btn-default" id="parseGeoBtn"><i class="iconfont" data-loading-text="解析中...">&#xe623;</i>&nbsp;&nbsp;解析</a>
+                &nbsp;&nbsp;
+                <a class="btn btn-default" id="exportGeoBtn"><i class="iconfont" data-loading-text="解析中...">&#xe60f;</i>&nbsp;&nbsp;导出</a>
+            </div>
+            <div class="col-md-12">
+                <ul data-bind="foreach: geos" style="max-height: 220px; overflow-y: auto; overflow-x: hidden;">
+                    <li class="text-left geo-li row">
+                        <span data-bind="text: $index" class="col-xs-1"> </span>
+                        <span data-bind="text: $data.geometry.type" class="col-xs-5"></span>
+                        <a href="javascript:;" data-bind="click: $parent.location" title="定位" class="col-xs-5">
+                            <i class="fa fa-map-marker"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane" id="draw_panel">
+            <div class="row text-center m-t-10">
+                <button class="btn btn-link btn-sm pull-right m-r-10" data-bind="visible: draws().length > 0, click: clear">清除</button>
+                <div class="btn-group text-left">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        手绘图形 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu draw-menu">
+                        <li><a data-type="point"><i class="iconfont">&#xe649;</i>&nbsp;点</a></li>
+                        <li><a data-type="polyline"><i class="iconfont">&#xe619;</i>&nbsp;线</a></li>
+                        <li><a data-type="polygon"><i class="iconfont">&#xe62c;</i>&nbsp;面</a></li>
+                    </ul>
+                </div>
+                <div class="m-t-10">
+                    <ul class="list-group" data-bind="foreach: draws">
+                        <li class="list-group-item" style="margin: auto 8px;">
+                            <div class="pull-right">
+                                <button class="btn btn-primary btn-xs" data-bind="click: $parent.location">定位</button>
+                                <div class="btn-group text-left m-l-5">
+                                    <button class="btn btn-primary btn-xs dropdown-toggle" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        导出 <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-type="geojson" data-bind="click: $parent.exportDraw.bind($data,'geojson')">&nbsp;GeoJson</a></li>
+                                        <li><a data-type="txt" data-bind="click: $parent.exportDraw.bind($data,'txt')">&nbsp;txt</a></li>
+                                        <li><a data-type="excel" data-bind="click: $parent.exportDraw.bind($data,'excel')">&nbsp;excel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--ko text: name--><!--/ko-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="other_panel">
+            <div class="row" id="listContainer">
+
+            </div>
+        </div>
+    </div>
+</div>

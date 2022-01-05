@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglChxmChdwxxMapper">
+    <!--通过测绘项目id查询测量单位信息-->
+    <select id="queryChdwxxByChxmid" parameterType="map" resultType="string">
+        SELECT mlkid FROM DCHY_XMGL_CHXM_CHDWXX
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryChdwxxByClcgxx" parameterType="map"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmChdwxx">
+        SELECT DISTINCT C.CHDWMC
+        FROM DCHY_XMGL_CLCG A
+        INNER JOIN DCHY_XMGL_CHXM_CHDWXX C ON C.CHXMID = A.CHXMID
+        WHERE A.SQXXID = #{sqxxid}
+    </select>
+
+    <select id="getChdwxxList" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmChdwxx">
+        SELECT a.chdwxxid,a.chxmid,a.chdwmc,a.mlkid,a.chdwlx,a.fwpj,a.pjr,a.pjsj,
+        (SELECT w.chdwid FROM DCHY_XMGL_CHDW w WHERE w.chdwmc = a.chdwmc) chdwid
+        FROM dchy_xmgl_chxm_chdwxx a
+        WHERE a.chxmid IN
+        (SELECT a.chxmid FROM dchy_xmgl_chxm_clsx a INNER JOIN dchy_xmgl_zd b ON a.clsx = b.dm
+        <where>
+            <if test="fdm != null and fdm !=''">
+                AND b.fdm = #{fdm}
+            </if>
+        </where>
+        AND a.chxmid IN (SELECT c.chxmid FROM dchy_xmgl_chxm c
+        <where>
+            <if test="chgcbh != null and chgcbh !=''">
+                AND c.chgcbh = #{chgcbh}
+            </if>
+        </where>
+        ))
+        ORDER BY a.pjsj DESC NULLS LAST
+    </select>
+</mapper>

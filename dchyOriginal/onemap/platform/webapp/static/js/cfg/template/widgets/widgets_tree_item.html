@@ -1,0 +1,38 @@
+<ol class="dd-list root">
+    <li class="dd-item dd3-item" data-id="1">
+        <ol class="dd-list" data-type="rootList">
+            {{#widgets}}
+            <li class="dd-item dd3-item widget" data-id="{{id}}" data-type="widget" data-info="{{getWidgetInfo}}">
+                <div class="dd-handle dd3-handle2" title="按住我可以拖拽哦！">Drag</div>
+                <div class="dd3-content">
+                    <div class="overflowText">{{label}}</div>
+                    <span class="glyphicon glyphicon-trash pull-right del"></span></div>
+            </li>
+            {{/widgets}}
+
+            {{#widgetsGroup}}
+            <li class="dd-item dd3-item widgetsGroup" data-id="{{id}}" data-type="widgetsGroup" data-info="{{getWidgetInfo}}" >
+                <div class="dd-handle dd3-handle1" title="按住我可以拖拽整组哦！">Drag</div>
+                <div class="dd3-content">{{label}}<span class="glyphicon glyphicon-trash pull-right gDel"></span></div>
+                <ol class="dd-list">
+                    {{>gwidgets}}
+                </ol>
+            </li>
+            {{/widgetsGroup}}
+
+            {{#fixWidgets}}
+            <li class="dd-item dd3-item fixWidget" data-id="{{id}}" data-type="fixWidget" data-info="{{getWidgetInfo}}">
+                <div class="dd-handle dd3-handle2" title="按住我可以拖拽哦！">Drag</div>
+                <div class="dd3-content">{{label}}</div>
+            </li>
+            {{/fixWidgets}}
+
+            {{#dockWidgets}}
+            <li class="dd-item dd3-item dockWidget {{^label}}hidden{{/label}}" data-id="{{id}}" data-type="dockWidget" data-info="{{getWidgetInfo}}">
+                <div class="dd-handle dd3-handle2">Drag</div>
+                <div class="dd3-content">{{label}}</div>
+            </li>
+            {{/dockWidgets}}
+        </ol>
+    </li>
+</ol>

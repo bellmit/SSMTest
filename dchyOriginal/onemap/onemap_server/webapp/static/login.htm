@@ -1,0 +1,152 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>一张图信息门户登录页</title>
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/global.css" />
+	<style type="text/css">
+	body,html{
+		height: 100%;
+		background-color: white;
+	}
+	.container{
+		width : 1024px;
+	}
+	#fullscreen{
+		height: 100%;
+	}
+	.floor{
+		height: 50%;
+	}
+	.floor .container{
+		height: 100%;
+		position: relative;
+	}
+	.floor.top{
+		background:#151816 url(img/login/map.gif) center center no-repeat;
+		box-shadow:inset 0 -2px 5px rgba(0,0,0,.3);
+		position: relative;
+	}
+	.floor.top h1{
+		display: block;
+		position: absolute;
+		width: 596px;
+		height: 42px;
+		overflow: hidden;
+		text-indent: -9999999px;
+		background: url(img/login/logo.png) 0 0 no-repeat;
+		bottom: 140px;
+		left: 40px;
+	}
+	#footer{
+		position: absolute;
+		width: 1024px;
+		margin-top: -60px;
+	}
+	.banner{
+		width: 689px;
+		height: 458px;
+		background: url(img/login/banner.png) 0 0 no-repeat;
+		margin-top: -120px;
+		position: absolute;
+		z-index: 1000;
+	}
+	.form-wrap{
+		position: absolute;
+		right: 0;
+		z-index: 1000;
+		background-color: white;
+		padding: 20px 20px 70px ;
+		top: -180px;
+		width: 230px;
+		border: 1px solid #cdcdcd;
+		border-radius: 4px;
+		box-shadow: 0 2px 5px rgba(0,0,0,.3)
+	}
+	.form-wrap legend{
+		font-family: "microsoft yahei","黑体","宋体";
+		font-weight: normal;
+		text-align: center;
+		font-size: 18px;
+	}
+	.form-wrap input[type="text"],
+	.form-wrap input[type="password"]{
+		padding: 5px;
+		display: block;
+		width: 100%;
+		height: 35px;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		margin: 0;
+	}
+	.form-wrap .alert{
+		margin: 0;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.form-wrap .btn{
+		height: 35px;
+		line-height: 28px;
+	}
+	.form-wrap .control-group{
+		padding: 2px 0;
+	}
+	</style>
+</head>
+<body>
+	<div id="fullscreen">
+		
+		<div class="floor top">
+			<div class="container">
+				<h1>江苏省国土资源"一张图"信息门户</h1>
+			</div>
+		</div>
+		
+		<div class="floor second">
+			<div class="container">
+				<div class="banner"></div>
+				<div class="form-wrap">
+					<form action="">
+						<fieldset>
+							<legend>
+								用户登录
+							</legend>
+							<div class="control-group">
+								<div class="alert alert-block alert-danger">
+									<a href="#" class="close">&times;</a>
+									<strong>账号或密码错误</strong>
+								</div>
+							</div>
+							<div class="control-group" >
+								<input type="text" placeholder="账号"/>
+							</div>
+							<div class="control-group">
+								<input type="password" placeholder="密码"/>
+							</div>
+							<div class="control-group">
+								<label for="cbx" class="checkbox">
+									<input type="checkbox" id="cbx" value=""/> 记住登录
+								</label>
+							</div>
+							<div class="control-group">
+								<a href="" class="btn btn-primary btn-block">登&nbsp;&nbsp;&nbsp;录</a>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div><!-- second -->
+		
+	</div>
+	
+	<div class="container">
+		<div id="footer">
+			江苏省国土资源信息中心
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="../js/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/portal/lib/bootstrap.js"></script>
+</body>
+</html>

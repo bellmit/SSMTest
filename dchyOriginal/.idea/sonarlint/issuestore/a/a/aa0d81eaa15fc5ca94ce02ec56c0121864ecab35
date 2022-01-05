@@ -1,0 +1,73 @@
+
+F
+java:S3740ÿ"/Provide the parametrized type for this generic.(Ÿñíì
+P
+java:S4719†"9Replace charset name argument with StandardCharsets.UTF_8(á¿Ô˜
+D
+java:S1144n".Remove this unused private "basicNACK" method.(¤´Àÿ
+K
+java:S1066È"/Merge this if statement with the enclosing one.(ää¸Èüÿÿÿÿ
+K
+java:S1066‡"/Merge this if statement with the enclosing one.(§èáŞşÿÿÿÿ
+K
+java:S3740ô"/Provide the parametrized type for this generic.(£õÅıÿÿÿÿ
+S
+java:S2629¬"7Use the built-in formatting to construct this argument.(ÈÜÀÙùÿÿÿÿ
+\
+java:S3457i"AFormat specifiers should be used instead of string concatenation.(ğÚóóûÿÿÿÿ
+G
+java:S1481ø"+Remove this unused "chxmid" local variable.(¶”¿œúÿÿÿÿ
+K
+java:S1066Ê"/Merge this if statement with the enclosing one.(Øğì‚ıÿÿÿÿ
+K
+java:S3740û"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+\
+java:S3457T"AFormat specifiers should be used instead of string concatenation.(í»™²øÿÿÿÿ
+V
+java:S1854ø":Remove this useless assignment to local variable "chxmid".(¶”¿œúÿÿÿÿ
+U
+java:S1854¨"9Remove this useless assignment to local variable "byte2".(¤îÎ¨øÿÿÿÿ
+K
+java:S3740î"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+]
+java:S3457¬"AFormat specifiers should be used instead of string concatenation.(ÈÜÀÙùÿÿÿÿ
+T
+java:S1854ÿ"=Remove this useless assignment to local variable "resultMap".(Ÿñíì
+Q
+java:S1854ø":Remove this useless assignment to local variable "result".(Ã­“–
+U
+java:S4719ã"9Replace charset name argument with StandardCharsets.UTF_8(ğÒ™œúÿÿÿÿ
+\
+java:S3457]"AFormat specifiers should be used instead of string concatenation.(Ïí‘®ÿÿÿÿÿ
+T	java:S106¤"9Replace this use of System.out or System.err by a logger.(†§Öşÿÿÿÿ
+K
+java:S1066–"/Merge this if statement with the enclosing one.(Æïóşÿÿÿÿ
+E
+java:S1481ÿ".Remove this unused "resultMap" local variable.(Ÿñíì
+P
+java:S2864¢"4Iterate over the "entrySet" instead of the "keySet".(½Ö²’ûÿÿÿÿ
+F
+java:S3740û"/Provide the parametrized type for this generic.(ˆÎÙ½
+c
+java:S4719W"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+F
+java:S1481¨"*Remove this unused "byte2" local variable.(¤îÎ¨øÿÿÿÿ
+F
+java:S1144™"/Remove this unused private "uploadWjcl" method.(ºëí¡
+C
+java:S1144Û",Remove this unused private "delFile" method.(Èºçş
+R	java:S125“"<This block of commented-out lines of code should be removed.(ª¿ãÉ
+R	java:S125Ú"<This block of commented-out lines of code should be removed.(²‰Œø
+F
+java:S1066¹"/Merge this if statement with the enclosing one.(ò÷¼¨
+[
+java:S3252‡"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+j
+java:S3776€"SRefactor this method to reduce its Cognitive Complexity from 333 to the 15 allowed.(ÏÂÍç
+c
+java:S1192ü"GDefine a constant instead of duplicating this literal "sqxxid" 3 times.(™£êûøÿÿÿÿ
+W	java:S125Õ"<This block of commented-out lines of code should be removed.(øÆğÔÿÿÿÿÿ
+B
+java:S1481ø"+Remove this unused "result" local variable.(Ã­“–
+^
+java:S1192¹"GDefine a constant instead of duplicating this literal "glsxid" 4 times.(ò÷¼¨

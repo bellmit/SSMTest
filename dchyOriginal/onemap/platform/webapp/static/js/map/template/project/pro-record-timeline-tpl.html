@@ -1,0 +1,53 @@
+<ul class="record-opt bottom-border">
+    <li><a class="btn btn-primary btn-xs btn-flat" data-opt="prevWeek">前一周</a></li>
+    <li><a class="btn btn-primary btn-xs btn-flat" data-opt="nextWeek">后一周</a></li>
+    <li><a class="btn btn-primary btn-xs btn-flat" data-opt="showCustom">自定义</a></li>
+    &nbsp;<li style="font-size: 12px;"><span class="text-muted">{{startDate}}~{{endDate}}</span></li>
+    <li><a class="history-close" title="关闭"><i class="fa fa-times" style="font-size: 16px;"></i></a></li>
+    <li><a class="btn btn-primary btn-xs btn-flat btn-top" data-opt="backToTop" title="回到顶部"><i class="fa fa-arrow-up"></i></a></li>
+</ul>
+<ul id="customUl" style="display: none;" class="record-opt customUl">
+    <input type="text" id="startInput" name="startDate" class="input-text laydate-icon input-sm" style="width:130px;font-size: 14px;">
+    -
+    <input type="text" id="endInput" name="endDate" class="input-text laydate-icon input-sm" style="width:130px;font-size: 14px;">
+    <li attr="custom" style="right: 40px;"><a class="btn btn-primary btn-xs btn-flat" data-opt="customDate" >查看</a></li>
+</ul>
+<div class="record-wrapper container">
+    <ul class="record-timeline">
+        {{#each records}}
+        <li class="time-label"><span class="{{#if isToday}}bg-green{{else}}bg-blue{{/if}}">{{date}}</span></li>
+        <li {{#if isShow}}{{else}} style="display:none;"{{/if}}>
+            <i class="fa fa-camera bg-purple"></i>
+            <div class="record-timeline-item">
+                <div class="record-timeline-body text-center" id="recordBody_{{date}}">
+                    {{none_records 0}}
+                    {{#each images}}
+                    {{#isMp4 name}}
+                        <img src="/omp/static/img/map/defaultmp4.png" data-id="{{id}}" title="点击播放视频" data-type="mp4">
+                        <button class="btn btn-danger btn-xs m-l-10" data-rel="{{id}}"><i class="fa fa-times"></i>&nbsp;删除</button>
+                    {{else}}
+                        <img src="/omp/file/thumb/{{id}}" alt="..." style="min-height:136px;" data-id="{{id}}" title="点击查看大图">
+                    {{/isMp4}}
+                    {{/each}}
+                </div>
+            </div>
+        </li>
+        {{#if ../hideInspect}}
+        {{else}}
+        <li id="inspectRecord_{{date}}" {{#if isShow}}{{else}} style="display:none;"{{/if}}>
+            <i class="fa fa-user bg-aqua"></i>
+            {{none_records 1}}
+            {{#each inspects}}
+                <div class="record-timeline-item" id="inspect_{{id}}">
+                    {{getClock createAt}}
+                    <h3 class="record-timeline-header no-border"><a href="#" class="inspect-record-name" data-id="{{id}}" data-date="{{../date}}" >{{name}}</a></h3>
+                    <i class="fa fa-times inspect-record-delete" data-id="{{id}}" title="删除记录" data-today="{{#if ../isToday}}today{{else}}{{/if}}" data-date="{{../date}}" ></i>
+                    <i class="fa fa-warning full-right illegal-icon {{#if sfyswf}}{{else}}hidden{{/if}}" title="疑似违法"></i>
+                    <i id="sent_{{id}}" class="fa fa-paper-plane-o sent-icon {{#if leasProId}}{{else}}hidden{{/if}}" title="已推送"></i>
+                </div>
+            {{/each}}
+        </li>
+        {{/if}}
+        {{/each}}
+    </ul>
+</div>

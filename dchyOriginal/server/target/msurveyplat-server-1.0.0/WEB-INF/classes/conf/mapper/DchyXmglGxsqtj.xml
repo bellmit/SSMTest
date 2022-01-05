@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyXmglGxsqtj">
+    <!--共享申请统计信息台账 -->
+    <select id="getGxsqtjByPage" parameterType="java.util.Map" resultType="map">
+        SELECT t.gxywmc,ywxx.gxbmmc,ywxx.gxjsmc,count(t.gxsqid) AS sqcs
+        FROM DCHY_CGGL_GXYWSQ t
+
+        LEFT JOIN DCHY_CGGL_GXYWXX ywxx
+        ON ywxx.gxywmc=t.gxywmc
+        <where>
+            <if test="shzt != null and shzt !=''">
+                AND t.shzt=#{shzt}
+            </if>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.SQSJ <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.SQSJ <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY t.gxywmc,ywxx.gxbmmc,ywxx.gxjsmc
+    </select>
+
+    <!--共享申请统计信息通过审核结果 -->
+    <select id="getGxsqtjByShjg" parameterType="java.util.Map" resultType="map">
+        SELECT t.shzt,t.gxywmc,count(t.gxsqid) AS gxcs,zd.MC shztmc
+        FROM DCHY_CGGL_GXYWSQ t
+        LEFT JOIN DCHY_XMGL_ZD zd
+        ON zd.dm=t.shzt AND zd.zdlx='SHJG'
+        <where>
+            <if test="shzt != null and shzt !=''">
+                AND t.shzt=#{shzt}
+            </if>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.SQSJ <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.SQSJ <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY t.shzt,t.gxywmc,zd.MC
+    </select>
+
+    <!--共享申请统计信息通过共享业务名称 -->
+    <select id="getGxsqtjByYwmc" parameterType="java.util.Map" resultType="map">
+        SELECT t.gxywmc,count(t.gxsqid) AS gxcs
+        FROM DCHY_CGGL_GXYWSQ t
+        <where>
+            <if test="gxywmc != null and gxywmc !=''">
+                AND t.gxywmc=#{gxywmc}
+            </if>
+            <if test="gxkssj !=null and gxkssj !=''">
+                AND t.SQSJ <![CDATA[>=]]> to_date(#{gxkssj},'yyyy-mm-dd')
+            </if>
+            <if test="gxjssj !=null and gxjssj !=''">
+                AND t.SQSJ <![CDATA[<]]> to_date(#{gxjssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        GROUP BY t.gxywmc
+    </select>
+</mapper>

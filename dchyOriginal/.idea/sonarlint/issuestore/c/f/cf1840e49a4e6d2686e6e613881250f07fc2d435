@@ -1,0 +1,27 @@
+
+I
+java:S1481"-Remove this unused "parentId" local variable.(•¿ş´ûÿÿÿÿ
+d
+java:S1192D"IDefine a constant instead of duplicating this literal "parentId" 3 times.(±ø¤”øÿÿÿÿ
+U
+java:S1118%":Add a private constructor to hide the implicit public one.(®ñŒ¾ùÿÿÿÿ
+X
+java:S1854"<Remove this useless assignment to local variable "parentId".(•¿ş´ûÿÿÿÿ
+M
+java:S1068,"7Remove this unused "dchyXmglDyhzdMapper" private field.(À¶…¬
+`
+java:S1192m"JDefine a constant instead of duplicating this literal "undefined" 6 times.(è–œ
+K
+java:S1128"6Remove this unused import 'com.alibaba.fastjson.JSON'.(Ö¢å$
+d
+java:S1192E"IDefine a constant instead of duplicating this literal "folderId" 4 times.(óË‰†úÿÿÿÿ
+c
+java:S1192†"GDefine a constant instead of duplicating this literal "wjzxid" 3 times.(İ¨•·øÿÿÿÿ
+Q
+java:S1854”":Remove this useless assignment to local variable "ssmkid".(Åï³¡
+B
+java:S1481”"+Remove this unused "ssmkid" local variable.(Åï³¡
+Q
+java:S1854—":Remove this useless assignment to local variable "glsxid".(­ïîš
+B
+java:S1481—"+Remove this unused "glsxid" local variable.(­ïîš

@@ -1,0 +1,186 @@
+{
+  "swagger": "2.0",
+  "basePath": "/omp/api",
+  "info": {
+    "version": "1.0",
+    "title": "视频模块接口"
+  },
+  "paths": {
+    "/generateToken": {
+      "get": {
+        "description": "获取token,所有接口都需要先请求该接口生成token,token有效期为60分钟",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "账号用户",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "账号密码",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取token"
+          }
+        }
+      }
+    },
+    "/camera/realplay": {
+      "get": {
+        "description": "打开视频预览页面",
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token 值",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "indexCode",
+            "in": "query",
+            "description": "设备编码",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回视频预览的页面"
+          }
+        }
+      }
+    },
+    "/cameras/all": {
+      "post": {
+        "description": "获取所有的镜头信息",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token 值",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "镜头列表",
+            "schema": {
+              "title": "镜头列表",
+              "type": "array",
+              "items": {
+                "title": "Camera",
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "platform": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "integer"
+                  },
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cameras/poi": {
+      "post": {
+        "description": "根据兴趣点返回附近的镜头信息",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "token信息",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x",
+            "in": "query",
+            "description": "x坐标点",
+            "required": true,
+            "type": "double"
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "description": "y坐标点",
+            "required": true,
+            "type": "double"
+          },
+          {
+            "name": "bufferSize",
+            "in": "query",
+            "description": "缓冲半径大小",
+            "required": false,
+            "type": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "镜头列表",
+            "schema": {
+              "title": "镜头列表",
+              "type": "array",
+              "items": {
+                "title": "Camera",
+                "type": "object",
+                "properties": {
+                  "indexCode": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "platform": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "integer"
+                  },
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

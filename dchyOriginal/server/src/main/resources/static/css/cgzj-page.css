@@ -1,0 +1,68 @@
+.cgzj-page-contanier {
+	color: #333333;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top {
+	padding: 10px;
+	background: #f3f4f6;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header {
+	height: 45px;
+	line-height: 45px;
+	border-bottom: 1px dashed #c0bfbf;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header h3 {
+	font-size: 20px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .header .layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom {
+	padding: 20px 0;
+	overflow: hidden;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl {
+	width: 20%;
+	float: left;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl img {
+	width: 15px;
+	margin-top: 2px;
+	vertical-align: top;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl dt {
+	font-weight: bold;
+	margin-bottom: 17px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-top .bottom dl dd {
+	padding-left: 20px;
+	margin-bottom: 14px;
+}
+
+.cgzj-page-contanier .bdc-cgzj-bottom {
+	padding: 10px 0;
+}
+
+.cgzj-page-contanier .bdc-cgzj-bottom .bdc-title {
+	padding: 10px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.cgzj-page-contanier .cgzj-detail span {
+	margin-right: 10px;
+}
+
+.cgzj-page-contanier .cgzj-detail li,
+.cgzj-page-contanier .cgzj-detail p {
+	margin-bottom: 10px;
+}

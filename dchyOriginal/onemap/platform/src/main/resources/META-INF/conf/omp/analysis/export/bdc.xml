@@ -1,0 +1,384 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2017-05-16T04:51:18Z</LastSaved>
+  <Version>15.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8010</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>105</WindowTopY>
+  <ActiveSheet>7</ActiveSheet>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s62">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+  </Style>
+  <Style ss:ID="s70">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"
+         ss:Bold="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="汇总">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="2" x:FullColumns="1"
+         x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="86.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="96"/>
+   <Column ss:AutoFitWidth="0" ss:Width="99"/>
+   <Column ss:AutoFitWidth="0" ss:Width="79.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="68.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="72"/>
+   <Row ss:StyleID="s70">
+    <Cell><Data ss:Type="String">房地产权</Data></Cell>
+    <Cell><Data ss:Type="String">抵押</Data></Cell>
+    <Cell><Data ss:Type="String">查封</Data></Cell>
+    <Cell><Data ss:Type="String">异议</Data></Cell>
+    <Cell><Data ss:Type="String">预告</Data></Cell>
+    <Cell><Data ss:Type="String">地役权</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="Number"><#if total.fdcq??>${total.fdcq.count}<#else>0</#if></Data></Cell>
+    <Cell><Data ss:Type="Number"><#if total.dy??>${total.dy.count}<#else>0</#if></Data></Cell>
+   <Cell><Data ss:Type="Number"><#if total.cf??>${total.cf.count}<#else>0</#if></Data></Cell>
+  <Cell><Data ss:Type="Number"><#if total.yy??>${total.yy.count}<#else>0</#if></Data></Cell>
+ <Cell><Data ss:Type="Number"><#if total.yg??>${total.yg.count}<#else>0</#if></Data></Cell>
+<Cell><Data ss:Type="Number"><#if total.dyq??>${total.dyq.count}<#else>0</#if></Data></Cell>
+        </Row>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Print>
+ <ValidPrinterInfo/>
+ <PaperSizeIndex>9</PaperSizeIndex>
+ <HorizontalResolution>600</HorizontalResolution>
+ <VerticalResolution>600</VerticalResolution>
+</Print>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <RangeSelection>R1</RangeSelection>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+<Worksheet ss:Name="详情">
+<Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="${result?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="119.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="148.5"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">地籍号</Data></Cell>
+  <Cell><Data ss:Type="String">土地坐落</Data></Cell>
+ </Row>
+ <#list result as item>
+ <Row ss:StyleID="s62">
+  <Cell><Data ss:Type="String">${item.DJH!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.TDZL!}</Data></Cell>
+ </Row>
+</#list>
+</Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveRow>5</ActiveRow>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+<#if total??>
+<#if total.dy??>
+<Worksheet ss:Name="抵押详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${total.dy.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="83.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="157.5"/>
+ <Column ss:AutoFitWidth="0" ss:Width="126"/>
+ <Column ss:AutoFitWidth="0" ss:Width="120"/>
+ <Column ss:AutoFitWidth="0" ss:Width="246.75"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">权利人</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">抵押开始日期</Data></Cell>
+  <Cell><Data ss:Type="String">抵押结束日期</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.dy.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.kssj??>${item.kssj?date}</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if item.jssj??>${item.jssj?date}</#if></Data></Cell>
+<Cell><Data ss:Type="String">${item.detail!}</Data></Cell>
+</Row>
+        </#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <RangeSelection>R1:R2</RangeSelection>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+<#if total.cf??>
+<Worksheet ss:Name="查封详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${total.cf.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="109.5"/>
+ <Column ss:AutoFitWidth="0" ss:Width="103.5"/>
+ <Column ss:AutoFitWidth="0" ss:Width="144.75"/>
+ <Column ss:AutoFitWidth="0" ss:Width="129.75"/>
+ <Column ss:AutoFitWidth="0" ss:Width="342"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">权利人</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">查封开始日期</Data></Cell>
+  <Cell><Data ss:Type="String">查封结束日期</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.cf.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.kssj??>${item.kssj?date}</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if item.jssj??>${item.jssj?date}</#if></Data></Cell>
+<Cell><Data ss:Type="String">${item.detail!}</Data></Cell>
+</Row>
+        </#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveRow>7</ActiveRow>
+  <ActiveCol>1</ActiveCol>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+<#if total.yy??>
+<Worksheet ss:Name="异议详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${total.yy.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="125.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="141"/>
+ <Column ss:AutoFitWidth="0" ss:Width="116.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="141"/>
+ <Column ss:AutoFitWidth="0" ss:Width="271.5"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">权利人</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">异议开始日期</Data></Cell>
+  <Cell><Data ss:Type="String">异议结束日期</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.yy.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.kssj??>${item.kssj?date}</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if item.jssj??>${item.jssj?date}</#if></Data></Cell>
+<Cell><Data ss:Type="String">${item.detail!}</Data></Cell>
+</Row>
+        </#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveCol>3</ActiveCol>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+<#if total.yg??>
+<Worksheet ss:Name="预告详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${total.yg.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="97.5"/>
+ <Column ss:AutoFitWidth="0" ss:Width="143.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="144" ss:Span="1"/>
+ <Column ss:Index="5" ss:AutoFitWidth="0" ss:Width="312.75"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">权利人</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">预告开始日期</Data></Cell>
+  <Cell><Data ss:Type="String">预告结束日期</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.yg.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.kssj??>${item.kssj?date}</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if item.jssj??>${item.jssj?date}</#if></Data></Cell>
+<Cell><Data ss:Type="String">${item.detail!}</Data></Cell>
+</Row>
+        </#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveCol>3</ActiveCol>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+<#if total.dyq??>
+<Worksheet ss:Name="地役权详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${ total.dyq.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="78"/>
+ <Column ss:AutoFitWidth="0" ss:Width="141.75"/>
+ <Column ss:AutoFitWidth="0" ss:Width="128.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="129"/>
+ <Column ss:AutoFitWidth="0" ss:Width="222"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">权利人</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">权利开始日期</Data></Cell>
+  <Cell><Data ss:Type="String">权利结束日期</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.dyq.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.kssj??>${item.kssj?date}</#if></Data></Cell>
+ <Cell><Data ss:Type="String"><#if item.jssj??>${item.jssj?date}</#if></Data></Cell>
+<Cell><Data ss:Type="String">${item.detail!}</Data></Cell>
+</Row>
+        </#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveCol>3</ActiveCol>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+<#if total.fdcq??>
+<Worksheet ss:Name="房地产权详情">
+<Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="${total.fdcq.detail?size+1}" x:FullColumns="1"
+       x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+ <Column ss:AutoFitWidth="0" ss:Width="200"/>
+ <Column ss:AutoFitWidth="0" ss:Width="105.75"/>
+ <Column ss:AutoFitWidth="0" ss:Width="129"/>
+ <Column ss:AutoFitWidth="0" ss:Width="110.25"/>
+ <Column ss:AutoFitWidth="0" ss:Width="326.25"/>
+ <Row ss:StyleID="s70">
+  <Cell><Data ss:Type="String">地籍号</Data></Cell>
+  <Cell><Data ss:Type="String">证书号</Data></Cell>
+  <Cell><Data ss:Type="String">权利人名称</Data></Cell>
+  <Cell><Data ss:Type="String">详情</Data></Cell>
+ </Row>
+ <#list total.fdcq.detail as item>
+ <Row>
+  <Cell><Data ss:Type="String">${item.djh!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.tdzh!}</Data></Cell>
+  <Cell><Data ss:Type="String">${item.qlrmc!}</Data></Cell>
+  <Cell><Data ss:Type="String"><#if item.detail??>${item.detail}<#else>${item.zl!}</#if></Data></Cell>
+</Row>
+</#list>
+        </Table>
+<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+<PageSetup>
+ <Header x:Margin="0.3"/>
+ <Footer x:Margin="0.3"/>
+ <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+</PageSetup>
+<Selected/>
+<Panes>
+ <Pane>
+  <Number>3</Number>
+  <ActiveRow>6</ActiveRow>
+  <ActiveCol>3</ActiveCol>
+ </Pane>
+</Panes>
+<ProtectObjects>False</ProtectObjects>
+<ProtectScenarios>False</ProtectScenarios>
+</WorksheetOptions>
+        </Worksheet>
+        </#if>
+        </#if>
+        </Workbook>

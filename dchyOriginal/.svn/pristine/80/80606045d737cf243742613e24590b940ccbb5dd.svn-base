@@ -1,0 +1,109 @@
+.process-nav {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    margin: 0 auto;
+    .step-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #D0D5DA;
+        color: #fff;
+    }
+    >li {
+        margin-top: 26px;
+        position: relative;
+        color: #fff;
+        width: 25%;
+        text-align: center;
+    }
+    .step-first {
+        width: 80px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        margin-right: 10%;
+        margin-top: 17px;
+        color: #fff;
+        border-radius: 0;
+        border-radius: 15px;
+        position: relative;
+    }
+    
+    >li:after {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: -50%;
+        width: 100%;
+        z-index: -1;
+        height: 0;
+        border-top: 2px solid #dcdee2;
+    }
+    .dot-step {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #169BD5;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        position: relative;
+    }
+    .process-name:after {
+        content: '';
+        position: absolute;
+        top: 60px;
+        left: 4px;
+        width: 0;
+        border-left: 2px solid #dcdee2;
+    }
+    .process-steps > div:nth-last-child(1) .dot-step:after {
+        border-left: none;
+    }
+    >li:nth-child(3) .process-steps > div:nth-last-child(1) .dot-step:after{
+        border-left: 2px solid #dcdee2;
+    }
+    .step-first {
+        background-color: #169BD5;
+    }
+    .step-first:after {
+        width: 0;
+    }
+    .process-nav-doing {
+        background-color: #169BD5;
+    }
+    .process-nav-doing:after {
+        border-color: #169BD5;
+    }
+    .process-doing:after {
+        border-color: #169BD5;
+    }
+    .process-steps {
+        color: #000;
+        font-size: 14px;
+        font-weight: normal;
+        position: absolute;
+        top: 20px;
+        left: 1px;
+        width: 250px;
+        text-align: start;
+        line-height: 36px;
+    }
+    .process-content {
+        padding-left: 40px;
+    }
+    .step-img {
+        position: absolute;
+        top: -70px;
+        left: -22px;
+    }
+}
+.process-nav .process-nav-done {
+    background-color: #1675B8;
+    color: #fff;
+}

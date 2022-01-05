@@ -1,0 +1,33 @@
+{{#each presetsParam}}
+<div class="collapse" id="{{indexCode}}">
+    <div class="preset-new-panel">
+        <div class="preset-list-panel">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>预置位编号</th>
+                    <th>预置位名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{presetNo}}</td>
+                    <td>{{name}}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary preset-view {{#if enabled}} {{else}} hidden{{/if}}" style="color:#FFFFFF"
+                           data-pno="{{presetNo}}" data-indexcode="{{indexCode}}">查看</a>
+                        <a class="btn btn-xs btn-primary preset-set {{#if enabled}} {{else}} hidden{{/if}}" data-pno="{{presetNo}}"
+                           style="color:#FFFFFF"
+                           data-name="{{name}}" data-indexcode="{{indexCode}}">设置</a>
+                        <a class="btn btn-xs btn-inverse preset-del" style="color:#FFFFFF" data-id="{{id}}">删除</a>
+                        <input type="checkbox" class="disabledPreset" data-id="{{id}}" {{#if enabled}} checked {{/if}}/>
+                        <label>是否禁用</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{{/each}}

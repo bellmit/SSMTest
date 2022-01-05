@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title></title>
+    <style>
+        body{
+             overflow: hidden; 
+        }
+    </style>
+</head>
+
+<body>
+    <object id="cardReader1" classid="clsid:ACA1E246-6AC1-4442-B2CB-E7D5E116ED81" width="100%" height="100%">
+    </object>
+    <script src="../../../../thirdparty/jquery/jquery.min.js"></script>
+    <script src="../../../../js/common.js"></script> 
+    <script type="text/javascript">
+        $(function () {
+            var w_width = screen.availWidth - 21;
+            var w_height = screen.availHeight - 52-60;
+            cardReader1.width = w_width + "px";
+            cardReader1.height = w_height + "px";
+            var userId = localStorage.getItem("userId");
+            if (window.opener.document.getElementById("_url") != null) {
+                var params = window.opener.document.getElementById("_url").value.split('|');
+                var fileCenterUrl = params[0];
+                var nodeId = params[1];
+                var jsonstr = "{\"CanRefresh\":1,\"CanCreateNewFolder\":1,\"CanDelete\":1,\"CanRename\":0,\"CanPrint\":0,\"CanDownload\":1,\"CanUpload\":0,\"CanTakePhoto\":1,\"CanScan\":1,\"CanLocalFile\":1,\"CanEdit\":-1,\"FocusedNodeID\":482237,\"SLBH\":,\"Owner\":" + userId + "}";
+                cardReader1.SetURL7(fileCenterUrl, nodeId, "", jsonstr);
+                window.returnValue = "ok";
+            } else {
+                var urlParma = con_getPageUrlParam();
+                var slbh = urlParma.slbh;
+                var qtcwid = urlParma.qtcwid;
+                var qtcw = urlParma.qtcw;
+                $.ajax({
+                    type: 'post',
+                    url: getContextPath() + "/msurveyplat-server/rest/v1.0/getqtcwsccs/sld/" + slbh + '/' + qtcwid + '/' + userId,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var jsonstr = "{\"CanRefresh\":1,\"CanCreateNewFolder\":1,\"CanDelete\":1,\"CanRename\":0,\"CanPrint\":0,\"CanDownload\":1,\"CanUpload\":0,\"CanTakePhoto\":1,\"CanScan\":1,\"CanLocalFile\":1,\"CanEdit\":-1,\"FocusedNodeID\":482237,\"SLBH\":,\"Owner\":" + userId + "}";
+                        //cardReader1.SetURL(data.fileCenterUrl, data.nodeId);
+                        cardReader1.SetURL7(data.fileCenterUrl, data.nodeId, "", jsonstr);
+                        window.returnValue = "ok";
+                    },
+                    error: function (err) {
+                        //layer.msg('上传失败');
+                    }
+                })
+            }
+
+
+            function DisposeControl() {
+                cardReader1.CtrDispose();
+            }
+
+            //获取URL参数
+            function con_getPageUrlParam() {
+                var _search = location.search;
+                var paramObj = {};
+                if (typeof _search == "string") {
+                    var param = _search.split("?")[1];
+                    param && param.split("&").forEach(function (item) {
+                        if (item) {
+                            var arr = item.split("=");
+                            paramObj[arr[0]] = arr[1];
+                        }
+                    });
+                    return paramObj;
+                } else {
+                    return paramObj;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

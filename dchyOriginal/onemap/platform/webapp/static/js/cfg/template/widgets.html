@@ -1,0 +1,125 @@
+<div class="widgetPanel">
+    <!-- 顶部选择 -->
+    <div class="row">
+
+        <div class="panel panel-default panel-primary pull-left widgets-common">
+            <!--<div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> 共享功能</div>-->
+            <div class="panel-body  scroll-x">
+                {{#publicwidgets}}
+                <div class="well well-sm itemCls widgetsItem" data-type="widget"  data-info="{{getWidgetInfo}}"><span class="glyphicon glyphicon-tags"></span>  {{label}}</div>
+                {{/publicwidgets}}
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-primary pull-left widgets-public">
+            <!--<div class="panel-heading"><span class="  glyphicon glyphicon-user"></span>  公共功能</div>-->
+            <div class="panel-body scroll-x " id="commonwidgets">
+                {{#commonwidgets}}
+                <div class="well well-sm itemCls widget-item"  data-type="widget" data-info="{{getWidgetInfo}}"><span class="glyphicon glyphicon-tags"></span>  {{label}}</div>
+                {{/commonwidgets}}
+                <div data-type="widgetsGroup" class="well well-sm itemCls widgetsGroupItem"
+                     data-info='{"icon":"","id":"69356CBD-DC86-D9C0-5F27-4915E261C8C0","label":"组","type":0,"url":"","weight":6,"widgets":[]}'>
+                    <span class="glyphicon glyphicon-tags"></span> 组 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clear-fix" style="margin-top: 10px;">
+        <!-- 左侧固定区域 -->
+        <div class="panel panel-default panel-primary pull-left function-left">
+            <div class="panel-body">
+                <div class="well well-sm itemCls2">
+                    <div  class="itemCls2-l">
+                        <a href="#" id="layerConfig">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                        <div class="dropdown" style="display: inline-block;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false">图层服务 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">清理缓存</a></li>
+                                <li><a href="#">点击转换为专题服务</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div  class="itemCls2-r" >
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </div>
+                </div>
+
+                <div class="well well-sm itemCls2">
+                    <div  class="itemCls2-l">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                        <span>视频</span>
+                    </div>
+
+                    <div  class="itemCls2-r" >
+                        <span class="glyphicon glyphicon-eye-close"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default pull-left function-view">
+            <div class="panel-body">
+                <!-- 功能拖拽放置处 -->
+                <div class="widget-place" >
+                    <ol class="widget-place-l pull-left scroll-x">
+
+                    </ol>
+
+                    <ol class="widget-place-r pull-left scroll-x">
+
+                    </ol>
+                </div>
+
+                <!-- 地图放置处-->
+                <div class="panel panel-default" style="width: 100%;min-height: 300px; clear: left;">
+                    <div class="panel-body">
+                        <div  style="margin-top: -18px;margin-bottom: 5px;">
+                            <div class="well well-sm itemCls3">
+                                <div  class="itemCls3-l">
+                                    <a href="#" id="regionConfig"><span class="glyphicon glyphicon-cog"></span></a>
+                                    <!--<span>行政区</span>-->
+                                    <span class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                           aria-expanded="false">行政区 <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">清理缓存</a></li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div  id="mapContent" class="mapPanel">
+
+                        </div>
+
+                        <div class="pull-right" style="width: 40%">
+                            <div class="well well-sm itemCls3 pull-right">
+                                <div  class="itemCls3-l">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    <span>鹰眼图</span>
+                                </div>
+
+                                <div  class="itemCls3-r">
+                                    <span class="glyphicon glyphicon-eye-close"></span>
+                                </div>
+                            </div>
+
+                            <div class="well well-sm itemCls3 pull-right">
+                                <div  class="itemCls3-l">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    <span>定位</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

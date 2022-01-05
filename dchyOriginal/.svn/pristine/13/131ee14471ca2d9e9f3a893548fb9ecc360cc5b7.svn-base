@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyXmglChgcMapper">
+    <!--获取项目管理测绘工程分页数据 -->
+    <select id="getDchyXmglChgcxxByPage" parameterType="java.util.Map" resultType="map">
+        SELECT '项目编号：'||t.GCBH AS GCBH,'项目名称：'||t.GCMC AS GCMC,'建设单位：'||t.WTDW AS WTDW,t.CHGCID FROM DCHY_XMGL_CHGC t
+        INNER JOIN (
+        SELECT t.CHGCID,MAX(x.SLSJ) AS SLSJ FROM DCHY_XMGL_CHGC t
+        INNER JOIN DCHY_XMGL_CHXM x ON x.CHGCID=t.CHGCID
+        GROUP BY t.CHGCID ) h ON h.CHGCID=t.CHGCID
+        WHERE t.XMLY='2'
+        <if test="gcbh != null and gcbh !=''">
+            AND t.GCBH LIKE '%'||#{gcbh}||'%'
+        </if>
+        <if test="gcmc != null and gcmc !=''">
+            AND t.GCMC LIKE '%'||#{gcmc}||'%'
+        </if>
+        <if test="wtdw != null and wtdw !=''">
+            AND t.WTDW LIKE '%'||#{wtdw}||'%'
+        </if>
+        ORDER BY h.SLSJ DESC
+    </select>
+
+    <!--获取测量成果分页数据 -->
+    <select id="getDchyXmglClcgxxByPage" parameterType="java.util.Map" resultType="map">
+        SELECT '工程编号：' || t.GCBH AS GCBH,
+        '工程名称：' || t.GCMC AS GCMC,
+        '建设单位：' || t.WTDW AS WTDW,
+        t.CHGCID
+        FROM DCHY_XMGL_CHGC t
+        INNER JOIN (
+
+        SELECT t.CHGCID, MAX(j.SHSJ) AS SHSJ
+        FROM DCHY_XMGL_CHGC t
+        INNER JOIN DCHY_XMGL_CLCG c
+        ON c.CHGCBH = t.GCBH
+        INNER JOIN DCHY_XMGL_CLCG_SHJL j
+        ON j.CLCGID = c.CLCGID
+        WHERE j.SHZT = '99'
+        GROUP BY t.chgcid
+
+        union all
+        SELECT t.CHGCID, MAX(j.SHSJ) AS SHSJ
+        FROM DCHY_XMGL_CHGC t
+        INNER JOIN DCHY_XMGL_chxm chxm
+        ON chxm.CHGCBH = t.GCBH
+        INNER JOIN DCHY_XMGL_CLCG c
+        ON chxm.chxmid = c.chxmid
+        INNER JOIN DCHY_XMGL_CLCG_SHJL j
+        ON j.CLCGID = c.CLCGID
+        WHERE j.SHZT = '99'
+        GROUP BY t.chgcid
+        ) h
+        ON h.CHGCID = t.CHGCID
+        <where>
+            <if test="gcbh != null and gcbh !=''">
+                AND t.GCBH LIKE '%'||#{gcbh}||'%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND t.GCMC LIKE '%'||#{gcmc}||'%'
+            </if>
+            <if test="wtdw != null and wtdw !=''">
+                AND t.WTDW LIKE '%'||#{wtdw}||'%'
+            </if>
+        </where>
+        group by t.CHGCID,t.GCBH,t.GCMC, t.WTDW
+    </select>
+
+
+    <select id="getDchyClcgxxByPage" parameterType="java.util.Map" resultType="map">
+        SELECT DISTINCT
+        '备案编号：' || chxm.slbh AS slbh,
+        '工程编号：' || chgc.gcbh AS gcbh,
+        '工程名称：' || chgc.gcmc AS gcmc,
+        '办结时间: ' || to_char(chxm.bjsj,'yyyy-mm-dd hh24:mi:ss') AS bjsj,
+        '建设单位：' || chgc.WTDW AS wtdw
+        FROM
+        dchy_xmgl_chxm_clsx clsx
+        INNER JOIN dchy_xmgl_chxm chxm ON chxm.chxmid = clsx.chxmid
+        INNER JOIN dchy_xmgl_chgc chgc ON chgc.chgcid = chxm.chgcid
+        INNER JOIN (SELECT DISTINCT g.chxmid ,g.rksj FROM(SELECT chxmid,rksj,ROW_NUMBER() OVER(PARTITION BY
+        chxmid ORDER BY rksj DESC) rowss1
+        FROM DCHY_XMGL_CLCG) g where g.rowss1 = '1' ) cg ON cg.chxmid = chxm.chxmid
+        <where>
+            <if test="slbh != null and slbh !=''">
+                AND chxm.slbh LIKE '%'||#{slbh}||'%'
+            </if>
+            <if test="gcbh != null and gcbh !=''">
+                AND chgc.GCBH LIKE '%'||#{gcbh}||'%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND chgc.GCMC LIKE '%'||#{gcmc}||'%'
+            </if>
+            <if test="wtdw != null and wtdw !=''">
+                AND chgc.WTDW LIKE '%'||#{wtdw}||'%'
+            </if>
+            <if test="cgclclsxList !=null">
+                AND clsx.clsx in
+                <foreach collection="cgclclsxList" item="item"  index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        AND xmzt='99'
+        order by bjsj desc
+    </select>
+
+    <select id="getDchyXmglChgcClsxListByChgcid" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmClsx">
+        SELECT wm_concat(t.CLSXID) AS CLSXID,wm_concat(t.CHXMID) AS CHXMID,z.MC AS CLSX
+        FROM DCHY_XMGL_CHXM_CLSX t
+        LEFT JOIN DCHY_XMGL_ZD z ON z.ZDLX='CLSX' AND z.DM=T.CLSX
+        INNER JOIN DCHY_XMGL_CLSX_HTXX_GX g ON g.CLSXID=t.CLSXID
+        INNER JOIN DCHY_XMGL_CHXM x ON x.CHXMID=g.CHXMID
+        WHERE x.XMLY='2' AND x.CHGCID=#{chgcid} GROUP BY z.MC
+    </select>
+
+    <select id="getChdmcByClsx" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT wm_concat(CHDWMC) FROM (
+        SELECT t.CHDWMC FROM DCHY_XMGL_CHXM_CHDWXX t
+        LEFT JOIN DCHY_XMGL_CLSX_CHDWXX_GX g ON g.CHDWXXID=t.CHDWXXID
+        <where>
+            <if test="clsxidList != null">
+                AND
+                <foreach item="item" collection="clsxidList" open="(" separator="OR" close=")">
+                    g.CLSXID=#{item}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY t.CHDWMC )
+    </select>
+
+    <select id="getChdmcByChxm" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT wm_concat(CHDWMC) FROM (
+        SELECT t.CHDWMC FROM DCHY_XMGL_CHXM_CHDWXX t
+        INNER JOIN DCHY_XMGL_CHXM x ON x.CHXMID=t.CHXMID
+        <where>
+            <if test="chxmidList != null">
+                AND
+                <foreach item="item" collection="chxmidList" open="(" separator="OR" close=")">
+                    x.CHXMID=#{item}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY t.CHDWMC )
+    </select>
+
+    <select id="getNewDchyXmglClcgShjl" parameterType="java.lang.String"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgShjl">
+        SELECT MAX(t.SHSJ) AS SHSJ,t.SHR,t.SHRMC FROM DCHY_XMGL_CLCG_SHJL t
+        INNER JOIN DCHY_XMGL_CLCG c ON c.CLCGID=t.CLCGID
+        WHERE t.SHZT='99'
+        <if test="clsxidList != null">
+            AND
+            <foreach item="item" collection="clsxidList" open="(" separator="OR" close=")">
+                c.CLSXID=#{item}
+            </foreach>
+        </if>
+        GROUP BY c.CLSXID,t.SHR,t.SHRMC
+    </select>
+
+
+</mapper>

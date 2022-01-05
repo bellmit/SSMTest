@@ -1,0 +1,81 @@
+/* 材料导航 */
+.material-and-layers{
+   position: absolute;
+   top: 70px;
+   left: 46px;
+   height: calc(100% - 70px);
+   z-index: 199;
+   overflow: hidden;
+}
+.material-nav{
+    width: 422px;
+    height: 100%;
+    min-width: 300px;
+     display: none;   
+    float: left;
+    background: #fff;
+}
+.material-and-layers .nav-top{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+.material-and-layers h3{
+  font-size: 16px;
+  margin: 0;
+  font-weight: 400;
+}
+.material-and-layers .nav-top i{
+  position: absolute;
+  top: 7px;
+  right: 10px; 
+  font-size: 20px;
+  font-weight: 600;
+}
+.material-and-layers .nav-top i:hover{
+    cursor: pointer;
+}
+.material-and-layers .nav-main{
+    padding: 20px 10px;
+    height: calc(100% - 40px);
+    box-sizing: border-box;
+    
+}
+.material-nav .fa{
+   margin-right: 10px;
+   color: #1d87d1;
+}
+#materialTreeMenu{
+    height: 100%;
+}
+#materialTreeMenu>.menuUl{
+    height: 100%;
+     /* overflow: scroll;  */
+}
+#materialTreeMenu .menuUl li{
+    white-space:nowrap;
+}
+#materialTreeMenu>.menuUl span{
+    cursor: pointer; 
+}
+#materialTreeMenu span{
+   display: inline-block;
+   height: 25px;
+}
+#materialTreeMenu i:hover{
+    cursor: pointer;
+}
+/* 项目图层 */
+.material-and-layers .right-layers{
+    display: none;      
+    float: left;
+    width: 400px;
+    min-width: 200px;
+    margin-left: 10px;
+    background: #fff;
+    height: 100%;
+}
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #1d87d1!important;
+    background-color: #1d87d1;
+}

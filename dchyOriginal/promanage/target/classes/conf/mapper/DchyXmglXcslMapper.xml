@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglXcslMapper">
+
+    <!--通过多条件参数获取合同登记备案项目信息(编号，项目名称，项目类型等参数)-->
+    <select id="queryBaXmXxByArgs" parameterType="map" resultType="map">
+        SELECT g.gcbh,g.gcmc,g.gcdzs,g.gcdzss,g.gcdzqx,g.gcdzxx,g.zdbh,g.lxr,g.lxdh,g.wtdw,m.chzsx,
+        m.slsj,m.xqfbbh,m.slbh,m.qjfs,m.qjdd,m.sjdds,m.sjddss,m.sjddqx,m.sjddxx,m.sjr,m.sjrlxdh,
+        m.yyqjsj,d.chdwmc,d.mlkid AS chdwid
+        FROM DCHY_XMGL_CHXM m
+        LEFT JOIN DCHY_XMGL_CHGC g ON m.chgcid = g.chgcid
+        LEFT JOIN DCHY_XMGL_CHXM_CHDWXX d ON d.chxmid = m.chxmid
+        LEFT JOIN
+        (
+        SELECT mlkid chdwid,dwmc chdwmc,'1' dwlx FROM dchy_xmgl_mlk
+        UNION ALL
+        SELECT chdwid,chdwmc,'2' dwlx FROM dchy_xmgl_chdw
+        ) t ON t.chdwid = g.wtdw
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND m.chxmid LIKE '%' || #{chxmid} || '%'
+            </if>
+            <if test="gcbh != null and gcbh !=''">
+                AND m.gcbh LIKE '%' || #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc !=''">
+                AND m.gcmc LIKE '%' || #{gcmc} || '%'
+            </if>
+            <if test="slsj != null and slsj !=''">
+                AND to_char(m.slsj,'yyyy-mm-dd') = #{slsj}
+            </if>
+            <if test="chdwmc != null and chdwmc !=''">
+                AND d.chdwmc LIKE '%' || #{chdwmc} || '%'
+            </if>
+            <if test="jsdwmc != null and jsdwmc !=''">
+                AND g.wtdw LIKE '%' || #{jsdwmc} || '%'
+            </if>
+        </where>
+
+    </select>
+
+    <!-- 查看合同信息通过测绘项目id -->
+    <select id="getHtxxByChxmid" resultType="map" parameterType="map">
+        select t.htxxid,t.chxmid,t.htlx,x.sjxxid,x.glsxid,l.fs,l.ys,l.sjclid,l.clmc,l.cllx
+        FROM DCHY_XMGL_HTXX t
+        LEFT JOIN DCHY_XMGL_sjxx x ON x.glsxid = t.htxxid
+        LEFT JOIN DCHY_XMGL_sjcl l ON l.sjxxid = l.sjclid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND t.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBaClsxListByGcbh" resultType="map" parameterType="map">
+        SELECT DISTINCT cl.clsx AS dm,z.mc FROM dchy_xmgl_chxm_clsx cl
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chxmid = cl.chxmid
+        LEFT JOIN
+        (SELECT zd.dm,zd.mc FROM dchy_xmgl_zd zd WHERE zd.zdlx='CLSX') z
+        on z.dm = cl.clsx
+        where xm.xmzt='99'
+        <choose>
+            <when test="gcbh != null and gcbh != ''">
+                AND xm.chgcbh = #{gcbh}
+            </when>
+            <otherwise>
+                and xm.chgcbh = 'emptyParamValue'
+            </otherwise>
+        </choose>
+
+
+    </select>
+</mapper>

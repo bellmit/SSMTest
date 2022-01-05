@@ -1,0 +1,99 @@
+<div class="identify">
+    <div class="title">{{label}}功能配置</div>
+    <div class="pull-left">
+        <div class="location-service-tree">
+            <div>
+                <button class="btn btn-primary" style="width: 100%;margin-bottom: 5px;" id="addService"><span
+                        class="glyphicon glyphicon-plus-sign"></span>&nbsp;添加属性识别图层
+                </button>
+            </div>
+            <div id="identifyLayers">
+                <div class="list-group">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right pull-left">
+        <div class="container-fluid">
+            <form class="form-horizontal" id="identifyForm">
+                <div class="row lineSpacing">
+                    <div class="col-xs-2 text-right">
+                        <label class="lableTitle">标题</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                               value="{{label}}"/>
+                    </div>
+                    <div class="col-xs-2  text-right">
+                        <label class="lableTitle">图标</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="ui search selection dropdown" id="icons">
+                            <input type="hidden" name="icon" value="{{icon}}">
+                            <i class="dropdown icon"></i>
+
+                            <div class="default text">请选择</div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                        class="tags"> 属性</span></h4>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">标题字段</label>
+                        </div>
+
+                        <div class="col-xs-10">
+                            <div class="ui fluid search selection dropdown" id="titleFields">
+                                <input type="hidden" name="titleField" value="">
+                                <i class="dropdown icon"></i>
+
+                                <div class="default text">选择标题字段</div>
+                                <div class="menu">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">返回字段</label>
+                        </div>
+
+                        <div id="returnFieldsContainer" class="col-xs-10">
+                            <input class="form-control" id="returnFieldsInput" multiple placeholder="添加字段"></input>
+                        </div>
+
+                    </div>
+
+                    <div class="row lineSpacing">
+                        <div class="col-xs-2 text-right">
+                            <label class="lableTitle">超链接</label>
+                        </div>
+                        <div class="col-xs-10">
+                            <div class="row lineSpacing">
+                                <div class="col-xs-3">
+                                    <input type="text" name="tip" class="form-control" id="URL2" placeholder="请填写链接提示" value=""/>
+                                </div>
+                                <div class="col-xs-9">
+                                    <input type="text" name="url" class="form-control" id="URL1" placeholder="请填写链接地址" value=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="serviceId" value=""/>
+                    <input type="hidden" name="layerName" value=""/>
+                    <input type="hidden" name="layerIndex" value=""/>
+                <!--</div>-->
+                <div class="text-center" style="clear: both;margin-top: 15px;">
+                    <button type="button" class="btn btn-success" style="width: 150px;" id="identifySaveBtn">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>

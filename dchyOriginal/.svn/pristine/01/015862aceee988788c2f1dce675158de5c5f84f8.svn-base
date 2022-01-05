@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglMlkMapper">
+
+    <!--获取所有从业人员-->
+    <select id="getAllCyrysList" resultType="map">
+        select t.ryxm,
+               t.zc,
+               t.zsmc,
+               t.zsbh,
+               to_char(t.zsyxksrq, 'yyyy-MM-dd') || ' 至 ' ||
+               to_char(t.zsyxjsrq, 'yyyy-MM-dd')
+        from DCHY_XMGL_CYRY t
+    </select>
+
+    <!--根据mlkid获取对应从业人员信息-->
+    <select id="queryCyryByMlkIdByPage" parameterType="string" resultType="map">
+        select t.cyryid,t.ryxm,
+        t.zc,
+        t.zsmc,
+        t.zsbh,
+        t.zsyxksrq,
+        t.zsyxjsrq,
+        to_char(t.zsyxksrq,'yyyy-MM-dd') || ' 至 ' || case
+        when to_char(t.zsyxjsrq, 'yyyy-MM-dd') is not null then
+        to_char(t.zsyxjsrq, 'yyyy-MM-dd')
+        when t.cqyx = '是' then
+        '长期有效'
+        end jsrq
+        from dchy_xmgl_cyry t
+        <where>
+            <if test="mlkid != null and mlkid != ''">
+                and t.mlkid = #{mlkid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据所属模块id获取对应需要上传的材料信息-->
+    <select id="queryUploadFileBySsmkId" parameterType="string" resultType="map">
+        select z.clmc, z.cllx, z.mrfs fs, null ys,null wjzxid,z.need
+        from DCHY_XMGL_SJCLPZ z
+        <where>
+            <choose>
+                <when test="ssmkid != null and ssmkid!=''">
+                    and z.ssmkid = #{ssmkid}
+                </when>
+                <otherwise>
+                    and z.ssmkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getMlkYxztByUserid" parameterType="string" resultType="map">
+        SELECT A.SFYX sfyx, a.mlkid
+        FROM DCHY_XMGL_MLK A
+                 INNER JOIN DCHY_XMGL_YHDW B
+                            ON A.DWBH = B.DWBH
+        WHERE B.YHID = #{userid}
+          and a.sfyx = '1'
+    </select>
+
+    <select id="getMlkSqztByUserid" parameterType="string" resultType="map">
+        SELECT B.SQR,
+               CASE
+                   WHEN C.YHID = B.SQR THEN
+                       '是'
+                   ELSE
+                       '否'
+                   END SFBRSQ,
+               CASE
+                   WHEN db.dbrwid is not null THEN
+                       '是'
+                   ELSE
+                       '否'
+                   END sfytj,
+               ZD.MC   SQZTMC,
+               CASE
+                   WHEN B.SQZT = '97' THEN
+                       '是'
+                   ELSE
+                       '否'
+                   END SFTH,
+               b.sqxxid,
+               a.mlkid,
+               b.blsx
+        FROM DCHY_XMGL_MLK A
+                 INNER JOIN DCHY_XMGL_SQXX B ON A.MLKID = B.GLSXID
+                 INNER JOIN DCHY_XMGL_YHDW C ON C.DWBH = A.DWBH
+                 LEFT JOIN DCHY_XMGL_ZD ZD ON ZD.DM = B.SQZT AND ZD.ZDLX = 'SQZT'
+                 LEFT JOIN dchy_xmgl_dbrw db on db.sqxxid = b.sqxxid
+        WHERE C.YHID = #{userid}
+        order by B.SQZT desc
+    </select>
+
+    <select id="getSjclXx" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        z.need
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        left join dchy_xmgl_sjclpz z
+        on z.clmc = cl.clmc
+        <where>
+            <if test="mlkid != null and mlkid != ''">
+                and sj.glsxid = #{mlkid}
+            </if>
+            <if test="ssmkid != null and ssmkid != ''">
+                and sj.ssmkid = #{ssmkid}
+            </if>
+        </where>
+        order by cl.clrq
+    </select>
+
+    <select id="getSjclXx2" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        sj.glsxid as HTXXID,
+        z.need
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        left join dchy_xmgl_sjclpz z
+        on z.clmc = cl.clmc
+        <where>
+            <if test="mlkid != null and mlkid != ''">
+                and sj.glsxid = #{mlkid}
+            </if>
+            <if test="ssmkid != null and ssmkid != ''">
+                and sj.ssmkid = #{ssmkid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据名录库id获取对应名录库信息-->
+    <select id="getMlkXxById" parameterType="string" resultType="map">
+        select m.mlkid,
+        m.dwmc,
+        m.frdb,
+        m.chzzzsbh,
+        NVL(to_char(m.yxqksrq, 'yyyy-MM-dd'), '') || ' 至 ' ||
+        NVL(to_char(m.yxqjsrq, 'yyyy-MM-dd'), '') yxsj,
+        m.yxqksrq,
+        m.yxqjsrq,
+        m.zcdz,
+        m.tyshxydm,
+        m.bgdz,
+        m.lxr,
+        m.lxdh,
+        m.chzyfw,
+        m.zzdj,
+        m.dwxz,
+        m.sfyx,
+        m.mlktp
+        from dchy_xmgl_mlk m
+        <where>
+            <choose>
+                <when test="mlkId != null and mlkId != ''">
+                    and m.mlkid = #{mlkId}
+                </when>
+                <otherwise>
+                    and m.mlkid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getMlkByDwbh" parameterType="string"
+            resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMlk">
+        select * from dchy_xmgl_mlk m
+        <where>
+            <choose>
+                <when test="dwbh != null and dwbh != ''">
+                    and m.dwbh = #{dwbh}
+                </when>
+                <otherwise>
+                    and m.dwbh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        order by ycsj desc
+    </select>
+
+    <!--首页名录库查看台账-->
+    <select id="queryMlkListByPage" resultType="map" parameterType="map">
+        SELECT m.mlkid,dwxzzd.mc AS dwxz,zzdjzd.mc AS zzdj,m.lxdh,m.dwmc,m.pjdj,m.sfdj,m.mlktp FROM dchy_xmgl_mlk m
+        LEFT JOIN dchy_xmgl_zd dwxzzd
+        ON dwxzzd.dm=m.dwxz AND dwxzzd.zdlx='DWXZ'
+        LEFT JOIN dchy_xmgl_zd zzdjzd
+        ON zzdjzd.dm=m.zzdj AND zzdjzd.zdlx='ZZDJ'
+        <where>
+            AND m.sfyx = '1'
+            <if test="dwmc != null and dwmc != ''">
+                AND m.dwmc LIKE '%'||#{dwmc}||'%'
+            </if>
+            <if test="pjdj != null and pjdj != ''">
+                AND m.pjdj = #{pjdj}
+            </if>
+            <if test="zzdj != null and zzdj != ''">
+                AND m.zzdj = #{zzdj}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMlkidBychxmid" resultType="string" parameterType="map">
+        SELECT t.mlkid FROM dchy_xmgl_chxm_chdwxx t
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    and t.chxmid = #{chxmid}
+                </when>
+                <otherwise>
+                    and t.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY t.pjsj DESC
+    </select>
+
+    <!--获取线上线下测绘单位列表-->
+    <select id="queryChdwList" resultType="map">
+        select x.chdwid, x.chdwmc, x.clsx
+        from (SELECT distinct mlk.mlkid          AS chdwid,
+                              mlk.dwmc           AS chdwmc,
+                              wm_concat(gx.clsx) AS clsx
+              FROM dchy.dchy_xmgl_mlk mlk
+                       left join dchy_xmgl_mlk_clsx_gx gx
+                                 on gx.mlkid = mlk.mlkid
+              WHERE trim(mlk.sfyx) = '1'
+                and (trim(mlk.sfdj) is null or trim(mlk.sfdj) <![CDATA[<>]]> '1')
+              group by mlk.mlkid, mlk.dwmc) x
+    </select>
+
+    <!--多条件查询测绘单位信息-->
+    <select id="queryChdwsByMultConditionsByPage" resultType="map" parameterType="map">
+        select count(cc.cyryid) as cyrynum,
+        t.dwmc,
+        t.frdb,
+        t.chzzzsbh,
+        t.tyshxydm,
+        t.dwxz,
+        t.zzdj,
+        t.mlkid
+        from (select m.dwmc,
+        m.frdb,
+        m.chzzzsbh,
+        m.tyshxydm,
+        m.dwxz,
+        m.zzdj,
+        m.mlkid,
+        c.cyryid
+        from dchy_xmgl_mlk m
+        left join dchy_xmgl_cyry c
+        on c.mlkid = m.mlkid
+        <where>
+            and m.sfyx = '1'
+            <if test="dwmc != null and dwmc != ''">
+                and m.dwmc LIKE '%'||#{dwmc}||'%'
+            </if>
+            <if test="dwxz != null and dwxz != ''">
+                and m.dwxz = #{dwxz}
+            </if>
+            <if test="zzdj != null and zzdj != ''">
+                and m.zzdj = #{zzdj}
+            </if>
+        </where>
+        ) t
+        left join dchy_xmgl_cyry cc
+        on cc.cyryid = t.cyryid
+        group by t.dwmc, t.frdb, t.chzzzsbh, t.tyshxydm, t.dwxz, t.zzdj, t.mlkid
+    </select>
+
+    <insert id="updateDchyXmglMlk" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMlk">
+        UPDATE DCHY_XMGL_Mlk t
+        SET t.MLKTP= #{mlktp,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.serviceol.config.typehandler.BlobTypeHandler}
+        WHERE t.MLKID = #{mlkid,jdbcType=VARCHAR}
+    </insert>
+
+    <insert id="insertDchyXmglMlk" parameterType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMlk">
+        insert into DCHY_XMGL_mlk (MLKID, DWMC, FRDB, CHZZZSBH, YXQKSRQ, BGDZ, CHZYFW, LXR,
+                                   LXDH, ZZDJ, YXQJSRQ, DWXZ, SFYX, DWBH, SQR, YCDW,
+                                   YCSJ, YCR, YCYY, YCBCSM, TYSHXYDM, ZCDZ, WJZXID, SFDJ,
+                                   PJDJ, MLKTP)
+        values (#{mlkid,jdbcType=VARCHAR},
+                #{dwmc,jdbcType=VARCHAR},
+                #{frdb,jdbcType=VARCHAR},
+                #{chzzzsbh,jdbcType=VARCHAR},
+                #{yxqksrq,jdbcType=DATE},
+                #{bgdz,jdbcType=VARCHAR},
+                #{chzyfw,jdbcType=VARCHAR},
+                #{lxr,jdbcType=VARCHAR},
+                #{lxdh,jdbcType=VARCHAR},
+                #{zzdj,jdbcType=VARCHAR},
+                #{yxqjsrq,jdbcType=DATE},
+                #{dwxz,jdbcType=VARCHAR},
+                #{sfyx,jdbcType=VARCHAR},
+                #{dwbh,jdbcType=VARCHAR},
+                #{DWXZ,jdbcType=VARCHAR},
+                #{ycdw,jdbcType=VARCHAR},
+                #{ycsj,jdbcType=DATE},
+                #{ycr,jdbcType=VARCHAR},
+                #{ycyy,jdbcType=VARCHAR},
+                #{ycbcsm,jdbcType=VARCHAR},
+                #{tyshxydm,jdbcType=VARCHAR},
+                #{zcdz,jdbcType=VARCHAR},
+                #{wjzxid,jdbcType=VARCHAR},
+                #{sfdj,jdbcType=VARCHAR},
+                #{pjdj,jdbcType=VARCHAR},
+                #{mlktp,jdbcType=BLOB,typeHandler = cn.gtmap.msurveyplat.serviceol.config.typehandler.BlobTypeHandler})
+    </insert>
+
+    <select id="getSjclXxByGlsxid" resultType="map" parameterType="string">
+        select sj.sjxxid,sj.glsxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        cl.clsx
+        from dchy_xmgl_sjxx sj
+        right join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <choose>
+                <when test="glsxid != null and glsxid != ''">
+                    and sj.glsxid = #{glsxid}
+                </when>
+                <otherwise>
+                    and sj.glsxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getLasterKpById" parameterType="string" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglKp">
+        select *
+          from dchy_xmgl_kp k
+          <where>
+              <choose>
+              <when test="mlkid != null and mlkid != ''">
+                  and k.mlkid = #{mlkid}
+              </when>
+              <otherwise>
+                  and k.mlkid = 'emptyParamValue'
+              </otherwise>
+              </choose>
+          </where>
+         order by kpsj desc
+    </select>
+</mapper>

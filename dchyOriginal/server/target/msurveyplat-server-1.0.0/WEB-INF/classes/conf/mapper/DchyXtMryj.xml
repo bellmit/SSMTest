@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.server.core.mapper.DchyXtMryjMapper">
+    <!-- 根据项目ID和工作流节点名称查询多测合一默认意见信息 -->
+    <select id="getDchyXtMryjDOListByXmidAndGzljdmc" parameterType="java.lang.String" resultType="cn.gtmap.msurveyplat.common.domain.DchyXtMryjDO">
+      SELECT  t.*  FROM dchy_xt_mryj t
+      LEFT JOIN dchy_gzl_djxl_gx g ON g.gzldyid=t.gzldyid
+      LEFT JOIN dchy_cggl_xm x ON x.djxl=g.djxl
+      WHERE x.xmid=#{xmid} AND t.gzljdmc=#{gzljdmc}
+    </select>
+
+    <select id="getYjpz" resultType="cn.gtmap.msurveyplat.common.domain.DchyXtMryjDO" parameterType="java.util.Map">
+       SELECT  t.*  FROM dchy_xt_mryj t
+        <where>
+            <if test="gzldyid !=null and gzldyid !=''">
+                t.gzldyid = #{gzldyid}
+            </if>
+            <if test="gzljdid !=null and gzljdid !=''">
+                AND t.gzljdid = #{gzljdid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getYjid" resultType="java.lang.String" parameterType="java.util.Map">
+        SELECT  t.yjid  FROM dchy_xt_mryj t WHERE t.gzlmc = #{gzlmc} AND t.gzljdmc =#{gzljdmc}
+
+    </select>
+
+</mapper>

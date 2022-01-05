@@ -1,0 +1,23 @@
+
+ƒ
+java:S1130¢"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(ğÒÂÇ
+L
+java:S2696+"6Make the enclosing method "static" or remove this set.(¯ß£”
+N	java:S106$"9Replace this use of System.out or System.err by a logger.(±‹Ä
+i	java:S100”"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡²éÔøÿÿÿÿ
+t
+java:S22931"YReplace the type specification in this constructor call with the diamond operator ("<>").(¤â»‘úÿÿÿÿ
+i	java:S100†"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘â‚„ÿÿÿÿÿ
+E
+java:S3740N"/Provide the parametrized type for this generic.(÷êİ‡
+Q	java:S125o"<This block of commented-out lines of code should be removed.(¾–Ôø
+‚
+java:S1130±"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(©Àãg
+,
+java:S3457˜"Not enough arguments.(‰ì«—
+p
+java:S30081"URename this field "SessionSet" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤â»‘úÿÿÿÿ
+,
+java:S3457Š"Not enough arguments.(‰ì«—
+d	java:S100¢"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğÒÂÇ
+c	java:S100±"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©Àãg

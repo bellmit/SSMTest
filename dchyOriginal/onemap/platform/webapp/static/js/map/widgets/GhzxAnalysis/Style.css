@@ -1,0 +1,9 @@
+.ghzx-time{
+    display: inline-block;
+    width: 70%;
+    height: 28px;
+}
+
+.ghzx-time-content{
+    margin: 3px;
+}

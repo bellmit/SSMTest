@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglGldwMapper">
+
+    <!--获取所有的通知公告信息-->
+    <select id="queryAllNotices" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglTzgg">
+        select t.tzggid,t.bt, t.zz, t.fbr, t.fbsj, t.gglx, t.ggnr, t.wjzxid, t.sfzd, t.xxmb
+        from DCHY_XMGL_TZGG t
+    </select>
+</mapper>

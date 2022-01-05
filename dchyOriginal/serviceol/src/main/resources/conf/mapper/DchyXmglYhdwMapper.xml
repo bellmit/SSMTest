@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglYhdwMapper">
+
+    <select id="queryDwmcByYhdwid" resultType="String">
+        SELECT t.dwmc FROM DCHY_XMGL_YHDW t
+        <where>
+            <if test="userid != null and userid !=''">
+                AND t.yhdwid = #{userid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserByPage" resultType="map" parameterType="map">
+        SELECT a.yhid, a.isvalid, a.yhmc, a.yhzjzl, a.yhzjhm, a.wjzxid
+        FROM DCHY_XMGL_YHDW A
+        <where>
+            <choose>
+                <when test="dwbh != null and dwbh != ''">
+                    and a.DWBH = #{dwbh}
+                </when>
+                <otherwise>
+                    and a.DWBH ='emptyParamValue'
+                </otherwise>
+            </choose>
+            <if test="yhmc != null and yhmc != ''">
+                and a.yhmc like '%'||#{yhmc}||'%'
+            </if>
+            <if test="yhzjhm != null and yhzjhm != ''">
+                and a.yhzjhm like '%'||#{yhzjhm}||'%'
+            </if>
+            <if test="isvalid != null and isvalid != ''">
+                and a.isvalid = #{isvalid}
+            </if>
+        </where>
+    </select>
+</mapper>

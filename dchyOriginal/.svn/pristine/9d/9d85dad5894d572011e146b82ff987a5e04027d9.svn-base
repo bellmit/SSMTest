@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--空间多数据源配置-->
+    <!--sde-->
+    <bean id="sdeDS1" class="cn.gtmap.onemap.platform.support.arcsde.impl.ArcSDEDataSource">
+        <property name="server" value="${sde.db.server}"/>
+        <property name="instance" value="${sde.db.instance}"/>
+        <property name="username" value="${sde.db.username}"/>
+        <property name="password" value="${sde.db.password}"/>
+        <property name="maxWait" value="6000"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxIdle" value="10"/>
+        <property name="minIdle" value="0"/>
+        <property name="initialSize" value="2"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>
+
+  <!--  <bean id="sdeDS2" class="cn.gtmap.onemap.platform.support.arcsde.impl.ArcSDEDataSource">
+        <property name="server" value="${sde2.db.server}"/>
+        <property name="instance" value="${sde2.db.instance}"/>
+        <property name="username" value="${sde2.db.username}"/>
+        <property name="password" value="${sde2.db.password}"/>
+        <property name="maxWait" value="6000"/>
+        <property name="maxActive" value="8"/>
+        <property name="maxIdle" value="8"/>
+        <property name="minIdle" value="1"/>
+        <property name="initialSize" value="2"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="defaultAutoCommit" value="false"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+    </bean>
+
+    <bean id="sdeDS3" class="cn.gtmap.onemap.platform.support.arcsde.impl.ArcSDEDataSource">
+        <property name="server" value="${sde3.db.server}"/>
+        <property name="instance" value="${sde3.db.instance}"/>
+        <property name="username" value="${sde3.db.username}"/>
+        <property name="password" value="${sde3.db.password}"/>
+        <property name="maxWait" value="6000"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxIdle" value="10"/>
+        <property name="minIdle" value="0"/>
+        <property name="initialSize" value="2"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>-->
+
+    <!--<bean id="orcl1" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${orcl.db.driver}"/>
+        <property name="url" value="${orcl.db.url}"/>
+        <property name="username" value="${orcl.db.username}"/>
+        <property name="password" value="${orcl.db.password}"/>
+        <property name="initialSize" value="2"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>
+
+    <bean id="orcl2" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${orcl2.db.driver}"/>
+        <property name="url" value="${orcl2.db.url}"/>
+        <property name="username" value="${orcl2.db.username}"/>
+        <property name="password" value="${orcl2.db.password}"/>
+        <property name="initialSize" value="2"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>-->
+
+    <!--数据源名称为entry的key值-->
+    <bean id="sdeDataSource" class="cn.gtmap.onemap.platform.support.arcsde.ArcSDERoutingDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="${sde.db.dsname}" value-ref="sdeDS1"/>
+               <!-- <entry key="${sde2.db.dsname}" value-ref="sdeDS2"/>
+                <entry key="${sde3.db.dsname}" value-ref="sdeDS3"/>-->
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="sdeDS1"/>
+    </bean>
+
+    <!--oracle-->
+    <!--<bean id="orclDataSource" class="cn.gtmap.onemap.platform.support.spring.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="orcl1" value-ref="orcl1"/>
+                <entry key="orcl2" value-ref="orcl2"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="sdeDS1"/>
+    </bean>-->
+
+</beans>

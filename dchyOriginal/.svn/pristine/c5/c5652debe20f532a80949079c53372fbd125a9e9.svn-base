@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2015-07-18T05:22:32Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>7980</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>135</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s16">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s18">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="14" ss:Color="#000000"
+    ss:Bold="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="14" ss:ExpandedRowCount="${2+count}" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:Width="78"/>
+   <Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="98.25"/>
+   <Column ss:Width="78.75"/>
+   <Column ss:Width="91.5"/>
+   <Column ss:Index="7" ss:AutoFitWidth="0" ss:Width="71.25"/>
+   <Column ss:Width="78"/>
+   <Column ss:AutoFitWidth="0" ss:Width="75.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="174.75"/>
+   <Column ss:Width="103.5" ss:Span="1"/>
+   <Column ss:Index="13" ss:AutoFitWidth="0" ss:Width="108.75"/>
+   <Row ss:AutoFitHeight="0" ss:Height="37.5">
+    <Cell ss:MergeAcross="12" ss:StyleID="s18"><Data ss:Type="String">重点监管建设项目一览表</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="21">
+    <Cell ss:StyleID="s16"><Data ss:Type="String">项目载体单位</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">项目名称</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">出让面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">未开工面积(亩)</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">土地用途</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">地块位置</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">土地使用权人</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">出让时间</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">现场状况</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">合同约定开工时间</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">合同约定竣工时间</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">处置意见</Data></Cell>
+    <Cell ss:StyleID="s16"><Data ss:Type="String">目前状态</Data></Cell>
+   </Row>
+   <#if count &gt;0>
+   <#list data?keys as key>
+       <#assign xzqList=data[key]/>
+       <#list xzqList as xzq>
+           <Row>
+               <#if xzq_index==0><Cell ss:MergeDown="${xzqList?size-1}" ss:StyleID="s16"><Data ss:Type="String">${key!}</Data></Cell></#if>
+               <Cell ss:Index="2" ss:StyleID="s16"><Data ss:Type="String">${xzq_index+1}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDXMMC"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["NGZMJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["WJCMJ_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YT"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDWZ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["YDDW"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["PZSJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XCZK_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYKGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["XYJGS"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["CZYJ_FJ"]!}</Data></Cell>
+               <Cell ss:StyleID="s16"><Data ss:Type="String">${xzq["MQZT_FJ"]!}</Data></Cell>
+           </Row>
+       </#list>
+   </#list>
+   </#if>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>8</ActiveRow>
+     <ActiveCol>7</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

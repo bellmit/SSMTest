@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChdwMapper">
+
+    <!--根据测绘单位名称，或全局分页查询对应考评信息-->
+    <select id="queryChdwKpInfoByPage" resultType="map" parameterType="map">
+        select * from (
+        select mlk.dwmc chdwmc, mlk.zzdj, kp.xy, kp.kpsj, kp.kpid, mlk.mlkid,kp.sfyx
+        from dchy_xmgl_mlk mlk
+        left join Dchy_Xmgl_Kp kp
+        on kp.mlkid = mlk.mlkid
+        <where>
+            and mlk.sfyx = '1'
+            <if test="chdwmc != null and chdwmc != ''">
+                and mlk.dwmc like '%'||#{chdwmc}||'%'
+            </if>
+        </where>
+        ) t
+        where t.sfyx ='1' or t.sfyx is null order by t.kpsj desc NULLS LAST
+    </select>
+
+
+
+    <!--获取管理单位的考评记录-->
+    <select id="queryGldwKpInfoByPage" parameterType="map" resultType="map">
+        select kp.kpjg, kp.xy, kp.cgzl, kp.myd, kp.kpsj, kp.sfyx, kp.mlkid,kp.kpyj,kp.sfndkp,kp.ndkp
+        from dchy_xmgl_kp kp
+        <where>
+            <if test="kpkssj !=null and kpkssj !=''">
+                AND kp.kpsj <![CDATA[>=]]> to_date(#{kpkssj},'yyyy-mm-dd')
+            </if>
+            <if test="kpjssj !=null and kpjssj !=''">
+                AND kp.kpsj <![CDATA[<]]> to_date(#{kpjssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="kpjg !=null and kpjg !=''">
+                AND kp.kpjg in (
+                select b.dm from dchy_xmgl_zd a
+                inner join dchy_xmgl_zd b on b.zdlx = a.zdlx and a.mc = b.mc
+                where a.zdlx = 'KPJG' and a.dm = #{kpjg}
+                )
+            </if>
+            <if test="mlkid != null and mlkid != ''">
+                and kp.mlkid = #{mlkid}
+            </if>
+        </where>
+        order by kp.kpsj desc
+    </select>
+
+
+    <!--测绘单位查看对应考评记录信息-->
+    <select id="queryGldwKpxxByPage" resultType="map" parameterType="map">
+        select kp.kpjg, kp.xy, kp.cgzl, kp.myd, kp.kpsj, kp.sfyx, kp.mlkid,kp.kpyj,kp.sfndkp,kp.ndkp
+        from dchy_xmgl_kp kp
+        <where>
+            <if test="kpkssj !=null and kpkssj !=''">
+                AND kp.kpsj <![CDATA[>=]]> to_date(#{kpkssj},'yyyy-mm-dd')
+            </if>
+            <if test="kpjssj !=null and kpjssj !=''">
+                AND kp.kpsj <![CDATA[<]]> to_date(#{kpjssj},'yyyy-mm-dd') + 1
+            </if>
+            <if test="kpjg !=null and kpjg !=''">
+                AND kp.kpjg in (
+                    select b.dm from dchy_xmgl_zd a
+                    inner join dchy_xmgl_zd b on b.zdlx = a.zdlx and a.mc = b.mc
+                    where a.zdlx = 'KPJG' and a.dm = #{kpjg}
+                )
+            </if>
+            <if test="mlkid != null and mlkid != ''">
+                and kp.mlkid = #{mlkid}
+            </if>
+        </where>
+        order by kp.kpsj desc
+    </select>
+
+    <select id="queryFwpjZd" resultType="map">
+        SELECT  DISTINCT z.mc FROM dchy_xmgl_zd z WHERE z.zdlx='KPJG'
+    </select>
+
+    <!--测绘单位办理信息-->
+    <select id="queryChxxByChdwxxids" resultType="map" parameterType="map">
+        SELECT K.DWMC AS DWMC,
+        K.FRDB,
+        K.CHZZZSBH,
+        K.YXQKSRQ,
+        K.YXQJSRQ,
+        K.TYSHXYDM,
+        k.BGDZ,
+        K.CHZYFW,
+        K.LXR,
+        K.LXDH,
+        k.mlkid,
+        zd1.mc zzdj,
+        zd2.mc dwxz
+        FROM DCHY_XMGL_MLK K
+        left join dchy_xmgl_zd zd1 on zd1.dm = k.zzdj and zd1.zdlx = 'ZZDJ'
+        left join dchy_xmgl_zd zd2 on zd2.dm = k.dwxz and zd2.zdlx = 'DWXZ'
+        <where>
+            <if test="mlkid != null and mlkid !=''">
+                AND K.MLKID  = #{mlkid}
+            </if>
+        </where>
+    </select>
+
+    <!--测绘单位办理信息,从业人数-->
+    <select id="queryCyrsByChdwxxids" resultType="String" parameterType="map">
+        SELECT  count(w.cyryid) AS cyrs FROM DCHY_XMGL_cyry w
+        <where>
+            <if test="mlkid != null and mlkid !=''">
+                AND  w.mlkid=#{mlkid}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

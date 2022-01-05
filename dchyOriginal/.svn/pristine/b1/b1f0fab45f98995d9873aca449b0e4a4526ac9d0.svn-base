@@ -1,0 +1,54 @@
+<style type="text/css">
+    #videoLayerContent{
+        margin: 10px;
+        width: 100%;
+    }
+
+    .title{
+        font-size: large;
+    }
+
+    #videoLayerContent ul{
+        margin: 0px;
+        margin-top: 10px;
+        padding: 0px;
+    }
+
+    #videoLayerContent ul li{
+        margin: 0px 0px 10px 10px ;
+        padding: 0px;
+        height: 30px;
+        line-height: 30px;
+        color:rgb(32,132,255);
+    }
+
+    #videoLayerContent ul .choosed{
+        background-color: rgb(66,143,233);
+        color: white;
+    }
+
+    #videoLayerContent ul li:hover{
+        background-color: rgb(66,143,233);
+        color: white;
+    }
+
+</style>
+
+<div class="widget-panel-title">
+    <div class="title-icon">
+    </div>&nbsp;专题图
+</div>
+<div class="panel-body">
+    <div class="title" style="margin-top: 10px">
+        图层列表
+    </div>
+    <div id="videoLayerContent">
+        <ul class="type">
+        </ul>
+    </div>
+</div>
+<script type="text/x-handlebars-template" id="layerItem">
+    {{#list}}
+        <li><div id="{{id}}" where ="{{where}}" layerUrl ="{{url}}" style="margin-left: 10px">{{layerName}}</div></li>
+    {{/list}}
+</script>

@@ -1,0 +1,241 @@
+package cn.gtmap.msurveyplat.promanage.web.main;
+
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglMlkService;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglSjclService;
+import cn.gtmap.msurveyplat.promanage.core.service.FileUploadHtxxService;
+import cn.gtmap.msurveyplat.promanage.utils.PlatformUtil;
+import cn.gtmap.msurveyplat.promanage.web.utils.FileDownoadUtil;
+import cn.gtmap.msurveyplat.promanage.web.utils.FileUploadHtglUtil;
+import cn.gtmap.msurveyplat.promanage.web.utils.FileUploadUtil;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
+
+@Controller
+@RequestMapping("/fileoperationhtxx")
+public class FileUploadHtglController {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+    @Autowired
+    private DchyXmglMlkService dchyXmglMlkService;
+    @Autowired
+    PlatformUtil platformUtil;
+    @Autowired
+    FileUploadHtxxService fileUploadHtxxService;
+    @Autowired
+    DchyXmglSjclService dchyXmglSjclService;
+
+    /**
+     * 文件上传
+     *
+     * @param files
+     */
+    @PostMapping(value = "uploadfiles")
+    @ResponseBody
+    public ResponseMessage fileUpload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
+        String ssmkid = CommonUtil.ternaryOperator(request.getParameter("ssmkid"));
+        String sjclid = CommonUtil.ternaryOperator(request.getParameter("sjclid"));
+        String sjxxid = CommonUtil.ternaryOperator(request.getParameter("sjxxid"));
+        String xh = CommonUtil.ternaryOperator(request.getParameter("xh"));
+        String chxmid = CommonUtil.ternaryOperator(request.getParameter("chxmid"));
+        String clmc = CommonUtil.ternaryOperator(request.getParameter("clmc"));
+        String chdwid = CommonUtil.ternaryOperator(request.getParameter("chdwid"));
+        String clsx = CommonUtil.ternaryOperator(request.getParameter("clsx"));
+        String fs = CommonUtil.ternaryOperator(request.getParameter("fs"));
+        String ys = CommonUtil.ternaryOperator(request.getParameter("ys"));
+        String cllx = CommonUtil.ternaryOperator(request.getParameter("cllx"));
+        String htxxid = CommonUtil.ternaryOperator(request.getParameter("htxxid"));
+        /*文件上传*/
+        Map<String, Object> map = FileUploadUtil.uploadFile(files, htxxid, clmc);
+        map.put("ssmkid", ssmkid);
+        map.put("glsxid", htxxid);
+        map.put("sjxxid", sjxxid);
+        map.put("sjclid", sjclid);
+        map.put("xh", xh);
+        map.put("chxmid", chxmid);
+        map.put("clmc", clmc);
+        map.put("chdwid", chdwid);
+        map.put("clsx", clsx);
+        map.put("fs", fs);
+        map.put("ys", ys);
+        map.put("cllx", cllx);
+        map.put("htxxid", htxxid);
+
+        /*更新合同、材料信息与名录库*/
+        return FileUploadHtglUtil.updateSjxxAndClxx(map, files);
+    }
+
+    /**
+     * 根据ssmkid获取需要上传的材料
+     * @param param
+     * @return
+     */
+    @PostMapping(value = "/getHtxx")
+    @ResponseBody
+    public ResponseMessage getHtxxForUpload(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        try {
+            Map<String, Object> data = (Map<String, Object>) param.get("data");
+            String ssmkId = CommonUtil.ternaryOperator(data.get("ssmkid"));
+            String glsxid = CommonUtil.ternaryOperator(data.get("glsxid"));
+            if (StringUtils.isNotBlank(glsxid)) {
+                mapList = dchyXmglSjclService.getHtxxSjclXx(glsxid);
+                if (CollectionUtils.isEmpty(mapList)) {
+                    mapList = dchyXmglMlkService.queryUploadFileBySsmkId(ssmkId);
+                    dchyXmglSjclService.initHtxxSjxxAndClxx(glsxid, ssmkId, mapList);
+                }
+            }
+
+            message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+            message.getData().put("dataList", mapList);
+        } catch (Exception e) {
+            logger.error(e);
+            message.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return message;
+    }
+
+    /**
+     * 文件删除
+     *
+     * @return
+     */
+    @PostMapping(value = "/deletefile")
+    @ResponseBody
+    public ResponseMessage deleteFile(@RequestBody Map<String, Object> param) {
+        Map<String, Object> data = (Map<String, Object>) param.get("data");
+        String htxxId = CommonUtil.ternaryOperator(data.get("htxxId"));
+        String wjzxId = CommonUtil.ternaryOperator(data.get("wjzxid"));
+        return dchyXmglMlkService.delFile(htxxId, wjzxId);
+    }
+
+    @RequestMapping("/download")
+    @ResponseBody
+    public ResponseEntity<byte[]> download(HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
+        String wjzxid = httpServletRequest.getParameter("wjzxid");
+        String ssmkid = httpServletRequest.getParameter("ssmkid");
+        String glsxid = httpServletRequest.getParameter("ssmkid");
+
+        // 构建响应
+        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.ok();
+
+        // 二进制数据流
+        bodyBuilder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+
+        int nodeId = Integer.parseInt(wjzxid);
+        String fileName = "材料.zip";
+        response.reset();//清空缓存区，防止存在某些字符使得下载的文件格式错误
+        response.setContentType("application/octet-stream");
+
+        ZipOutputStream zos = null;
+        HttpStatus httpState = null;
+        byte[] body = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        try {
+
+            int num = FileDownoadUtil.getFileNumberByNodeId(nodeId);
+            Map<String, Object> wjxzMap = Maps.newHashMap();
+            if (num == 0) {
+                httpState = HttpStatus.NOT_FOUND;
+            } else {
+
+                if (num == 1) {
+                    wjxzMap.putAll(FileDownoadUtil.downLoadFile(nodeId));
+                    if (MapUtils.isNotEmpty(wjxzMap)) {
+                        fileName = MapUtils.getString(wjxzMap, "wjmc");
+                        body = (byte[]) wjxzMap.get("wjnr");
+                    }
+                } else {
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    zos = new ZipOutputStream(byteArrayOutputStream);
+                    fileName = FileDownoadUtil.downLoadZip(zos, nodeId, null);
+                    body = byteArrayOutputStream.toByteArray();
+                    fileName += ".zip";
+                }
+
+                fileName = FileDownoadUtil.encodeFileName(httpServletRequest, fileName);
+//                response.setHeader("Content-Disposition", "attachment;" + fileName);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+                headers.add("Content-Disposition", "attachment; " + fileName);
+                headers.add("Pragma", "no-cache");
+                headers.add("Expires", "0");
+                headers.add("Last-Modified", new Date().toString());
+                headers.add("ETag", String.valueOf(System.currentTimeMillis()));
+                return ResponseEntity
+                        .ok()
+                        .headers(headers)
+                        .contentLength(body.length)
+                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .body(body);
+            }
+        } catch (Exception e) {
+            httpState = HttpStatus.EXPECTATION_FAILED;
+//            e.printStackTrace();
+            logger.error("错误原因{}：", e);
+        } finally {
+            // 关闭流
+            try {
+                if (null != zos) {
+                    zos.flush();
+                    zos.close();
+                }
+                if (null != byteArrayOutputStream) {
+                    byteArrayOutputStream.flush();
+                    byteArrayOutputStream.close();
+                }
+            } catch (IOException e) {
+//                e.printStackTrace();
+                logger.error("错误原因{}：", e);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+    }
+
+    /**
+     * 合同相关删除
+     *
+     * @return
+     */
+    @PostMapping(value = "deletefileHtxxJl")
+    @ResponseBody
+    public ResponseMessage deletefileHtxxJl(@RequestBody Map<String, Object> param) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            Map result = fileUploadHtxxService.deleteFileHtxxJl(param);
+            message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            message.getHead().setMsg(ResponseMessage.CODE.DELETE_FAIL.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.DELETE_FAIL.getCode());
+        }
+        return message;
+    }
+
+}

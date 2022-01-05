@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Project:  onemap
+  ~ Module:   onemap-server
+  ~ File:     applicationContext-monitor.xml
+  ~ Modifier: xyang
+  ~ Modified: 2013-06-17 01:55:17
+  ~
+  ~ Copyright (c) 2013 Gtmap Ltd. All Rights Reserved.
+  ~
+  ~ Copying of this document or code and giving it to others and the
+  ~ use or communication of the contents thereof, are forbidden without
+  ~ expressed authority. Offenders are liable to the payment of damages.
+  ~ All rights reserved in the event of the grant of a invention patent or the
+  ~ registration of a utility model, design or code.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean id="dataManager" class="cn.gtmap.onemap.server.monitor.service.impl.DataManagerImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="itemManager" ref="itemManager"/>
+    </bean>
+
+    <bean id="graphManager" class="cn.gtmap.onemap.server.monitor.service.impl.GraphManagerImpl"/>
+
+    <bean id="hostManager" class="cn.gtmap.onemap.server.monitor.service.impl.HostManagerImpl"/>
+
+    <bean id="interfaceManager" class="cn.gtmap.onemap.server.monitor.service.impl.InterfaceManagerImpl"/>
+
+    <bean id="itemManager" class="cn.gtmap.onemap.server.monitor.service.impl.ItemManagerImpl"/>
+
+    <bean id="arcgisRestServiceMonitor" class="cn.gtmap.onemap.server.monitor.collector.impl.ArcgisRestServiceMonitor"/>
+
+    <bean class="cn.gtmap.onemap.server.monitor.collector.CollectService">
+        <property name="taskScheduler" ref="taskScheduler"/>
+        <property name="collectorFactory">
+            <bean class="cn.gtmap.onemap.server.monitor.collector.DefaultCollectorFactory">
+                <property name="collectorFactories">
+                    <map>
+                        <entry key="mapService" value-ref="arcgisRestServiceMonitor"/>
+                        <entry key="zabbix">
+                            <bean class="cn.gtmap.onemap.server.monitor.collector.impl.ZabbixCollectorFactory"/>
+                        </entry>
+                        <entry key="db">
+                            <bean class="cn.gtmap.onemap.server.monitor.collector.impl.DatabaseCollectorFactory"/>
+                        </entry>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="cleanDataJob" class="cn.gtmap.onemap.server.monitor.job.CleanDataJob"/>
+    <bean id="agregateTrendJob" class="cn.gtmap.onemap.server.monitor.job.AgregateTrendJob"/>
+
+    <task:scheduled-tasks scheduler="taskScheduler">
+        <task:scheduled ref="cleanDataJob" method="clean" cron="0 0 3 * * ?"/>
+        <task:scheduled ref="agregateTrendJob" method="agregateHalfHourly" cron="0 0/30 * * * ?"/>
+        <task:scheduled ref="agregateTrendJob" method="agregateDaily" cron="0 0 0 * * ?"/>
+    </task:scheduled-tasks>
+
+    <bean id="springDataSourceBeanPostProcessor" class="net.bull.javamelody.SpringDataSourceBeanPostProcessor"/>
+</beans>

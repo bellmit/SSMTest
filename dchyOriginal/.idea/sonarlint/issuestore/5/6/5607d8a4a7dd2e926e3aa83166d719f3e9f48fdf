@@ -1,0 +1,16 @@
+
+W	java:S125•"<This block of commented-out lines of code should be removed.(Ø”ª˜ûÿÿÿÿ
+n
+java:S3776á"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(”ÈŒÍıÿÿÿÿ
+7
+java:S1170)"!Make this final field static too.(­šÑù
+^
+java:S1192œ"GDefine a constant instead of duplicating this literal "result" 4 times.(ææŠ¤
+h
+java:S3776:"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(µÛ…ö
+W	java:S125Ë"<This block of commented-out lines of code should be removed.(è„« øÿÿÿÿ
+^
+java:S1192"GDefine a constant instead of duplicating this literal "chxmid" 7 times.(”ùŞ±
+n
+java:S3776§"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ò¨Ò´şÿÿÿÿ
+g	java:S116)"RRename this field "DELETED" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­šÑù

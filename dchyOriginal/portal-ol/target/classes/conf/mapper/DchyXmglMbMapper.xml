@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.portalol.core.mapper.DchyXmglMbMapper">
+
+    <!--获取模板启用状态列表信息-->
+    <select id="queryMbQyztListByPage" parameterType="map" resultType="map">
+        SELECT m.wjzxid,m.mbmc,m.scsj,(SELECT mc FROM DCHY_XMGL_ZD WHERE dm=m.mblx AND zdlx='MBLX' ) mblx
+        FROM DCHY_XMGL_MB m
+        WHERE m.mbqyzt = '1' AND m.mbmc IS NOT NULL ORDER BY m.scsj DESC
+    </select>
+
+</mapper>

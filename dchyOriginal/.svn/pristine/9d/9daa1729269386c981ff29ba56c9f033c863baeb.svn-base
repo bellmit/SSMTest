@@ -1,0 +1,13 @@
+<div class="widget-panel-title">大数据分析</div>
+<div class="a-opt-container ga-wrapper">
+    <a href="javascript:;" class="btn btn-warning btn-sm file" data-toggle="tooltip" title="只支持 shp 的 zip 包">
+        <i class="iconfont">&#xe632;</i> 
+        导入
+        <input type="file" name="file" id="shpFileInput">
+    </a>
+    <a class="btn btn-success btn-sm" id="geoAnalysisBtn"><i class="iconfont">&#xe619;</i> 分析</a>
+    <a class="btn btn-info btn-sm" id="gaClearBtn"><i class="iconfont">&#xe605;</i> 清除</a>
+</div>
+<div id="msgContainer" style="max-height: 386px; overflow-y: auto;">
+    
+</div>

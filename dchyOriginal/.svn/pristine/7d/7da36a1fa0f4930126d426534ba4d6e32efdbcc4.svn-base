@@ -1,0 +1,102 @@
+package cn.gtmap.msurveyplat.serviceol.utils;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglYhdw;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.serviceol.feign.PortalolFeignService;
+import cn.gtmap.msurveyplat.serviceol.web.main.UserController;
+import com.google.common.collect.Maps;
+import com.gtis.config.AppConfig;
+import feign.Feign;
+import feign.Request;
+import feign.Retryer;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liujie@gtmap.cn">liujie</a>
+ * @version 1.0, 2020/3/3
+ * @description Exchange接口工具类
+ */
+@Component
+public class PortalolFeignUtil {
+
+    private Logger logger = Logger.getLogger(PortalolFeignUtil.class);
+
+    @Autowired
+    EntityMapper entityMapper;
+
+    /**
+     * @param
+     * @return
+     * @author <a href="mailto:liuqiang@gtmap.cn">liujie</a>
+     * @description 初始化PortalolFeignService接口
+     */
+    private PortalolFeignService init() {
+        return Feign.builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .options(new Request.Options(35000, 35000))
+                .retryer(new Retryer.Default(35000, 35000, 3))
+                .target(PortalolFeignService.class, AppConfig.getProperty("portalol.url"));
+    }
+
+    public ResponseMessage queryUser(String page, String size, String username, String lxr) {
+        PortalolFeignService portalolFeignService = init();
+        Map<String, String> param = Maps.newHashMap();
+        Example example = new Example(DchyXmglYhdw.class);
+        example.createCriteria().andEqualTo("yhid", UserUtil.getCurrentUserId());
+        logger.info("******************当前用户的id" + UserUtil.getCurrentUserId());
+        logger.info("******************当前用户的username" + UserUtil.getCurrentUser().getUsername());
+        List<DchyXmglYhdw> dchyXmglYhdws = entityMapper.selectByExample(example);
+        if (CollectionUtils.isNotEmpty(dchyXmglYhdws)) {
+            DchyXmglYhdw dchyXmglYhdw = dchyXmglYhdws.get(0);
+            param.put("dwbh", dchyXmglYhdw.getDwbh());
+            param.put("yhlx", dchyXmglYhdw.getYhlx());
+        }
+        if (StringUtils.isNotBlank(page)) {
+            param.put("page", page);
+        }
+        if (StringUtils.isNotBlank(size)) {
+            param.put("size", size);
+        }
+        if (StringUtils.isNotBlank(username)) {
+            param.put("username", username);
+        }
+        if (StringUtils.isNotBlank(lxr)) {
+            param.put("lxr", lxr);
+        }
+        return portalolFeignService.queryUser(param);
+    }
+
+    public ResponseMessage changePassword(String username, String password, String passwordNew) {
+        PortalolFeignService portalolFeignService = init();
+        return portalolFeignService.changePassword(username, password, passwordNew);
+    }
+
+    public ResponseMessage changeUserState(String userid, String state) {
+        PortalolFeignService portalolFeignService = init();
+        return portalolFeignService.changeUserState(userid, state);
+    }
+
+    public ResponseMessage distributionRoleAuthority(String userid, String roles) {
+        PortalolFeignService portalolFeignService = init();
+        return portalolFeignService.distributionRoleAuthority(userid, roles);
+    }
+
+    public ResponseMessage queryAllRole() {
+        PortalolFeignService portalolFeignService = init();
+        return portalolFeignService.queryAllRole();
+    }
+
+
+}

@@ -1,0 +1,52 @@
+[
+    {
+        "id": "f142b839e96e4028d83d42b839e90001",
+        "name": "jcdl",
+        "title": "基础地理",
+        "desc": "各类地理信息的统一空间载体，主要由自然地理信息中的水系，社会地理信息中的交通、境界等要素构成。",
+        "thumbnail": "/omp/file/sssssss",
+        "enable": true,
+        "order": 0,
+        "tpl": "jcdl"
+    },
+    {
+        "id": "f142b839e96e4028d83d42b839e90002",
+        "name": "ygjc",
+        "title": "遥感影像",
+        "desc": "纪录各种地物电磁波大小的航空像片、卫星像片。",
+        "thumbnail": "/omp/file/sssssss",
+        "enable": true,
+        "order": 1,
+        "tpl": "jcdl"
+    },
+    {
+        "id": "f142b839e96e4028d83d42b839e90003",
+        "name": "tdlyxz",
+        "title": "土地利用现状",
+        "desc": "对土地的地类、位置、面积、分布等自然属性和土地权属等社会属性及其变化情况进行的调查、监测、统计和分析。",
+        "thumbnail": "/omp/file/sssssss",
+        "enable": true,
+        "order": 2,
+        "tpl": "jcdl"
+    },
+    {
+        "id": "f142b839e96e4028d83d42b839e90004",
+        "name": "tdlygh",
+        "title": "土地利用总体规划",
+        "desc": "根据经济可持续发展的要求和当地自然、经济、社会条件，对土地的开发、利用、治理、保护在空间时间上所做的总体安排和布局。",
+        "thumbnail": "/omp/file/sssssss",
+        "enable": true,
+        "order": 3,
+        "tpl": "jcdl"
+    },
+    {
+        "id": "f142b839e96e4028d83d42b839e90005",
+        "name": "kczygh",
+        "title": "矿产资源总体规划",
+        "desc": "对矿产资源调查评价、勘查、开发利用与保护、矿山环境保护与恢复治理等活动在时间、空间和结构上进行的统筹规划与安排。",
+        "thumbnail": "/omp/file/sssssss",
+        "enable": true,
+        "order": 4,
+        "tpl": "jcdl"
+    }
+]

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>常州项目管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="../css/xmgl-changzhou.css">
+</head>
+<body>
+<!--  主要内容区域   -->
+<div class="border-head">
+    <!--  上部表单  -->
+    <div class="layui-form" lay-filter="formData">
+        <!--  搜索栏  -->
+        <div class="layui-form-item" style="margin: 20px 10px">
+
+            <!-- 备案编号 -->
+            <div class="layui-inline">
+                <label class="layui-form-label">备案编号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="babh" name="babh" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <!-- 项目代码 -->
+            <div class="layui-inline">
+                <label class="layui-form-label">项目代码</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="gcbh" name="gcbh" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <!-- 不动产证明号 -->
+            <div class="layui-inline">
+                <label class="layui-form-label">工程名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="gcmc" name="gcmc" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <!-- 测绘单位 -->
+            <div class="layui-inline">
+                <label class="layui-form-label">测绘单位</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="chdwmc" name="chdwmc" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+            <!-- 按钮 -->
+            <div class="layui-inline" style="margin-left: 29px">
+                <button class="layui-btn layui-btn-normal" id="search">查询</button>
+                <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="reset">重置</button>
+            </div>
+
+        </div>
+        <!--  搜索栏end  -->
+    </div>
+    <!--  上部表单end  -->
+
+    <!-- 下部表格 -->
+    <div class="layui_show_table">
+        <table id="LAY_table_XmxxList" lay-filter="LAY_table_XmxxList"></table>
+        <div id="LAY_table_Xmxx_page"></div>
+    </div>
+    <!-- 下部表格end -->
+
+</div>
+<!--数据表格操作栏-->
+<script type="text/html" id="operation">
+    <a class="layui-btn  layui-btn-normal layui-btn-sm" lay-event="detail" id="detail">查看</a>
+    <a class="layui-btn  layui-btn-normal layui-btn-sm" lay-event="browse" id="browse">成果浏览</a>
+</script>
+
+<!-- 查看弹出框内容 -->
+<script type="text/html" id="cgtjModal">
+    <div class="tck" style="background-color: white;margin-bottom: -50px;margin-top: 20px">
+        <div class="layui_show_table">
+            <table id="LAY_table_cgtj" lay-filter="LAY_table_cgtj"></table>
+        </div>
+    </div>
+</script>
+
+
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/layui/layui.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/xmgl-changzhou.js"></script>
+</body>
+</html>

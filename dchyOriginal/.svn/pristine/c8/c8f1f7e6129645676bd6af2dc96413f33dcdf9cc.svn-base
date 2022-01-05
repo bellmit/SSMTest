@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>数据共享配置</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,no-cache"></meta>
+    <meta http-equiv="Pragma" content="no-cache"></meta>
+    <meta http-equiv="Cache-Control" content="no-cache"></meta>
+    <meta http-equiv="Expires" content="0"></meta>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="../css/add.css">
+    <link href="../css/sjgxbm.css" media="all" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/xmgl-changzhou.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_2334914_ydfyfi8lqwa.css">
+</head>
+<body>
+ <!--  上部表单  -->
+ <div class="layui-form" lay-filter="formData">
+    <!--  搜索栏  -->
+    <div class="layui-form-item" style="margin: 20px 10px">
+
+        <!-- 项目代码 -->
+        <div class="layui-inline">
+            <label class="layui-form-label">项目代码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="gcbh" name="gcbh" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <!-- 不动产证明号 -->
+        <div class="layui-inline">
+            <label class="layui-form-label">工程名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="gcmc" name="gcmc" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <!-- 测绘单位 -->
+        <!-- <div class="layui-inline">
+            <label class="layui-form-label">测绘单位</label>
+            <div class="layui-input-inline">
+                <input type="text" id="chdwmc" name="chdwmc" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div> -->
+        <!-- <div class="layui-inline">
+            <label class="layui-form-label">登记时间</label>
+            <div class="layui-input-inline">
+                <input type="text" style="width: 49%;display:inline-block" class="layui-input" id="kssj" placeholder="请选择开始时间" autocomplete="off">
+                <span>-</span>
+                <input type="text" style="width: 49%;display:inline-block" class="layui-input" id="jssj" placeholder="请选择结束时间" autocomplete="off">
+            </div>
+        </div> -->
+        <!-- 测绘单位 -->
+        <div class="layui-inline">
+            <label class="layui-form-label">建设单位</label>
+            <div class="layui-input-inline">
+                <input type="text" id="jsdwmc" name="jsdwmc" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <!-- 按钮 -->
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-normal" id="search">查询</button>
+            <button type="reset" class="layui-btn layui-btn-normal pf-secondary-btn" id="reset">重置</button>
+        </div>
+
+    </div>
+    <!--  搜索栏end  -->
+</div>
+
+<!-- 主体 -->
+<div class="layui-collapse lay-accordion" lay-filter="test" style="margin-top: 12px;margin-bottom: 20px" id="xmxx">
+</div>
+
+<div id="pageHelper"></div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs detail-btn" lay-event="detail">查看</a>
+</script>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/layui/layui.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/xmgl-changzhou.js"></script>
+
+</body>
+</html>

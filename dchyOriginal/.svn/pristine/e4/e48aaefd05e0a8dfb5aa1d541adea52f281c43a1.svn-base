@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<bean id="sessionProvider" class="cn.gtmap.onemap.security.impl.KanqLicenseSsoSessionProviderImpl">-->
+        <!--<property name="identityService" ref="identityService"/>-->
+        <!--<property name="authorizationService" ref="authorizationService"/>-->
+    <!--</bean>-->
+
+    <bean id="authorizationService" class="cn.gtmap.onemap.server.service.impl.AuthorizationServiceImpl"/>
+
+    <bean id="pr" abstract="true" class="cn.gtmap.onemap.model.Privilege"/>
+    <bean id="op" abstract="true" class="cn.gtmap.onemap.model.Operation"/>
+
+    <bean class="cn.gtmap.onemap.server.service.impl.PrivilegeDefinitionInitializer">
+        <property name="definitions">
+            <list>
+                <bean parent="pr" p:resource="oms-urls" p:title="运维地址">
+                    <property name="children">
+                        <set>
+                            <bean parent="pr" p:resource="/console/**" p:title="管理后台"/>
+                        </set>
+                    </property>
+                </bean>
+                <bean parent="pr" p:resource="omp-urls" p:title="信息门户地址">
+                    <property name="children">
+                        <set>
+                            <bean parent="pr" p:resource="/**" p:title="所有"/>
+                        </set>
+                    </property>
+                </bean>
+                <bean parent="pr" p:resource="omp-functions" p:title="信息门户功能">
+                    <property name="children">
+                        <set>
+                            <bean parent="pr" p:resource="tpl" p:title="模板">
+                                <property name="operations">
+                                    <set>
+                                        <bean parent="op" p:name="edit" p:title="编辑"/>
+                                    </set>
+                                </property>
+                            </bean>
+                        </set>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

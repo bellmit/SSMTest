@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.ContractRegistrationFileMapper">
+
+    <!--分页多条件查询检索合同登记备案信息-->
+    <select id="getContractRegisterFileByPage" resultType="map" parameterType="map">
+        SELECT xm.slbh, gc.gcmc, gc.gcbh, gc.wtdw, xm.slsj, xm.chxmid, xm.xmzt
+        FROM dchy_xmgl_chxm xm
+        LEFT JOIN dchy_xmgl_chgc gc ON xm.chgcid = gc.chgcid
+        WHERE xm.xmly  in ('2','3') AND xm.xmzt IS NOT NULL AND TRIM(xm.xmzt) <![CDATA[<> ]]> '0'
+        <if test="gcbh != null and gcbh != ''">
+            AND gc.gcbh LIKE '%'||#{gcbh}|| '%'
+        </if>
+        <if test="gcmc != null and gcmc != ''">
+            AND gc.gcmc LIKE '%'||#{gcmc}|| '%'
+        </if>
+        <if test="ksslsj !=null and ksslsj !=''">
+            AND xm.slsj <![CDATA[>=]]> to_date(#{ksslsj},'yyyy-mm-dd')
+        </if>
+        <if test="jsslsj !=null and jsslsj !=''">
+            AND xm.slsj <![CDATA[<]]> to_date(#{jsslsj},'yyyy-mm-dd') + 1
+        </if>
+        <if test="wtdw != null and wtdw != ''">
+            AND gc.wtdw LIKE '%'||#{wtdw}|| '%'
+        </if>
+        <if test="chdwmc != null and chdwmc != ''">
+            AND xm.chxmid IN ( SELECT xx.chxmid FROM DCHY_XMGL_CHXM_CHDWXX xx WHERE xx.chdwmc LIKE '%'|| #{chdwmc}|| '%' )
+        </if>
+        ORDER BY xm.slsj DESC
+    </select>
+
+    <!--分页获取项目管理列表-->
+    <select id="getProjectManagerListByPage" resultType="map" parameterType="map">
+        select gc.xmxz,
+        gc.gcmc,
+        gc.gcbh,
+        gc.gcdzs,
+        gc.gcdzss,
+        gc.gcdzqx,
+        gc.wtdw,
+        gc.lxr,
+        gc.lxdh,
+        gc.chgcid
+        from dchy_xmgl_chgc gc
+        <where>
+            <if test="gcbh != null and gcbh != ''">
+                and gc.gcbh like '%'||#{gcbh}|| '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                and gc.gcmc like '%'||#{gcmc}|| '%'
+            </if>
+            <if test="xmxz != null and xmxz != ''">
+                and gc.xmxz = #{xmxz}
+            </if>
+            <if test="wtdw != null and wtdw != ''">
+                and gc.wtdw like '%'||#{wtdw}|| '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getChdwxxByChxmId" parameterType="map" resultType="map">
+        select xx.chdwmc,xx.chxmid from
+        dchy_xmgl_chxm_chdwxx xx
+        <where>
+            <if test="chxmIdList != null and chxmIdList.size()>0 ">
+                and xx.chxmid in
+                <foreach item="item" index="index" collection="chxmIdList"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                and xx.chdwmc like '%'||#{chdwmc}|| '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getClsxZd" parameterType="list" resultType="map">
+        select distinct z2.dm, z2.mc
+         from dchy_xmgl_zd z2
+         inner join (select *
+                      from dchy_xmgl_zd zd
+                      where zd.zdlx = 'CLSX'
+                      and zd.dm in
+                        <foreach item="item" index="index" collection="clsxSet"
+                                 open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                      ) zz
+        on zz.fdm = z2.dm
+       and z2.zdlx = 'CLSX'
+    </select>
+
+    <select id="getConcreteClsxZd" parameterType="map" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglZd">
+        select *
+         from dchy_xmgl_zd zd
+         <where>
+            and zd.zdlx = 'CLSX'
+             <if test="dm != null and dm != ''">
+                 and zd.fdm = #{dm}
+             </if>
+             <if test="clsxZd != null and clsxZd.size > 0">
+                 and zd.dm in
+                 <foreach collection="clsxZd" item="item" open="(" separator="," close=")">
+                     #{item,jdbcType=VARCHAR}
+                 </foreach>
+             </if>
+         </where>
+    </select>
+
+    <select id="getClmlFromClcgpz" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcgpz">
+        select * from dchy_xmgl_clcgpz g where g.pclcgpzid is null
+    </select>
+
+    <select id="getClmlFromClcgpzByClmc" resultType="string">
+         select g.clmc from dchy_xmgl_clcgpz g where g.pclcgpzid is null
+    </select>
+
+    <select id="getClmlDm" resultType="string" parameterType="string">
+        select g.clcgpzid
+          from dchy_xmgl_clcgpz g
+         where g.clcgpzid = (
+         select g2.pclcgpzid
+            from dchy_xmgl_clcgpz g2
+            where g2.clcgpzid = #{id})
+    </select>
+
+    <select id="getClcgByChgcid" parameterType="map" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcg">
+        select * from dchy_xmgl_clcg g
+        <where>
+            <choose>
+                <when test="chgcid != null and chgcid!=''">
+                    and g.chgcid = #{chgcid}
+                </when>
+                <otherwise>
+                    and g.chgcid = 'enmptyParamValue'
+                </otherwise>
+            </choose>
+            <if test="shzt != null and shzt!=''">
+                and g.shzt = #{shzt}
+            </if>
+        </where>
+        order by g.tjsj desc NULLS LAST
+    </select>
+
+    <select id="getClcgByChxmid" parameterType="map" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcg">
+        select * from dchy_xmgl_clcg g
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    and g.chxmid = #{chxmid}
+                </when>
+                <otherwise>
+                    and g.chxmid = 'enmptyParamValue'
+                </otherwise>
+            </choose>
+            <if test="shzt != null and shzt!=''">
+                and g.shzt = #{shzt}
+            </if>
+        </where>
+        order by g.tjsj desc NULLS LAST
+    </select>
+
+    <select id="getClcgBySqxxid" parameterType="map" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcg">
+        select * from dchy_xmgl_clcg g
+        <where>
+            <choose>
+                <when test="sqxxid != null and sqxxid!=''">
+                    and g.sqxxid = #{sqxxid}
+                </when>
+                <otherwise>
+                    and g.sqxxid = 'enmptyParamValue'
+                </otherwise>
+            </choose>
+            <if test="clsxList != null and clsxList.size() > 0">
+                and
+                <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                    g.clsx = #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+        order by g.tjsj desc NULLS LAST
+    </select>
+
+    <select id="getClcgPzWj" resultType="string">
+        select z.clmc from dchy_xmgl_clcgpz z where z.wjlx = '2'
+    </select>
+</mapper>

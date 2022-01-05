@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglSjclMapper">
+    <select id="getHtxxSjclXx" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        c2.chxmid,
+        c2.htxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid,
+        z.need
+        from dchy_xmgl_sjxx sj
+        inner join dchy_xmgl_sjcl cl on cl.sjxxid = sj.sjxxid
+        inner join dchy_xmgl_htxx c2 on c2.htxxid = sj.glsxid
+        left join dchy_xmgl_sjclpz z on z.clmc = cl.clmc
+        <where>
+            <choose>
+                <when test="glsxid != null and glsxid != ''">
+                    and c2.chxmid = #{glsxid}
+                </when>
+                <otherwise>
+                    and c2.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getSjclList" resultType="map" parameterType="map">
+        SELECT DISTINCT sj.sjxxid,cl.sjclid,cl.clmc,cl.fs,cl.cllx,cl.ys,z.need,z.ssclsx,cl.wjzxid
+        FROM dchy_xmgl_sjxx sj
+        LEFT JOIN dchy_xmgl_sjcl cl ON cl.sjxxid = sj.sjxxid
+        LEFT JOIN dchy_xmgl_sjclpz z ON z.clmc = cl.clmc
+        <where>
+            <if test="glsxid != null and glsxid != ''">
+                AND sj.glsxid = #{glsxid}
+            </if>
+            <if test="ssmkId != null and ssmkId != ''">
+                AND z.ssmkid = #{ssmkId}
+            </if>
+            <if test="clsxList != null and clsxList.size() > 0 ">
+                <choose>
+                    <when test="clsxList != null and clsxList.size() > 0 ">
+                        AND
+                        <foreach collection="clsxList" item="item" open="(" separator=" or " close=")">
+                            z.ssclsx = #{item}
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        AND z.ssclsx = 'emptyParamValue'
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+</mapper>

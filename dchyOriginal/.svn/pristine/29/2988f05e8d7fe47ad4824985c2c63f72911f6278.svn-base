@@ -1,0 +1,373 @@
+<template>
+    <div class="table">
+        <div :id="id" :lay-filter="id"></div>
+        <div v-if="showPage" :id="pageId" class="page-table"></div>
+        <input type="file" class="bdc-hide" id="attachmentUploadInput"/>
+        <div v-show='false'>
+            <div :id="operationId" >
+                <span v-if="operation.includes('view')" class="margin-left-10 table-btn-a" lay-event="view">查看</span>
+                <span v-if="operation.includes('edit')" class="margin-left-10 table-btn-a" lay-event="edit">编辑</span>
+                <span v-if="operation.includes('editPassword')" class="margin-left-10 table-btn-a" lay-event="editPassword">修改密码</span>
+                <span v-if="operation.includes('download')" class="margin-left-10 table-btn-a" lay-event="download">下载</span>
+                <span v-if="operation.includes('upload')" class="margin-left-10 table-btn-a" lay-event="upload">上传</span>
+                <span v-if="operation.includes('htdownload')" class="margin-left-10 table-btn-a" lay-event="htdownload">下载合同</span>
+                <span v-if="operation.includes('delete')" class="margin-left-10 table-btn-a bdc-delete-btn" lay-event="delete">删除</span>
+                <span v-if="operation.includes('evaluate')" class="margin-left-10 table-btn-a" lay-event="evaluate">评价</span>
+                <span v-if="operation.includes('check')" class="margin-left-10 table-btn-a" lay-event="check">审核</span>
+                <span v-if="operation.includes('examination')" class="margin-left-10 table-btn-a" lay-event="examination">考评</span>
+                <span v-if="operation.includes('remove')" class="margin-left-10 table-btn-a" lay-event="remove">移出名录库</span>
+                <span v-if="operation.includes('disable')" class="margin-left-10 table-btn-a" lay-event="disable">禁用</span>
+                <span v-if="operation.includes('enable')" class="margin-left-10 table-btn-a" lay-event="enable">启用</span>
+                <span v-if="operation.includes('read')" class="margin-left-10 table-btn-a" lay-event="read">已读</span>
+                <span v-if="operation.includes('verify')" class="margin-left-10 table-btn-a" lay-event="verify">核验</span>
+                <span v-if="operation.includes('record')" class="margin-left-10 table-btn-a" lay-event="record">备案</span>
+                <span v-if="operation.includes('role')" class="margin-left-10 table-btn-a" lay-event="role">授权</span>
+                <span v-if="operation.includes('fjdownload')" class="margin-left-10 table-btn-a" lay-event="fjdownload">附件下载</span>
+                <span v-if="operation.includes('finish')" class="margin-left-10 table-btn-a" lay-event="finish">办结</span>
+                <span v-if="operation.includes('viewCgFj')" class="margin-left-10 table-btn-a" lay-event="viewCgFj">成果浏览</span>
+                <span v-if="operation.includes('viewFj')" class="margin-left-10 table-btn-a" lay-event="viewFj">附件材料</span>
+                <span v-if="operation.includes('wtsdownload')" class="margin-left-10 table-btn-a" lay-event="wtsdownload">委托书下载</span>
+                <span v-if="operation.includes('push')" class="margin-left-10 table-btn-a" lay-event="push">推送</span>
+                <span v-if="operation.includes('change')" class="margin-left-10 table-btn-a" lay-event="change">变更</span>
+                <span v-if="operation.includes('changerecord')" class="margin-left-10 table-btn-a" lay-event="changerecord">变更记录</span>
+                <span v-if="operation.includes('cxrecord')" class="margin-left-10 table-btn-a" lay-event="cxrecord">诚信监管</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import _ from "lodash";
+export default {
+    name: "Table",
+    props: {
+        id: { //如果一个页面存在多个表格，需要传递id区分
+            type: String,
+            default: "tableRenderId"
+        },
+        pageId: { //如果一个页面存在多个表格且需要分页，需要传递pageId区分
+            type: String,
+            default: "tablePageId"
+        },
+        operationId: {
+            type: String,
+            default: "operation"
+        },
+        cols: { //表格列
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        data: { //表数据
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        size: { //每页显示条数
+            type: Number,
+            default: 10
+        },
+        showPage: { //是否需要分页
+            type: Boolean,
+            default: true
+        },
+        page: { //当前所在页
+            type: Number,
+            default: 1 
+        },
+        count: { //数据总数
+            type: Number,
+            default: 0
+        },
+        operation: { //数据操作
+            type: Array,
+            default: () => {
+                return []
+            }
+        },
+        func: { //需要分页时，需传递分页后调用的方法，注意：分页时，需要通过参数接收到修改的分页数据
+            type: Function,
+            default: () => {}
+        },
+        mergeCol: {
+            type: Boolean,
+            default: false
+        },
+        showDefaultTool: { //是否显示头部操作
+            type: Boolean,
+            default: false
+        },
+        tool: {
+            type: String,
+            default: ""
+        },
+        defaultToolbar: {
+            type: Array,
+            default: () => {
+                return ['filter']
+            }
+        }
+    },
+    data() {
+        return {
+            table: "",
+            laypage: "",
+            form: "",
+            curUploadId: ""
+        }
+    },
+    watch: {
+        data: {
+            deep: true,
+            handler: function(newVal,oldVal){
+                if(!_.eq(newVal,oldVal)){
+                    this.renderTable();
+                }
+            }
+        }
+    },
+    mounted() {
+        //上传事件订阅
+        let _self = this;
+        $("#attachmentUploadInput").on("change", function () {
+            let selected = {
+                files: this.files,
+                index: _self.curUploadId,
+                elem: $(this)
+            }
+            var $curUploadDom;
+            var file = this.files[0]
+            var itemTmplHtml = '<tr class="data-file-zone" data-dm="{{d.dm}}"><td data-field="attachmentName" align="center" colspan="5"><div class="layui-table-cell laytable-cell-5-attachmentName file-name-limit">{{d.name}}</div></td><td data-field="5" align="center" data-content="" class="position-relative"> <i class="fa fa-trash fa-newdelete pointer btn-click" style="margin-left: 8px" title="附件删除" data-id="{{d.id}}"></i></td></tr>';
+            layui.use(['laytpl'],function(){
+                var laytpl = layui.laytpl;
+                laytpl(itemTmplHtml).render(file, function (_html) {
+                    $("tbody tr:eq("+_self.curUploadId+")").after(_html);
+                });
+            })
+            _self.$emit("upload",selected);
+        });
+        if(!this.table){
+            this.initTableEle();
+        }
+    },
+    methods: {
+        initTableEle(){
+            layui.use(["table","laypage","form"], () => {
+                if(!this.table){
+                    this.table = layui.table;
+                    this.laypage = layui.laypage;
+                    this.form = layui.form;
+                    this.table.render({
+                        elem: "#" + this.id,
+                        cols: [this.cols],
+                        data: []
+                    })
+                    this.bindEvent();
+                    this.rendered();
+                }
+            })
+        },
+        // 绑定表格事件
+        bindEvent(){
+            // 单选事件
+            this.table.on("radio("+this.id+")", (obj) => {
+                let selectIndex = obj.tr.attr("data-index");
+                obj.data.index = selectIndex;
+                this.$emit("radio",obj.data)
+            })
+            // 多选事件
+            this.table.on("checkbox("+this.id+")", (obj) => {
+                const { type, checked } = obj
+                let checkStatus = this.table.checkStatus(this.id);
+                this.$emit("check", checkStatus.data)
+                if(type == "all" && checked){
+                    this.$emit("selectall")
+                }else if(type == "one" && checked){
+                    let selectIndex = obj.tr.attr("data-index");
+                    obj.data.index = selectIndex;
+                    this.$emit("radio",obj.data)
+                }
+            })
+            // toolbar 头部操作
+            this.table.on("toolbar("+this.id+")",(obj) => {
+                const { event } = obj;
+                if(event){
+                    this.$emit(event)
+                }
+            })
+            let self = this
+            //tool操作列
+            this.table.on("tool("+this.id+")",function(obj) {
+                const {field,event,data} = obj;
+                 if(event == "input"){
+                    layui.$(this).on('input porpertychange',function(e){
+                        let val = layui.$(this).val();
+                        let name = layui.$(this).attr('name');
+                        data[name] = val;
+                        self.$emit("input", data)
+                    })
+                }
+                if(event == "delete"){
+                    self.$emit("delete", data)
+                }else if(event == "download"){
+                    self.$emit("download", data)
+                }else if(event == "upload"){
+                    self.curUploadId = obj.tr.attr("data-index");
+                    $("#attachmentUploadInput").click();
+                }else if(event == "view"){
+                    self.$emit("view", data);
+                }else if(event == "edit"){
+                    self.$emit("edit", data);
+                }else if(event == "htdownload"){
+                    self.$emit("htdownload", data)
+                }else if(event == "evaluate"){
+                    self.$emit("evaluate", data)
+                }else if(event == "check"){
+                    self.$emit("check", data)
+                }else if(event == "examination"){
+                    self.$emit("examination", data)
+                }else if(event == "remove"){
+                    self.$emit("remove", data)
+                }else if(event == "disable"){
+                    self.$emit("disable", data)
+                }else if(event == "enable"){
+                    self.$emit("enable", data)
+                }else if(event == "editPassword"){
+                    self.$emit("editPassword", data)
+                }else if(event == "read"){
+                    self.$emit("read", data)
+                }else if(event == "link"){
+                    self.$emit("link", data)
+                }else if(event == "verify"){
+                    self.$emit("verify", data)
+                }else if(event == "record"){
+                    self.$emit("record", data)
+                }else if(event == "fjdownload"){
+                    self.$emit("fjdownload", data)
+                }else if(event == "finish"){
+                    self.$emit("finish", data)
+                }else if(event == "viewCgFj"){
+                    self.$emit("viewCgFj", data)
+                }else if(event == "wtsdownload"){
+                    self.$emit("wtsdownload", data)
+                }
+                else {
+                    self.$emit(event, data)
+                }
+            });
+            this.table.on('sort('+this.id+')', (obj) => { //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                // this.rendered();
+                this.table.reload(this.id, {
+                    initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                    ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                        field: obj.field //排序字段
+                        ,order: obj.type //排序方式
+                    },
+                    done: () => {
+                        self.$emit("deleteOpr",obj)
+                    }
+                });
+            });
+            // 表格中为下拉列表
+            this.form.on('select(select)', (data) => {
+                var elem = $(data.elem);
+                var trElem = elem.parents('tr');
+                this.$emit('select',{value: data.value,index: trElem.data('index')})
+            })
+        },
+        // 更新表格数据
+        renderTable(){
+            if(this.table){
+                this.rendered();
+            }else{
+                this.initTableEle();
+            }
+        },
+        // 更新
+        rendered(){
+            let _self = this;
+            this.table.render({
+                elem: "#" + this.id,
+                cols: [this.cols],
+                limit: this.showPage ? this.size : 100000,
+                defaultToolbar: this.defaultToolbar,
+                data: this.data,
+                toolbar: this.showDefaultTool? "" : this.tool || '<div></div>',
+                done: (res, curr, count) => {
+                    if(this.mergeCol){
+                        this.merge(res, curr, count);
+                    }
+                    var pageDomeId = this.pageId;
+                    _self.$emit("deleteOpr")
+                    if (this.showPage) {
+                        this.laypage.render({
+                            elem: pageDomeId,
+                            count: this.count,
+                            curr: this.page,
+                            limit: this.size,
+                            layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+                            jump: function (obj, first) {
+                                if (!first) {
+                                    _self.func(obj.curr,obj.limit);
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        },
+        merge(res, curr, count) {
+            var data = res.data;
+            //alert(JSON.stringify(data));
+            var mergeIndex = 0;//定位需要添加合并属性的行数
+            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+            var columsName = ['mkmc'];//需要合并的列名称
+            var columsIndex = [1];//需要合并的列索引值
+            for (var k = 0; k < columsName.length; k++)//这里循环所有要合并的列
+            {
+                mark = 1;
+                var trArr = $("div[lay-id='"+this.id+"'] .layui-table-body>.layui-table").find("tr");//所有行
+                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+                    
+                    if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                       // alert(data[i][columsName[k]]);
+                        mark += 1;
+                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                            $(this).attr("rowspan", mark);
+                        });
+                        tdCurArr.each(function () {//当前行隐藏
+                            $(this).css("display", "none");
+                        });
+                    }else {
+                        mergeIndex = i;
+                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    }
+                }
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+    /* .table >>> .layui-table-body {
+        overflow: visible;
+    }
+    .table >>> .layui-table-box {
+        overflow: visible;
+    } */
+    #operation > span {
+        display: inline-block;
+    }
+    .page-table {
+        border: 1px solid #d0d5da;
+        border-top: none;
+        padding-left: 10px;
+    }
+    .table >>> .layui-table-view {
+        margin: 10px 0 0 0;
+    }
+</style>

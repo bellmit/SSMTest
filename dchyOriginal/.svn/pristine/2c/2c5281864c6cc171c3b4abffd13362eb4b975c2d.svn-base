@@ -1,0 +1,424 @@
+package cn.gtmap.msurveyplat.portalol.service.impl;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSjcl;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglSjclpz;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglYhdw;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.common.util.DataSecurityUtil;
+import cn.gtmap.msurveyplat.common.util.SM4Util;
+import cn.gtmap.msurveyplat.common.vo.PfOrgan;
+import cn.gtmap.msurveyplat.common.vo.PfUser;
+import cn.gtmap.msurveyplat.common.vo.PfUserOrganRel;
+import cn.gtmap.msurveyplat.common.vo.PfUserRoleRel;
+import cn.gtmap.msurveyplat.portalol.core.service.FileUploadService;
+import cn.gtmap.msurveyplat.portalol.core.service.UploadService;
+import cn.gtmap.msurveyplat.portalol.core.service.impl.DchyXmglZdServiceImpl;
+import cn.gtmap.msurveyplat.portalol.service.DchyXmglYhdwService;
+import cn.gtmap.msurveyplat.portalol.utils.Constants;
+import cn.gtmap.msurveyplat.portalol.utils.DsxYwljUtil;
+import cn.gtmap.msurveyplat.portalol.utils.FileUploadUtil;
+import cn.gtmap.msurveyplat.portalol.utils.token.TokenUtil;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class DchyXmglYhdwServiceImpl implements DchyXmglYhdwService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DchyXmglYhdwServiceImpl.class);
+
+    @Resource(name = "entityMapper")
+    EntityMapper entityMapper;
+
+    @Resource(name = "entityMapperPLAT")
+    EntityMapper entityMapperPLAT;
+
+    @Autowired
+    DchyXmglZdServiceImpl dchyXmglZdService;
+
+    private FileUploadService fileUploadService;
+
+    @Value("${jsdw.dwgly.roleid}")
+    public String JSDWGLY;
+
+    @Value("${chdw.dwgly.roleid}")
+    public String CHDWGLY;
+
+    @Override
+    public DchyXmglYhdw getDchyXmglYhdwByUserId(String userid) {
+        if (StringUtils.isNotBlank(userid)) {
+            Example example = new Example(DchyXmglYhdw.class);
+            example.createCriteria().andEqualTo("yhid", userid);
+            List<DchyXmglYhdw> dchyXmglYhdwList = entityMapper.selectByExampleNotNull(example);
+            if (CollectionUtils.isNotEmpty(dchyXmglYhdwList)) {
+                DchyXmglYhdw dchyXmglYhdw = dchyXmglYhdwList.get(0);
+                DataSecurityUtil.decryptSingleObject(dchyXmglYhdw);
+                return dchyXmglYhdw;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, String> resetPassword(String sjhm, String password, String yzm) {
+        Map resultMap = Maps.newHashMap();
+        if (StringUtils.isNoneBlank(sjhm,yzm,password)) {
+            resultMap = yzmIsVaild(sjhm,yzm);
+            if (StringUtils.equals(ResponseMessage.CODE.SUCCESS.getCode(),CommonUtil.formatEmptyValue(MapUtils.getString(resultMap,"code")))) {
+                Example example = new Example(PfUser.class);
+                example.createCriteria().andEqualTo("mobilePhone", sjhm);
+                List<PfUser> pfUsers = entityMapperPLAT.selectByExample(example);
+                if (CollectionUtils.isNotEmpty(pfUsers)) {
+                    PfUser pfUser = pfUsers.get(0);
+                    pfUser.setLoginPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+                    int num = entityMapperPLAT.saveOrUpdate(pfUser, pfUser.getUserId());
+                    if (num > 0) {
+                        resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                        resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+                    }
+                } else {
+                    resultMap.put("code", ResponseMessage.CODE.PHONENOTREPEAT_FAIL.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.PHONENOTREPEAT_FAIL.getMsg());
+                }
+            }
+
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, String> yzmIsVaild(String sjhm, String yzm) {
+        Map resultMap = Maps.newHashMap();
+        if (StringUtils.isNoneBlank(sjhm, yzm)) {
+            Example example = new Example(PfUser.class);
+            example.createCriteria().andEqualTo("mobilePhone", sjhm);
+            List<PfUser> pfUsers = entityMapperPLAT.selectByExample(example);
+            if (CollectionUtils.isNotEmpty(pfUsers)) {
+                String key = sjhm + "_" + yzm;
+                String token = TokenUtil.getTokenByCode(key);
+                //如果token有效
+                if (TokenUtil.tokenVaild(token)) {
+                    resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+                } else {
+                    resultMap.put("code", ResponseMessage.CODE.TOKEN_EXPIRE.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.TOKEN_EXPIRE.getMsg());
+                }
+            } else {
+                resultMap.put("code", ResponseMessage.CODE.PHONENOTREPEAT_FAIL.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.PHONENOTREPEAT_FAIL.getMsg());
+            }
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+        return resultMap;
+    }
+
+    @Override
+    public PfUser getLocalAuthByUsernameAndPwd(String username, String password) {
+        Example example = new Example(PfUser.class);
+        String tempPassword = DigestUtils.md5DigestAsHex(CommonUtil.formatEmptyValue(password).getBytes());
+        example.createCriteria().andEqualTo("loginName", username).andEqualTo("loginPassword", tempPassword);
+        List<PfUser> pfUsers = entityMapperPLAT.selectByExample(example);
+        if (CollectionUtils.isNotEmpty(pfUsers)) {
+            PfUser pfUser = pfUsers.get(0);
+            if (null != pfUser) {
+                return pfUser;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Map<String, String> registeredYhdw(Map<String, Object> data, MultipartFile[] files) {
+        Map resultMap = Maps.newHashMap();
+        if (null != files) {
+            ResponseMessage message = fileUpload(data, files);
+            String wjzxid = CommonUtil.formatEmptyValue(message.getData().get("wjzxid"));
+            if (StringUtils.isNotBlank(wjzxid)) {
+                data.put("wjzxid", wjzxid);
+            } else {
+                resultMap.put("code", ResponseMessage.CODE.FILE_NOT_UPLOAD.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.FILE_NOT_UPLOAD.getMsg());
+                return resultMap;
+            }
+        }
+        String sjhm = CommonUtil.formatEmptyValue(data.get("sjhm"));
+        String yhlx = CommonUtil.formatEmptyValue(data.get("yhlx"));
+        if (StringUtils.isNoneBlank(sjhm, yhlx)) {
+            try {
+                //获取对应的roleid   关联用户类型字典表的fdm  28224EAEE9A944CDB0ACB247DB9CA6D3
+                String roleid = dchyXmglZdService.getDchyXmglByZdlxAndDm(Constants.DCHY_XMGL_CHXM_YHDW, yhlx).getFdm();
+                data.put("roleid", roleid);
+                //用户单位插入数据
+                try {
+                    DchyXmglYhdw dchyXmglYhdw = new DchyXmglYhdw();
+                    String tyshxydm = CommonUtil.formatEmptyValue(data.get("tyshxydm"));
+                    String dwmc = CommonUtil.formatEmptyValue(data.get("dwmc"));
+                    String yhid = CommonUtil.formatEmptyValue(data.get("glsxid"));
+                    String dwbh = "";
+                    if (StringUtils.isNotBlank(tyshxydm)) {
+                        Example example = new Example(DchyXmglYhdw.class);
+                        example.createCriteria().andEqualTo("tyshxydm", SM4Util.encryptData_ECB(tyshxydm));
+                        List<DchyXmglYhdw> dchyXmglYhdws = entityMapper.selectByExample(example);
+
+                        if (CollectionUtils.isNotEmpty(dchyXmglYhdws) && dchyXmglYhdws.size() > 0) {
+                            dwbh = dchyXmglYhdws.get(0).getDwbh();
+                        } else {
+                            dwbh = UUIDGenerator.generate18();
+                            PfUserRoleRel pfUserRoleRel = new PfUserRoleRel();
+                            switch (yhlx) {
+                                //建设单位
+                                case "1":
+                                    pfUserRoleRel.setRole_id(JSDWGLY);
+                                    break; //可选
+                                //测绘单位
+                                case "2":
+                                    pfUserRoleRel.setRole_id(CHDWGLY);
+                                    break; //可选
+                                default: //可选
+                                    break;
+                            }
+                            pfUserRoleRel.setUrr_id(UUIDGenerator.generate18());
+                            pfUserRoleRel.setUser_id(yhid);
+                            entityMapperPLAT.insertSelective(pfUserRoleRel);
+                        }
+                    }
+                    dchyXmglYhdw.setYhdwid(UUIDGenerator.generate18());
+                    dchyXmglYhdw.setYhid(yhid);
+                    dchyXmglYhdw.setDwmc(dwmc);
+                    dchyXmglYhdw.setTyshxydm(tyshxydm);
+                    dchyXmglYhdw.setDwbh(dwbh);
+                    dchyXmglYhdw.setYhlx(CommonUtil.formatEmptyValue(data.get("yhlx")));
+                    dchyXmglYhdw.setWjzxid(CommonUtil.formatEmptyValue(data.get("wjzxid")));
+
+                    //pf_User插入数据
+                    PfUser pfUser = new PfUser();
+                    pfUser.setUserId(yhid);
+                    pfUser.setUserName(CommonUtil.formatEmptyValue(data.get("lxr")));
+                    pfUser.setLoginName(CommonUtil.formatEmptyValue(data.get("username")));
+                    pfUser.setMobilePhone(sjhm);
+                    //使用spring自带的MD5加密
+                    pfUser.setLoginPassword(DigestUtils.md5DigestAsHex(CommonUtil.formatEmptyValue(data.get("password")).getBytes()));
+                    pfUser.setIsValid(Constants.DCHY_XMGL_YHZT_YX);
+
+                    //PF-ORGAN插入数据
+                    PfOrgan pfOrgan = new PfOrgan();
+//            通过单位表的单位编号  对应organid去organ表中找是否存在,
+//             存在就取出来organname当单位名称,否则生成uuid
+                    Example exampleUtilOrgan = new Example(PfOrgan.class);
+                    exampleUtilOrgan.createCriteria().andEqualTo("organId", dwbh);
+                    List<PfOrgan> pfOrganList = entityMapperPLAT.selectByExample(exampleUtilOrgan);
+                    if (CollectionUtils.isNotEmpty(pfOrganList) && pfOrganList.size() > 0) {
+                        dchyXmglYhdw.setDwmc(pfOrganList.get(0).getOrganName());
+                    } else {
+                        pfOrgan.setOrganId(dwbh);
+                        pfOrgan.setOrganName(dchyXmglYhdw.getDwmc());
+                    }
+
+
+                    //pf-user-role-rel插入数据
+                    PfUserRoleRel pfUserRoleRel = new PfUserRoleRel();
+                    pfUserRoleRel.setUser_id(yhid);
+                    pfUserRoleRel.setUrr_id(UUIDGenerator.generate18());
+                    pfUserRoleRel.setRole_id(CommonUtil.formatEmptyValue(data.get("roleid")));
+
+                    //pf-user-organ-rel插入数据
+                    PfUserOrganRel pfUserOrganRel = new PfUserOrganRel();
+                    pfUserOrganRel.setUdr_id(UUIDGenerator.generate18());
+                    pfUserOrganRel.setUser_id(yhid);
+                    pfUserOrganRel.setOrgan_id(dwbh);
+
+                    DataSecurityUtil.encryptSingleObject(dchyXmglYhdw);
+
+                    entityMapper.insertSelective(dchyXmglYhdw);
+                    entityMapperPLAT.insertSelective(pfUser);
+                    if (StringUtils.isNotBlank(pfOrgan.getOrganId())) {
+                        entityMapperPLAT.insertSelective(pfOrgan);
+                    }
+                    entityMapperPLAT.insertSelective(pfUserRoleRel);
+                    entityMapperPLAT.insertSelective(pfUserOrganRel);
+                    resultMap.put("code", ResponseMessage.CODE.SUCCESS.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.SUCCESS.getMsg());
+                } catch (Exception e) {
+                    resultMap.put("code", ResponseMessage.CODE.SYSTEM_WRONG.getCode());
+                    resultMap.put("msg", ResponseMessage.CODE.SYSTEM_WRONG.getMsg());
+                    logger.error("错误信息:{}", e);
+                }
+//                } else {
+//                    resultMap.put("code", ResponseMessage.CODE.TOKEN_EXPIRE.getCode());
+//                    resultMap.put("msg", ResponseMessage.CODE.TOKEN_EXPIRE.getMsg());
+//                }
+            } catch (Exception e) {
+                logger.error("错误信息:{}", e);
+                resultMap.put("code", ResponseMessage.CODE.TOKEN_EXPIRE.getCode());
+                resultMap.put("msg", ResponseMessage.CODE.TOKEN_EXPIRE.getMsg());
+            }
+        } else {
+            resultMap.put("code", ResponseMessage.CODE.PARAMETER_FAIL.getCode());
+            resultMap.put("msg", ResponseMessage.CODE.PARAMETER_FAIL.getMsg());
+        }
+
+        return resultMap;
+    }
+
+    @Override
+    public ResponseMessage fileUpload(Map<String, Object> paramMap, MultipartFile[] files) {
+        String ssmkid = CommonUtil.formatEmptyValue(paramMap.get("ssmkid"));
+        String glsxid = CommonUtil.formatEmptyValue(paramMap.get("glsxid"));// 名录库id
+        String cllx = CommonUtil.formatEmptyValue(paramMap.get("cllx"));
+        String fs = CommonUtil.formatEmptyValue(paramMap.get("fs"));
+        String ys = CommonUtil.formatEmptyValue(paramMap.get("ys"));
+        String sjclid = CommonUtil.formatEmptyValue(paramMap.get("sjclid"));
+        String clmc = CommonUtil.formatEmptyValue(paramMap.get("clmc"));
+        String sjxxid = CommonUtil.formatEmptyValue(paramMap.get("sjxxid"));
+        String xh = CommonUtil.formatEmptyValue(paramMap.get("xh"));
+        /*文件上传*/
+        Map<String, Object> map = FileUploadUtil.uploadFile(files, glsxid, clmc);
+        map.put("ssmkid", ssmkid);
+        map.put("glsxid", glsxid);
+        map.put("cllx", cllx);
+        map.put("fs", fs);
+        map.put("ys", ys);
+        map.put("sjclid", sjclid);
+        map.put("ys", ys);
+        map.put("xh", xh);
+        map.put("clmc", clmc);
+        map.put("sjxxid", sjxxid);
+        /*更新材料信息与名录库*/
+        return FileUploadUtil.updateSjxxAndClxx(map);
+
+    }
+
+    @Override
+    public boolean phoneIsRepet(String phone) {
+        boolean flag = false;
+        Example example = new Example(PfUser.class);
+        example.createCriteria().andEqualTo("mobilePhone", phone);
+        List<PfUser> phoneList = entityMapperPLAT.selectByExample(example);
+
+        if (CollectionUtils.isNotEmpty(phoneList)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean usernameIsRepet(String username) {
+        boolean flag = false;
+        Example example = new Example(PfUser.class);
+        example.createCriteria().andEqualTo("loginName", username);
+        List<PfUser> userList = entityMapperPLAT.selectByExample(example);
+
+        if (CollectionUtils.isNotEmpty(userList)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    /**
+     * @param username
+     * @return
+     * @description 2020/12/15 验证登陆用户是否有效
+     * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+     */
+    @Override
+    public boolean usernameAvailable(String username) {
+        boolean flag = false;
+        Example example = new Example(PfUser.class);
+        example.createCriteria().andEqualTo("loginName", username).andEqualTo("isValid", 1);
+        List<PfUser> userList = entityMapperPLAT.selectByExample(example);
+        if (CollectionUtils.isNotEmpty(userList)) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public DchyXmglSjclpz getSjclpzByClmc(String clmc) {
+        Example sjclpzExample = new Example(DchyXmglSjclpz.class);
+        sjclpzExample.createCriteria().andEqualTo("clmc", clmc);
+        List<DchyXmglSjclpz> dchyXmglSjclpzList = entityMapper.selectByExample(sjclpzExample);
+        DchyXmglSjclpz dchyXmglSjclpz = new DchyXmglSjclpz();
+        if (CollectionUtils.isNotEmpty(dchyXmglSjclpzList)) {
+            dchyXmglSjclpz = dchyXmglSjclpzList.get(0);
+        }
+        return dchyXmglSjclpz;
+    }
+
+    public ResponseMessage updateSjxxAndClxx(Map<String, Object> map) {
+        ResponseMessage message = new ResponseMessage();
+        String ssmkid = (String) map.get("ssmkid");
+        String sjclid = (String) map.get("sjclid");
+        String sjxxid = (String) map.get("sjxxid");
+        String glsxid = (String) map.get("glsxid");
+        String clmc = (String) map.get("clmc");
+        String fs = (String) map.get("fs");
+        String xh = (String) map.get("xh");
+        String cllx = (String) map.get("cllx");
+        String folderId = (String) map.get("folderId");
+        String parentId = (String) map.get("parentId");
+        String ys = (String) map.get("ys");
+        try {
+            DchyXmglSjcl dchyXmglSjcl = fileUploadService.querySjclBySjclId(DchyXmglSjcl.class, sjclid);
+//            DchyXmglSjcl dchyXmglSjcl = entityMapperStatic.selectByPrimaryKey(DchyXmglSjcl.class,sjclid);
+            if (dchyXmglSjcl == null) {
+                dchyXmglSjcl = new DchyXmglSjcl();
+            }
+            dchyXmglSjcl.setSjclid(sjclid);
+            dchyXmglSjcl.setSjxxid(sjxxid);
+            dchyXmglSjcl.setWjzxid(folderId);
+            dchyXmglSjcl.setClmc(clmc);
+            dchyXmglSjcl.setFs(Integer.parseInt(StringUtils.isBlank(fs) ? Constants.DCHY_XMGL_SCCL_MRFS : fs));
+            dchyXmglSjcl.setYs(Integer.parseInt(StringUtils.isBlank(ys) ? Constants.DCHY_XMGL_SCCL_MRFS : ys));
+            if (StringUtils.isNotBlank(xh)) {
+                dchyXmglSjcl.setXh(Integer.parseInt(xh));
+            }
+            dchyXmglSjcl.setCllx(cllx);
+            dchyXmglSjcl.setClrq(new Date());
+            /*更新材料信息*/
+            int result = fileUploadService.updateSjclByClass(dchyXmglSjcl, dchyXmglSjcl.getSjclid());
+//            int result = entityMapperStatic.saveOrUpdate(dchyXmglSjcl,dchyXmglSjcl.getSjclid());
+
+
+            UploadService uploadService = DsxYwljUtil.getUploadServiceBySsmkid(ssmkid);
+            if (uploadService != null) {
+                uploadService.updateWjzxid(parentId, glsxid);
+            }
+            if (result > 0) {
+                message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+                message.getData().put("wjzxid", map.get("folderId"));
+            }
+        } catch (Exception e) {
+//            e.printStackTrace();
+            message.getHead().setMsg(ResponseMessage.CODE.UPLOAD_FAIL.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.UPLOAD_FAIL.getCode());
+        }
+        return message;
+    }
+}

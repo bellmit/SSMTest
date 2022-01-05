@@ -1,0 +1,133 @@
+package cn.gtmap.msurveyplat.promanage.core.service.impl;
+
+import cn.gtmap.msurveyplat.common.annotion.SystemLog;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.Example;
+import cn.gtmap.msurveyplat.common.core.support.mybatis.page.repository.Repository;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglZd;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.common.util.ProLog;
+import cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglContractFileMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglContractFileService;
+import cn.gtmap.msurveyplat.promanage.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.utils.UserUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:lijun1@gtmap.cn">lijun1</a>
+ * @version 1.0, 2021/3/9 15:37
+ * @description
+ */
+@Service
+public class DchyXmglContractFileServiceImpl implements DchyXmglContractFileService {
+
+    @Autowired
+    private EntityMapper entityMapper;
+    @Autowired
+    private DchyXmglContractFileMapper xmglContractFileMapper;
+    @Autowired
+    private Repository repository;
+    @Autowired
+    private DchyXmglZdService dchyXmglZdService;
+
+    private static final Log logger = LogFactory.getLog(DchyXmglContractFileServiceImpl.class);
+
+
+    /**
+     * 查询待备案的信息列表
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    @SystemLog(czmkMc = ProLog.CZMK_DBAXX_MC, czmkCode = ProLog.CZMK_DBAXX_CODE, czlxMc = ProLog.CZLX_SELECT_MC, czlxCode = ProLog.CZLX_SELECT_CODE, ssmkid = ProLog.SSMKID_HTBASL_CODE)
+    public Page<Map<String, Object>> queryInformationToBeRecorded(Map<String, Object> data) {
+        int page = Integer.parseInt(data.get("page") != null ? data.get("page").toString() : "1");
+        int pageSize = Integer.parseInt(data.get("size") != null ? data.get("size").toString() : "10");
+        String slbh = CommonUtil.ternaryOperator(data.get("slbh"));
+        String gcbh = CommonUtil.ternaryOperator(data.get("gcbh"));
+        String gcmc = CommonUtil.ternaryOperator(data.get("gcmc"));
+        String wtdw = CommonUtil.ternaryOperator(data.get("wtdw"));
+        String chdwmc = CommonUtil.ternaryOperator(data.get("chdwmc"));
+        String slr = UserUtil.getCurrentUserId();
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("slbh", slbh);
+        paramMap.put("gcbh", gcbh);
+        paramMap.put("gcmc", gcmc);
+        paramMap.put("wtdw", wtdw);
+        paramMap.put("chdwmc", chdwmc);
+        paramMap.put("slr", slr);
+
+        try {
+            return repository.selectPaging("queryInformationToBeRecordedByPage", paramMap, page - 1, pageSize);
+        } catch (Exception e) {
+            logger.error("错误原因{}", e);
+        }
+        return null;
+    }
+
+    /**
+     * 备案列表
+     *
+     * @param data
+     * @return
+     */
+    @Override
+//    @SystemLog(czmkMc = ProLog.CZMK_BALB_MC, czmkCode = ProLog.CZMK_BALB_CODE, czlxMc = ProLog.CZLX_SELECT_MC, czlxCode = ProLog.CZLX_SELECT_CODE, ssmkid = ProLog.SSMKID_HTBASL_CODE)
+    public Page<Map<String, Object>> queryRecordList(Map<String, Object> data) {
+        int page = Integer.parseInt(data.get("page") != null ? data.get("page").toString() : "1");
+        int pageSize = Integer.parseInt(data.get("size") != null ? data.get("size").toString() : "10");
+        String slbh = CommonUtil.ternaryOperator(data.get("slbh"));
+        String gcbh = CommonUtil.ternaryOperator(data.get("gcbh"));
+        String gcmc = CommonUtil.ternaryOperator(data.get("gcmc"));
+        String wtdw = CommonUtil.ternaryOperator(data.get("wtdw"));
+        String chdwmc = CommonUtil.ternaryOperator(data.get("chdwmc"));
+        String xmzt = CommonUtil.ternaryOperator(data.get("xmzt"));
+
+        List<String> xmztList = new ArrayList<>();//项目状态
+
+//        Example zdExample = new Example(DchyXmglZd.class);
+//        zdExample.createCriteria().andEqualTo("zdlx", "XMZT");
+//        List<DchyXmglZd> zdList = entityMapper.selectByExample(zdExample);
+
+        List<DchyXmglZd> zdList = dchyXmglZdService.getDchyXmglZdListByZdlx(Constants.DCHY_XMGL_CHXM_XMZT);
+        if (CollectionUtils.isNotEmpty(zdList)) {
+            for (DchyXmglZd xmglZd : zdList) {
+                /*将待备案的数据排除 1: 待备案*/
+                if (!StringUtils.equals(Constants.DCHY_XMGL_CHXM_XMZT_WSL, xmglZd.getDm())) {
+                    xmztList.add(xmglZd.getDm());
+                }
+            }
+        }
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("slbh", slbh);
+        paramMap.put("gcbh", gcbh);
+        paramMap.put("gcmc", gcmc);
+        paramMap.put("wtdw", wtdw);
+        paramMap.put("chdwmc", chdwmc);
+        paramMap.put("xmzt", xmzt);
+        paramMap.put("xmztList", xmztList);
+
+        try {
+            return repository.selectPaging("queryRecordListByPage", paramMap, page - 1, pageSize);
+        } catch (Exception e) {
+            logger.error("错误原因{}", e);
+        }
+        return null;
+    }
+
+}

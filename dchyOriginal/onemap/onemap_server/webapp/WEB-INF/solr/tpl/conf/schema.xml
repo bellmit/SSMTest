@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<schema name="solrSchema" version="1.5">
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
+
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+
+        <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+        <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" omitNorms="true" positionIncrementGap="0"/>
+
+        <fieldType name="text" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="false" omitNorms="true" omitTermFreqAndPositions="true">
+            <analyzer>
+                <tokenizer class="cn.gtmap.onemap.server.index.solr.IKTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+        <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" geo="false" worldBounds="${worldBounds}" maxLevels="${maxLevels}"
+                   units="degrees"/>
+
+        <fieldtype name="ignored" class="solr.StrField" stored="false" indexed="false"/>
+    </types>
+
+    <fields>
+        <field name="id" type="string" indexed="true" stored="true" required="true"/>
+        <field name="map" type="string" indexed="true" stored="true"/>
+        <field name="layer" type="string" indexed="true" stored="true"/>
+        <field name="title" type="text" indexed="true" stored="true"/>
+        <field name="geo" type="geo" indexed="true" stored="true"/>
+        <field name="all" type="text" indexed="true" stored="false" multiValued="true"/>
+
+        <dynamicField name="*_x" indexed="true" stored="true" type="text"/>
+        <dynamicField name="*_s" indexed="true" stored="true" type="string"/>
+        <dynamicField name="*_b" indexed="true" stored="true" type="boolean"/>
+        <dynamicField name="*_i" indexed="true" stored="true" type="tint"/>
+        <dynamicField name="*_l" indexed="true" stored="true" type="tlong"/>
+        <dynamicField name="*_f" indexed="true" stored="true" type="tfloat"/>
+        <dynamicField name="*_d" indexed="true" stored="true" type="tdouble"/>
+        <dynamicField name="*_t" indexed="true" stored="true" type="tdate"/>
+        <dynamicField name="*_g" indexed="true" stored="true" type="geo"/>
+
+        <dynamicField name="*" type="ignored" multiValued="true"/>
+    </fields>
+
+    <copyField source="title" dest="all"/>
+    <copyField source="*_x" dest="all"/>
+
+    <uniqueKey>id</uniqueKey>
+    <defaultSearchField>all</defaultSearchField>
+    <solrQueryParser defaultOperator="OR"/>
+</schema>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.portalol.core.platmapper.DchyXmglChdwPLATMapper">
+
+    <!--根据项目名称和状态获取项目信息-->
+    <select id="queryChxmByXmmcOrZtByPage" resultType="map" parameterType="map"></select>
+
+    <!--根据建设单位名称，项目名称，状态获取项目信息-->
+    <select id="queryChxmByJsdwmcAndXmmcByPage" resultType="map" parameterType="map"></select>
+
+    <!--根据合同编号，合同状态，名称获取合同信息-->
+    <select id="queryHtxxByBhAndJsfmcByPage" resultType="map" parameterType="map"></select>
+
+    <!--新增测绘单位-->
+    <insert id="saveChdwXx">
+
+    </insert>
+</mapper>

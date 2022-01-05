@@ -1,0 +1,33 @@
+
+1
+java:S3457ù"Not enough arguments.(à¼´†ÿÿÿÿÿ
+J
+java:S3740e"/Provide the parametrized type for this generic.(ìüÍµÿÿÿÿÿ
+1
+java:S3457Ÿ"Not enough arguments.(à¼´†ÿÿÿÿÿ
+]
+java:S2142"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€
+1
+java:S3457¸"Not enough arguments.(à¼´†ÿÿÿÿÿ
+l
+java:S1192Ÿ"PDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› :{}" 4 times.(à¼´†ÿÿÿÿÿ
+1
+java:S3457Í"Not enough arguments.(à¼´†ÿÿÿÿÿ
+n
+java:S3776Ù"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ÿƒ¿¼ÿÿÿÿÿ
+K
+java:S3740Ù"/Provide the parametrized type for this generic.(ú™ş–şÿÿÿÿ
+K
+java:S3740¢"/Provide the parametrized type for this generic.(¼ú ïøÿÿÿÿ
+F
+java:S3740ß"/Provide the parametrized type for this generic.(®·Ïô
+`
+java:S3252k"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ä‚úùÿÿÿÿ
+K
+java:S3740¯"/Provide the parametrized type for this generic.(„Üìñÿÿÿÿÿ
+
+java:S2629•"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(º˜´ªüÿÿÿÿ8©îí—£/
+X
+java:S1854d";Remove this useless assignment to local variable "message".(ïÒğÑ8©îí—£/
+d
+java:S3457•"AFormat specifiers should be used instead of string concatenation.(º˜´ªüÿÿÿÿ8©îí—£/

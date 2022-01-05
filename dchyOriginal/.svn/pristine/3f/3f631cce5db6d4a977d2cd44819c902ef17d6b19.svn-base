@@ -1,0 +1,250 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="120" inline>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="测绘单位 " class="form-list-search" prop="chdwmc">
+                            <Input type="text" class="form-search-item" @keydown.enter.native.prevent="getPublishList(1,formInline.size)" v-model="formInline.chdwmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='20'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getPublishList(1,formInline.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div>
+            <Table
+                :cols="tableCols"
+                :data="publishList"
+                :count="totalNum"
+                :page="formInline.page"
+                :size="formInline.size"
+                :func="getPublishList"
+                :operation="operationList"
+                @view="viewDetail"
+                @examination="examinationPro"
+                @remove="removelibrary"
+            ></Table>
+        </div>
+        <Modal
+            class="modal-base form-remove"
+            v-model="visible"
+            :title="'移出原因'"
+            width="700"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <Form v-if="visible" class="form-edit" ref="remove-form" @on-validate="validateChecked" :model="removeForm" :rules="fileRule" :label-width="114" >
+                <FormItem v-model="removeForm.ycyy" prop="ycyy" label="移出原因：">
+                    <Select v-model="removeForm.ycyy" multiple style="width: 500px">
+                        <Option v-for="list in ycyyList" :key="list.DM" :value="list.MC">{{list.MC}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem v-model="removeForm.ycbcsm" prop="ycbcsm" label="补充说明：">
+                    <Input v-model="removeForm.ycbcsm" style="width: 500px" :rows="4" type="textarea" placeholder=""/>
+                </FormItem>
+            </Form>
+            <div class="save-btn">
+                <Button type="primary" class="btn-h-36" @click="confirmRemove()">确认</Button>
+                <Button class="margin-left-10 btn-h-36" @click="cancelAdd()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { queryChdwList, removeMlk, Isconstructproject } from "../../../service/evaluate"
+import { getDictInfo } from "../../../service/mlk"
+export default {
+    data() {
+        return {
+            formInline: {
+                chdwmc: "",
+                page: 1,
+                size: 10
+            },
+            ruleInline: {},
+            publishList: [],
+            totalNum: 0,
+            visible: false,
+            removeForm: {
+                ycyy: "",
+                ycbcsm: ""
+            },
+            ycyyList: [],
+            fileRule: {
+                ycyy: {
+                    required: true,
+                    message: "移除原因不能为空"
+                }
+            },
+            operationList: ["view","examination"],
+            selectItem: {},
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                {
+                    title: '测绘单位',
+                    align: "center",
+                    field: 'CHDWMC'
+                },
+                {
+                    field: "ZZDJMC",
+                    title: '资质等级',
+                    align: "center",
+                },
+                {
+                    field: "XYDJ",
+                    title: '当前信用等级',
+                    align: "center",
+                },
+                {
+                    field: "KPSJ",
+                    title: '最近一次考评时间',
+                    align: "center",
+                },
+                {
+                    title: '操作',
+                    align: "center",
+                    minWidth: 180,
+                    toolbar: '#operation'
+                }
+            ],
+            error: "",
+            unLastSubmit: true
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/admin/evaluation/list")){
+            this.pageInfo["evaluatePageInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["evaluatePageInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["evaluatePageInfo"]){
+            this.formInline = {...this.pageInfo["evaluatePageInfo"]}
+        }
+    },
+    mounted() {
+        this.getPublishList();
+        this.getDictInfo();
+    },
+    methods: {
+        // 重置查询表单
+        resetForm(){
+            this.formInline = {
+                page: this.formInline.page,
+                size: this.formInline.size
+            }
+        },
+        // 获取移出名录库原因字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["YCMLKYY"]
+            }
+            getDictInfo(params).then(res => {
+                this.ycyyList = res.data.dataList;
+            })
+        },
+        getPublishList(page,size){
+            if(page){
+                this.formInline.page = page
+                this.formInline.size = size
+            }
+            this.$loading.show("加载中...")
+            queryChdwList(this.formInline).then(res => {
+                this.$loading.close();
+                this.publishList = res.data.dataList;
+                this.totalNum = res.data.totalNum 
+            })
+        },
+        viewDetail(data){
+            this.$router.push({
+                path: `/admin/evaluation/list`,
+                query: {mlkid: data.MLKID}
+            });
+        },
+        examinationPro(item){
+            this.$router.push({path: "/admin/evaluation/add", query: {chdwmc: item.CHDWMC, mlkid: item.MLKID, kpid: item.KPID}})
+        },
+        // 移出名录库
+        removelibrary(item){
+            layer.confirm("是否确认移出名录库？",(index) => {
+                let params = {
+                    mlkid: item.MLKID
+                }
+                Isconstructproject(params).then(res => {
+                    if(res){
+                        this.visible = true;
+                        this.selectItem = item
+                    }
+                })
+                layer.close(index)
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&this.error!=error&&!this.unLastSubmit){
+                this.error = error
+                this.$Message.error(error);
+                setTimeout(() => {
+                    this.error = ""
+                },1500)
+            }
+        },
+        //确认移出
+        confirmRemove(){
+            this.unLastSubmit = false
+            this.$refs["remove-form"].validate(valid => {
+                this.unLastSubmit = true
+                if(valid){
+                    let params = {
+                        mlkid: this.selectItem.MLKID,
+                        ycyy: this.removeForm.ycyy,
+                        ycdw: this.selectItem.CHDWMC,
+                        ycbcsm: this.removeForm.ycbcsm
+                    }
+                    this.$loading.show("加载中...")
+                    removeMlk(params).then(res => {
+                        this.$loading.close();
+                        layer.msg("移出成功")
+                        this.resetRemoveForm();
+                        this.getPublishList();
+                        this.visible = false;
+                    })
+                }
+            })
+        },
+        resetRemoveForm(){
+            this.removeForm = {
+                ycyy: "",
+                ycbcsm: ""
+            }
+        },
+        cancelAdd(){
+            this.visible = false;
+            this.resetRemoveForm();
+        }
+    },
+}
+</script>
+<style scoped>
+    .modal-base .form-edit {
+        padding: 0!important;
+    }
+    .form-edit >>> .ivu-item-form {
+        margin-bottom: 20px!important;
+    }
+</style>

@@ -1,0 +1,205 @@
+<template>
+    <div >
+        <div class="mlk-step-tip" v-if="hasNoData">
+            <div class="mlk-tip-img">
+                <img src="static/images/mlk-tip.png" alt="">
+            </div>
+            <div class="margin-left-10">
+                <div class="font-color-999 font-size-20 font-weight-bold">您好，您尚未入驻测绘名录库，您可以: </div>
+                <Button type="primary" class="btn-h-40 width-100 bdc-major-btn margin-top-10" @click="applyEnter()">申请入驻</Button>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { getMlkStatus, initSqxx } from "../../../service/mlk"
+export default {
+    data() {
+        return {
+            ruleInline: {},
+            formInline: {
+                blsx: "all",
+                sqzt: "all",
+                page: 1,
+                size: 10
+            },
+            hasNoData: false,
+            blsxList: [
+                {
+                    value: "all",
+                    label: "全部"
+                },
+                {
+                    value: "sqrzmlk",
+                    label: "申请入驻名录库"
+                },
+                {
+                    value: "mlkzx",
+                    label: "名录库注销"
+                }
+            ],
+            typeList: [
+                {
+                    value: "all",
+                    label: "全部"
+                },
+                {
+                    value: "cg",
+                    label: "草稿"
+                },
+                {
+                    value: "dsl",
+                    label: "待备案"
+                },
+                {
+                    value: "csz",
+                    label: "初审中"
+                },
+                {
+                    value: "fsz",
+                    label: "复审中"
+                },
+                {
+                    value: "ybj",
+                    label: "已办结"
+                }
+            ],
+            announceList: [],
+            from: "",
+            tableCols: [
+                {
+                    title: '测绘单位',
+                    align: "center",
+                    width: "20%",
+                    field: 'cqjgmc'
+                },
+                {
+                    field: "blsx",
+                    title: '办理事项',
+                    align: "center"
+                },
+                {
+                    field: "sqr",
+                    title: '申请人',
+                    align: "center",
+                    width: "12%"
+                },
+                {
+                    field: "sqsj",
+                    title: '申请时间',
+                    align: "center",
+                    width: "20%"
+                },
+                {
+                    field: "sqzt",
+                    title: '当前状态',
+                    align: "center",
+                    width: "20%"
+                },
+                {
+                    title: '操作',
+                    align: "center",
+                    width: "20%",
+                    toolbar: '#operation'
+                }
+            ]
+        }
+    },
+    mounted() {
+        this.from = this.$route.query.from || "";
+        this.getMlkStatus();
+    },
+    methods: {
+        getMlkStatus(){
+            this.$loading.show("加载中...")
+            sessionStorage.removeItem("mlkid");
+            sessionStorage.removeItem("sqid");
+            sessionStorage.removeItem("sfbrsq");
+            sessionStorage.removeItem("sfyx");
+            getMlkStatus().then(res => {
+                this.$loading.close;
+                if(!res.data.mlkid){
+                    this.hasNoData = true;
+                }else {
+                    this.hasNoData = false
+                }
+                if(res.data.mlkid&&(res.data.sfyc=='是')){
+                    // 跳到编辑页面
+                    this.$router.push({path: "/survey/mlkapply", query: {mlkid: res.data.mlkid,sfyc: "是",blsx: res.data.blsx,ycyy: res.data.ycyy,ycsj: res.data.ycsj,toPath: this.from, type: 'draft'}})
+                    sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                    sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                    sessionStorage.setItem("thyj", res.data.thyj || "")
+                } else if(res.data.sfyx == "否"){
+                    if(res.data.mlkid&&(res.data.sfth=="否")&&(res.data.sfbrsq=="否")){
+                        //跳到查询详情页
+                        this.$router.push({path: "/survey/application/view", query: {mlkid: res.data.mlkid,type:'view'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("sfbrsq",res.data.sfbrsq || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    }else if(res.data.mlkid&&(res.data.sfth=="是")&&(res.data.sfbrsq=="否")){
+                        // 跳到查询详情页
+                        this.$router.push({path: "/survey/application/view", query: {mlkid: res.data.mlkid,type:'view'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sfbrsq",res.data.sfbrsq || "")
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    }else if(res.data.mlkid&&(res.data.sfth=="是")&&(res.data.sfbrsq=="是")){
+                        // 跳到编辑页面
+                        this.$router.push({path: "/survey/mlkapply", query: {mlkid: res.data.mlkid,blsx: res.data.blsx,toPath: this.from,type: 'draft'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("thyj", res.data.thyj || "")
+                    }else if(res.data.mlkid&&(res.data.sfth=="否")&&(res.data.sfbrsq=="是")&&(res.data.sfytj=="是")){
+                        // 跳到查询详情页
+                        this.$router.push({path: "/survey/application/view", query: {mlkid: res.data.mlkid,type:'view'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sfbrsq",res.data.sfbrsq || "") 
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    }else if(res.data.mlkid&&(res.data.sfth=="否")&&(res.data.sfbrsq=="是")&&(res.data.sfytj=="否")){
+                        // 跳到编辑页面
+                        this.$router.push({path: "/survey/mlkapply", query: {mlkid: res.data.mlkid,blsx: res.data.blsx,toPath: this.from,type: 'draft'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    }
+                } else if(res.data.sfyx == "是"){
+                    if(res.data.mlkid){
+                        // 跳到查看页面
+                        this.$router.push({path: "/survey/application/view", query: {mlkid: res.data.mlkid,type:'view'}})
+                        sessionStorage.setItem("mlkid",res.data.mlkid || "")
+                        sessionStorage.setItem("sqid",res.data.sqxxid || "")
+                        sessionStorage.setItem("sfbrsq",res.data.sfbrsq || "")
+                        sessionStorage.setItem("sfyx",res.data.sfyx || "")
+                    }
+                }
+            })
+        },
+        applyEnter(){
+            let params = {
+                blsx: "1"
+            }
+            initSqxx(params).then(res => {
+                sessionStorage.setItem("sqid", res.data.dataList.sqxxid);
+                sessionStorage.setItem("mlkid", res.data.dataList.mlkid);
+                this.$router.push({path: "/survey/mlkapply", query: {sqid: res.data.dataList.sqxxid, toPath: this.from,type: "edit"}})
+            })
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import "./application.less";
+    .mlk-step-tip {
+        width: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: flex;
+        justify-content: flex-start;
+    }
+</style>

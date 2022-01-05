@@ -1,0 +1,90 @@
+._treetoggle{
+	cursor: pointer;
+}
+._gridtree > tr .ico{
+	display: inline-block;
+	position: relative;
+	width: 14px;
+	height: 14px;
+}
+._gridtree > tr ._open {
+	background: url(gridtree/down.png) 0 0 no-repeat;
+	top: 2px;
+	margin-right: 3px;
+}
+._gridtree > tr ._close {
+	background: url(gridtree/right.png) 0 0 no-repeat;
+	top: 2px;
+	left: -1px;
+	margin-right: 3px;
+}
+._gridtree > tr ._root{
+	background: url(gridtree/groot.png) 0 0 no-repeat;
+	top: 2px;
+	margin-right: 1px;
+}
+
+._listtree > li .ico {
+	display: inline-block;
+	position: relative;
+	width: 14px;
+	height: 14px;
+}
+._listtree > li ._open {
+	background: url(gridtree/sub.gif) 0 0 no-repeat;
+	top: 2px;
+	margin-right: 3px;
+}
+._listtree > li ._close {
+	background: url(gridtree/plus.gif) 0 0 no-repeat;
+	top: 2px;
+	margin-right: 3px;
+}
+._listtree > li ._root{
+	background: url(gridtree/hengxian.png) 8px 8px repeat-x;
+}
+._listtree > li .ico-blank {
+	background: url(gridtree/hengxian.png) 8px 8px repeat-x;
+}
+ul._listtree{
+	margin: 0;
+	padding: 0;
+}
+._listtree > li{
+	padding: 0;
+}
+._listtree > li > a{
+	background: url(gridtree/shuxian.png) 6px 0 repeat-y;
+	padding: 2px 0;
+	margin: 0;
+}
+._listtree > li > a:hover,
+._listtree > li.active > a,
+._listtree > li.active > a:hover{
+	background-color: transparent;
+}
+._listtree > li > a > span{
+	padding: 2px;
+	display: inline-block;
+	vertical-align: top;
+	max-width: 134px;
+	word-break: break-all;
+	line-height: 1.2em;
+}
+._listtree > li > a:hover > span{
+	background-color: #eee;
+}
+._listtree > li.active > a > span{
+	border-radius: 2px;
+	background-color: #08c;
+	color: white;
+}
+._listtree > li:first-child > a{
+	background: url(gridtree/shuxian.png) 6px 20px no-repeat;
+}
+._listtree > li.last > a{
+	background: url(gridtree/shuxian.png) 6px 0 no-repeat;
+}
+._listtree > li > a > .ico-blank:first-child{
+	background: url(gridtree/hengxian.png) 8px 8px no-repeat;
+}

@@ -1,0 +1,11 @@
+
+r
+java:S1192B"PDefine a constant instead of duplicating this literal "ι”™θ――δΏ΅ζ―:{}" 5 times.(§κ‰ψÿÿÿÿ8φων—£/
+h
+java:S1128"KRemove this unused import 'cn.gtmap.msurveyplat.common.annotion.SystemLog'.(έΌ€‘8φων—£/
+a
+java:S1128	"DRemove this unused import 'cn.gtmap.msurveyplat.common.util.ProLog'.(¶η¬8φων—£/
+X
+java:S1854Q";Remove this useless assignment to local variable "message".(οÒπΡ8φων—£/
+X
+java:S1854z";Remove this useless assignment to local variable "message".(οÒπΡ8φων—£/

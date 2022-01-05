@@ -1,0 +1,227 @@
+<template>
+    <div class="color-bgc height-100">
+        <Header></Header>
+        <div class="bdc-location">
+            <img src="static/images/index-home.png" alt="">
+            <span>当前位置:&nbsp;</span>
+            <span class="layui-breadcrumb" lay-separator=">" lay-filter="location">
+            <span @click="toHome()" style="cursor:pointer;">首页</span>
+            <span lay-separator>></span>
+            <a><cite>名录库查看</cite></a>
+            </span>
+        </div>
+        <div class="mlk-container bdc-container">
+            <div class="list-box mlk-search">
+                 <div class="bdc-content-title">
+                    <span class="bdc-now-name">名录库列表</span>
+                </div> 
+                <div class="mlk-title">
+                    <span class="line-height-28 font-hei">测绘单位</span>
+                    <Input style="width: 250px" v-model="queryForm.dwmc" @keydown.enter.native.prevent="getMlkList(1,queryForm.size)" class="margin-left-10" placeholder="请输入"/>
+                    <Button class="main-btn-a margin-left-10" @click="getMlkList(1,queryForm.size)">查询</Button>
+                </div>
+            </div>
+            <div class="mlk-items">
+                <div class="mlk-item cursor-pointer" v-for="(item,index) in mlkList" @click="toMlkDetail(item)" :key="index">
+                    <div class="freeze-item" v-if="item.SFDJ&&item.SFDJ=='1'">
+                        <img src="static/images/ydj.png" alt="">
+                    </div>
+                    <div class="view-item">
+                        <Button class="btn-h-32 view-btn" @click="toMlkDetail(item)">查看详情</Button>
+                    </div>
+                    <div class="mlk-img" style="cursor:pointer;">
+                        <img v-if="!item.MLKTP" src="static/images/fz.png" alt="">
+                        <img v-else :src="item.MLKTP" alt="">
+                    </div>
+                    <div class="mlk-detail">
+                        <div><span :class="!item.SFDJ||item.SFDJ=='0'?'mlk-name':'font-color-666'" style="cursor:pointer;font-size:16px">{{item.DWMC}}</span></div>
+                        <div class="mlk-grade line-height-28"><span class="font-color-666">资质等级:</span> {{item.ZZDJMC}}</div>
+                        <div class="mlk-judge line-height-28"><span class="font-color-666">评价等级:</span> <Rate disabled allow-half :class="item.SFDJ&&item.SFDJ=='1'?'color-disabled':''" v-model="item.PJDJ" /></div>
+                        <div class="mlk-phone line-height-28"><span class="font-color-666">联系电话:</span> {{item.LXDH}}</div>
+                        <div class="mlk-phone line-height-28"><span class="font-color-666">可承接测绘阶段:</span> {{getClsxjd(item)}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mlk-page margin-left-20">
+                <Page 
+                    :total="totalNum" 
+                    size="small" 
+                    :current="queryForm.page"
+                    :page-size='queryForm.size' 
+                    :page-size-opts="pageOpts" 
+                    show-elevator 
+                    show-sizer 
+                    show-total
+                    @on-change="changePage"
+                    @on-page-size-change="changeSize"
+                />
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { queryMlkList } from "../../service/home"
+import { getDictInfo } from "../../service/home"
+export default {
+    data() {
+        return {
+            totalNum: 0,
+            pageOpts: [10,20,30,50],
+            queryForm: {
+                dwmc: "",
+                page: 1,
+                size: 10
+            },
+            mlkList: [],
+            dictionaryList: []
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/directory/mlk-view")){
+            this.pageInfo["directoryInfo"] = {...this.queryForm}
+        } else {
+            this.pageInfo["directoryInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["directoryInfo"]){
+            this.queryForm = {...this.pageInfo["directoryInfo"]}
+        }
+    },
+    mounted() {
+        this.getDictInfo();
+        this.getMlkList();
+    },
+    methods: {
+        changePage(page){
+            this.queryForm.page = page
+            this.getMlkList()
+        },
+        changeSize(size){
+            this.queryForm.size = size
+            this.getMlkList()
+        },
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryList = res.data.dataList
+            })
+        },
+        getClsxjd(item){
+            let clsxDms = []
+            let fdmList = []
+            let fdmMcList = []
+            if(item.CLSXDMS){
+                clsxDms = item.CLSXDMS.split(";");
+                this.dictionaryList.forEach(list => {
+                    if(list.ZDLX == "CLSX"){
+                        if(clsxDms.includes(list.DM) && !fdmList.includes(list.FDM)){
+                            fdmList.push(list.FDM)
+                        }
+                    }
+                })
+                this.dictionaryList.forEach(list => {
+                    if(list.ZDLX == "CLSX" && fdmList.includes(list.DM)){
+                        fdmMcList.push(list.MC)
+                    }
+                })
+            }
+            return fdmMcList.join(";")
+        },
+        toHome(){
+            let token = sessionStorage.getItem("access_token") || ""
+            this.$router.push({
+                path: "/home",
+                query: {
+                    token
+                }
+            })
+        },
+        getMlkList(page,size){
+            if(page){
+                this.queryForm.page = page;
+                this.queryForm.size = size;
+            }
+            this.$loading.show("加载中...")
+            queryMlkList(this.queryForm).then(res => {
+                this.$loading.close();
+                res.data.dataList&&res.data.dataList.forEach(mlk => {
+                    mlk.PJDJ = parseInt(mlk.PJDJ)
+                })
+                this.mlkList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        back(){
+            window.close()
+        },
+        toMlkDetail(data){
+            this.$router.push({path: "/directory/mlk-view", query:{mlkid: data.MLKID}})
+        }
+    },
+}
+</script>
+<style lang="less" scoped>
+    @import "./directory.less";
+</style>
+<style scoped>
+    .color-disabled >>> .ivu-rate-star-half .ivu-rate-star-content:before,
+    .color-disabled >>> .ivu-rate-star-full:before {
+        color: #666;
+    }
+    .mlk-detail {
+        overflow: hidden;
+        margin: 10px 0;
+        width: 54%;
+    }
+    .mlk-detail:hover {
+        overflow: auto;
+    }
+    /* IE 浏览器 */
+    .mlk-detail {
+        /*三角箭头的颜色*/
+        scrollbar-arrow-color: #fff;
+        /*滚动条滑块按钮的颜色*/
+        scrollbar-face-color: #c1c1c1;
+        /*滚动条整体颜色*/
+        scrollbar-highlight-color: #c1c1c1;
+        /*滚动条阴影*/
+        scrollbar-shadow-color: #c1c1c1;
+        /*滚动条轨道颜色*/
+        scrollbar-track-color: #f1f1f1;
+        /*滚动条3d亮色阴影边框的外观颜色——左边和上边的阴影色*/
+        scrollbar-3dlight-color:#c1c1c1;
+        /*滚动条3d暗色阴影边框的外观颜色——右边和下边的阴影色*/
+        scrollbar-darkshadow-color: #c1c1c1;
+        /*滚动条基准颜色*/
+        scrollbar-base-color: #c1c1c1;
+    }
+
+    /* chrome & safari 浏览器 */
+    /*滚动条整体部分,必须要设置*/
+    .mlk-detail::-webkit-scrollbar{
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+    }
+    /*滚动条的轨道*/
+    .mlk-detail::-webkit-scrollbar-track{
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+    /*滚动条的滑块按钮*/
+    .mlk-detail::-webkit-scrollbar-thumb{
+        border-radius: 5px;
+        background-color: #c1c1c1;
+        box-shadow: inset 0 0 5px #c1c1c1;
+    }
+    /*滚动条的上下两端的按钮*/
+    .mlk-detail::-webkit-scrollbar-button{
+        height: 0;
+        background-color: #f1f1f1;
+    }
+</style>

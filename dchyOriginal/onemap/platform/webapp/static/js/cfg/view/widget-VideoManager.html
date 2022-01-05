@@ -1,0 +1,242 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 pills-left">
+            <ul class="nav nav-pills nav-stacked" role="tablist" style="margin-top: 10px;">
+                <li role="presentation" class="active"><a href="#video" data-toggle="pill">
+                    <i class="fa fa-video-camera" aria-hidden="true"></i> 视频</a></li>
+                <li role="presentation"><a href="#project" data-toggle="pill">
+                    <i class="fa fa-cubes" aria-hidden="true"></i> 项目</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-10 col-md-11">
+            <!-- 配置内容 -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="video">
+                    <!--视频配置界面开始-->
+                    <div class="videoManager" style="border-left: solid #efeaea 1px;">
+                        <div class="title" style="padding-top: 10px;">{{label}}功能配置</div>
+
+                        <form class="form-horizontal" id="videoManagerForm">
+                            <div class="row" style="margin-top: 30px">
+                                <div class="col-xs-2 text-right">
+                                    <label class="lableTitle">标题</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                                           value="{{label}}"/>
+                                </div>
+                                <div class="col-xs-1  text-right">
+                                    <label class="lableTitle">图标</label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="ui search selection dropdown" id="icons">
+                                        <input type="hidden" name="icon" value="{{icon}}">
+                                        <i class="dropdown icon"></i>
+
+                                        <div class="default text">请选择</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                                    class="tags"> 属性</span></h4>
+
+                            <div class="row" style="margin-top: 30px">
+                                <div class="col-xs-2 text-right">
+                                    <label class="lableTitle">监控点列表类型</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <div class="ui selection dropdown">
+                                        <input type="hidden" name="style" value="{{config.style}}">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">{{config.style}}</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="list">列表</div>
+                                            <div class="item" data-value="group">树状组</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="panoramaSwitch" {{isPanoramaSwitch}}>
+                                        <label>是否显示全景图</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="showStatus" {{isShowStatus}}>
+                                        <label>是否显示在线状态</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--监控点个性化配置-->
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2 text-right">
+                                    <label class="lableTitle">监控点标识文本</label>
+                                </div>
+
+                                <div class="col-xs-3 text-left">
+                                    <label class="lableTitle pull-left">字体大小</label>
+                                    <div style="width: 100px;margin-left: 10px;" class="pull-left">
+                                        <div class="ui search selection dropdown" id="fontSize">
+                                            <input type="hidden" name="txtSymbol_fontSize" class="form-control" value="{{config.txtSymbol.fontSize}}">
+                                            <i class="dropdown"></i>
+
+                                            <div class="default text">请选择</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <label class="lableTitle pull-left">颜色</label>
+                                    <div class="pull-left" style="margin-left: 10px;">
+                                        <div class="input-group color" style="width: 140px;">
+                                            <input type="text" name="txtSymbol_color" class="form-control" value="{{config.txtSymbol.color}}" >
+                                            <span class="input-group-addon"><i style="background-color: rgb(255, 146, 180)"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="row" style="margin-top: 30px">-->
+                                <!--<div class="col-xs-3">-->
+                                    <!--<div class="ui toggle checkbox">-->
+                                        <!--<input type="checkbox" name="showStatus" {{isShowStatus}}>-->
+                                        <!--<label>是否显示在线状态</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        </form>
+
+                        <div class="text-center" style="margin-top: 25px;">
+                            <button type="button" class="btn btn-success disabled1" style="width: 150px;" id="videoManagerSaveBtn">保存</button>
+                        </div>
+                    </div>
+                    <!--视频配置界面结束-->
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="project" style="border-left: solid #efeaea 1px;">
+                    <div class="projectManager">
+                        <div class="title" style="padding-top: 10px;">项目配置</div>
+                        <form class="form-horizontal" id="projectManagerForm">
+
+                            <div class="row" style="margin-top: 30px">
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="supervise" {{isSupervise}}>
+                                        <label>是否显示巡查记录</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="modifyProVideo" {{isModifyProVideo}}>
+                                        <label>是否可配项目监控点</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="multipleVideo" {{isMultipleVideo}}>
+                                        <label>开启多个监控点</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="addProjectByCamera" {{isAddProjectByCamera}}>
+                                        <label>监控点新增项目</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4">
+                                    <div class="ui toggle checkbox">
+                                        <input type="checkbox" name="exportXls" {{isExportXls}}>
+                                        <label>导出项目</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 text-center" style="margin-left: 10px;">
+                                    <label class="lableTitle" >弹出框</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <div class="ui selection dropdown">
+                                        <input type="hidden" name="popupStyle" value="{{config.popupStyle}}">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">{{config.popupStyle}}</div>
+                                        <div class="menu">
+                                            <div class="item" data-value="layer">layer弹框</div>
+                                            <div class="item" data-value="infoWindow">地图弹框</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4">
+                                    <div class="ui toggle">
+                                        <label style="margin-left: 20px;">记录填写期限</label>
+                                        <input type="number" class="form-control col-xs-1" style="display: inline;float: inherit;width: 20% !important;" name="inspectRecordTimeLimit" value="{{config.inspectRecordTimeLimit}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--项目关联图层配置-->
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2" style="height: 35px;">
+                                    <label class="labelTitle" style="float: right;line-height: 35px;">项目关联图层</label>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div class="ui multiple selection dropdown" id="proLayerSelect">
+                                        <input type="hidden" id="newProjectLayer" name="newProjectLayer"/>
+                                        <i class="dropdown icon"></i>
+
+                                        <div class="default text">添加关联</div>
+                                        <div class="menu" id="layerContent">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--自定义项目类型-->
+                            <div class="row" style="margin-top: 30px;">
+                                <div class="col-xs-2" style="height: 35px;">
+                                    <label class="labelTitle" style="float: right;line-height: 35px;">项目类型</label>
+                                </div>
+                               <div class="col-xs-10">
+                                   <div class="ui multiple selection dropdown" id="proTypeList">
+                                       <div class="new-pro-type" id="addProType" title="添加">
+                                           <i class="fa fa-plus-square"></i>
+                                       </div>
+                                       {{#config.proType}}
+                                       <a class="ui label" style="color: {{color}};">{{name}}<i class="delete icon pro-type-del" data-name="{{name}}" data-color="{{color}}"></i></a>
+                                       {{/config.proType}}
+                                       </div>
+                               </div>
+                           </div>
+
+
+                        </form>
+                        <div class="text-center" style="margin-top: 25px; clear: both;">
+                            <button type="button" class="btn btn-success disabled1" style="width: 150px; margin-top: 50px;" id="projectManagerSaveBtn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

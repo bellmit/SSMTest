@@ -1,0 +1,14 @@
+--liquibase formatted sql
+--preconditions dbms:oracle
+
+--changeset DCHY_XMGL_MLK_ClSX_GX:1 failOnError:false runOnChange:true runAlways:false
+CREATE TABLE DCHY_XMGL_MLK_CLSX_GX
+(
+  GXID  VARCHAR2(32) NOT NULL,
+  MLKID VARCHAR2(32),
+  CLSX  VARCHAR2(32) NOT NULL
+);
+COMMENT ON COLUMN DCHY_XMGL_MLK_CLSX_GX.GXID IS '关系ID';
+COMMENT ON COLUMN DCHY_XMGL_MLK_CLSX_GX.MLKID IS '名录库ID';
+COMMENT ON COLUMN DCHY_XMGL_MLK_CLSX_GX.CLSX IS '测量事项';
+

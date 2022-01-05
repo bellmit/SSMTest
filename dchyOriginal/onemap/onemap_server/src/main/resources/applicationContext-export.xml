@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="/metadataService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="metadataService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.MetadataService"/>
+    </bean>
+
+    <bean name="/dataSourceService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="dataSourceService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.DataSourceService"/>
+    </bean>
+
+    <bean name="/regionService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="regionService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.RegionService"/>
+    </bean>
+
+    <bean name="/identityService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="identityService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.security.IdentityService"/>
+    </bean>
+
+    <bean name="/authorizationService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="authorizationService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.security.AuthorizationService"/>
+    </bean>
+
+    <bean name="/userService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="userService"/>
+        <property name="serviceInterface" value="cn.gtmap.onemap.service.UserService"/>
+    </bean>
+</beans>

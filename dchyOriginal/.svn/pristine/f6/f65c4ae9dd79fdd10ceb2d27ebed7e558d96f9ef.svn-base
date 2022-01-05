@@ -1,0 +1,345 @@
+<template>
+    <div>
+        <div class="search-form">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="114" inline >
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="备案编号" class="form-list-search" prop="babh">
+                            <Input type="text" class="form-search-item" v-model="formInline.babh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程编号" class="form-list-search" prop="gcbh">
+                            <Input type="text" class="form-search-item" v-model="formInline.gcbh" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="工程名称" class="form-list-search" prop="gcmc">
+                            <Input type="text" class="form-search-item" v-model="formInline.gcmc" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="测绘单位" class="form-list-search" prop="chdw">
+                            <Input type="text" class="form-search-item" v-model="formInline.chdw" placeholder=""/>
+                        </FormItem>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="当前状态" class="form-list-search" prop="pjzt">
+                            <Select v-model="formInline.pjzt" clearable class="form-search-item">
+                                <Option v-for="item in ztList" :value="item.DM" :key="item.MC">{{ item.MC }}</Option>
+                            </Select>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width='50'>
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="getReviewList(1,formInline.size)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div>
+            <Table
+                :cols="tableCols"
+                :data="reviewList"
+                :count="totalNum"
+                :page="formInline.page"
+                :size="formInline.size"
+                :func="getReviewList"
+                :tool="tool"
+                :operation="operationList"
+                @view="viewDetail"
+                @deleteOpr="deleteOpr"
+                @evaluate="evaluate"
+                @btn1="addCheck"
+            ></Table>
+        </div>
+        <Modal
+        class="modal-base"
+        v-model="visible"
+        :title="'随机抽查'"
+        width="400"
+        :mask-closable="false"
+        :footer-hide="true"
+        closable
+        >
+            <div class="search-form modal-form">
+                <Form ref="search-form" :model="ccData" @on-validate="validateChecked" :rules="ruleInline">
+                    <FormItem v-model="ccData.count" prop="count" :label-width="0">
+                        <span style="margin-right: 10px">本次抽查个数为</span>
+                        <Input style="width: 100px" v-model="ccData.count"/>
+                    </FormItem>
+                </Form>
+            </div>
+            <div class="submit-back" >
+                <Button type="primary" class="btn-h-34 bdc-major-btn" @click="randomCheck()">确定</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { queryresultsspotchecklist, resultsspotrandomcheck,getDictInfo } from "../../service/manage";
+import moment from "moment";
+import util from "../../service/util"
+export default {
+    data() {
+        return {
+             form:{
+                page: 1,
+                size: 10
+            },
+            visible: false,
+            unLastSubmit: true,
+            ksOptions: {},
+            jsOptions: {},
+            ccData: {
+                count: ""
+            },
+            formInline: {
+                xqfbbh: "",
+                xmbh: "",
+                xmmc: "",
+                chdwmc: "",
+                xmzt: "",
+                page: 1,
+                size: 10
+            },
+            tool: '<div>' +
+                '<span class="layui-btn main-btn-a" lay-event="btn1">随机抽查</span>' +
+            '</div>',
+            ruleInline: {
+               count: {
+                    required: true,
+                    trigger: "blur",
+                    validator: (rule,value,callback) => {
+                        if(!value){
+                            callback("请输入数字")
+                        }
+                        else if(value&&!/^[0-9]*$/.test(value)){
+                            callback("请输入数字")
+                        }else {
+                            callback()
+                        }
+                        callback()
+                    }
+                },
+            },
+            reviewList: [],
+            ztList: [],
+            totalNum: 0,
+            operationList: ["view","evaluate"],
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left"
+                },
+                {
+                    title: '备案编号',
+                    align: "center",
+                    field: 'BABH'
+                },
+                {
+                    title: '工程编号',
+                    align: "center",
+                    field: 'GCBH'
+                },
+                {
+                    field: "GCMC",
+                    title: '工程名称',
+                    align: "center",
+                },
+                {
+                    field: "CHDWMC",
+                    title: '测绘单位',
+                    align: "center",
+                },
+                {
+                    field: "CCSJ",
+                    title: '抽查时间',
+                    align: "center",
+                },
+                {
+                    field: "SFSDMC",
+                    title: '是否首单',
+                    align: "center",
+                    width: 120
+                },
+                {
+                    field: "PJZTMC",
+                    title: '当前状态',
+                    align: "center",
+                    width: 120,
+                    templet: function(d){
+                        return d.PJZTMC == "是" ? "已评价" : d.PJZTMC == "否" ? "待评价" : "待检查"
+                    }
+                },
+                {
+                    title: '操作',
+                    align: "center",
+                    minWidth: 180,
+                    toolbar: '#operation'
+                }
+            ]
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(to.fullPath.startsWith("/manage/evaluate/view") || to.fullPath.startsWith("/changzhou/htbadj/add")){
+            this.pageInfo["cgCheckListInfo"] = {...this.formInline}
+        } else {
+            this.pageInfo["cgCheckListInfo"] = null
+        }
+        next()
+    },
+    created() {
+        if(this.pageInfo["cgCheckListInfo"]){
+            this.formInline = {...this.pageInfo["cgCheckListInfo"]}
+        }
+    },
+    mounted() {
+        this.getReviewList();
+        this.getDictInfo()
+    },
+    methods: {
+        // 获取字典信息
+        getDictInfo(){
+            let params = {
+                zdlx: ["PJZT"]
+            }
+           getDictInfo(params).then(res => {
+                this.ztList = res.data.dataList;
+                this.ztList.forEach((list,index) =>{
+                    if(list.MC == "是"){
+                        this.ztList[index].MC = "已评价"
+                    }else if(list.MC == "否"){
+                        this.ztList[index].MC ="待评价"
+                    }
+                })
+                this.ztList.unshift({
+                    DM: "",
+                    MC: "全部"
+                })
+            })
+        },
+        getReviewList(page,size){
+            if(page){
+                this.formInline.page = page;
+                this.formInline.size = size;
+            }
+            this.$loading.show("加载中...");
+            queryresultsspotchecklist(this.formInline).then(res => {
+                this.$loading.close();
+                this.reviewList = res.data.dataList || [];
+                this.totalNum = res.data.totalNum || 0;
+            })
+        },
+        // 重置数据
+        resetForm(){
+            this.$refs["formInline"].resetFields();
+        },
+        viewDetail(data){
+            if(data.PJZTMC == "是"){
+                this.$router.push({
+                    path: "/manage/evaluate/view",
+                    query: {type: "cg",from: this.$route.fullPath,chxmid:data.CHXMID,slbh: data.BABH, cgccid: data.CGCCID} 
+                })
+            } else {
+                this.$router.push({
+                    path: "/changzhou/htbadj/add",
+                    query: {type: "cg",from: this.$route.fullPath,chxmid:data.CHXMID,slbh: data.BABH, cgccid: data.CGCCID} 
+                })
+            }
+        },
+        deleteOpr(){
+            this.reviewList.forEach((list,index) => {
+                if(list.PJZTMC != '否'){
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='evaluate']").addClass("table-btn-disabled cursor-not-allowed");
+                }
+            })
+        },
+        randomCheck(){
+            this.unLastSubmit = false;
+            this.$refs["search-form"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true
+                },500)
+                if(valid){
+                    resultsspotrandomcheck({num: this.ccData.count}).then(res => {
+                    if(res.data.dataList && res.data.dataList.length){
+                        this.ccData.count = "";
+                    }
+                    this.getReviewList()
+                    })
+                    this.visible = false;
+                }
+            })
+        },
+        cancel(){
+            this.visible = false;
+            this.$refs["search-form"].resetFields();
+        },
+        // 校验
+        validate(){
+            let validate = true;
+            this.unLastSubmit = false
+            this.$refs["search-form"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true;
+                },500)
+                validate = valid
+            })
+            return validate;
+        },
+        // 评价
+        evaluate(item){
+            if(item.PJZTMC != "否"){
+                return 
+            }
+            let selectIndex
+            this.reviewList.forEach((review,index) => {
+                if(review.BABH === item.BABH){
+                    selectIndex = index
+                }
+            })
+            this.$router.push({
+                path: "/manage/evaluate/add",
+                query: {
+                    selectIndex: selectIndex,
+                    babh: item.BABH,
+                    cgccid: item.CGCCID,
+                    gcbh: item.GCBH,
+                    gcmc: item.GCMC,
+                    chdw: item.CHDWMC
+                }
+            })
+        },
+        addCheck(){
+            this.visible = true;
+        },
+         // 弹出表单校验的失败信息
+        validateChecked(prop, status, error){
+            if(error&&!this.unLastSubmit){
+                this.$error.show(error)
+            }
+        },
+    },
+}
+</script>
+<style scoped>
+    .modal-form {
+        margin-left: 40px;
+        margin-top: 30px;
+    }
+    .submit-back {
+        margin-top: 60px;
+    }
+    .modal-base >>> .ivu-modal-body {
+        box-sizing: border-box;
+    }
+</style>

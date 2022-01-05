@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.JcsjsqMapper">
+
+    <!--分页多条件查询检索合同登记备案信息-->
+    <select id="queryBasicDataApplicationInfoByPage" resultType="map" parameterType="map">
+        select x.slbh,
+        x.babh,
+        x.gcmc,
+        x.gcbh,
+        x.wtdw AS jsdw,
+        x.xmlyDM ,
+        x.xmztDM ,
+        x.wtfs,
+        x.slsj,
+        x.chxmid,
+        x.xmzt,
+        chdwxx.chdwmc,
+        chdwxx.mlkid,
+        chdwxx.chdwxxid,
+        wm_concat(DISTINCT zd.mc) AS clsx
+        from (SELECT xm.slbh,
+        xm.babh,
+        gc.gcmc,
+        gc.gcbh,
+        gc.wtdw,
+        xmlyzd.mc AS wtfs,
+        xm.xmly xmlyDM,
+        xm.xmzt AS xmztDM,
+        xm.slsj,
+        xm.chxmid,
+        xmztzd.mc xmzt
+        FROM dchy_xmgl_chxm xm
+        LEFT JOIN dchy_xmgl_chxm_chdwxx chdwxx
+        ON chdwxx.chxmid = xm.chxmid
+        LEFT JOIN dchy_xmgl_chgc gc
+        ON xm.chgcid = gc.chgcid
+        left join dchy_xmgl_zd xmztzd
+        on xmztzd.dm = xm.xmzt
+        and xmztzd.zdlx = 'XMZT'
+        left join dchy_xmgl_zd xmlyzd
+        on xmlyzd.dm = xm.xmly
+        and xmlyzd.zdlx = 'XMLY'
+        WHERE xm.xmly <![CDATA[<> ]]> '1'
+        AND xm.xmzt IS NOT NULL
+        AND TRIM(xm.xmzt) <![CDATA[<> ]]> '0'
+
+        <if test="mlkidList != null and mlkidList.size >0">
+            AND chdwxx.mlkid IN
+            <foreach collection="mlkidList" item="item" index="index" open="(" separator="," close=")">
+                #{item,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="babh != null and babh != ''">
+            AND xm.babh LIKE '%'||#{babh}|| '%'
+        </if>
+        <if test="gcmc != null and gcmc != ''">
+            AND gc.gcmc LIKE '%'||#{gcmc}|| '%'
+        </if>
+        <if test="gcbh != null and gcbh != ''">
+            AND gc.gcbh LIKE '%'||#{gcbh}|| '%'
+        </if>
+        <if test="jsdw != null and jsdw != ''">
+            AND gc.wtdw LIKE '%'||#{jsdw}|| '%'
+        </if>
+        <if test="xmly != null and xmly != ''">
+            AND xm.xmly = #{xmly}
+        </if>
+        <if test="xmzt != null and xmzt != ''">
+            AND xm.xmzt = #{xmzt}
+        </if>
+        ) x
+        left join dchy_xmgl_chxm_chdwxx chdwxx
+        on chdwxx.chxmid = x.chxmid
+        left join dchy_xmgl_chxm_clsx clsx
+        on clsx.chxmid = x.chxmid
+        left join dchy_xmgl_zd zd
+        on zd.dm = SUBSTR(clsx.clsx, 0, 1)
+        and zd.zdlx = 'CLSX'
+        group by x.slbh,
+        x.gcmc,
+        x.gcbh,
+        x.wtdw,
+        x.wtfs,
+        x.xmlyDM ,
+        x.xmztDM ,
+        x.slsj,
+        x.chxmid,
+        chdwxx.chdwmc,
+        chdwxx.mlkid,
+        chdwxx.chdwxxid,
+        x.xmzt
+        order by x.slsj desc
+    </select>
+
+    <select id="querySjclListByBabhByPage" resultType="map" parameterType="map">
+        SELECT DISTINCT sjxx.glsxid AS babh,t.clmc,t.fs FROM dchy_xmgl_sjcl t
+        LEFT JOIN dchy_xmgl_sjxx sjxx
+        ON sjxx.sjxxid= t.sjxxid
+        <where>
+            <if test="babhs !=null and babhs.size >0">
+                AND sjxx.glsxid IN
+                <foreach collection="babhs" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="querBaxxByChxmid" parameterType="map" resultType="map">
+        SELECT xm.slbh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        gc.gcdzs,
+        gc.gcdzqx,
+        gc.gcdzxx,
+        gc.xmxz,
+        xm.xmzt,
+        xm.chxmid,
+        xm.chgcid,
+        wm_concat(chdwxx.chdwmc) AS chdwmc
+        from dchy_xmgl_chxm xm
+        left join dchy_xmgl_chgc gc
+        on gc.chgcid = xm.chgcid
+        left join dchy_xmgl_chxm_chdwxx chdwxx
+        on chdwxx.chxmid = xm.chxmid
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    AND xm.chxmid = #{chxmid}
+                </when>
+                <otherwise>
+                    AND xm.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        group by xm.slbh,
+        gc.gcbh,
+        gc.gcmc,
+        gc.wtdw,
+        gc.gcdzs,
+        gc.gcdzqx,
+        gc.gcdzxx,
+        gc.xmxz,
+        xm.xmzt,
+        xm.chxmid,
+        xm.chgcid
+    </select>
+
+    <select id="querySqxxListByPage" resultType="map" parameterType="map">
+        SELECT t.jcsjsqxxid,
+        t.SQSJ,
+        t.BABH,
+        t.GCBH,
+        t.GCMC,
+        t.JSDW,
+        t.CHXMID,
+        sqfsZd.mc SQFS,
+        dqztZd.mc AS DQZT,
+        t.SQFS AS SQFSDM,
+        t.DQZT AS DQZTDM
+        FROM DCHY_XMGL_JCSJSQXX t
+        left join DCHY_XMGL_ZD sqfsZd
+        on sqfsZd.dm = t.SQFS
+        AND sqfsZd.ZDLX = 'XMLY'
+        left join DCHY_XMGL_ZD dqztZd
+        on dqztZd.dm = t.DQZT
+        AND dqztZd.ZDLX = 'DQSQZT'
+        <where>
+            <if test="slbh != null and slbh != ''">
+                AND t.BABH LIKE '%'||#{slbh}|| '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                AND t.GCMC LIKE '%'||#{gcmc}|| '%'
+            </if>
+            <if test="gcbh != null and gcbh != ''">
+                AND t.GCBH LIKE '%'||#{gcbh}|| '%'
+            </if>
+            <if test="jsdw != null and jsdw != ''">
+                AND t.JSDW LIKE '%'||#{jsdw}|| '%'
+            </if>
+            <if test="dqzt != null and dqzt != ''">
+                AND t.DQZT = #{dqzt}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBaxxBySlbh" resultType="map" parameterType="map">
+        SELECT xm.slbh,
+        gc.gcmc,
+        gc.gcbh,
+        gc.wtdw,
+        xm.xmly,
+        xm.slsj,
+        xm.chxmid,
+        chdwxx.chdwmc,
+        xm.xmzt
+        FROM dchy_xmgl_chxm xm
+        LEFT JOIN dchy_xmgl_chgc gc
+        ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx chdwxx
+        ON xm.chxmid = chdwxx.chxmid
+        WHERE xm.xmly <![CDATA[<> ]]> '1'
+        AND xm.xmzt IS NOT NULL
+        AND TRIM(xm.xmzt) <![CDATA[<> ]]> '0'
+        <choose>
+            <when test="slbh != null and slbh != ''">
+                and xm.slbh = #{slbh}
+            </when>
+            <otherwise>
+                and xm.slbh = 'emptyParamValue'
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="queryBaClsxListByGcbh" resultType="map" parameterType="map">
+        SELECT DISTINCT cl.clsx AS dm,z.mc FROM dchy_xmgl_chxm_clsx cl
+        LEFT JOIN dchy_xmgl_chxm xm
+        ON xm.chxmid = cl.chxmid
+        LEFT JOIN
+        (SELECT zd.dm,zd.mc FROM dchy_xmgl_zd zd WHERE zd.zdlx='CLSX') z
+        on z.dm = cl.clsx
+        <where>
+            <choose>
+                <when test="gcbh != null and gcbh != ''">
+                    AND xm.chgcbh = #{gcbh}
+                </when>
+                <otherwise>
+                    and xm.chgcbh = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryClsxByChxmid" resultType="map" parameterType="map">
+        select clsx.clsx AS clsxDM, zd.mc AS clsx, clsx.yjjfrq, htxx.basj
+        from dchy_xmgl_chxm_clsx clsx
+        left join dchy_xmgl_htxx htxx
+        on htxx.chxmid = clsx.chxmid
+
+        left join dchy_xmgl_zd zd
+        on zd.dm = clsx.clsx
+        and zd.zdlx = 'CLSX'
+
+        <where>
+            <choose>
+                <when test="chxmid != null and chxmid != ''">
+                    AND clsx.chxmid = #{chxmid}
+                </when>
+                <otherwise>
+                    AND clsx.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ORDER by htxx.basj DESC
+
+    </select>
+
+    <select id="getHtxxSjclXx" resultType="map" parameterType="string">
+        select sj.sjxxid,
+        c2.chxmid,
+        c2.htxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid
+        from dchy_xmgl_sjxx sj
+        inner join dchy_xmgl_sjcl cl on cl.sjxxid = sj.sjxxid
+        inner join dchy_xmgl_htxx c2 on c2.htxxid = sj.glsxid
+        <where>
+            <choose>
+                <when test="glsxid != null and glsxid != ''">
+                    and c2.chxmid = #{glsxid}
+                </when>
+                <otherwise>
+                    and c2.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getClsxByChxmid" parameterType="map" resultType="map">
+        SELECT g.clsxid ,x.mc AS clsxmc,x.dm AS clsxdm
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        LEFT JOIN DCHY_XMGL_HTXX x ON g.htxxid = x.htxxid
+        LEFT JOIN (SELECT dm,mc FROM dchy_xmgl_zd WHERE zdlx='CLSX' ) x ON x.dm=l.clsx
+        <where>
+            <if test="htxxid != null and htxxid !=''">
+                AND g.htxxid = #{htxxid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getClsxByChxmids" parameterType="map" resultType="map">
+        SELECT g.clsxid,l.clsx,l.cgtjzt,l.yjjfrq,l.jcrq,l.cgjfrq
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND g.chxmid = #{chxmid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getClsxByChxmidlist" parameterType="map" resultType="map">
+        SELECT z.chxmid,z.clsx,z.cgtjzt,z.yjjfrq,z.jcrq,z.cgjfrq,z.rowss1 FROM
+        (SELECT g.chxmid,l.clsx,l.cgtjzt,l.yjjfrq,l.jcrq,l.cgjfrq,ROW_NUMBER() OVER(PARTITION BY
+        l.clsx ORDER BY l.cgjfrq DESC) rowss1
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND g.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND g.chxmid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+        ) z
+        WHERE z.rowss1='1'
+
+    </select>
+
+    <!--根据CLSXID获取对应的测绘单位信息-->
+    <select id="getChdwxxByCLsx" parameterType="map" resultType="map">
+        SELECT DISTINCT dw.chdwmc
+        FROM DCHY_XMGL_CLSX_HTXX_GX g
+        LEFT JOIN DCHY_XMGL_CHXM_CLSX l ON l.clsxid = g.clsxid
+        LEFT JOIN DCHY_XMGL_HTXX_CHDWXX_GX x on x.htxxid = g.htxxid
+        LEFT JOIN Dchy_Xmgl_Chxm_Chdwxx dw on dw.chdwxxid = x.chdwxxid
+        <where>
+            <choose>
+                <when test="chxmidList !=null and chxmidList.size >0">
+                    AND g.chxmid IN
+                    <foreach collection="chxmidList" item="item" index="index" open="(" separator="," close=")">
+                        #{item,jdbcType=VARCHAR}
+                    </foreach>
+                    <if test="clsx != null and clsx != ''">
+                        AND l.clsx = #{clsx}
+                    </if>
+                </when>
+
+                <otherwise>
+                    AND l.clsx = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getChdwxxByChxmid" parameterType="map" resultType="map">
+        SELECT k.mlkid AS chdwid,k.dwmc AS chdwmc
+        FROM DCHY_XMGL_HTXX_CHDWXX_GX g
+        INNER JOIN DCHY_XMGL_CHXM_CHDWXX z ON z.chdwxxid = g.chdwxxid
+        INNER JOIN DCHY_XMGL_HTXX x ON g.htxxid = x.htxxid
+        INNER JOIN
+        (SELECT mlkid,dwmc,'1' AS dwlx FROM dchy.dchy_xmgl_mlk
+        UNION ALL
+        SELECT chdwid AS mlkid,chdwmc AS dwmc,'2' AS dwlx FROM dchy_xmgl_chdw
+        ) k ON k.mlkid = z.mlkid
+        <where>
+            <if test="htxxid != null and htxxid !=''">
+                AND g.htxxid = #{htxxid}
+            </if>
+        </where>
+    </select>
+
+    <select id="getZdClsx" parameterType="map" resultType="map">
+        SELECT z.fdm,z.dm,z.mc,z.zdlx,to_char(t.jcrq,'yyyy-mm-dd') jcrq,t.yjjfrq FROM
+        (SELECT fdm,dm,mc,zdlx FROM dchy_xmgl_zd WHERE zdlx='CLSX' ) z
+        LEFT JOIN
+        (SELECT clsx,jcrq,yjjfrq FROM dchy_xmgl_chxm_clsx WHERE chxmid=#{chxmid}) t
+        ON z.dm = t.clsx
+        ORDER BY z.dm
+    </select>
+
+    <select id="evaluationCheckResultsByPage" parameterType="map" resultType="map">
+        select t.cgccid, t.babh, t.gcbh, t.gcmc, t.cgpj AS cgpjdm,zd.mc AS cgpj, t.pjsj,t.pjyj,t.jsdw
+        from dchy_xmgl_Cgcc t
+        left join dchy_xmgl_zd zd
+        on zd.dm = t.cgpj
+        and zd.zdlx = 'CGPJ'
+        <where>
+            <if test="chdwmc != null and chdwmc != ''">
+                and t.chdwmc = #{chdwmc}
+            </if>
+            <if test="cgpj != null and cgpj !=''">
+                AND t.cgpj = #{cgpj}
+            </if>
+
+            <if test="kssj !=null and kssj !=''">
+                AND t.pjsj <![CDATA[>=]]> to_date(#{kssj},'yyyy-mm-dd')
+            </if>
+
+            <if test="jssj !=null and jssj !=''">
+                AND t.pjsj <![CDATA[<]]> to_date(#{jssj},'yyyy-mm-dd') + 1
+            </if>
+        </where>
+        order by t.pjsj desc
+    </select>
+
+    <select id="getSjcl" parameterType="map" resultType="map">
+        select sj.sjxxid,
+        cl.sjclid,
+        cl.clmc,
+        cl.fs,
+        cl.cllx,
+        cl.ys,
+        cl.wjzxid
+        from dchy_xmgl_sjxx sj
+        left join dchy_xmgl_sjcl cl
+        on cl.sjxxid = sj.sjxxid
+        <where>
+            <choose>
+                <when test="glsxid != null and glsxid !='' and ssmkid != null and ssmkid !=''">
+                    and sj.glsxid = #{glsxid} and sj.ssmkid=#{ssmkid}
+                </when>
+                <otherwise>
+                    and sj.glsxid = 'emptyParamValue'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

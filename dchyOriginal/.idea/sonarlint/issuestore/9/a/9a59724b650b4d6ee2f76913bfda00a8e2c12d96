@@ -1,0 +1,156 @@
+
+2
+java:S3626É"Remove this redundant jump.(ÉŠ©ƒ
+]
+java:S3457¹"AFormat specifiers should be used instead of string concatenation.(öªìãşÿÿÿÿ
+t	java:S135Ş"YReduce the total number of break and continue statements in this loop to use at most one.(ò…Œûÿÿÿÿ
+P
+java:S1172ó":Remove this unused method parameter "requestMappingValue".(µè‚O
+T
+java:S1854à"8Remove this useless assignment to local variable "zdmc".(ÏÁú¡ûÿÿÿÿ
+K
+java:S3740 "/Provide the parametrized type for this generic.(Ê–ø½ÿÿÿÿÿ
+t	java:S135¢"YReduce the total number of break and continue statements in this loop to use at most one.(ÕÈñúÿÿÿÿ
+F
+java:S3740å"/Provide the parametrized type for this generic.(¥‰çœ
+h
+java:S3776Ğ"RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(ŠïÁ{
+]
+java:S3457¼"AFormat specifiers should be used instead of string concatenation.(Á§Óóûÿÿÿÿ
+W	java:S125÷"<This block of commented-out lines of code should be removed.(Â¸–­üÿÿÿÿ
+K
+java:S1066ï"/Merge this if statement with the enclosing one.(’õØãÿÿÿÿÿ
+W	java:S125·"<This block of commented-out lines of code should be removed.( Ïÿéıÿÿÿÿ
+Y
+java:S1854õ"=Remove this useless assignment to local variable "tableName".(ãúíöşÿÿÿÿ
+]
+java:S1192ı"FDefine a constant instead of duplicating this literal "mlkid" 3 times.(é¡®Ü
+B
+java:S1168Ñ"+Return an empty collection instead of null.(¥¹ï
+V	java:S125z"<This block of commented-out lines of code should be removed.(éä×úÿÿÿÿÿ
+˜
+java:S1186à"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Æ³ñŠ
+œ
+java:S1186f"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(°‡Ùüúÿÿÿÿ
+`
+java:S1124U"EReorder the modifiers to comply with the Java Language Specification.(ŠÅ¸üÿÿÿÿ
+W	java:S125Œ"<This block of commented-out lines of code should be removed.(ªé¤ğûÿÿÿÿ
+F
+java:S3740Ô"/Provide the parametrized type for this generic.(Ä°Å”
+t
+java:S2293P"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ÿ´Û“ûÿÿÿÿ
+R	java:S125Ó"<This block of commented-out lines of code should be removed.(‡ÙÌÓ
+W	java:S125‘"<This block of commented-out lines of code should be removed.(Á´©¬şÿÿÿÿ
+F
+java:S3740ç"/Provide the parametrized type for this generic.(Òª‰Ü
+i
+java:S3776ñ"RRefactor this method to reduce its Cognitive Complexity from 49 to the 15 allowed.(íø¥Ô
+\
+java:S3252£"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÿ‡µ£
+b
+java:S3252‹"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(Åş…úşÿÿÿÿ
+2
+java:S3626©"Remove this redundant jump.(ÉŠ©ƒ
+K
+java:S3740Õ"/Provide the parametrized type for this generic.(åšúıÿÿÿÿ
+`
+java:S1124T"EReorder the modifiers to comply with the Java Language Specification.(òâºùÿÿÿÿ
+J
+java:S1481õ".Remove this unused "tableName" local variable.(ãúíöşÿÿÿÿ
+J
+java:S3740`"/Provide the parametrized type for this generic.(şÈ­™úÿÿÿÿ
+]
+java:S3252¾"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(úÎÂ
+i
+java:S3776ü"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(êæ£
+]
+java:S3457½"AFormat specifiers should be used instead of string concatenation.(¹ËƒÜşÿÿÿÿ
+S
+java:S1854„"7Remove this useless assignment to local variable "obj".(×ºŞÙùÿÿÿÿ
+]
+java:S3252£"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ÿ‡µ£
+o
+java:S1104`"TMake tableMap a static final constant or non-public and provide accessors if needed.(şÈ­™úÿÿÿÿ
+K
+java:S3740›"/Provide the parametrized type for this generic.(İ‘Õşÿÿÿÿ
+H
+java:S3011˜",This accessibility update should be removed.(òÃ€÷ùÿÿÿÿ
+]
+java:S3457¸"AFormat specifiers should be used instead of string concatenation.(ºü¨×ÿÿÿÿÿ
+]
+java:S3457Ù"AFormat specifiers should be used instead of string concatenation.(ÂÙğíÿÿÿÿÿ
+B
+java:S1168“"+Return an empty collection instead of null.(¥¹ï
+h
+java:S3776Ÿ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¼³
+^
+java:S1192ı"GDefine a constant instead of duplicating this literal "chxmid" 3 times.(é¡®Ü
+F
+java:S3740ñ"/Provide the parametrized type for this generic.(íø¥Ô
+b
+java:S3252È"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(‹ëÇ‡üÿÿÿÿ
+a	java:S112å"FDefine and throw a dedicated exception instead of using a generic one.(“ÒÚøÿÿÿÿ
+0
+java:S3457|"Not enough arguments.(¯ÚàÃûÿÿÿÿ
+,
+java:S3457–"Not enough arguments.(ªµÕ¿
+]
+java:S3457»"AFormat specifiers should be used instead of string concatenation.(¥»¯üÿÿÿÿ
+D
+java:S1481„"(Remove this unused "obj" local variable.(×ºŞÙùÿÿÿÿ
+X
+java:S1117Š"<Rename "tableMap" which hides the field declared at line 96.(Ó¿•æøÿÿÿÿ
+F
+java:S1066ê"/Merge this if statement with the enclosing one.(é€åÀ
+X
+java:S3457·"AFormat specifiers should be used instead of string concatenation.(¤Û¢Ë
+F
+java:S3740å"/Provide the parametrized type for this generic.(ò®ª×
+o	java:S135¡"YReduce the total number of break and continue statements in this loop to use at most one.(ÇŸ»è
+K
+java:S3740Š"/Provide the parametrized type for this generic.(Ó¿•æøÿÿÿÿ
+?
+java:S1905ò"(Remove this unnecessary cast to "Table".(â•ÿ
+R	java:S125¸"<This block of commented-out lines of code should be removed.(¦ŞÄ–
+]
+java:S3457º"AFormat specifiers should be used instead of string concatenation.(•ïº­ûÿÿÿÿ
+T
+java:S1854¯"8Remove this useless assignment to local variable "zdmc".(ÏÁú¡ûÿÿÿÿ
+=
+java:S1481è"&Remove this unused "i" local variable.(»ŸÜš
+K
+java:S3740Ø"/Provide the parametrized type for this generic.(û¢Œïÿÿÿÿÿ
+K
+java:S3740ä"/Provide the parametrized type for this generic.(Ê‚€ûÿÿÿÿ
+n
+java:S3776›"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(İ‘Õşÿÿÿÿ
+c
+java:S1192ƒ"GDefine a constant instead of duplicating this literal "CHDWLX" 3 times.(£°ˆÿÿÿÿÿ
+F
+java:S1066¹"/Merge this if statement with the enclosing one.(é€åÀ
+t	java:S135­"YReduce the total number of break and continue statements in this loop to use at most one.(ò…Œûÿÿÿÿ
+?
+java:S1604Ÿ"(Make this anonymous inner class a lambda(ğ‹Ê¾
+E
+java:S3740"/Provide the parametrized type for this generic.(¤ÉŠc
+S
+java:S2629Ù"7Use the built-in formatting to construct this argument.(ÂÙğíÿÿÿÿÿ
+R	java:S125í"<This block of commented-out lines of code should be removed.(†€éˆ
+\
+java:S3252Ü"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(í¤æ
+F
+java:S3740¦"/Provide the parametrized type for this generic.(×Éïî
+F
+java:S3740¡"/Provide the parametrized type for this generic.(ÇŸ»è
+<
+java:S1170F"!Make this final field static too.(íÑüÿÿÿÿ
+b
+java:S3252"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(áœ£çøÿÿÿÿ
+`
+java:S3358›"DExtract this nested ternary operation into an independent statement.(ï´ÉËùÿÿÿÿ
+?
+java:S1604ˆ"(Make this anonymous inner class a lambda(ğ‹Ê¾
+R	java:S125„"<This block of commented-out lines of code should be removed.(”è»
+b
+java:S3252¼"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(‹ßØ•ùÿÿÿÿ
+W	java:S125á"<This block of commented-out lines of code should be removed.(¸Êä·øÿÿÿÿ

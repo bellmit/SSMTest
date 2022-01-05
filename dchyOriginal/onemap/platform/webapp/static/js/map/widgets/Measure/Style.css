@@ -1,0 +1,47 @@
+.opt-btn {
+    text-align: center;
+}
+
+.opt-btn > button {
+    margin-right: 12px;
+}
+
+.btn-measure-clear{
+    display: none;
+    color: #666666;
+    margin-top: 10px;
+    width: 87px;
+    height: 34px;
+    line-height: 34px;
+    padding-left: 14px;
+    background: url("./img/bg_clean.png") no-repeat left;
+    cursor: pointer;
+    color: #4285f4;
+}
+
+.area-length-content {
+    border-top: 1px solid #4285f4;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.dot-place-holder{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 6px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #b7c4d4;
+}
+
+.measure-result {
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    padding-top: 6px;
+}
+
+.m-item {
+    padding-left: 14px;
+    background: url("./img/icon_list.png") no-repeat left;
+}

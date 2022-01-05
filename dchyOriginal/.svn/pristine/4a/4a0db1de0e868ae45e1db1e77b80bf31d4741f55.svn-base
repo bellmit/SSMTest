@@ -1,0 +1,44 @@
+.spy-panel{
+    padding: 15px 5px;
+    border-top: 2px solid #0091ff;
+}
+.lbl-select{
+    height: 30px;
+    line-height: 30px;
+}
+.opera-container{
+    margin: 15px;
+}
+
+.spy-map-div {
+    border: 1px solid gray;
+    box-shadow: 0 0 5px gray;
+    position: absolute;
+    overflow: hidden;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#spy_map{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0px;
+    right:0px;
+}
+
+.spy-map-div-webkit {
+    border-radius: 50%;
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
+/*icheck*/
+.icheckbox-blue{
+    float: right;
+}

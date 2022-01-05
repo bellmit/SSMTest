@@ -1,0 +1,13 @@
+<div class="info">
+    <div class="scrollContent" id="scrollContent">
+        {{#each items}}
+        <div class="item-content" data-uid={{uid}}>
+            <div class="pull-right plan-change">
+                <i class="plan-locate fa fa-map-marker" data-uid={{uid}} title="定位"></i>
+                <i class="plan-clear fa fa-times" data-uid={{uid}} title="移除"></i>
+            </div>
+            {{{title .}}}
+        </div>
+        {{/each}}
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="list-group-item service-add-item" data-id="{{id}}">
+    <div class="pull-right">
+        <a class="t-icon fa fa-plus" title="添加服务" data-info="{{info}}"></a>
+    </div>
+    <i class="fa fa-file-o"></i>&nbsp;&nbsp;{{name}}
+</div>

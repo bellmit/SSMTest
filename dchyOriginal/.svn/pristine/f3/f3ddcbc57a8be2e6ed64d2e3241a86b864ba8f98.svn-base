@@ -1,0 +1,13 @@
+package cn.gtmap.msurveyplat.serviceol.core.service;
+
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+ * @version 1.0, 2020/12/1
+ * @description 名录库信息推送
+ */
+public interface SendMlkxxService {
+
+    public void sendMessage(Map map);
+}

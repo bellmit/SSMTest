@@ -1,0 +1,25 @@
+
+^	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ïã¡İşÿÿÿÿ
+Z
+java:S3252s"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÇùœW
+o
+java:S2139“"XEither log this exception and handle it, or rethrow it with some contextual information.(”ı¾
+\
+java:S3457<"AFormat specifiers should be used instead of string concatenation.(ˆäÉ–ÿÿÿÿÿ
+Q	java:S125‹"<This block of commented-out lines of code should be removed.(€º·t
+y
+java:S1128	"cRemove this unused import 'cn.gtmap.msurveyplat.promanage.core.service.mq.model.DchyXmglCgJcModel'.(ùÈâ×
+c
+java:S4719?"NReplace "com.google.common.base.Charsets.UTF_8" with "StandardCharsets.UTF_8".(–ñŞZ
+V	java:S125w"<This block of commented-out lines of code should be removed.(³Â¯×şÿÿÿÿ
+D
+java:S1144V".Remove this unused private "basicNACK" method.(¤´Àÿ
+T
+java:S4719o"9Replace charset name argument with StandardCharsets.UTF_8(ÇÒú±ùÿÿÿÿ
+^	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¤®Í…üÿÿÿÿ
+E
+java:S3740k"/Provide the parametrized type for this generic.(ˆÎÙ½
+K
+java:S3740ƒ"/Provide the parametrized type for this generic.(‘ÛåŠşÿÿÿÿ
+\
+java:S3457E"AFormat specifiers should be used instead of string concatenation.(¿ú®³ıÿÿÿÿ

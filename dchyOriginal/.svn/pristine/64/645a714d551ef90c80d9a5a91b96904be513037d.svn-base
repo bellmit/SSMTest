@@ -1,0 +1,257 @@
+<template>
+    <div class="main-content">
+        <div class="search-form">
+            <Form :model="recordForm" :rules="recordRule" inline :label-width="120">
+                <Row>
+                    <i-col span="6">
+                        <FormItem label="流程受理编号" class="form-list-search" v-model="recordForm.slbh">
+                            <Input v-model="recordForm.slbh" @keydown.enter.native.prevent="queryList(1,recordForm.pageSize)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="建设单位" class="form-list-search" v-model="recordForm.jsdw">
+                            <Input v-model="recordForm.jsdw" @keydown.enter.native.prevent="queryList(1,recordForm.pageSize)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem label="测绘单位" class="form-list-search" v-model="recordForm.chdw">
+                            <Input v-model="recordForm.chdw" @keydown.enter.native.prevent="queryList(1,recordForm.pageSize)" class="form-search-item"/>
+                        </FormItem>
+                    </i-col>
+                    <i-col span="6">
+                        <FormItem :label-width="50">
+                            <Button type="primary" class="btn-h-32 bdc-major-btn" @click="queryList(1,recordForm.pageSize)">查询</Button>
+                            <Button type="primary" class="btn-h-32 btn-cancel margin-left-10" @click="resetForm()">重置</Button>
+                        </FormItem>
+                    </i-col>
+                </Row>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <Table
+            ref="tableRef"
+            :id="'tableId'"
+            :cols="tableCols"
+            :data="cgInfoList"
+            :count="totalNum"
+            :operation="operationList"
+            :page="recordForm.page"
+            :size="recordForm.pageSize"
+            :func="queryList"
+            @view="viewDetail"
+            @deleteOpr="deleteOpr"
+        ></Table>
+        <Modal 
+            class="modal-base form-record" 
+            v-model="visible" 
+            :title="'查看详情'" 
+            width="1000"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <Table
+                ref="detailInfoTable"
+                :id="'detailInfoTableId'"
+                :cols="detailCols"
+                :data="detailData"
+                :showPage="false"
+                :unShowTool="true"
+            ></Table>
+            <div class="save-btn">
+                <Button type="primary" class="btn-h-36 bdc-major-btn" @click="cancel()">确认</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import _ from "lodash";
+import { initSubmitSqxx } from "../../service/result-manage"
+import { queryCgYbInfoList, queryProjectInfo } from "../../service/manage"
+export default {
+    data() {
+        return {
+            recordForm: {
+                page: 1,
+                pageSize: 10
+            },
+            visible: false,
+            recordRule: {},
+            totalNum: 0,
+            operationList: ["view"],
+            cgInfoList: [],
+            detailCols: [
+                {
+                    field: "index",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "RKSJ",
+                    title: "入库时间",
+                    align: "center",
+                },
+                {
+                    field: "TJR",
+                    title: "入库人",
+                    align: "center",
+                    width: 150
+                },
+                {
+                    field: "CLSXMC",
+                    title: "测绘事项",
+                    align: "center"
+                },
+                {
+                    field: "CLCGMC",
+                    title: "材料名称",
+                    align: "center"
+                },
+            ],
+            detailData: [],
+            tableCols: [
+                {
+                    field: "ROWNUM_",
+                    title: "序号",
+                    align: "center",
+                    width: 70,
+                    fixed: "left"
+                },
+                {
+                    field: "BABH",
+                    title: "项目编号",
+                    align: "center",
+                    minWidth: 240
+                },
+                {
+                    title: "流程受理编号",
+                    align: "center",
+                    field: "text1"
+                },
+                {
+                    field: "GCBH",
+                    title: "项目代码",
+                    align: "center"
+                },
+                {
+                    field: "GCMC",
+                    title: "工程名称",
+                    align: "center"
+                },
+                {
+                    field: "text2",
+                    title: "建设单位",
+                    align: "center"
+                },
+                {
+                    field: "text3",
+                    title: "测绘单位",
+                    align: "center"
+                },
+                {
+                    field: "TJSJ",
+                    title: "提交时间",
+                    align: "center",
+                    maxWidth: 180
+                },
+                {
+                    field: "CGTJZTMC",
+                    title: "成果状态",
+                    align: "center",
+                    width: 140,
+                    templet: function(d){
+                        let className= d.CGTJZTMC==="已入库" ? "color-finish": d.CGTJZTMC ==="审核中" ? "color-processing": "color-unfinish"
+                        return "<span class='"+className+"'>"+ ( d.CGTJZTMC || '/')+"</span>"
+                    }
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    minWidth: 180,
+                    toolbar: "#operation"
+                }
+            ],
+            wdid: ""
+        }
+    },
+    mounted() {
+        this.queryList();
+        this.initSubmitSqxx();
+    },
+    methods: {
+        // 初始化成果提交申请
+        initSubmitSqxx(){
+            initSubmitSqxx().then(result => {
+                this.wdid = result.data.sqxxid;
+                sessionStorage.setItem("wdid",this.wdid)
+            })
+        },
+        // 成果浏览
+        viewCgFj(data){
+            const { href } = this.$router.resolve({
+                path: "/review/fj",
+                query: {chgcid: data.CHGCID, chxmid:data.CHXMID}
+            });
+            window.open(href);
+        },
+        // 重置查询项
+        resetForm(){
+            this.recordForm = {
+                page: this.recordForm.page,
+                pageSize: this.recordForm.pageSize
+            }
+        },
+        // 查询
+        queryList(page,size){
+            if(page){
+                this.recordForm.page = page;
+                this.recordForm.pageSize = size;
+            }
+            this.$loading.show("加载中...")
+            queryCgYbInfoList(this.recordForm).then(res => {
+                this.$loading.close();
+                res.data.content&&res.data.content.forEach((c,index) => {
+					c.ROWNUM_ = (index + 1) + this.recordForm.pageSize*(this.recordForm.page - 1);
+				})
+                this.cgInfoList = res.data.content || [];
+                this.totalNum = res.data.totalElements || 0;
+            }) 
+        },
+        // 查看操作
+        viewDetail(data){
+            let href = `/portal/view/service-page.html?taskid=${data.taskId}&xmid=${data.SQXXID}&gzlslid=${data.procInsId}&reviewType=view&formKey=&wdid=${this.wdid}&type=yb&ywlx=FCCH`
+            window.open(href)
+        },
+        cancel(){
+            this.visible = false;
+        }
+    },
+}
+</script>
+<style scoped>
+@import "./chsldj.less";
+    .collapse-table >>> .table .layui-table-view {
+        margin-top: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-table >>> .page-table {
+        border-left: none;
+        border-right: none;
+    }
+    .collapse-title {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .title-tip {
+        width: 300px;
+        overflow: hidden;
+        text-overflow:ellipsis; 
+        white-space: nowrap;
+    }
+    .form-title {
+        padding: 5px 0;
+    }
+</style>

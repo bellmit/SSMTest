@@ -1,0 +1,293 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title"><span>填写从业人员信息</span></div>
+            <div>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="!readonly" @click="submit()">提交</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel()">返回</Button>
+            </div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" ref="cyryxxform" :model="cyryInfoData" :rules="ruleInline" inline :label-width='200'>
+            <Row>
+                <i-col span='12'>
+                    <FormItem prop="ryxm" :class="{'requireStar': btxyzList.includes('ryxm')}" label="人员姓名">
+                        <Input :readonly="readonly" class="list-form-width" v-model="cyryInfoData.ryxm" />
+                    </FormItem>
+                </i-col>
+                <i-col span='12'>
+                    <FormItem prop="zc" :class="{'requireStar': btxyzList.includes('zc')}" label="职称">
+                        <Input :readonly="readonly" class="list-form-width" v-model="cyryInfoData.zc" />
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                 <i-col span='12'>
+                    <FormItem prop="zsmc" :class="{'requireStar': btxyzList.includes('zsmc')}" label="证书名称">
+                        <Input :readonly="readonly" class="list-form-width" v-model="cyryInfoData.zsmc" />
+                    </FormItem>
+                </i-col>
+                <i-col span='12'>
+                    <FormItem prop="zsbh" :class="{'requireStar': btxyzList.includes('zsbh')}" label="证书编号">
+                        <Input :readonly="readonly" class="list-form-width" v-model="cyryInfoData.zsbh" />
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span='12'>
+                    <FormItem prop="zsyxksrq" :class="{'requireStar': btxyzList.includes('zsyxksrq')}" label="证书有效开始日期">
+                        <DatePicker :disabled="readonly" class="list-form-width" @on-change="kssjChange" :options="ksOptions" type="date" placeholder="请选择" format="yyyy-MM-dd" v-model="cyryInfoData.zsyxksrq"></DatePicker>
+                    </FormItem>
+                </i-col>
+                <i-col span='12'>
+                    <FormItem prop="sfcqyx" label="是否长期有效">
+                        <Checkbox :disabled="readonly" v-model="cyryInfoData.sfcqyx"></Checkbox>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row v-if='!cyryInfoData.sfcqyx'>
+                <i-col span="12">
+                    <FormItem prop="zsyxjsrq" :class="{'requireStar': !cyryInfoData.sfcqyx}" label="证书有效结束日期">
+                        <DatePicker :disabled="readonly" class="list-form-width" @on-change="jssjChange" :options="jsOptions" type="date" placeholder="请选择" format="yyyy-MM-dd" v-model="cyryInfoData.zsyxjsrq"></DatePicker>
+                    </FormItem>
+                </i-col>
+            </Row>
+        </Form>
+        <div class="line-dashed"></div>
+        <div class="margin-top-20"></div>
+        <uploadFile 
+            ref="upload-file"
+            :mlkid="cyryid"
+            :ssmkid="ssmkid"
+            v-if="!readonly"
+        ></uploadFile>
+        <uploadFileInfo
+            v-else
+            :mlkid="cyryid"
+            :ssmkid="ssmkid"
+            :deleteColumns="deleteColumns"
+        ></uploadFileInfo>
+    </div>
+</template>
+<script>
+import { addCyryxx, saveUploadFile, queryCyryxxDetail, initCyryxx, deleteCyryxx } from "../../../service/mlk";
+import uploadFile from "../../../components/survey/upload-file";
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import moment from "moment";
+import _ from "loadsh"
+import yz_mixins from "../../../service/yz_mixins"
+export default {
+    components: {
+        uploadFile,
+        uploadFileInfo
+    },
+    mixins: [yz_mixins],
+    data() {
+        return {
+            ksOptions: {},
+            jsOptions: {},
+            uploadList: [],
+            totalNum: 0,
+            deleteColumns: ["opeartion"],
+            cyryInfoData: {
+                mlkid: "",
+                ryxm: "",
+                zc: "",
+                zsmc: "",
+                zsbh: "",
+                zsyxksrq: "",
+                sfcqyx: "",
+                zsyxjsrq: ""
+            },
+            ruleInline: {
+                ryxm: {
+                    message: "必填项不能为空"
+                },
+                zc: {
+                    message: "必填项不能为空"
+                },
+                zsmc: {
+                    message: "必填项不能为空"
+                },
+                zsbh: {
+                    message: "必填项不能为空"
+                },
+                ryxm: {
+                    message: "必填项不能为空"
+                },
+                zsyxksrq: {
+                    required: false,
+                    message: "必填项不能为空"
+                }
+            },
+            mlkid: "",
+            ssmkid: "2",
+            bdid: "2",
+            selectedFile: [],
+            btxyzList: [],
+            readonly: false,
+            cyryid: "",
+            ywljyzList: []
+        }
+    },
+    created(){
+        if(this.$route.query.from.startsWith("/survey/mlkapply")){
+            this.deleteColumns = [];
+        }
+    },
+    mounted(){
+        if(this.$route.query.mlkid){
+            this.mlkid = this.$route.query.mlkid
+            this.cyryInfoData.mlkid = this.$route.query.mlkid
+        }
+        if(this.$route.query.cyryid){
+            this.cyryid = this.$route.query.cyryid
+            if(!this.$route.query.type){
+                this.getCyryxx()
+                if(!this.$route.query.isEdit){
+                    this.readonly = true;
+                }
+            }
+        }
+    },
+    methods: {
+        // 删除从业人员
+        deleteCyryxx(){
+            let params = {
+                cyryid: this.cyryid
+            }
+            deleteCyryxx(params).then(res => {
+                this.back();
+            })
+        },
+        //编辑的时候获取从业人员信息
+        getCyryxx(){
+            let params = {
+                cyryid: this.cyryid
+            }
+            queryCyryxxDetail(params).then(res => {
+                if(res.data.dataList.cqyx == "是"){
+                    res.data.dataList.sfcqyx = true;
+                }
+                let info = {...res.data.dataList};
+                info.zsyxksrq = moment(info.zsyxksrq).format("YYYY-MM-DD")
+                info.zsyxjsrq = info.zsyxjsrq ? moment(info.zsyxjsrq).format("YYYY-MM-DD") : "";
+                this.cyryInfoData = {...info} 
+            })
+        },
+        // 删除文件
+        deleteFj(select){
+            let uploadList = [...this.uploadList];
+            uploadList.forEach((upload,index) => {
+                if(upload.clid == select.file.clid){
+                    upload.children.splice(select.fileIndex,1)
+                }
+            })
+            this.uploadList = [...uploadList]
+        },
+        // 上传文件
+        uploadFile(data){
+            for(let i=0;i < data.files.length;i++) {
+                data.files[i].mlkid = this.$route.query.mlkid;
+                this.selectedFile.push(data.files[i])
+                let uploadList = [...this.uploadList];
+                uploadList[data.index].children.push(data.files[i]);
+                uploadList[data.index].open = true;
+                this.uploadList = [...uploadList]
+            }
+            let formData = new FormData();
+            for(let i = 0;i < this.selectedFile.length; i++){
+                formData.append('files', this.selectedFile[i]); 
+            }
+            formData.append('mlkid', this.$route.query.mlkid);
+            formData.append('fs', this.uploadList[data.index].FS);
+            formData.append('ys', this.uploadList[data.index].YS);
+            formData.append('cllx', this.uploadList[data.index].CLLX);
+            formData.append('clmc', this.uploadList[data.index].CLMC);
+            saveUploadFile("/fileoperation/uploadfiles",formData)
+        },
+        // 控制结束时间可选状态
+        kssjChange(select){
+            this.cyryInfoData.zsyxksrq = select ? moment(select).format("YYYY-MM-DD") : "";
+            this.jsOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() < moment(select).unix());
+            }
+        },
+        // 控制开始时间可选状态
+        jssjChange(select){
+            this.cyryInfoData.zsyxjsrq = select ? moment(select).format("YYYY-MM-DD") : "";
+            this.ksOptions.disabledDate = (date) => {
+                return date && (moment(date).unix() > moment(select).unix());
+            }
+        },
+        selectType(data){
+            this.uploadList[data.index].CLLX = data.CLLX;
+        },
+        // 提交
+        submit(){
+            this.unLastSubmit = false;
+            this.cyryInfoData.zsyxksrq = this.cyryInfoData.zsyxksrq ? moment(this.cyryInfoData.zsyxksrq).format("YYYY-MM-DD") : "";
+            this.$refs["cyryxxform"].validate(valid => {
+                this.unLastSubmit = true
+                if(valid){
+                    if(!this.cyryInfoData.zsyxksrq){
+                        this.$error.show("未选择正确的证书有效期");
+                        return
+                    }
+                    if(!this.cyryInfoData.sfcqyx&&!this.cyryInfoData.zsyxjsrq){
+                        this.$error.show("未选择证书有效结束日期");
+                        return
+                    }
+                    let validate = this.$refs["upload-file"].validate();
+                    if(validate){
+                        return;
+                    }
+                    this.cyryInfoData.zsyxksrq = moment(this.cyryInfoData.zsyxksrq).format("YYYY-MM-DD")
+                    this.cyryInfoData.zsyxjsrq = this.cyryInfoData.zsyxjsrq ? moment(this.cyryInfoData.zsyxjsrq).format("YYYY-MM-DD") : "";
+                    this.cyryInfoData.cqyx = this.cyryInfoData.sfcqyx ? "1" : "";
+                    this.cyryInfoData.cyryid = this.cyryid;
+                    if(this.cyryInfoData.cqyx){
+                        this.cyryInfoData.zsyxjsrq = "";
+                    }
+                    this.$loading.show("加载中...")
+                    let cyrysl = Number(sessionStorage.getItem("cyrynum"))
+                    this.uploadList.forEach(upload => {
+                        for(let key in upload){
+                            upload[_.toLower(key)] = upload[key];
+                            delete upload[key]
+                        }
+                    })
+                    let uploadList = this.$refs["upload-file"].queryUploadList();
+                    this.cyryInfoData.uploadList = uploadList;
+                    addCyryxx(this.cyryInfoData).then(res => {
+                        layer.msg("保存成功")
+                        this.$loading.close();
+                        cyrysl += 1;
+                        sessionStorage.setItem("cyrynum",cyrysl);
+                        this.back();
+                    })
+                }
+            })
+        },
+        back(){
+            this.$router.push({path: '/survey/cyryxx',query: {mlkid: this.$route.query.mlkid,editorable: this.$route.query.editorable,from: this.$route.query.from}})
+        },
+        cancel(){
+            if(this.$route.query.type){
+                this.deleteCyryxx()
+            } else {
+                this.back();
+            }
+        }
+    }
+}
+</script>
+<style scoped>
+    .form-edit {
+        width: 100%;
+        padding: 0 80px;
+    }
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>出图展示</title>
+    <style>
+        body {
+            font-size: 14px;
+            overflow-x: hidden;
+        }
+
+        .text-c {
+            text-align: center;
+        }
+
+        button {
+            padding: 4px 6px;
+            cursor: pointer;
+        }
+
+        .opt-container {
+            z-index: 100;
+            margin: 10px auto;
+            cursor: pointer;
+            position: fixed;
+            width: 100%;
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 50px;
+        }
+    </style>
+
+</head>
+<body onload="init();">
+<div class="text-c">
+    <div class="opt-container">
+        <button id="print" onclick="printThis()">打印</button>
+        &nbsp;
+        <button id="saveAs" onclick="SaveAs()">另存</button>
+    </div>
+    <div class="img-wrapper">
+        <img id="img"/>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    var imgUrl;
+    function init() {
+	    var imgId = getUrlParams()["img"];
+		//兼容ie8 
+		if(typeof(location.origin) == "undefined"){
+			imgUrl = location.protocol + '//' + location.host + "/omp/file/download/" + imgId ;//ie8不兼容window.location.origin
+		}else{
+			imgUrl = window.location.origin + "/omp/file/download/" + imgId;
+		}
+        
+		document.getElementById("img").src = imgUrl;
+    }
+
+    function SaveAs() {
+        window.open(imgUrl, '_blank');
+    }
+
+	function printThis (){
+		document.getElementById("print").style.display="none";
+		document.getElementById("saveAs").style.display="none";
+		javascript:window.print();
+	}
+
+    var getUrlParams = function () {
+        var result = {};
+        var s = window.location.search;
+        var param = s.substr(1);
+        if (param == "") return result;
+        param = decodeURIComponent(param);
+        var arrWithEqual = param.split("&");
+        for (var i = 0; i < arrWithEqual.length; i++) {
+            var val = arrWithEqual[i];
+            var firstIndex = val.indexOf("=");
+            result[val.substring(0, firstIndex)] = val.substr(firstIndex + 1);
+        }
+        return result;
+    };
+</script>
+</html>

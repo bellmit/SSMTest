@@ -1,0 +1,42 @@
+<div class="container monitor-appoint-form">
+    <form class="form-horizontal" id="appointForm">
+        <input name="colZpCjbmid" type="hidden" value="{{userId}}"/>
+		<input name="colGeostring" type="hidden" value="{{data.geometry}}"/>
+        <input name="colZpDkid" type="hidden" value="{{data.地块id}}"/>
+		<input name="colZpZpbmid" id="colZpZpbmid" type="hidden" value=""/>
+
+        <div class="form-group">
+            <label for="colZpDkmc" class="col-xs-2 control-label text-right">项目名称</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" name="colZpDkmc" id="colZpDkmc" placeholder="" datatype="*" nullmsg="项目名称不可为空！" value="{{data.项目名称}}" />
+            </div>
+            <label for="colZpYddw" class="col-xs-2 control-label text-right">用地单位</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" name="colZpYddw" id="colZpYddw" placeholder="" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="colZpYwlx" class="col-xs-2 control-label text-right">地块来源</label>
+            <div class="col-xs-4">
+                <select class="form-control" placeholder="" name="colZpYwlx" id="colZpYwlx">
+                </select>
+            </div>
+            <label for="colZpZpbmmc" class="col-xs-2 control-label text-right">巡查单位</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" name="colZpZpbmmc" id="colZpZpbmmc" placeholder="" datatype="*"
+                       nullmsg="" value="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="colZpXcyq" class="col-xs-2 control-label text-right">巡查内容</label>
+            <div class="col-xs-10">
+                <textarea class="form-control" placeholder="" name="colZpXcyq" id="colZpXcyq"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 text-center">
+                <button class="btn btn-primary" id="postBtn"> 确定指派 </button>
+            </div>
+        </div>
+    </form>
+</div>

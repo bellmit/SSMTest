@@ -1,0 +1,148 @@
+
+F
+java:S1066‹"/Merge this if statement with the enclosing one.(–„ƒ¡
+?
+java:S1604ú"(Make this anonymous inner class a lambda(ğ‹Ê¾
+œ
+java:S1186h"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(°‡Ùüúÿÿÿÿ
+b
+java:S3252­"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(‹ßØ•ùÿÿÿÿ
+W
+java:S2259±"@A "NullPointerException" could be thrown; "o1" is nullable here.(ñÄ²Î
+t	java:S135×"YReduce the total number of break and continue statements in this loop to use at most one.(ò…Œûÿÿÿÿ
+T
+java:S1854ó"8Remove this useless assignment to local variable "zdmc".(ÏÁú¡ûÿÿÿÿ
+P
+java:S1172å":Remove this unused method parameter "requestMappingValue".(µè‚O
+W
+java:S2259é"@A "NullPointerException" could be thrown; "o1" is nullable here.(ñÄ²Î
+,
+java:S3457ˆ"Not enough arguments.(ªµÕ¿
+S
+java:S2629Í"7Use the built-in formatting to construct this argument.(ÂÙğíÿÿÿÿÿ
+?
+java:S1604š"(Make this anonymous inner class a lambda(ğ‹Ê¾
+E
+java:S1481„")Remove this unused "onbj" local variable.(„ÀÈ¹øÿÿÿÿ
+W	java:S125ş"<This block of commented-out lines of code should be removed.(ªé¤ğûÿÿÿÿ
+j
+java:S3776á"SRefactor this method to reduce its Cognitive Complexity from 119 to the 15 allowed.(íø¥Ô
+R	java:S125ö"<This block of commented-out lines of code should be removed.(”è»
+f
+java:S1192 "JDefine a constant instead of duplicating this literal "errorMsg:" 3 times.(«Òôîÿÿÿÿÿ
+]
+java:S3457Í"AFormat specifiers should be used instead of string concatenation.(ÂÙğíÿÿÿÿÿ
+G
+java:S1172É"+Remove this unused method parameter "zddm".(Ç›Èüøÿÿÿÿ
+R	java:S125ö"<This block of commented-out lines of code should be removed.(†€éˆ
+=
+java:S1481Ø"&Remove this unused "i" local variable.(»ŸÜš
+n
+java:S3776Œ"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(İ‘Õşÿÿÿÿ
+R	java:S125Ã"<This block of commented-out lines of code should be removed.(†€éˆ
+C
+java:S1481Ò",Remove this unused "mapList" local variable.(£«¢
+`
+java:S1192í"IDefine a constant instead of duplicating this literal "tyshxydm" 4 times.(§€Ìİ
+]
+java:S3252"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ÿ‡µ£
+T
+java:S1854„"8Remove this useless assignment to local variable "onbj".(„ÀÈ¹øÿÿÿÿ
+F
+java:S1066¦"/Merge this if statement with the enclosing one.(é€åÀ
+t
+java:S2293S"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ÿ´Û“ûÿÿÿÿ
+˜
+java:S1186Ò"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Æ³ñŠ
+F
+java:S1066ã"/Merge this if statement with the enclosing one.(é€åÀ
+R	java:S125ÿ"<This block of commented-out lines of code should be removed.(´¾“«
+2
+java:S3626ï"Remove this redundant jump.(ÉŠ©ƒ
+R
+java:S1854Ò";Remove this useless assignment to local variable "mapList".(£«¢
+B
+java:S1168Æ"+Return an empty collection instead of null.(¥¹ï
+o
+java:S1104^"TMake tableMap a static final constant or non-public and provide accessors if needed.(¸Ø³àûÿÿÿÿ
+F
+java:S1066ı"/Merge this if statement with the enclosing one.(é€åÀ
+R	java:S125ß"<This block of commented-out lines of code should be removed.(†€éˆ
+h
+java:S3776ã"RRefactor this method to reduce its Cognitive Complexity from 74 to the 15 allowed.(ŠïÁ{
+`
+java:S1124W"EReorder the modifiers to comply with the Java Language Specification.(òâºùÿÿÿÿ
+\
+java:S3252­"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÿ‡µ£
+`
+java:S3358µ"DExtract this nested ternary operation into an independent statement.(ï´ÉËùÿÿÿÿ
+B
+java:S1168Å"+Return an empty collection instead of null.(¥¹ï
+B
+java:S1168ø"+Return an empty collection instead of null.(¥¹ï
+K
+java:S3740Ó"/Provide the parametrized type for this generic.(û¢Œïÿÿÿÿÿ
+Y
+java:S1854å"=Remove this useless assignment to local variable "tableName".(ãúíöşÿÿÿÿ
+t	java:S135ñ"YReduce the total number of break and continue statements in this loop to use at most one.(ò…Œûÿÿÿÿ
+R	java:S125Ä"<This block of commented-out lines of code should be removed.(†€éˆ
+t	java:S135š"YReduce the total number of break and continue statements in this loop to use at most one.(ò…Œûÿÿÿÿ
+0
+java:S3457|"Not enough arguments.(¯ÚàÃûÿÿÿÿ
+F
+java:S3740Å"/Provide the parametrized type for this generic.(Ä°Å”
+b
+java:S3252¹"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(‹ëÇ‡üÿÿÿÿ
+2
+java:S3626½"Remove this redundant jump.(ÉŠ©ƒ
+J
+java:S1481å".Remove this unused "tableName" local variable.(ãúíöşÿÿÿÿ
+W	java:S125Ò"<This block of commented-out lines of code should be removed.(¸Êä·øÿÿÿÿ
+?
+java:S1905â"(Remove this unnecessary cast to "Table".(â•ÿ
+T
+java:S1854œ"8Remove this useless assignment to local variable "zdmc".(ÏÁú¡ûÿÿÿÿ
+h
+java:S3776Œ"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(¼³
+W	java:S125¨"<This block of commented-out lines of code should be removed.(¸Êä·øÿÿÿÿ
+F
+java:S3740Õ"/Provide the parametrized type for this generic.(ò®ª×
+?
+java:S1604©"(Make this anonymous inner class a lambda(ğ‹Ê¾
+2
+java:S3626š"Remove this redundant jump.(ÉŠ©ƒ
+a	java:S112×"FDefine and throw a dedicated exception instead of using a generic one.(“ÒÚøÿÿÿÿ
+]
+java:S3252¯"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(úÎÂ
+F
+java:S3740á"/Provide the parametrized type for this generic.(íø¥Ô
+K
+java:S3740Œ"/Provide the parametrized type for this generic.(İ‘Õşÿÿÿÿ
+t	java:S135“"YReduce the total number of break and continue statements in this loop to use at most one.(ÕÈñúÿÿÿÿ
+F
+java:S3740×"/Provide the parametrized type for this generic.(Òª‰Ü
+F
+java:S3740Ê"/Provide the parametrized type for this generic.(×Éïî
+<
+java:S1170I"!Make this final field static too.(íÑüÿÿÿÿ
+b
+java:S3252"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(áœ£çøÿÿÿÿ
+`
+java:S1124X"EReorder the modifiers to comply with the Java Language Specification.(ŠÅ¸üÿÿÿÿ
+]
+java:S3252­"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ÿ‡µ£
+\
+java:S3252"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ÿ‡µ£
+H
+java:S3011²",This accessibility update should be removed.(òÃ€÷ùÿÿÿÿ
+K
+java:S1066‚"/Merge this if statement with the enclosing one.(’õØãÿÿÿÿÿ
+W	java:S125¨"<This block of commented-out lines of code should be removed.( Ïÿéıÿÿÿÿ
+b
+java:S3252‹"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(Åş…úşÿÿÿÿ
+\
+java:S3252Í"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(í¤æ
+]
+java:S1192í"FDefine a constant instead of duplicating this literal "mlktp" 6 times.(§€Ìİ
+‹
+java:S1845Ğ"hRename method "getZdmc" to prevent any misunderstanding/clash with method "getZdMc" defined on line 508.(ñæ©Ûùÿÿÿÿ8Æóí—£/

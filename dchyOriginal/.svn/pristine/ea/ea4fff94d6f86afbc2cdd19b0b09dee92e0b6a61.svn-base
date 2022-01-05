@@ -1,0 +1,166 @@
+<template>
+    <div class="evaluate-add">
+        <div class="form-title">
+            <div class="list-title">评价信息</div>
+        </div>
+        <Form class="form-edit" ref="evaluate-form" @on-validate="validateChecked" :model="evaluateForm" :rules="ruleInline" :label-width="114">
+            <FormItem v-model="evaluateForm.chdwmc" prop="chdwmc" label="测绘单位">
+                <Input v-model="evaluateForm.chdwmc" readonly style="width: 600px"/>
+            </FormItem>
+            <FormItem v-model="evaluateForm.xy"  prop="xy" label="信用 ">
+                <div id="xy-rate"></div>
+            </FormItem>
+            <FormItem v-model="evaluateForm.cgzl"  prop="cgzl" label="成果质量 ">
+                <div id="cg-rate"></div>
+            </FormItem>
+            <!-- <FormItem v-model="evaluateForm.myd"  prop="myd" label="满意度 ">
+                <Select v-model="evaluateForm.myd" style="width: 600px" placeholder="请打分">
+                    <Option v-for="item in mydList" :value="item.DM" :key="item.DM">{{ item.MC }}</Option>
+                </Select>
+            </FormItem> -->
+            <FormItem v-model="evaluateForm.kpyj" prop="kpyj" label="考评意见">
+                <Input v-model="evaluateForm.kpyj" style="width: 600px" :rows="4" type="textarea" placeholder=""/>
+            </FormItem>
+        </Form>
+        <div class="return-btn">
+            <Button type="primary" class="bdc-major-btn btn-h-34 width-80" @click="submit">确定</Button>
+            <Button class="btn-cancel btn-h-34 width-80 margin-left-20" @click="cancel">返回</Button>
+        </div>
+    </div>
+</template>
+<script>
+import yz_mixins from "../../../service/yz_mixins";
+import { glryEvaludate } from "../../../service/evaluate"
+import _ from "lodash"
+export default {
+    mixins: [yz_mixins],
+    data() {
+        return {
+            xyList: [],
+            cgList: [],
+            mydList: [],
+            evaluateForm: {
+                chdwmc: "",
+                xy: "",
+                cgzl: "",
+                myd: "",
+                kpyj: ""
+            },
+            ssmkid: "",
+            bdid: "",
+            kpid: "",
+            mlkid: "",
+            rate: "",
+            ruleInline: {
+                chdwmc: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                xy: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                cgzl: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                myd: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            }
+        }
+    },
+    mounted() {
+        if(this.$route.query.chdwmc){
+            this.evaluateForm.chdwmc = this.$route.query.chdwmc
+        }
+        if(this.$route.query.kpid){
+            this.kpid = this.$route.query.kpid
+        }
+        if(this.$route.query.mlkid){
+            this.mlkid = this.$route.query.mlkid
+        }
+        this.initRate();
+    },
+    methods: {
+        initRate(){
+            const self = this;
+            layui.use(['rate'],function(){
+                self.rate = layui.rate;
+                // 信用
+                self.rate.render({
+                    elem: '#xy-rate',
+                    half: true,
+                    choose: function(value){
+                        self.evaluateForm.xy = value;
+                    }
+                })
+                // 成果质量
+                self.rate.render({
+                    elem: '#cg-rate',
+                    half: true,
+                    choose: function(value){
+                        self.evaluateForm.cgzl = value;
+                    }
+                })
+            })
+        },
+        cancel(){
+            this.$router.push("/admin/evaluation")
+        },
+        // 提交评价
+        submit(){
+            this.unLastSubmit= false;
+            this.$refs["evaluate-form"].validate(valid => {
+                setTimeout(() => {
+                    this.unLastSubmit = true;
+                },500)
+                if(!this.evaluateForm.xy){
+                    this.$error.show("信用不能为空")
+                    return;
+                } else if(!this.evaluateForm.cgzl){
+                    this.$error.show("成果质量不能为空")
+                    return;
+                }
+                if(valid){
+                    // this.yzYwlj(this.evaluateForm,this.saveData)
+                    this.saveData()
+                }
+            })
+        },
+        saveData(){
+            this.$loading.show("加载中...")
+            this.evaluateForm.kpid = this.kpid;
+            this.evaluateForm.mlkid = this.mlkid;
+            glryEvaludate(this.evaluateForm).then(res => {
+                layer.msg("评价成功")
+                this.$loading.close();
+                this.cancel()
+            })
+        }
+    },
+}
+</script>
+<style scoped>
+    .evaluate-add {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .form-edit {
+        padding: 0!important;
+        padding-top: 20px!important;
+    }
+    .form-edit >>> .ivu-form-item {
+        margin-bottom: 30px!important;
+    }
+    .return-btn {
+        position: absolute;
+        left: 260px;
+        bottom: -80px;
+    }
+    .evaluate-add >>> .layui-rate {
+        padding: 0;    
+    }
+</style>

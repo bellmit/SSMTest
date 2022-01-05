@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglHtxxMapper">
+
+    <!--根据项目名称和状态获取项目信息-->
+    <select id="queryMbxxByMbmcOrMblxByPage" resultType="map" parameterType="map">
+        SELECT t.mbid,t.mbmc,mblx.mc AS mblx,t.mbqyzt,to_char(t.scsj,'yyyy-mm-dd hh24:mi:ss') AS scsj, (SELECT user_name
+        FROM pf_user u WHERE u.user_id = t.scr) AS scr,t.wjzxid
+        FROM DCHY_XMGL_MB t
+        LEFT JOIN (SELECT mc,dm FROM dchy_xmgl_zd WHERE zdlx = 'MBLX') mblx
+        ON t.mblx = mblx.dm
+        <where>
+            AND t.mbmc IS NOT NULL
+            <if test="mblx != null and mblx !=''">
+                AND TRIM(t.mblx) = #{mblx}
+            </if>
+            <if test="mbmc != null and mbmc !=''">
+                AND t.mbmc LIKE '%' ||#{mbmc}|| '%'
+            </if>
+        </where>
+        ORDER BY t.scsj DESC NULLS LAST
+    </select>
+
+    <!--改变模板启用状态-->
+    <update id="updateMbztByMbid" parameterType="map">
+        UPDATE DCHY_XMGL_MB SET mbqyzt = #{mbqyzt}
+        <where>
+            <if test="mbid != null and mbid !=''">
+                AND mbid = #{mbid}
+            </if>
+            <if test="mblx != null and mblx !=''">
+                AND mblx LIKE '%' || #{mblx} || '%'
+            </if>
+        </where>
+    </update>
+
+    <!--改变模板同模板类型启用状态-->
+    <update id="updateTmbztByMbid" parameterType="map">
+        UPDATE DCHY_XMGL_MB SET mbqyzt = #{mbqyzt}
+        <where>
+            <if test="mbid != null and mbid !=''">
+                AND mbid <![CDATA[ <> ]]> #{mbid}
+            </if>
+            <if test="mblx != null and mblx !=''">
+                AND TRIM(mblx) = #{mblx}
+            </if>
+        </where>
+    </update>
+
+</mapper>

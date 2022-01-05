@@ -1,0 +1,90 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+export default new Router({
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            redirect: "/home",
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/home/home')
+        },
+        {
+            path: '/',
+            name: 'index',
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/home/index'),
+            children: [
+                {
+                    path: '',
+                    name: 'Default',
+                    component: () => 
+                        import ( /* webpackChunkName: "admin" */ '@/pages/home/index'),
+                },
+                {
+                    path: 'home',
+                    name: 'home',
+                    meta: {
+                        access: true
+                    },
+                    component: () =>
+                        import ( /* webpackChunkName: "home" */ '@/pages/home/home')
+                },
+                {
+                    path: 'mine',
+                    name: 'mine',
+                    meta: {
+                        access: true
+                    },
+                    component: () =>
+                        import ( /* webpackChunkName: "home" */ '@/pages/mine/mine')
+                }
+            ]
+        },
+        {
+            path: '/no/access',
+            name: 'home',
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "404" */ '@/pages/404')
+        },
+        {
+            path: '/login',
+            name: 'login',
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "login" */ '@/pages/login/login')
+        },
+        {
+            path: '/mlk/list', // 名录库页面
+            name: 'mlk',
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/mlk/mlk-list')
+        },
+        {
+            path: '/authorize', // 授权页面
+            name: 'authorize',
+            meta: {
+                access: true
+            },
+            component: () =>
+                import ( /* webpackChunkName: "home" */ '@/pages/authorize/authorize')
+        }
+    ]
+})

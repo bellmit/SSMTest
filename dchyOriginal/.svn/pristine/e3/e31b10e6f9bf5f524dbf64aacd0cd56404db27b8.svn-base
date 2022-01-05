@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglContractFileMapper">
+
+    <!--查询待备案的信息列表-->
+    <select id="queryInformationToBeRecordedByPage" resultType="map" parameterType="map">
+        SELECT
+        baxx.gcbh,baxx.gcmc,baxx.wtdw,baxx.chdwmc,baxx.slr,baxx.xmly,baxx.fbsj,baxx.chxmid,baxx.xmzt,baxx.wtzt,baxx.slbh
+        FROM
+        (
+        SELECT gc.gcbh,gc.gcmc,gc.wtdw,xx.chdwmc,xm.slr,xm.xmly,xm.fbsj,xm.chxmid,xm.xmzt,xm.wtzt,CASE WHEN xm.slbh IS
+        NOT NULL THEN xm.slbh ELSE xm.xqfbbh END slbh
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx ON xx.chxmid = xm.chxmid
+        ) baxx
+        <where>
+            AND baxx.xmzt = '1'
+            AND (baxx.wtzt IS NULL OR baxx.wtzt ='6')
+            AND baxx.xmly IN ('2', '3')
+            <if test="slbh != null and slbh != ''">
+                AND baxx.slbh LIKE '%'||#{slbh}|| '%'
+            </if>
+            <if test="gcbh != null and gcbh != ''">
+                AND baxx.gcbh LIKE '%'||#{gcbh}|| '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                AND baxx.gcmc LIKE '%'||#{gcmc}|| '%'
+            </if>
+            <if test="wtdw != null and wtdw != ''">
+                AND baxx.wtdw LIKE '%'||#{wtdw}|| '%'
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                AND baxx.chdwmc LIKE '%'||#{chdwmc}|| '%'
+            </if>
+            <if test="slr != null and slr != ''">
+                AND baxx.slr = #{slr}
+            </if>
+        </where>
+        ORDER BY baxx.fbsj DESC NULLS LAST
+    </select>
+
+    <!--备案列表-->
+    <select id="queryRecordListByPage" parameterType="map" resultType="map">
+        SELECT xm.babh, xm.slbh, gc.gcbh, gc.gcmc, gc.wtdw, xx.chdwmc, xm.xmly,xm.xmzt,xm.slsj,xm.chxmid
+        FROM dchy_xmgl_chgc gc
+        LEFT JOIN dchy_xmgl_chxm xm ON xm.chgcid = gc.chgcid
+        LEFT JOIN dchy_xmgl_chxm_chdwxx xx ON xx.chxmid = xm.chxmid
+        <where>
+            AND (TRIM(xm.xmzt)='2' OR TRIM(xm.xmzt) = '99')
+            <if test="xmztList != null and xmztList.size > 0">
+                AND xm.xmzt IN
+                <foreach collection="xmztList" item="item" index="index" open="(" separator="," close=")">
+                    #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="babh != null and babh != ''">
+                AND xm.babh LIKE '%'|| #{babh} || '%'
+            </if>
+            <if test="gcbh != null and gcbh != ''">
+                AND gc.gcbh LIKE '%'|| #{gcbh} || '%'
+            </if>
+            <if test="gcmc != null and gcmc != ''">
+                AND gc.gcmc LIKE '%'|| #{gcmc} || '%'
+            </if>
+            <if test="wtdw != null and wtdw != ''">
+                AND gc.wtdw LIKE '%'|| #{wtdw} || '%'
+            </if>
+            <if test="chdwmc != null and chdwmc != ''">
+                AND xx.chdwmc LIKE '%'|| #{chdwmc} || '%'
+            </if>
+            <if test="xmzt != null and xmzt != ''">
+                AND xm.xmzt = #{xmzt}
+            </if>
+        </where>
+        ORDER BY xm.slsj DESC NULLS LAST
+    </select>
+</mapper>

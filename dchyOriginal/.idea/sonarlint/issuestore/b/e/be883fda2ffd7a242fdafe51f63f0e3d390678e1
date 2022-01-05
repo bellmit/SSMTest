@@ -1,0 +1,73 @@
+
+b
+java:S1192®"KDefine a constant instead of duplicating this literal "jcsjsqxxid" 3 times.(È‡¨Ç
+B
+java:S1481˜",Remove this unused "gzlslid" local variable.(£Ù“4
+n
+java:S3776ø"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ªìû„ÿÿÿÿÿ
+V
+java:S1854—":Remove this useless assignment to local variable "taskid".(¢î“şÿÿÿÿ
+\
+java:S3252"@Use static access with "com.alibaba.fastjson.JSON" for "toJSON".(ªàÙğÿÿÿÿÿ
+`
+java:S2583Ö"DChange this condition so that it does not always evaluate to "false"(µ³±Üşÿÿÿÿ
+Q
+java:S1854˜";Remove this useless assignment to local variable "gzlslid".(£Ù“4
+n
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ŞİòÇıÿÿÿÿ
+R
+java:S1854‰";Remove this useless assignment to local variable "message".(ïÒğÑ
+V
+java:S1854Ç":Remove this useless assignment to local variable "taskid".(Ñ±ı’ùÿÿÿÿ
+V
+java:S1854§":Remove this useless assignment to local variable "taskid".(Ñ±ı’ùÿÿÿÿ
+b
+java:S3252„"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(çş«•üÿÿÿÿ
+K
+java:S3740ë"/Provide the parametrized type for this generic.(ù’ıùøÿÿÿÿ
+i
+java:S3776³"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(öä÷
+G
+java:S1481—"+Remove this unused "taskid" local variable.(¢î“şÿÿÿÿ
+T
+java:S1854â"8Remove this useless assignment to local variable "lxdh".(Éøúüÿÿÿÿ
+E
+java:S1481â")Remove this unused "lxdh" local variable.(Éøúüÿÿÿÿ
+R
+java:S1854È";Remove this useless assignment to local variable "gzlslid".(ÜËüÒ
+G
+java:S1481§"+Remove this unused "taskid" local variable.(Ñ±ı’ùÿÿÿÿ
+C
+java:S1481¨",Remove this unused "gzlslid" local variable.(ÜËüÒ
+R
+java:S1854¢";Remove this useless assignment to local variable "message".(ïÒğÑ
+K
+java:S3740‹"/Provide the parametrized type for this generic.(ù’ıùøÿÿÿÿ
+i
+java:S3776å"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(ÿı½¼
+]
+java:S3252î"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(ŠÁ¢
+e
+java:S2259l"JA "NullPointerException" could be thrown; "dchyXmglSqxx" is nullable here.(îÔİûÿÿÿÿ
+R
+java:S1854†";Remove this useless assignment to local variable "message".(ïÒğÑ
+n
+java:S3776…"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¸áØ„ıÿÿÿÿ
+R
+java:S1854æ";Remove this useless assignment to local variable "message".(ïÒğÑ
+C
+java:S1481È",Remove this unused "gzlslid" local variable.(ÜËüÒ
+G
+java:S1481Ç"+Remove this unused "taskid" local variable.(Ñ±ı’ùÿÿÿÿ
+d
+java:S1192¹"HDefine a constant instead of duplicating this literal "userIds" 4 times.(’èÁáøÿÿÿÿ
+i
+java:S3776¡"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(îé‘
+c
+java:S1192Ä"GDefine a constant instead of duplicating this literal "glsxid" 4 times.( ë£üÿÿÿÿ
+^
+java:S1192Ê"GDefine a constant instead of duplicating this literal "sjxxid" 3 times.(Œ§áÊ
+\
+java:S3252«"@Use static access with "com.alibaba.fastjson.JSON" for "toJSON".(ªàÙğÿÿÿÿÿ
+R
+java:S1854¨";Remove this useless assignment to local variable "gzlslid".(ÜËüÒ

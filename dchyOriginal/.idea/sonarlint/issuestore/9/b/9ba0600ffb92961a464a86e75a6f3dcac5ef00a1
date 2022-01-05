@@ -1,0 +1,8 @@
+
+7
+java:S1170"!Make this final field static too.(­šÑù
+;
+java:S3457?"%String contains no format specifiers.(¸¹ç
+A
+java:S1068"+Remove this unused "DELETED" private field.(­šÑù
+g	java:S116"RRename this field "DELETED" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­šÑù

@@ -1,0 +1,1092 @@
+<div class="widget-panel-title"><div class="title-icon"></div>&nbsp;视频监控</div>
+<div class="panel-body" style="padding: 0px;">
+    <div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="nav-tab active"><a href="#video_pane" role="tab" data-toggle="tab" id="videoTab">监控点列表</a>
+            </li>
+            <li role="presentation" class="nav-tab"><a href="#pro_panel" role="tab" data-toggle="tab" id="proTab">项目列表</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="video_pane">
+                <!--视频管理功能操作部分开始-->
+                <div class="video-top-panel">
+                    <div class="search-video">
+                        <input type="text" class="form-control input-sm" id="searchInput" placeholder="名称/设备编号">
+                        <span class="iconfont text-muted clear-btn" id="clearBtn">&#xe63b;</span>
+                        <span class="input-group-btn" id="searchBtn"></span>
+                    </div>
+                    <div class="video-toolbar-container">
+                        <div class="btn-toolbar pull-right" role="toolbar">
+                            <div class="btn-group" role="group">
+                                <a id="poiBtn" class="btn btn-default btn-sm tippy" data-toggle="tooltip" title="点选查看"><i class="fa fa-location-arrow"></i></a>
+                                <a id="polyBtn" class="btn btn-default btn-sm tippy" data-toggle="tooltip" title="框选查看"><i class="fa fa-square-o"></i></a>
+                                <a id="warnBtn" class="btn btn-default btn-sm tippy" style="color: #f0ad4e;" data-toggle="tooltip" title="预警查看"><i class="fa fa-exclamation-triangle"></i></a>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a id="identifyBtn" class="btn btn-default btn-sm"  data-toggle="tooltip" title="属性查看">
+                                    <i class="fa fa-info-circle"></i>
+                                </a>
+                                <a id="cameraXyBtn" class="btn btn-default btn-sm tip" data-toggle="tooltip" title="查询监控点">
+                                    <i class="fa fa-dot-circle-o tip"></i>
+                                </a>
+                                <div class="popover" dataPlacement="bottom">
+                                    <div class="arrow"></div>
+                                    <div class="popover-content">
+                                        <div class="pull-left">
+                                            <label class="xy-label text-muted">X:</label>
+                                            <input class="x-input input-sm form-control"/>
+                                        </div>
+                                        <div class="pull-left">
+                                            <label class="xy-label text-muted">Y:</label>
+                                            <input class="y-input input-sm form-control"/>
+                                        </div>
+                                        <button class="btn btn-primary btn-primary xy-search-btn">查询</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a id="viewScopeBtn" class="btn btn-default btn-sm tippy"  data-toggle="tooltip" title="可视域">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--视频管理功能操作部分结束-->
+                <div id="video_list_content" class="ztree"></div>
+                <div id="videoPageTool" class="page-tool"></div>
+            </div>
+            <div class="tab-pane" id="pro_panel">
+                <div id="searchPanel" class="search-panel">
+                    <a class="btn btn-primary" id="addBtn" data-loading-text="新建中" autocomplete="off"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                    <a class="btn btn-primary" id="screenBtn"><i class="fa fa-search"></i>&nbsp;筛选</a>
+                    <a class="btn btn-primary" id="orderBtn"><i class="fa fa-exchange fa-rotate-90"></i>&nbsp;排序</a>
+                    <!--<a class="btn btn-primary" id="proWarnBtn" style="display: none;"><i class="fa fa-exchange fa-rotate-90" ></i>&nbsp;预警</a>-->
+                    <a class="btn btn-primary" id="exportBtn"><i class="fa fa-sign-out fa-rotate-270"></i>&nbsp;导出</a>
+                    <div id="screenPanel" class="row screen-panel">
+                        <div class="col-xs-3" id="proNameSearchInput">
+                            <input data-name="proName" type="text"  placeholder="项目名称" class="form-control input-sm"/>
+                        </div>
+                        <div class="col-xs-3" id="yearSearchInput">
+                            <input data-name="year" type="text"  placeholder="年度" class="form-control input-sm"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <select  id="organSelector" class="form-control input-sm">
+                                <option value="">行政单位</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                            <select data-name="proType" id="proTypeSelector" class="form-control input-sm">
+                                <option value="">项目类型</option>
+                            </select>
+                        </div>
+                    </div>
+                    <ol id="orderPanel" class="order-panel">
+                        <li data-type="proName" class="text-muted">
+                          <span class="pull-left order-span">
+                            <span><i class="fa fa-caret-up" data-type="proName"></i></span>
+                            <span><i class="fa fa-caret-down" data-type="proName"></i></span>
+                          </span>
+                            <span id="proName">项目名称</span>
+                        </li>
+                        <li data-type="updatedTime" class="text-muted">
+                          <span class="pull-left order-span">
+                            <span><i class="fa fa-caret-up" data-type="updatedTime"></i></span>
+                            <span><i class="fa fa-caret-down" data-type="updatedTime"></i></span>
+                          </span>
+                            <span id="updatedTime">时间</span>
+                        </li>
+                        <li data-type="proType" class="text-muted">
+                          <span class="pull-left order-span">
+                            <span><i class="fa fa-caret-up" data-type="proType"></i></span>
+                            <span><i class="fa fa-caret-down" data-type="proType"></i></span>
+                          </span>
+                            <span id="proType">项目类型</span>
+                        </li>
+                    </ol>
+                </div>
+                <div id="proContent" style="padding-right: 10px;"></div>
+                <div id="proPageTool" class="page-tool"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="videoListTpl" type="x-tpl-handlers">
+<div class="video-list-panel">
+    <ul>
+        {{#each list}}
+                <li data-indexcode="{{indexCode}}" class="video-li">
+                    {{name}}
+                    {{#if status}}
+                     <span class="fa fa-video-camera pull-right view-video" style="background-color:transparent;color:#4285f4;" title="查看视频" id="view_video_{{indexCode}}" data-indexcode="{{indexCode}}" style="color:#4285f4;"></span>
+                    {{else}}
+                    <span class="badge b-count pull-right" title="设备离线">离线</span>
+                    {{/if}}
+                </li>
+        {{/each}}
+    </ul>
+</div>
+</script>
+
+<script id="mobileDeviceListTpl" type="x-tol-handlers">
+
+<div id="mobileList" class="mobile-device-list" style="width:100%;">
+	<h4 style="width:100%;padding-left:14px;" title="单兵设备组"><i class="fa fa-caret-right pull-left"></i> 单兵设备 <span class="label label-primary pull-right" title="单兵数量">
+                        <i aria-hidden="true">{{total}}</i>
+                    </span> </h4>
+
+	<div id="mobileDevicesContainer">
+    <ul>
+	{{#each list}}
+               <li data-vid="{{id}}" data-type="mobile" style="">
+               <i class="fa fa-map-marker" style="font-size:20px;color:#4285f4;margin-right:3px;"></i>
+                    {{name}}<i class="fa fa-mobile mobile-video-on" aria-hidden="true"  title="单兵设备"></i>
+                    <span class="label label-primary pull-right mobile-video" title="单兵预览">
+                        <i class="fa fa-street-view" aria-hidden="true"></i>
+                    </span>
+                </li>
+	{{/each}}
+	</ul>
+</div>
+
+</div>
+
+</script>
+
+<!--未加载监控点到渲染-->
+<script id="noVideos" type="x-tpl-mustache">
+<div style="text-align: center;margin-top: 20px;">没有查到监控点!</div><br>
+<div style="text-align: center">
+    <button class="btn btn-primary" id="reload">重新加载</button>
+</div>
+</script>
+
+<!--由兴趣点搜索到的监控点-->
+<script id="videoPoiTpl" type="x-tpl-mustache">
+<div class="video-poi-cameras" data-target="{{target}}">
+  {{#cameras}}
+      <div class="cameras-item">
+          <a href="#" data-indexCode="{{indexCode}}">{{name}}</a>
+       </div>
+  {{/cameras}}
+</div>
+</script>
+
+<script id="warnPopup" type="x-tpl-mustache">
+<div id="warnConditions" style="padding-left:2px;padding-top:2px;">
+    <select id="warnTimeSelector">
+        <option value="">选择时间</option>
+        <option value="7">最近一周</option>
+        <option value="30">最近一月</option>
+        <option value="90">最近三月</option>
+        <option value="180">最近半年</option>
+    </select>
+
+    <select id="warnRegion">
+        <option value="">行政区</option>
+        {{#region}}
+        <option value="{{regionName}}">{{regionName}}</option>
+        {{/region}}
+    </select>
+
+    <select id="warnManual">
+        <option value="">人工状态</option>
+        <option value="0">未操作</option>
+        <option value="2">正检</option>
+        <option value="1">误检</option>
+    </select>
+
+    <div style="display: inline">
+        <label>日期范围:</label>
+        <input class="form-control laydate-icon" style="width: 190px;display: inline;height:28px;" id="warnStartDate"/>
+        ~
+        <input class="form-control laydate-icon" style="width: 190px;display: inline;height:28px;" id="warnEndDate">
+        <button class="btn btn-primary btn-sm" id="dateQueryWarn">查询</button>
+    </div>
+
+</div>
+    <div id="warnListContent">
+    <table class="table">
+    <tr>
+        <th>摄像头名称</th>
+        <th>摄像头编号</th>
+        <th>预置位编号</th>
+        <th>告警时间</th>
+        <th>告警类型</th>
+        <th>画面截图</th>
+        <th>人工状态</th>
+        <th>人工操作</th>
+        <th>地图功能</th>
+    </tr>
+    {{#warnList}}
+    <tr>
+        <td>{{cameraName}}</td>
+        <td>{{cameraId}}</td>
+        <td>{{ptzId}}</td>
+        <td>{{eventTime}}</td>
+        <td>{{eventType}}</td>
+        <td><a class="btn btn-info view-warn-img" data-id="{{cameraId}}" data-time="{{eventTime}}" data-name="{{cameraName}}">查看截图</a></td>
+        <td id="check_{{cameraId}}">{{{check}}}</td>
+        <td data-id="{{cameraId}}" data-time="{{eventTime}}" data-name="{{cameraName}}">
+        <a class="btn btn-warning manual-check">正检</a>
+        <a class="btn btn-success manual-check">误检</a>
+        </td>
+        <td>
+        <a class="btn btn-default view-warn-camera" data-id="{{cameraId}}" data-prenum="{{ptzId}}">视频</a>
+        <a class="btn btn-default locate-warn-camera" data-id="{{cameraId}}">定位</a>
+        </td>
+    </tr>
+    {{/warnList}}
+   </table>
+    </div>
+    <div id="warnListPageContent">
+    共{{count}}条记录，共{{page}}页&nbsp;&nbsp;
+    <button id="warnPre" class="btn btn-default">上一页</button>
+    <div id="warnNowPage" style="display:inline" data-page="1">第1页</div>
+    <button id="warnNext" class="btn btn-default">下一页</button>
+    </div>
+</script>
+
+<script id="warnListTpl" type="x-tpl-mustache">
+ <table class="table">
+    <tr>
+        <th>摄像头名称</th>
+        <th>摄像头编号</th>
+        <th>预置位编号</th>
+        <th>告警时间</th>
+        <th>告警类型</th>
+        <th>画面截图</th>
+        <th>人工状态</th>
+        <th>人工操作</th>
+        <th>地图功能</th>
+    </tr>
+    {{#warnList}}
+    <tr>
+        <td>{{cameraName}}</td>
+        <td>{{cameraId}}</td>
+        <td>{{ptzId}}</td>
+        <td>{{eventTime}}</td>
+        <td>{{eventType}}</td>
+        <td><a class="btn btn-info view-warn-img" data-id="{{cameraId}}" data-time="{{eventTime}}" data-name="{{cameraName}}">查看截图</a></td>
+        <td id="check_{{cameraId}}">{{{check}}}</td>
+        <td data-id="{{cameraId}}" data-time="{{eventTime}}" data-name="{{cameraName}}">
+        <a class="btn btn-warning manual-check">正检</a>
+        <a class="btn btn-success manual-check">误检</a>
+        </td>
+        </td>
+        <td>
+        <a class="btn btn-default view-warn-camera" data-id="{{cameraId}}" data-prenum="{{ptzId}}">视频</a>
+        <a class="btn btn-default locate-warn-camera" data-id="{{cameraId}}">定位</a>
+        </td>
+    </tr>
+    {{/warnList}}
+   </table>
+</script>
+
+
+<script id="warnPageTool" type="x-tpl-mustache">
+    共{{count}}条记录，共{{page}}页&nbsp;&nbsp;
+    <button id="warnPre" class="btn btn-default">上一页</button>
+        <div id="warnNowPage" style="display:inline" data-page="1">第1页</div>
+        <button id="warnNext" class="btn btn-default">下一页</button>
+</script>
+
+
+<!--监控点弹出窗的模板-->
+<script id="videoPopupTpl" type="x-tpl-mustache">
+<table class="table video-detail-table" style="margin-bottom:0;">
+    {{#basic}}
+        <tr>
+          <td>编号</td>
+          <td>{{vcuId}}</td>
+          <td>名称</td>
+          <td>{{name}}</td>
+        </tr>
+        <tr>
+          <td>区域</td>
+          <td>{{regionName}}</td>
+          <td>设备编码</td>
+          <td>{{indexCode}}</td>
+        </tr>
+		<!--
+        <tr>
+            <td>拍照时间</td>
+            <td><a class="label label-primary shot-time-set camera-task-close" data-id="{{indexCode}}">设置</a></td>
+        </tr>
+		-->
+    {{/basic}}
+
+</table>
+<div id="proListPanel">
+    <div class="loading-container">
+        <span>获取项目数据</span>
+    </div>
+</div>
+<div id="taskListPanel">
+</div>
+</script>
+<!--单个监控点面板中的项目列表模板-->
+<script id="cameraProsTpl" type="x-tpl-handlebars">
+<div class="pro-list-panel pro-list-scroll">
+    <table class="table table-bordered pros-table">
+        <tr>
+            <th>序号</th>
+            <th>项目名称</th>
+            <th>项目类型</th>
+            <th>历史记录</th>
+        </tr>
+        {{#each projects}}
+        <tr>
+            <td>{{@index}}</td>
+            <td><a class="btn-pro-startupVideo" title="预览项目预设位" data-proid="{{proId}}">{{proName}}</a></td>
+            <td>{{proType}}</td>
+            <td class="text-center"><a class="btn btn-xs btn-info btn-pro-history" title="查看记录" data-proId="{{proId}}">查看</a></td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+<div class="text-center">
+    <button class="btn btn-primary camera-add-project">新建项目</button>
+</div>
+</script>
+
+<script id="cameraCompareTpl" type="x-tpl-handlebars">
+    <div class="pro-list-panel pro-list-scroll">
+	{{#if presets}}
+    <table class="table table-bordered pros-table">
+        <tr>
+            <th>任务序号</th>
+            <th>时间设置</th>
+            <th>预设位编辑</th>
+            <th>操作</th>
+            <th>查看图片</th>
+        </tr>
+        {{#each presets}}
+        <tr>
+            <td>{{@index}}</td>
+            <td><a class="btn btn-xs cron-edit" title="设置比对时间" indexCode="{{colIndexCode}}" taskId="{{colTaskId}}">设置</a></td>
+            <td>
+                <a class="btn btn-primary preset-edit" title="编辑" indexCode="{{colIndexCode}}" taskId="{{colTaskId}}">编辑</a>
+                <a class="btn btn-primary preset-save" title="保存" indexCode="{{colIndexCode}}" taskId="{{colTaskId}}">保存</a>
+            </td>
+            <td><a class="btn btn-warning task-delete" title="删除" indexCode="{{colIndexCode}}" taskId="{{colTaskId}}">删除</a></td>
+            <td><a class="btn btn-warning task-view" title="查看结果" indexCode="{{colIndexCode}}" taskId="{{colTaskId}}">查看结果</a></td>
+        </tr>
+        {{/each}}
+    </table>
+	{{/if}}
+    <div class="text-center">
+        <button class="btn btn-primary camera-add-task" style="margin-top:20px" indexCode="{{indexCode}}">新建任务</button>
+    </div>
+</div>
+</script>
+
+<!--项目内容展示模板-->
+<script id="proContentTpl" type="x-tpl-mustache">
+{{#pros}}
+<div class="pro-info-content" id={{proId}} data-proid="{{proId}}" data-type="{{proType}}" title="双击定位">
+    <ul class="pro-info-basic">
+        <li class="pro-info-header" title="{{proName}}">{{proName}}</li>
+        <li>项目类型:{{proType}}</li>
+    </ul>
+    <div class="pull-right pro-info-del" data-proid="{{proId}}" title="点击删除">
+     <i class="fa fa-minus-circle" style="font-size: 16px;">
+     </i>
+    </div>
+    <ul class="pro-info-opt">
+        <li><a class="label label-primary"  data-proid="{{proId}}" data-type="detail"><i class="fa fa-calendar"></i>&nbsp;详情</a></li>
+        <li><a class="label label-primary"  data-proid="{{proId}}" data-indexCode="{{cameraId}}" id="jl_{{proId}}" data-type="record"><i class="fa fa-picture-o"></i>&nbsp;记录</a></li>
+    </ul>
+</div>
+{{/pros}}
+</script>
+<!--new-->
+<script id="proContentTplNew_old" type="x-tpl-mustache">
+{{#pros}}
+<div class="pro-info-content" id={{proId}} data-proid="{{proId}}" data-type="{{proType}}">
+    <ul class="pro-info-basic">
+        <li class="pro-info-header" title="{{proName}}">{{proName}}</li>
+        <li>类型:{{proType}}</li>
+    </ul>
+    <ul class="pro-info-opt">
+        <li><a class="label label-primary" data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="record" title="记录"><i class="fa fa-calendar"></i></a></li>
+        <li><a class="label label-primary" data-proid="{{proId}}" data-type="loc" title="定位"><i class="fa fa-map-marker"></i></a></li>
+        <li><a class="label label-danger"  data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="del" title="删除"><i class="fa fa-times"></i></a></li>
+    </ul>
+    <ul class="pro-info-time">
+         <li><i class="iconfont">&#xe628;</i>{{createAt}}</li>
+    </ul>
+</div>
+{{/pros}}
+</script>
+
+<script id="proContentTplNew" type="x-tpl-mustache">
+{{#pros}}
+<div class="pro-info-content" id={{proId}} data-proid="{{proId}}" data-type="{{proType}}">
+<ul class="project-icon">
+</ul>
+    <ul class="pro-info-basic">
+        <li class="pro-info-header" title="{{proName}}">{{proName}}</li>
+        <li>类型:{{proType}}</li>
+    </ul>
+    <ul class="pro-info-opt">
+        <li><a class="label" style="color:#FFB90F;" data-proid="{{proId}}" data-type="mark" title="标记重点"><i mark-proid="{{proId}}" marked-time="{{markedTime}}" class="fa fa-star-o" aria-hidden="true"></i></a></li>
+        <li><a class="label" style="color:#FFB90F;" data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="record" title="记录"><i class="fa fa-pencil-square-o"></i></a></li>
+        <li><a class="label" style="color:#FFB90F;" data-proid="{{proId}}" data-type="loc" title="定位"><i class="fa fa-map-marker"></i></a></li>
+        <li><a class="label" style="color:grey;" data-proid="{{proId}}" data-indexCode="{{cameraId}}" data-type="del" title="删除"><i class="fa fa-times-circle"></i></a></li>
+    </ul>
+    <ul class="pro-info-time">
+         <li><i class="iconfont">&#xe628;</i>{{createAt}}</li>
+    </ul>
+    </div>
+{{/pros}}
+</script>
+
+<script id="shot-time-tpl" type="x-mustache-tpl">
+<div style="padding:5px;height:300px;overflow-y:auto;">
+     <!--<button class="btn btn-sm btn-primary" style="float:right; margin-bottom:2px;" id="addShotTask"><i class="fa fa-plus"></i>添加</button>-->
+     <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="taskBody">
+                    {{#taskInfo}}
+                    <tr>
+                        <td style="width:150px;"><input class="shot-time-input form-control" style="width:150px;display: inherit;text-align:center;" id="time_first" value="{{time}}"/></td>
+                        <td style="width:200px;">
+                           <a class="btn btn-sm btn-primary task-save" indexCode="{{indexCode}}" taskId="{{taskId}}">保存</a>
+                           <!--<a class="btn btn-sm btn-inverse task-delete" data-id="{{id}}">删除</a>-->
+                        </td>
+                    </tr>
+                    {{/taskInfo}}
+                    </tbody>
+                </table>
+</div>
+
+</script>
+
+<!--项目表单-->
+<script id="proFormTpl" type="x-handlebar-tpl">
+<div class="container-fluid" style="width: 98%;padding: 10px">
+    <div class="row">
+        <form class="form-horizontal" id="addProForm">
+            <input name="xzqdm" type="hidden" value='true'>
+            <input name="location" type="hidden" value='{{location}}'>
+            <div class="form-group" style="margin-top:10px;">
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">项目名称</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="projectNameInput" name="proName" placeholder="项目名称" datatype="s" nullmsg="项目名称不可为空!">
+
+                    <div class="info" style="z-index: 999;">
+                        <span class="Validform_checktip">
+                            请填写项目名称！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 text-right">
+                    <label for="proTypeSelect" class="control-label">项目类型</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <select class="form-control" placeholder="项目类型" name="proType" id="proTypeSelect" datatype="s" nullmsg="请选择项目类型!">
+                    </select>
+                    <div class="info">
+                        <span class="Validform_checktip">
+                            请选择项目类型！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+            {{#if showYearInfo}}
+
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">年度</label>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="pYearInput" name="year" placeholder="年度" datatype="s" nullmsg="年度不能为空!">
+                </div>
+            {{/if}}
+            <!--与地块信息相关联-->
+            {{#if relateToPlotInfos}}
+                <div class="col-xs-2 text-right">
+                    <label for="" class="control-label">关联地块</label>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="realationInfoInput" name="associateBlockName" data-type="s"></input>
+                </div>
+            {{/if}}
+            </div>
+            <div class="form-group">
+			<!--行政区下拉框-->
+			{{#if projectCreateShowxzq}}
+                <div class="col-xs-2 text-right">
+                    <label for="" class="control-label">行政单位</label>
+                </div>
+                <div class="col-xs-4">
+					<select class="form-control" placeholder="行政单位" name="proXzdwSelect" id="organSelectorInput" datatype="s" nullmsg="行政单位不能为空!">
+					</select>
+					<div class="info">
+                        <span class="Validform_checktip">
+                           	 请选择行政区！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+			{{/if}}
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">关联视频</label>
+                </div>
+                <div class="col-xs-10" style="line-height: 33px;">
+                    {{#cameras}}
+                    <label class="radio-inline">
+                        <input type="{{#if ../isMultiple}}checkbox{{else}}radio{{/if}}" name="cameraId" value="{{indexCode}}"/>
+                        <a title="打开视频" class="pro-open-video" href="#" data-indexcode="{{indexCode}}">{{name}}</a>
+                    </label>
+                    {{/cameras}}
+                    {{^cameras}}
+                    无
+                    {{/cameras}}
+                </div>
+            </div>
+            <div>
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-primary" id="proSaveBtn">保存</button>
+                    {{#txVersion}}
+                    <button class="btn btn-primary" id="proSend2Zfxc">推送</button>
+                    {{/txVersion}}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</script>
+
+<!--项目detail-->
+<script  id="proDetailTpl" type="text/x-handlebars-template">
+    <div class="pro-detail-content">
+        <div class={{layerHide}}>
+            <button type="button" class="close" aria-hidden="true">
+                &times;
+            </button>
+            <div class="title">
+                {{proName}}
+            </div>
+            <div class="split-line">
+            </div>
+        </div>
+        <table class="table video-detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th>项目名称</th>
+                <td style="width: 40%;">{{proName}}</td>
+                <th>项目类型</th>
+                <td style="width: 20%;">{{proType}}</td>
+            </tr>
+            {{#if showYearInfo}}
+            <tr>
+                <th>年度</th>
+                <td>{{year}}</td>
+            </tr>
+            {{/if}}
+            <tr>
+                <th>关联视频</th>
+                <td colspan="3">
+                    <div class="center-block pro-cameras-div">
+                        {{#if cameras}}
+                        {{#cameras}}
+                        <span class="label label-primary pro-camera-span" data-toggle="collapse" href="#{{indexCode}}"
+                              aria-expanded="false" aria-controls="collapsePreset">{{name}}</span>
+                        {{/cameras}}
+                        {{else}}
+                        无
+                        {{/if}}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div>
+            {{#cameras}}
+            {{#if hasPresets}}
+            {{> presetTpl presetsParam = presets}}
+            {{else}}
+            <div class="collapse" id="{{indexCode}}">
+                <div class="preset-new-panel">
+                    <strong>没有预置位! </strong>
+                    <a class="btn btn-sm btn-primary" style="color:#FFFFFF" name="addPresetBtn" data-indexcode="{{indexCode}}">新增</a>
+                    <a class="btn btn-link" style="padding: 0;margin: 0;" name="previewBtn" data-indexcode="{{indexCode}}">查看视频</a>
+                </div>
+            </div>
+            {{/if}}
+            {{/cameras}}
+        </div>
+    </div>
+</script>
+
+<!--预置位列表模板-->
+<script id="presetTpl" type="text/x-handlebars-template">
+    {{#each presetsParam}}
+    <div class="collapse" id="{{indexCode}}">
+        <div class="preset-new-panel">
+            <div class="preset-list-panel">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>预置位编号</th>
+                        <th>预置位名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{presetNo}}</td>
+                        <td>{{name}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary preset-view {{#if enabled}} {{else}} hidden{{/if}}" style="color:#FFFFFF"
+                               data-pno="{{presetNo}}" data-indexcode="{{indexCode}}">查看</a>
+                            <a class="btn btn-xs btn-primary preset-set {{#if enabled}} {{else}} hidden{{/if}}" data-pno="{{presetNo}}"
+                               style="color:#FFFFFF"
+                               data-name="{{name}}" data-indexcode="{{indexCode}}">设置</a>
+                            <a class="btn btn-xs btn-inverse preset-del" style="color:#FFFFFF" data-id="{{id}}">删除</a>
+                            <input type="checkbox" class="disabledPreset" data-id="{{id}}" {{#if enabled}} unchecked {{else}} checked{{/if}}/>
+                            <label>是否禁用</label>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script id="presetListTpl" type="text/x-handlebars-template">
+    <div class="collapse" id="{{indexCode}}">
+        <div class="preset-new-panel">
+            <a class="btn btn-sm btn-primary" style="color:#FFFFFF" name="addPresetBtn"
+               data-indexcode="{{indexCode}}">新增</a>
+            <a class="btn btn-link" style="padding: 0;margin: 0;" name="previewBtn" data-indexcode="{{indexCode}}">查看视频</a>
+        </div>
+        <div class="preset-new-panel">
+            <div class="preset-list-panel">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>预置位编号</th>
+                        <th>预置位名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each presetsParam}}
+                    <tr>
+                        <td>{{presetNo}}</td>
+                        <td>{{name}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary preset-view {{#if enabled}} {{else}} hidden{{/if}}" style="color:#FFFFFF"
+                               data-pno="{{presetNo}}" data-indexcode="{{indexCode}}">查看</a>
+                            <a class="btn btn-xs btn-primary preset-set {{#if enabled}} {{else}} hidden{{/if}}" data-pno="{{presetNo}}"
+                               style="color:#FFFFFF"
+                               data-name="{{name}}" data-indexcode="{{indexCode}}">设置</a>
+                            <a class="btn btn-xs btn-inverse preset-del" style="color:#FFFFFF" data-id="{{id}}">删除</a>
+                            <input type="checkbox" class="disabledPreset" data-id="{{id}}" {{#if enabled}} unchecked {{else}} checked{{/if}}/>
+                            <label>是否禁用</label>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<!--缩略图展示模板-->
+<script id="seasonImgPanleTpl" type="x-mustache-tpl">
+<ul class="list-inline list-content">
+    {{#each seasonObjs}}
+    <li>
+        <div class="history-img-content">
+            <input type="checkbox" class="img_chk hidden" value="{{id}}" />
+            <img src="/omp/file/thumb/{{id}}" layer-src="/omp/file/original/{{id}}?{{generateSuffix}}" alt="{{name}}"
+                 width="160px" height="120px" data-id="{{id}}" data-time="{{createTime}}" title="点击查看大图">
+            <div class="buttonInfo">
+                {{createTime}}
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+</script>
+
+<script id="imgUploadTpl" type="x-mustache-tpl">
+      <div style="margin-top:30px;text-align: center">
+                    <button class="btn btn-primary btn-upload" data-id="{{upload_btn_id}}"
+                            id="up_btn_{{upload_btn_id}}">上传图片
+                    </button>
+                </div>
+</script>
+
+<!--历史记录展示模板-->
+<script id="historyRecordsTpl" type="x-mustache-tpl">
+<div class="history-wrapper">
+<div class="history-pro-name" title="{{proName}}">{{proName}}</div>
+<div class="history-close-btn pull-right {{showClose}}" title="隐藏"><span class="fa fa-times fa-2x"></span></div>
+
+    <div class="history-time-panel">
+        <ul class="list-inline">
+            <li>
+                <select class="input-sm" id="recordYear" style="width:78px;padding:5px 5px;">
+                    {{#year}}
+                    <option value="{{.}}">{{.}}年</option>
+                    {{/year}}
+                </select>
+            </li>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-info btn-sm btn-quarter" data-id="1">
+                    <input type="radio" name="options" id="option1"> 一季度
+                </label>
+                <label class="btn btn-info btn-sm btn-quarter" data-id="2">
+                    <input type="radio" name="options" id="option2"> 二季度
+                </label>
+                <label class="btn btn-info btn-sm btn-quarter" data-id="3">
+                    <input type="radio" name="options" id="option3"> 三季度
+                </label>
+                <label class="btn btn-info btn-sm btn-quarter" data-id="4">
+                    <input type="radio" name="options" id="option4"> 四季度
+                </label>
+            </div>
+            <!-- 编辑按钮涉及权限问题，现场要求暂时隐藏不使用此功能 -->
+            <button id="imgEdit" type="button" class="btn btn-primary btn-sm hidden" style="padding:5px 8px;"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
+            <button id="imgDel" type="button" class="btn btn-success btn-sm hidden" style="padding:5px 8px;"><i class="fa fa-check" aria-hidden="true"></i> 删除</button>
+            <button id="imgCancel" type="button" class="btn btn-default btn-sm hidden" style="padding:5px 8px;"><i class="fa fa-times" aria-hidden="true"></i> 取消</button>
+        </ul>
+        <!--<div class="history-close-btn pull-right {{showClose}}" title="隐藏"><span class="fa fa-times fa-2x"></span></div>-->
+    </div>
+    <div class="history-records-container">
+        <div class="clearfix">
+            {{#hasRecords}}
+            <div class="history-content-panel" id="img_panel">
+
+            </div>
+            {{/hasRecords}}
+            {{^hasRecords}}
+            <div class="history-content-panel" id="img_panel">
+                <div style="margin-top:30px;text-align: center">
+                    <button class="btn btn-primary btn-upload" data-id="{{upload_btn_id}}"
+                            id="up_btn_{{upload_btn_id}}">上传图片
+                    </button>
+                </div>
+            </div>
+            {{/hasRecords}}
+        </div>
+    </div>
+</div>
+</script>
+
+<script id="inspectRecordsTpl" type="x-mustache-tpl">
+    <div class="pro-record">
+        <div class="list-top">
+            <span><i class="fa fa-list-ul"></i>  巡查记录列表</span>
+            <button type="button" id="addInspectRecord" class="btn btn-primary btn-sm" data-user=""><i class="fa fa-plus"></i> 新增记录</button>
+        </div>
+
+        <div id="recordList">
+            <ul>
+            {{#content}}
+                <li id={{id}}>
+                    <a href="#" data-id="{{id}}" class="record-name">{{name}} </a>
+                    <a href="#" data-id="{{id}}" class="record-delete" title="删除记录">
+                        <i class="fa fa-trash-o full-right"></i>
+                    </a>
+                    <a href="#" class="{{isIllegal}}" style="display:inline-block;position: absolute;right: 25px;color: #F9DC02;height:15px" title="疑似违法">
+                        <i class="fa fa-warning full-right"></i>
+                    </a>
+
+                     <a href="#" class="{{isSend}}" style="display:inline-block;position: absolute;right: 50px;color: #57d04a;height:15px" title="已推送记录">
+                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                    </a>
+                </li>
+            {{/content}}
+            {{^content}}
+            暂无巡查记录！
+            {{/content}}
+            </ul>
+        </div>
+        <div id="pageCont" class="text-center" style="margin-top:10px"></div>
+    </div>
+</script>
+
+<!--属性识别模板-->
+<script id="identifyTpl" type="x-mustache-tpl">
+<div class="identify">
+    <div id="identifyTab" class="pull-left identify-tab">
+        {{#list}}
+        <div data-content="{{content}}" class="identify-title" title="{{title}}">{{title}}</div>
+        {{/list}}
+    </div>
+    <div id="tabContent" class="pull-left tab-container"></div>
+</div>
+</script>
+
+<script id="identifyContentTpl" type="x-mustache-tpl">
+    <table class="identify-detail">
+    {{#data}}
+    <tr>
+    <td class="identify-detail-key" title="{{key}}" >{{key}}:</td>
+    <td class="identify-detail-value">{{value}}</td>
+    </tr>
+    {{/data}}
+    </table>
+</script>
+
+<script id="bufferOtherVideosTpl" type="x-tpl-handlers">
+    <div class="container-fluid" style="width:97%; margin-top:5px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#nearVideos" aria-controls="nearVideos" role="tab" data-toggle="tab">附近监控点</a></li>
+                    <li role="presentation"><a href="#exsitVideos" aria-controls="exsitVideos" role="tab" data-toggle="tab">已有监控点</a></li>
+                </ul>
+
+                <div class="tab-content buffer-video">
+                    <div role="tabpanel" class="tab-pane active" id="nearVideos">
+                        <div id="bufferVideosCt">
+                            {{#cameras}}
+                                <li>
+                                    <input type="checkbox" name="cameraId" value="{{indexCode}}"/>
+                                    <a title="打开视频" class="pro-open-video" href="#" data-indexcode="{{indexCode}}">{{name}}</a>
+                                </li>
+                            {{/cameras}}
+                            {{^cameras}}
+                                <p class="empty-worn">项目附近无新的缓冲监控点</p>
+                            {{/cameras}}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12" style="margin:10px 0px;text-align:center;">
+                                <button type="button" class="btn btn-success {{^cameras}}disabled{{/cameras}}" id="addProVideo">新增</button>
+                                <button type="button" class="btn btn-default" id="closeBufferPanel">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="exsitVideos">
+                    {{#exsitCameras}}
+                        <li>
+                            <a title="打开视频" class="pro-open-video" href="#" data-indexcode="{{indexCode}}">{{name}}</a>
+                            <a class="label label-danger pull-right video-del"  data-indexcode="{{indexCode}}" data-type="del" title="删除">
+                            <i class="fa fa-times"></i></a>
+                        </li>
+                    {{/exsitCameras}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+<script id="txPzydRecordTpl" type="x-mustache-tpl">
+<tr class="pzyd">
+    <td data-name="xmmc"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="time"><p><input class="form-control yd-time" type="text" style="font-size: 10px;padding: 6px 0 6px 0;!important;"/></p></td>
+    <td data-name="wh"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="yt"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="mj"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="zdzl"><p><input class="form-control" type="text" style="width: 85%;float: left;"/><i class="fa fa-minus-circle remove-record"></i></p></td>
+</tr>
+</script>
+
+
+
+<script id="txWfydRecordTpl" type="x-mustache-tpl">
+<tr class="wfyd">
+    <td data-name="xmmc"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="time"><p><input class="form-control yd-time" type="text" style="font-size: 10px;padding: 6px 0 6px 0;!important;"/></p></td>
+    <td data-name="wh"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="yt"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="mj"><p><input class="form-control" type="text"/></p></td>
+    <td data-name="zdzl"><p><input class="form-control" type="text" style="width: 85%;float: left;"/><i class="fa fa-minus-circle remove-record"></i></p></td>
+</tr>
+</script>
+
+<script id="txInspectRecordViewTpl" type="x-mustache-tpl">
+<div style="width:100%;padding: 2px;text-align: center;">
+    <form id="inspectRecordForm">
+        <table id="txInspectRecordTable">
+            <tbody>
+            <tr>
+                <td style="width: 130px;">
+                    <p>
+                        巡查时间
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        {{createAt}}
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        巡查区域
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                       {{inspectArea}}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <p>
+                        巡查人员
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        {{inspector}}
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        被查单位（个人）
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        {{inspectedUnit}}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <p>
+                        指派单位
+                    </p>
+                </td>
+                <td colspan="2">
+                    <p>
+                        {{organName}}
+                    </p>
+                </td>
+                <td colspan="2">
+
+                </td>
+                <td colspan="2">
+
+                </td>
+            </tr>
+            <tr>
+            <td colSpan="7">
+           记录已推送至巡查系统，请前往巡查系统查看详细信息。
+            </td>
+            </tr>
+            </tbody>
+            </table>
+        </form>
+    </div>
+</script>
+
+
+<script id="cameraListTpl" type="x-mustache-tpl">
+<div style="padding:5px;">
+<table class="table table-bordered">
+<tr>
+<th>监控点名称</th>
+ <th>操作</th>
+ </tr>
+    {{#cameras}}
+    <tr>
+        <td> {{name}}</td>
+        <td> <a class="btn btn-primary btn-sm create" data-indexcode="{{indexCode}}" data-x="{{x}}" data-y="{{y}}">创建项目</a>
+             <a class="btn btn-primary btn-sm view" data-indexcode="{{indexCode}}" ">查看</a>
+        </td>
+    </tr>
+    {{/cameras}}
+</table>
+</div>
+</script>
+
+
+<script id="autoProFormTpl" type="x-mustache-tpl">
+<div class="container-fluid" style="width: 98%;padding: 10px">
+    <div class="row">
+        <form class="form-horizontal" id="autoProForm">
+            <input name="location" type="hidden" value='{{location}}'>
+            <input name="cameraId" type="hidden" value='{{indexCode}}'>
+            <div class="form-group" style="margin-top:10px;">
+                <div class="col-xs-2 text-right">
+                    <label for="proNameInput" class="control-label">项目名称</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" id="proNameInput" name="proName" placeholder="项目名称" datatype="s" nullmsg="项目名称不可为空!">
+
+                    <div class="info" style="display:none;">
+                        <span class="Validform_checktip">
+                            请填写项目名称！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-2 text-right">
+                    <label for="proTypeSelect" class="control-label">项目类型</label>
+                </div>
+
+                <div class="col-xs-4">
+                    <select class="form-control" placeholder="项目类型" name="proType" id="proTypeSelect" datatype="s" nullmsg="请选择项目类型!">
+                    </select>
+                    <div class="info" style="display:none;">
+                        <span class="Validform_checktip">
+                            请选择项目类型！
+                        </span>
+                        <span class="dec">
+                            <s class="dec2">&#9670;</s>
+                            <s class="dec1">&#9670;</s>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-primary" id="autoProSaveBtn">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</script>
+<script id="viewerContainerSc" type="x-mustache-tpl">
+    <div id="viewerContainer" >
+        <ul id="viewer" style="display:none">
+        </ul>
+    </div>
+</script>

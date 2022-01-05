@@ -1,0 +1,21 @@
+
+`
+java:S1192Ğ"IDefine a constant instead of duplicating this literal "children" 4 times.(Ïª³İ
+|
+java:S1488¾"`Immediately return this expression instead of assigning it to the temporary variable "clsxList".(³‹Œµıÿÿÿÿ
+m
+java:S2737C"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û
+i
+java:S3252°"RUse static access with "org.springframework.beans.BeanUtils" for "copyProperties".(ì¤áÄ
+G
+java:S1602h",Remove useless curly braces around statement(øø üÿÿÿÿ
+Z
+java:S1155">Use isEmpty() to check whether the collection is empty or not.(Şİ¿¥üÿÿÿÿ
+|
+java:S1488Ä"`Immediately return this expression instead of assigning it to the temporary variable "csmkList".(Â ×„ùÿÿÿÿ
+G
+java:S1602q",Remove useless curly braces around statement(øø üÿÿÿÿ
+U
+java:S1155É">Use isEmpty() to check whether the collection is empty or not.(¨ûş¹
+u
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(’µÀüüÿÿÿÿ8Éíí—£/

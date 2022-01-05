@@ -1,0 +1,5 @@
+
+[
+java:S3252"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(š¶¹Ó
+\
+java:S3252"FUse static access with "com.alibaba.fastjson.JSON" for "toJSONString".(š¶¹Ó

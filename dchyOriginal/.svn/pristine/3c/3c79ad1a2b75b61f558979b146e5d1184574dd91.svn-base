@@ -1,0 +1,81 @@
+server:
+  port: ${msurveyplat-server.port}
+  context-path: /msurveyplat-server
+
+spring:
+  profiles:
+    active: prop
+
+init:
+  services:
+    #初始化服务
+    initServices:
+      - cn.gtmap.msurveyplat.server.service.xmxx.InitDchyCgglXmAbstractService
+      - cn.gtmap.msurveyplat.server.service.sjxx.InitDchyCgglSjxxAbstractService
+      - cn.gtmap.msurveyplat.server.service.sjcl.InitDchyCgglSjclAbstractService
+    #删除服务
+    deleteServices:
+
+relation:
+  djxl:
+    #登记小类成果数据类型关系
+    djxlCgsjlxMapList:
+      - djxl: "0001"
+        cgsjlx: 规划竣工测绘
+      - djxl: "0002"
+        cgsjlx: 地籍测绘
+      - djxl: "0003"
+        cgsjlx: 房产测绘
+    #登记小类项目一棵树测绘阶段关系
+    djxlChsxMapList:
+      - djxl: "0001"
+        chsxmc: 规划竣工测量
+      - djxl: "0002"
+        chsxmc: 地籍测量
+      - djxl: "0003"
+        chsxmc: 房产测量
+
+onemap:
+  projectDetailVoList:
+    - chjdmc: 立项用地规划许可
+      sfdqchjd: false
+      surveyItemVoList:
+        - chsxmc: 选址测绘
+          sfwcsx: true
+        - chsxmc: 土地勘测定界
+          sfwcsx: true
+        - chsxmc: 地籍调查
+          sfwcsx: true
+        - chsxmc: 拨地测量
+          sfwcsx: true
+    - chjdmc: 建设工程规划许可
+      sfdqchjd: false
+      surveyItemVoList:
+        - chsxmc: 建设图测绘
+          sfwcsx: true
+        - chsxmc: 日照测量
+          sfwcsx: true
+        - chsxmc: 房产面积预测
+          sfwcsx: true
+    - chjdmc: 建筑工程施工
+      sfdqchjd: false
+      surveyItemVoList:
+        - chsxmc: 放线验线测量
+          sfwcsx: true
+    - chjdmc: 竣工验收
+      sfdqchjd: true
+      surveyItemVoList:
+        - chsxmc: 规划竣工测量
+          sfwcsx: false
+        - chsxmc: 地籍测量
+          sfwcsx: false
+        - chsxmc: 房产测量
+          sfwcsx: false
+        - chsxmc: 地下管线测量
+          sfwcsx: false
+        - chsxmc: 消防测量
+          sfwcsx: false
+        - chsxmc: 人防测量
+          sfwcsx: false
+
+

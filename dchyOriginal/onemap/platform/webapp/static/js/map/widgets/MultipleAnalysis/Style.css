@@ -1,0 +1,83 @@
+.multi-layer-chose {
+    margin: 5px;
+}
+.div-dataSource-mu {
+    position: relative;
+    width: 120px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    margin-top:-13px;
+}
+
+.div-dataSourceTop-mu {
+    width: 120px;
+    height: 28px;
+    border: 1px #89afec solid;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: #e9f0fa;
+}
+
+.div-dataSourceTop-mu:hover {
+    border: 1px #89afec solid;
+}
+
+.div-dataSourceTop-mu > span {
+    float: left;
+    width: 70%;
+    height: 36px;
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 28px;
+    color: #333;
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: "微软雅黑";
+}
+
+.div-dataSourceTop-mu > em {
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-top: 7px;
+    margin-right: 6px;
+    vertical-align: middle;
+    line-height: 10px;
+}
+
+.ul-dataSource-mu {
+    width: 120px;
+    position: absolute;
+    left: 0;
+    top: 36px;
+    display: none;
+    border: 1px #89afec solid;
+    border-radius: 2px;
+    background-color: #e9f0fa;
+}
+
+.ul-dataSource-mu > li {
+    cursor: pointer;
+    width: 115px;
+    height: 34px;
+    line-height: 26px;
+    font-size: 13px;
+    color: #666;
+    padding-left: 6px;
+    list-style: none;
+    margin: 0 0;
+    font-family: "微软雅黑";
+}
+
+.ul-dataSource-mu > li:hover {
+    background: #e9f0fa;
+    color: #666;
+}
+.input-group{
+    width: 3%;
+    margin: 0 auto ;
+}

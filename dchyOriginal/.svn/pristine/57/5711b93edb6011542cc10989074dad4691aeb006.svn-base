@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Spring RestTemplate Config -->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean id="stringHttpMessageConverter"
+                      class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean id="formHttpMessageConverter"
+                      class="org.springframework.http.converter.FormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="arcgisLogService" class="cn.gtmap.onemap.server.log.arcgis.ArcGisLogService">
+        <property name="restTemplate" ref="restTemplate"/>
+        <property name="serverCfgs">
+            <map>
+                <entry key="192.168.0.202">
+                    <bean class="cn.gtmap.onemap.server.log.arcgis.ArcGisServerCfg">
+                        <property name="uri" value="http://192.168.0.202:6080/arcgis/admin/"/>
+                        <property name="username" value="arcgisserver"/>
+                        <property name="password" value="Passw0rd"/>
+                        <property name="referer" value="http://127.0.0.1:8080/console/oms"/>
+                        <property name="ip" value="127.0.0.1"/>
+                        <property name="client" value="requestip"/>
+                        <property name="f" value="json"/>
+                    </bean>
+                </entry>
+                <entry key="192.168.0.202">
+                    <bean class="cn.gtmap.onemap.server.log.arcgis.ArcGisServerCfg">
+                        <property name="uri" value="http://192.168.0.202:6080/arcgis/admin/"/>
+                        <property name="username" value="arcgisserver"/>
+                        <property name="password" value="Passw0rd"/>
+                        <property name="referer" value="http://127.0.0.1:8080/console/oms"/>
+                        <property name="ip" value="127.0.0.1"/>
+                        <property name="client" value="requestip"/>
+                        <property name="f" value="json"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="webserverLogService" class="cn.gtmap.onemap.server.log.server.WebServerLogService">
+        <property name="filterString" value="^.*.(log|txt)$"/>
+        <property name="servers">
+            <map>
+                <entry key="localhost" value="D:\\javahome\\apache-tomcat-7.0.41"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="auditService" class="cn.gtmap.onemap.server.service.impl.AuditServiceImpl"/>
+
+    <bean class="cn.gtmap.onemap.server.log.audit.HibernateEntityAuditor">
+        <property name="templateRenderer" ref="templateRenderer"/>
+        <property name="configs">
+            <map>
+                <entry key="cn.gtmap.onemap.model.User">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="用户管理"/>
+                        <property name="insertTpl" value="添加用户 - ${e.name}"/>
+                        <property name="updateTpl" value="更新用户 - ${e.name}"/>
+                        <property name="deleteTpl" value="删除用户 - ${e.name}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.Role">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="角色管理"/>
+                        <property name="insertTpl" value="添加角色 - ${e.name}"/>
+                        <property name="updateTpl" value="更新角色 - ${e.name}"/>
+                        <property name="deleteTpl" value="删除角色 - ${e.name}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.Privilege">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="权限管理"/>
+                        <property name="insertTpl" value="添加权限 - ${e.title}"/>
+                        <property name="updateTpl" value="更新权限 - ${e.title}"/>
+                        <property name="deleteTpl" value="删除权限 - ${e.title}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.Operation">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="权限操作管理"/>
+                        <property name="insertTpl" value="添加操作 - ${e.title}"/>
+                        <property name="updateTpl" value="更新操作 - ${e.title}"/>
+                        <property name="deleteTpl" value="删除操作 - ${e.title}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.Region">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="行政区管理"/>
+                        <property name="insertTpl" value="添加行政区 - ${e.name}"/>
+                        <property name="updateTpl" value="更新行政区 - ${e.name}"/>
+                        <property name="deleteTpl" value="删除行政区 - ${e.name}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.Map">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="地图服务管理"/>
+                        <property name="insertTpl" value="添加服务 - ${e.name}"/>
+                        <property name="updateTpl" value="更新服务 - ${e.name}"/>
+                        <property name="deleteTpl" value="删除服务 - ${e.name}"/>
+                    </bean>
+                </entry>
+                <entry key="cn.gtmap.onemap.model.MapGroup">
+                    <bean class="cn.gtmap.onemap.server.log.audit.EntityConfig">
+                        <property name="catalog" value="地图服务组管理"/>
+                        <property name="insertTpl" value="添加服务组 - ${e.name}"/>
+                        <property name="updateTpl" value="更新服务组 - ${e.name}"/>
+                        <property name="deleteTpl" value="删除服务组 - ${e.name}"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="identityServiceAspect" class="cn.gtmap.onemap.server.log.audit.IdentityServiceAspect">
+        <property name="auditService" ref="auditService"/>
+        <property name="identityService" ref="identityService"/>
+    </bean>
+    
+    <bean id="grantServiceAspect" class="cn.gtmap.onemap.server.log.audit.GrantServiceAspect">
+        <property name="auditService" ref="auditService"/>
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>

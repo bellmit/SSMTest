@@ -1,0 +1,138 @@
+package cn.gtmap.msurveyplat.serviceol.web.main;
+
+import cn.gtmap.msurveyplat.common.dto.ReceiveConfigDto;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.serviceol.builder.ReceiveConfigViewBuilder;
+import cn.gtmap.msurveyplat.serviceol.model.ReceiveConfigModel;
+import cn.gtmap.msurveyplat.serviceol.service.ConfigureSystemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc ConfigureSystemController: 系统配置相关接口
+ */
+@RestController
+@RequestMapping("/configure")
+public class ConfigureSystemController {
+
+    @Autowired
+    private ConfigureSystemService configureSystemService;
+
+    /**
+     * 获取收件材料配置
+     *
+     * @return ResponseMessage
+     */
+    @GetMapping("/sjcl")
+    public ResponseMessage findConfigureSystem() {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List resultList = configureSystemService.findConfigure();
+            responseMessage = ResponseUtil.wrapResponseBodyByObjectList(resultList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param ids List<String>
+     * @return ResponseMessage
+     */
+    @DeleteMapping("/sjcl")
+    public ResponseMessage dropConfigureSystemByIds(@RequestBody List<String> ids) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            if (configureSystemService.dropConfigureByIds(ids)) {
+                responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+            } else {
+                responseMessage.getHead().setMsg(ResponseMessage.CODE.DELETE_FAIL.getMsg());
+                responseMessage.getHead().setCode(ResponseMessage.CODE.DELETE_FAIL.getCode());
+            }
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.DELETE_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * 新增和修改数据
+     *
+     * @param receiveConfigDtoList List<ReceiveConfigDto>
+     * @return ResponseMessage
+     */
+    @PostMapping("/sjcl")
+    public ResponseMessage savaOrUpdate(@Valid @RequestBody List<ReceiveConfigDto> receiveConfigDtoList) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<ReceiveConfigModel> receiveConfigModelList = ReceiveConfigViewBuilder.dtos2Entities(receiveConfigDtoList);
+            if (configureSystemService.saveOrUpdateList(receiveConfigModelList)) {
+                responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+            } else {
+                responseMessage.getHead().setMsg(ResponseMessage.CODE.SAVE_FAIL.getMsg());
+                responseMessage.getHead().setCode(ResponseMessage.CODE.SAVE_FAIL.getCode());
+            }
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * 查询测量事项接口
+     *
+     * @return ResponseMessage
+     */
+    @GetMapping("/sjcl/clsx")
+    public ResponseMessage findClsxCode() {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> resultList = configureSystemService.queryClsx();
+            responseMessage.getData().put("data", resultList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * 查询未创建的所属模块
+     *
+     * @return ResponseMessage
+     */
+    @GetMapping("/sjcl/ssmk")
+    public ResponseMessage findSsmkCode() {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> resultList = configureSystemService.querySsmk();
+            responseMessage.getData().put("data", resultList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(e.getMessage());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+}

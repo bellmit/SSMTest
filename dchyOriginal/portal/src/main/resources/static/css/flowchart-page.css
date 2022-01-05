@@ -1,0 +1,13 @@
+.flowchart-page-contanier .layui-table td,
+.flowchart-page-contanier .layui-table th {
+	text-align: center;
+}
+
+.flowchart-page-contanier .lcxq-table .layui-table-body {
+	overflow: hidden;
+}
+.flowchart-page-img img{
+	display: block; 
+	height: 100%;
+	margin: 0 auto;
+}

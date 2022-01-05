@@ -1,0 +1,21 @@
+.layui-layer-title{
+	height: 40px !important;
+	line-height: 40px !important;
+	font-size: 16px !important;
+	 background: #4476A7;
+     box-sizing: border-box;
+      margin-bottom: 10px;
+}
+.layui-layer-rim{
+	border: none !important;
+}
+.bdc-small-tips .layui-layer-content{
+    height: 40px !important;
+    line-height: 20px;
+}
+.bdc-small-tips .layui-layer-btn{
+    padding-top: 0px !important;
+}
+.bdc-small-tips .layui-layer-btn0{
+    background: #1d87d1 !important;
+}

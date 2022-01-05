@@ -1,0 +1,11 @@
+
+[
+java:S1854B"@Remove this useless assignment to local variable "dchyXmglDbrw".(Δ¤¤‰ώÿÿÿÿ
+U
+java:S1854A"@Remove this useless assignment to local variable "pfSignVoList".(‰¬Ν(
+F
+java:S1481A"1Remove this unused "pfSignVoList" local variable.(‰¬Ν(
+g
+java:S2095~"QUse try-with-resources or close this "CloseableHttpClient" in a "finally" clause.(ύκ”Κ
+L
+java:S1481B"1Remove this unused "dchyXmglDbrw" local variable.(Δ¤¤‰ώÿÿÿÿ

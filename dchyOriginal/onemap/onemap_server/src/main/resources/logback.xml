@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf-8</charset>
+            <pattern>%d{HH:mm:ss.SSS} |-%-5level [%thread] %logger{50}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="cn.gtmap.onemap" level="info"/>
+    <logger name="cn.gtmap.onemap.core.support.freemarker" level="warn"/>
+    <logger name="    cn.gtmap.onemap.server.handle.service.ArcgisServerProxyServiceHandlerImpl" level="debug"/>
+    <logger name="org.springframework" level="warn"/>
+
+    <logger name="org.hibernate" level="info"/>
+    <logger name="org.hibernate.cache.ehcache.AbstractEhcacheRegionFactory" level="error"/>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

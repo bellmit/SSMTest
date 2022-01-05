@@ -1,0 +1,37 @@
+package cn.gtmap.msurveyplat.promanage.core.mapper;
+
+import cn.gtmap.msurveyplat.promanage.model.ReceiveConfigModel;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author 6k2
+ * @email <a href="mailto:laukaye@qq.com">Email To</a>
+ * @date 2021/4/15
+ * @desc IntelliJ IDEA: IntelliJ IDEA
+ */
+@Repository
+public interface DchyXmglSjclpzMapper {
+    /**
+     * query List
+     *
+     * @return List<ReceiveConfigModel>
+     */
+    List<ReceiveConfigModel> queryList();
+
+    /**
+     * query DISTINCT SsmkId
+     *
+     * @return List<String>
+     */
+    List<String> querySsmkId();
+
+    /**
+     * query Result List<Map>
+     *
+     * @return List<Map < String, Object>>
+     */
+    List<Map<String, Object>> queryResultListMap();
+}

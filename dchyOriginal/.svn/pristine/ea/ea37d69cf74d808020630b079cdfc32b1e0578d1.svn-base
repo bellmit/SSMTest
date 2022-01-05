@@ -1,0 +1,46 @@
+.overview-q{
+    position: absolute;
+    width: 200px;
+    height: 160px;
+    right: 0px;
+    bottom: 0px;
+    background: #FFFFFF;
+    border:1px solid #000000;
+}
+.overview-h{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 0px;
+    bottom: 0px;
+    background-color: transparent;
+}
+.esriOverviewMap .ovwHighlight {
+    border: 2px solid rgba(63, 81, 181, 0.79)!important;
+    opacity: 0.8;
+    left: 48px;
+    top: 41px;
+    width: 102px;
+    height: 75px;
+    display: block;
+    position: absolute;
+    background-color: rgba(63, 81, 181, 0.26) !important;
+}
+#Overview .overview-icon{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 5px;
+    bottom: 5px;
+    background: url(../../../../img/map/overview.png) no-repeat;
+    z-index: 500;
+}
+#Overview .open-icon{
+    background-position: 0px -50px;
+}
+#Overview .close-icon{
+    background-position: 0px -25px;
+}
+#Overview .open-icon:hover,#Overview .close-icon:hover{
+    cursor: pointer;
+}

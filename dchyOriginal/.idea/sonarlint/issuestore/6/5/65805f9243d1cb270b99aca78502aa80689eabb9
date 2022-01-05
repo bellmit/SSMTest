@@ -1,0 +1,47 @@
+
+Y
+java:S2259ÿ"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+`
+java:S1192¨"IDefine a constant instead of duplicating this literal "chdwxxid" 4 times.(«ã¥ô
+F
+java:S2093à"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+c
+java:S1192§"GDefine a constant instead of duplicating this literal "chxmid" 5 times.(§ãÁİùÿÿÿÿ
+i
+java:S3776¿"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(ö´”ş
+1
+java:S3457 "Not enough arguments.(§ê‰øÿÿÿÿ
+D
+java:S1481İ".Remove this unused "httpState" local variable.(¡ØšE
+1
+java:S3457­"Not enough arguments.(§ê‰øÿÿÿÿ
+u
+java:S1192Ú"YDefine a constant instead of duplicating this literal "application/octet-stream" 3 times.(ñÁø•ûÿÿÿÿ
+p
+java:S1192P"SDefine a constant instead of duplicating this literal "é”™è¯¯åŸå› ï¼š{}" 11 times.(Æê¡º8‘õí—£/
+2
+java:S3457P"Not enough arguments.(Æê¡º8‘õí—£/
+2
+java:S3457`"Not enough arguments.(Æê¡º8‘õí—£/
+2
+java:S3457q"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457„"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457Ÿ"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457µ"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457È"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457Û"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457î"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457"Not enough arguments.(Æê¡º8‘õí—£/
+3
+java:S3457”"Not enough arguments.(Æê¡º8‘õí—£/
+Y
+java:S1854¤";Remove this useless assignment to local variable "message".(ïÒğÑ8‘õí—£/
+8
+java:S3457È"Not enough arguments.(à¼´†ÿÿÿÿÿ8‘õí—£/

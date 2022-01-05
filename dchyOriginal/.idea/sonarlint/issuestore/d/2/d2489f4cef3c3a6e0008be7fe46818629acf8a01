@@ -1,0 +1,10 @@
+
+X
+java:S2259i"BA "NullPointerException" could be thrown; "body" is nullable here.(è‘¼‹
+X
+java:S3416'"=Update this logger to use "FileDownLoadHtglController.class".(·º®òÿÿÿÿÿ
+Q	java:S125^"<This block of commented-out lines of code should be removed.(µÊï¿
+E
+java:S2093G"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+C
+java:S1481D".Remove this unused "httpState" local variable.(¡ØšE

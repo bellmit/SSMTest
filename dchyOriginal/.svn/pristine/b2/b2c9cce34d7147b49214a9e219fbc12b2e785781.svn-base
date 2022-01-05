@@ -1,0 +1,469 @@
+<template>
+    <div class="review-check">
+        <div class="form-title">
+            <div class="list-title">项目信息</div>
+            <div>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="isVerify" @click="clickHandler">审核</Button>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="isMake" @click="dataUpload">数据上传</Button>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="isDataApply" @click="resultApply">数据交付</Button>
+                <!-- <Button type="primary" class="btn-h-34 btn-cancel margin-left-10" v-if="isDataApply" @click="printHzd">打印回执单</Button> -->
+                <Button class="btn-h-34 btn-cancel margin-left-10" v-if="(!isVerify&&!isMake&&!isDataApply) || this.$route.query.type" @click="handlerCancel">返回</Button>
+            </div>
+        </div>
+         <Form class="form-edit" @on-validate="validateChecked" ref="commission-form" :model="applyInfo" :rules="ruleInline" :label-width="114">
+            <Row>
+                 <i-col span="12">
+                    <FormItem v-model="applyInfo.babh" prop="babh" label="项目编号">
+                        <Input :readonly="readonly" v-model="applyInfo.babh"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcbh" prop="gcbh" label="项目代码">
+                        <Input :readonly="true" v-model="applyInfo.gcbh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcmc" prop="gcmc" label="工程名称">
+                        <Input :readonly="readonly" v-model="applyInfo.gcmc"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.wtdw" prop="wtdw" label="建设单位">
+                        <Input :readonly="true" v-model="applyInfo.wtdw"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.chdwmc" prop="chdwmc" label="测绘单位">
+                        <Input readonly v-model="applyInfo.chdwmc"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.gcdz" prop="gcdz" label="工程地点">
+                        <Input readonly v-model="applyInfo.gcdz"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+             <Row>
+                <i-col span="12">
+                    <FormItem v-model="applyInfo.xmzt" prop="xmzt" label="项目状态">
+                        <Input :readonly="readonly" v-model="applyInfo.xmzt"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row class="margin-top-20">
+                <FormItem v-model="applyInfo.clsx" prop="clsx" label="测绘事项">
+                    <div class="stage-tree">
+                        <Row class="select-row-tree">
+                            <div v-for="(tree,index) in treeList" :key="index">
+                                    <Tree :data="tree" show-checkbox></Tree>
+                            </div>
+                        </Row>
+                    </div>
+                </FormItem>
+            </Row>
+        </Form>
+        <div class="form-title">
+            <div class="list-title">基础数据范围</div>
+        </div>
+        <div>
+            <Table
+                :showPage="false"
+                :unShowTool="true"
+                :data="jfsjList"
+                :cols="jsfjCols"
+                :operation="operationList"
+                @download="downLoadFile"
+            ></Table>
+        </div>
+        <!-- 审核弹框 -->
+        <Modal 
+            class="modal-base form-verify" 
+            v-model="visible" 
+            :title="'审核意见'" 
+            width="700"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <Form class="form-edit" ref="verify-form" @on-validate="validateChecked"
+                :model="verifyForm" :rules="fileRule" :label-width="114">
+                <FormItem v-model="verifyForm.shjg" prop="shjg" label="审核结果 ">
+                <RadioGroup v-model="verifyForm.shjg">
+                    <Radio label="1">通过</Radio>
+                    <Radio label="0">退回</Radio>
+                </RadioGroup>
+                </FormItem>
+                <FormItem v-model="verifyForm.shyj" prop="shyj" label="审核意见 ">
+                <Input v-model="verifyForm.shyj" style="width: 500px" :rows="4" type="textarea"
+                    placeholder="" />
+                </FormItem>
+            </Form>
+            <div class="save-btn">
+                <Button type="primary" class="bdc-major-btn btn-h-32" @click="verify()">确认</Button>
+                <Button class="margin-left-10 btn-h-32 btn-cancel" @click="cancelVerify()">取消</Button>
+            </div>
+        </Modal>
+        <!-- 数据交付弹框 -->
+        <Modal 
+            class="modal-base form-verify" 
+            v-model="jfVisible" 
+            :title="'接收人信息'" 
+            width="440"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            closable>
+            <Form class="form-edit" ref="apply-form" @on-validate="validateChecked"
+                :model="applyForm" :rules="applyRule" :label-width="114">
+                <FormItem v-model="applyForm.jsr" prop="jsr" label="接收人 ">
+                    <Input v-model="applyForm.jsr" style="width: 85%" placeholder="" />
+                </FormItem>
+                <FormItem v-model="applyForm.lxdh" prop="lxdh" label="联系电话 ">
+                    <Input v-model="applyForm.lxdh" style="width: 85%" placeholder="" />
+                </FormItem>
+            </Form>
+            <div class="save-btn">
+                <Button type="primary" class="bdc-major-btn btn-h-32" @click="applySave()">确认</Button>
+                <Button class="margin-left-10 btn-h-32 btn-cancel" @click="applyCancel()">取消</Button>
+            </div>
+        </Modal>
+         <!-- 基础数据上传弹框 -->
+        <Modal 
+            class="modal-base form-verify" 
+            v-model="jcVisible" 
+            :title="'上传基础数据'" 
+            width="800"
+            :mask-closable="false" 
+            :footer-hide="true" 
+            :closable="false">
+            <div>
+            <uploadDataTable
+                ref="upload-table-file"
+            ></uploadDataTable>
+            </div>
+            <div class="save-btn">
+                <Button type="primary" class="bdc-major-btn btn-h-32" @click="dataApplySave()">确认</Button>
+                <Button class="margin-left-10 btn-h-32 btn-cancel" @click="dataApplyCancel()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import uploadFileInfo from "../../../components/manage/upload-file-info"
+import uploadDataTable from "../../../components/manage/upload-apply-file"
+import { getDictInfo } from "../../../service/manage"
+import util from "../../../service/util"
+import { queryDataApplyDetail, applicationInfoView, resultsDelivery } from "../../../service/data-apply"
+import _ from "lodash"
+export default {
+    components: {
+        uploadFileInfo,
+        uploadDataTable
+    },
+    data() {
+        return {
+            error: "",
+            ssmkid: "",
+            checkedClsxList: [],
+            verifyForm: {
+                shjg: "1",
+                shyj: ""
+            },
+            visible: false,
+            jfVisible: false,
+            jcVisible: false,
+            operationList: ["download"],
+            fileRule: {
+                shjg: {
+                    required: true,
+                    message: "必填项不能为空"
+                }
+            },
+            applyForm: {
+                jsr: "",
+                lxdh: ""
+            },
+            jfsjList: [],
+            jsfjCols: [
+                {
+                    field: "xh",
+                    title: "序号",
+                    width: 70,
+                    align: "center",
+                    fixed: "left",
+                    templet: function(d){
+                        return d.xh + 1
+                    }
+                },
+                {
+                    title: "材料名称",
+                    align: "center",
+                    field: "clmc",
+                },
+                {
+                    title: "份数",
+                    align: "center",
+                    field: "fs",
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    width: 120,
+                    toolbar: "#operation",
+                }
+            ],
+            applyRule: {
+                jsr: {
+                    required: true,
+                    message: "必填项不能为空"
+                },
+                lxdh: {
+                    required: true,
+                    type: 'number',
+                    trigger: "blur",
+                    validator: (rule,value,callback) => {
+                        if(!value||!value.trim()){
+                            callback("必填项不能为空")
+                        } else if(value&&!(/^([0-9]{3,4}-)?[0-9]{7,8}$/).test(value)&&!(/^1\d{10}$/.test(value))){
+                            callback("联系电话格式错误")
+                        }
+                        callback();
+                    }
+                }
+            },
+            unLastSubmit: true,
+            applyInfo: {},
+            ruleInline: {},
+            readonly: false,
+            isVerify: false, //是否审核
+            isMake: false,
+            isDataApply: false, // 是否数据申请
+            treeList: [],
+            chxmid: "",
+            xmid: "",
+            taskid: "",
+            gzlslid: "",
+            dictionaryTree: [],
+            type: "",
+            processDefName: ""
+        }
+    },
+    mounted() {
+        this.readonly = true;
+        this.type = this.$route.query.reviewType || util.getParentSearchParams("reviewType") || "";
+        if(this.type == "verify"){
+            this.isVerify = true
+        }
+        if(this.type == "make"){
+            this.isMake = true
+        }
+        if(this.type == "dataApply"){
+            this.isDataApply = true
+        }
+        if(this.type == "view"){
+            $(".review-check").css("margin","10px")
+            $(".review-check").css("height","calc(100vh - 20px)")
+        }
+        this.getDictInfo();
+        this.chxmid = this.$route.query.chxmid || util.getParentSearchParams("chxmid") || "";
+        this.xmid = this.$route.query.xmid || util.getParentSearchParams("xmid") || "";
+        this.gzlslid = this.$route.query.gzlslid || util.getParentSearchParams("gzlslid") || "";
+        this.taskid = this.$route.query.taskid || util.getParentSearchParams("taskid") || "";
+        this.processDefName = this.$route.query.processDefName || util.getParentSearchParams("processDefName") || "";
+        this.queryDataApplyDetail();
+    },
+    methods: {
+        // 获取基础数据申请的信息详情
+        queryDataApplyDetail(){
+            let params = {
+                xmid: this.xmid,
+                gzlslid: this.gzlslid,
+                taskid: this.taskid,
+                processDefName: this.processDefName
+            }
+            queryDataApplyDetail(params).then(res => {
+                let baxx = res.data.baxxList[0];
+                for(let key in baxx){
+                    baxx[_.toLower(key)] = baxx[key]
+                }
+                this.applyInfo = {...baxx}
+                this.jfsjList = res.data.jcsjfw ? [res.data.jcsjfw] : [];
+                this.checkedClsxList = res.data.baClsxList.map(clsx => clsx.DM);
+                this.renderTreeList();
+            })
+        },
+        // 弹出表单校验的失败信息
+        validateChecked(prop, status, error) {
+            if (error && this.error != error && !this.unLastSubmit) {
+                this.error = error;
+                this.$error.show(error);
+                setTimeout(() => {
+                    this.error = "";
+                    this.$error.close();
+                }, 1000);
+            }
+        },
+        cancel(){
+            this.$router.go(-1)
+        },
+        clickHandler(){
+            this.visible = true;
+        },
+        // 下载
+        downLoadFile(item){
+             if(!item.wjzxid){
+                layer.msg("暂无材料")
+            } else if(item.wjzxid){
+                if (!location.origin) {
+                  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+                }
+                location.href=location.origin + config.msurveyplatContext + '/fileoperation/download?wjzxid=' +item.wjzxid
+            }
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX"]
+            }
+            getDictInfo(params).then(res => {
+                this.dictionaryTree = res.data.dataList || []
+                this.renderTreeList();
+            })
+        },
+        // 渲染测量事项树结构
+        renderTreeList(){
+            let clsxList = this.dictionaryTree || [];
+            let treeList = []
+            clsxList.forEach(list => {
+                if(!list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.push({title: list.MC, dm: Number(list.DM),disabled:this.readonly, expand: true,id: list.DM, children: []})
+                }
+            })
+            clsxList.forEach(list => {
+                if(list.FDM&&list.ZDLX=="CLSX"){
+                    treeList.forEach(tree => {
+                        if(tree.id == list.FDM){
+                            tree.children.push({title: list.MC, checked: this.checkedClsxList.includes(list.DM), disabled:this.readonly, id: list.DM})
+                        }
+                    })
+                }
+            })
+            treeList = _.orderBy(treeList,['dm'],['asc'])
+            this.treeList = []
+            treeList.forEach(tree => {
+                this.treeList.push([tree])
+            })
+        },
+        // 审核
+        verify(){
+            this.$refs["verify-form"].validate(valid => {
+                if(valid){
+                    this.$loading.show("加载中...")
+                    this.verifyForm.gzlslid = this.gzlslid
+                    this.verifyForm.xmid = this.xmid
+                    this.verifyForm.taskid = this.taskid
+                    applicationInfoView(this.verifyForm).then(res => {
+                        this.$loading.close();
+                        layer.msg("审核完成")
+                        this.visible = false;
+                        if(this.verifyForm.shjg === "0"){
+                            window.parent.sendFilters = "办结"
+                        } else {
+                            window.parent.sendFilters = "制作"
+                        }
+                    })
+                }
+            })
+        },
+        // 取消审核
+        cancelVerify(){
+            this.visible = false;
+            this.$refs["verify-form"].resetFields();
+        },
+        handlerCancel(){
+            this.$router.go(-1)
+        },
+        // 打印回执单
+        printHzd() {
+            if (!location.origin) {
+                location.origin = location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "");
+            }
+            location.href = location.origin + "/msurveyplat-promanage/contractfile/exportPdf?chxmid=" +this.chxmid;
+        },
+        // 数据交付
+        resultApply(){
+            this.jfVisible = true
+        },
+        // 确认交付
+        applySave(){
+            this.$refs["apply-form"].validate(valid => {
+                if(valid){
+                    this.$loading.show("加载中...")
+                    this.applyForm.xmid = this.xmid;
+                    this.applyForm.taskid = this.taskid;
+                    this.applyForm.gzlslid = this.gzlslid;
+                    resultsDelivery(this.applyForm).then(res => {
+                        this.$loading.close();
+                        this.jfVisible = false;
+                        if(res.data.wjzxid){
+                            location.href = config.msurveyplatContext + '/fileoperation/download?wjzxid=' + res.data.wjzxid
+                        }
+                    })
+                }
+            })
+        },
+        // 取消交付
+        applyCancel(){
+            this.$refs["apply-form"].resetFields();
+            this.jfVisible = false;
+        },
+        // 数据上传
+        dataUpload(){
+            let item = {}
+            this.jcVisible = true;
+            item.fileName="数据基础包";
+            item.BABH = this.applyInfo.slbh;
+            item.GLSXID = this.xmid;
+            item.CLLX = "1"
+            this.$refs["upload-table-file"].addFile(item)
+        },
+        dataApplySave(){
+            this.$refs["upload-table-file"].clearFileList()
+            this.jcVisible = false;
+        },
+        dataApplyCancel(){
+            this.$refs["upload-table-file"].clearFileList()
+            this.jcVisible = false;
+        },
+    },
+}
+</script>
+<style scoped>
+    .form-verify .form-edit {
+        padding: 0 10px !important;
+    }
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-row-tree  {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .select-row-tree>div {
+        margin-right: 20px;
+    }
+    .stage-tree {
+        width: 100%;
+        padding: 5px;
+        overflow-x: auto;
+        background-color: #e8f3fa;
+    }
+    .review-check {
+        background-color: #fff;
+        height: 100vh;
+        padding: 0 20px;
+    }
+</style>

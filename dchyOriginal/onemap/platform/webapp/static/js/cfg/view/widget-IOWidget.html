@@ -1,0 +1,229 @@
+<div class="iOWidget">
+    <div class="title">{{label}}功能配置</div>
+    <form class="form-horizontal" id="iOWidgetForm">
+        <div class="row lineSpacing" style="margin-top: 30px">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">标题</label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" name="label" class="form-control" id="label" placeholder="请填写标题"
+                       value="{{label}}"/>
+            </div>
+            <div class="col-xs-1  text-right">
+                <label class="lableTitle">图标</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="ui search selection dropdown" id="icons">
+                    <input type="hidden" name="icon" value="{{icon}}">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">请选择</div>
+                </div>
+            </div>
+        </div>
+        <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                class="tags"> 属性</span></h4>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">导入样式</label>
+            </div>
+            <div class="col-xs-1 text-right color-width">
+                <label class="lableTitle">填充色</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="input-group demo2">
+                    <input type="text" name="import_fill_color" value="{{config.importStyle.fill_color}}" class="form-control"/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+
+            <div class="col-xs-1 text-right color-width">
+                <label class="lableTitle">边框色</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="input-group demo2">
+                    <input type="text" name="import_outline_color" value="{{config.importStyle.outline_color}}" class="form-control"/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
+        </div>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">选择样式</label>
+            </div>
+            <div class="col-xs-1 text-right color-width">
+                <label class="lableTitle">填充色</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="input-group demo2">
+                    <input type="text" name="select_fill_color" value="{{config.selectStyle.fill_color}}" class="form-control"/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+
+            <div class="col-xs-1 text-right color-width">
+                <label class="lableTitle">边框色</label>
+            </div>
+            <div class="col-xs-3">
+                <div class="input-group demo2">
+                    <input type="text" name="select_outline_color" value="{{config.selectStyle.outline_color}}" class="form-control"/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
+        </div>
+
+        <h4 class="ui horizontal divider header"><i class="glyphicon glyphicon-tags tags"></i><span
+                class="tags"> 对应图层</span></h4>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-1">
+
+            </div>
+
+            <div class="col-xs-4">
+                <div>
+                    <button class="btn btn-primary" type="button" style="width: 100%;margin-bottom: 5px;"
+                            id="addService"><span
+                            class="glyphicon glyphicon-plus-sign"></span>&nbsp;添加导入导出图层
+                    </button>
+                </div>
+                <div id="ioWidgetLayers">
+                    <div class="list-group">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 layerFields">
+                <div class="row lineSpacing">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">标题字段</label>
+                    </div>
+
+                    <div class="col-xs-9">
+                        <div class="ui fluid search selection dropdown" id="titleFields">
+                            <input type="hidden" name="titleField" value="">
+                            <i class="dropdown icon"></i>
+
+                            <div class="default text">选择标题字段</div>
+                            <div class="menu">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row lineSpacing">
+                    <div class="col-xs-3 text-right">
+                        <label class="lableTitle">返回字段</label>
+                    </div>
+
+                    <div class="col-xs-9">
+                        <div class="row lineSpacing">
+                            <div class="col-xs-5">
+                                <select id="selectL" name="selectL" multiple="multiple" class="form-control"
+                                        style="height: 150px;">
+                                </select>
+                            </div>
+                            <div class="col-xs-2">
+                                <button id="toRight" type="button" class="btn btn-primary  btn-block"
+                                        style="margin-top: 35px;">
+                                    <span class="glyphicon glyphicon-forward"></span>
+                                </button>
+                                <button id="toLeft" type="button" class="btn btn-primary btn-block">
+                                    <span class="glyphicon glyphicon-backward"></span>
+                                </button>
+                            </div>
+                            <div class="col-xs-5">
+                                <select id="selectR" name="returnFields" multiple="multiple" class="form-control"
+                                        style="height: 150px;">
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">导入标题</label>
+            </div>
+            <div class="col-xs-4">
+                <input type="text" name="importTitle" value="{{config.importTitle}}" class="form-control"/>
+            </div>
+
+            <!--<div class="col-xs-3">-->
+                <!--<div class="ui toggle checkbox">-->
+                    <!--<input type="checkbox" name="open" {{isOpen}} />-->
+                    <!--<label>默认打开</label>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="col-xs-3">-->
+                <!--<div class="ui toggle checkbox">-->
+                    <!--<input type="checkbox" name="display" {{isDisplay}} />-->
+                    <!--<label>共享</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">导入类型</label>
+            </div>
+            <div class="col-xs-9">
+                <div class="ui search multiple selection dropdown" id="import" style="height: 30px">
+                    <input name="importType" type="hidden" value="{{config.importType}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">选择类型</div>
+                    <div class="menu">
+                        <div class="item" data-value="dwg">cad文件</div>
+                        <div class="item" data-value="shp">shape文件</div>
+                        <div class="item" data-value="txt">txt文件</div>
+                        <div class="item" data-value="xls">excel文件</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-2 text-right">
+                <label class="lableTitle">导出类型</label>
+            </div>
+            <div class="col-xs-9">
+                <div class="ui search multiple selection dropdown" id="export">
+                    <input name="exportType" type="hidden" value="{{config.exportType}}">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">选择类型</div>
+                    <div class="menu">
+                        <div class="item" data-value="dwg">cad文件</div>
+                        <div class="item" data-value="shp">shape文件</div>
+                        <div class="item" data-value="txt">txt文件</div>
+                        <div class="item" data-value="xls">excel文件</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row lineSpacing form-group">
+            <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-success" style="width: 150px;" id="iOWidgetSaveBtn">保存</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="serviceId" value="" />
+        <input type="hidden" name="layerName" value="" />
+        <input type="hidden" name="layerIndex" value="" />
+    </form>
+</div>

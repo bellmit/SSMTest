@@ -1,0 +1,22 @@
+<ul id="dates">
+    {{#data}}
+    <li><a href="#{{id}}" {{#selected}}class="selected" {{/selected}}>{{day}}</a></li>
+    {{/data}}
+</ul>
+<ul id="issues" data-issues="">
+    <li id="">
+        <canvas data-src="/omp/nopic" id="/omp/nopic" class="pannable-image" ></canvas>
+
+        <div class="record-upload-container hidden">
+            <p>
+                <span>
+                    <!--<label for="viewfile" style="text-shadwo=none;">上传文件：</label>-->
+                    <input type="text" name="viewfile" id="viewfile" class="viewfile" readonly="readonly"/>
+                </span>
+                <label class="bottom"> 选择文件 </label>
+                <input type="file" size="27" name="files[]" data-parent="" id="upload" class="file" />
+            </p>
+            <p class="clear"><button data-id="" data-parent="" id="btn_upload" class="submit"><i class="fa fa-cloud-upload"></i>  上传</button></p>
+        </div>
+    </li>
+</ul>

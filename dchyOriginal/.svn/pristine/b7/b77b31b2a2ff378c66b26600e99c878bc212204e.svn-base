@@ -1,0 +1,277 @@
+package cn.gtmap.msurveyplat.promanage.core.service.mq.receive;
+
+import cn.gtmap.msurveyplat.common.core.support.mybatis.mapper.EntityMapper;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxm;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChxmChdwxx;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglMqCzrz;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CalendarUtil;
+import cn.gtmap.msurveyplat.promanage.core.mapper.MqMsgMapper;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.model.DchyXmglCgJcModel;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.model.DchyXmglZxbjModel;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.service.CgtjService;
+import cn.gtmap.msurveyplat.promanage.core.service.mq.service.PushDataToMqService;
+import cn.gtmap.msurveyplat.promanage.model.XmxgxxModel;
+import cn.gtmap.msurveyplat.promanage.service.ContractRegistrationFileService;
+import cn.gtmap.msurveyplat.promanage.utils.Constants;
+import cn.gtmap.msurveyplat.promanage.web.main.FileUploadController;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
+import com.gtis.common.util.UUIDGenerator;
+import com.rabbitmq.client.Channel;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+/**
+ * @author <a href="mailto:xiejianan@gtmap.cn">xiejianan</a>
+ * @description 接收来自办事大厅的成果检查请求
+ * @time 2021/3/13 17:04
+ */
+@Service
+public class ReceiveZxBjFromBsdtServiceImpl implements ChannelAwareMessageListener {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Resource(name = "entityMapper")
+    private EntityMapper entityMapper;
+    @Autowired
+    MqMsgMapper mqMsgMapper;
+    @Autowired
+    private ContractRegistrationFileService contractService;
+    @Autowired
+    private PushDataToMqService pushDataToMqService;
+    @Autowired
+    private FileUploadController fileUploadController;
+
+
+    @Override
+    @RabbitListener(queues = Constants.BSDT_XMGL_ZXBJ_QUEUE)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void onMessage(Message message, Channel channel) {
+        try {
+            byte[] bytes = message.getBody();
+            String str = new String(bytes, "UTF-8");
+            logger.info(str);
+            // TODO 业务处理
+            saveZxbj(str);
+            basicACK(message, channel); //正常消费掉后通知mq服务器移除此条mq
+            logger.info("在线办结接收成功");
+        } catch (UnsupportedEncodingException e) {
+            basicReject(message, channel);
+            logger.error("接收失败", e);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            logger.error("接收失败", e);
+        }
+    }
+
+    //正常消费掉后通知mq服务器移除此条mq
+    private void basicACK(Message message, Channel channel) {
+        try {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("通知服务器移除mq时异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicNACK(Message message, Channel channel) {
+        try {
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    //处理异常，mq重回队列
+    private void basicReject(Message message, Channel channel) {
+        try {
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (IOException e) {
+            logger.error("mq重新进入服务器时出现异常，异常信息：" + e);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveZxbj(String str) throws Exception {
+        DchyXmglMqCzrz dchyXmglMqCzrz = new DchyXmglMqCzrz();
+        try {
+            dchyXmglMqCzrz.setCzrzid(UUIDGenerator.generate18());
+            dchyXmglMqCzrz.setCzsj(CalendarUtil.getCurHMSDate());
+            dchyXmglMqCzrz.setMsg(str.getBytes("UTF-8"));
+
+            Map<String, Object> slxxJson = JSON.parseObject((String) JSON.parse(str));
+            DchyXmglZxbjModel dchyXmglZxbjModel = JSONObject.toJavaObject((JSON) slxxJson, DchyXmglZxbjModel.class);
+            DchyXmglZxbjModel zxbjModel = JSONObject.toJavaObject((JSON) slxxJson.get("saveOrUpdate"), DchyXmglZxbjModel.class);
+
+            if(null != zxbjModel){
+                List<DchyXmglChxm> xmglChxmList = zxbjModel.getDchyXmglChxmList();
+                List<DchyXmglChxmChdwxx> xmglChxmChdwxxList = zxbjModel.getDchyXmglChxmChdwxxList();
+                if(CollectionUtils.isNotEmpty(xmglChxmList)){
+                    for (DchyXmglChxm chxm : xmglChxmList) {
+                        if(null != chxm){
+                            int i = entityMapper.saveOrUpdate(chxm, chxm.getChxmid());
+                            if(i > 0){
+                                logger.info("************测绘项目入库成功");
+                            }
+                        }
+                    }
+                }
+
+                if(CollectionUtils.isNotEmpty(xmglChxmChdwxxList)){
+                    for (DchyXmglChxmChdwxx chdwxx : xmglChxmChdwxxList) {
+                        if(null != chdwxx){
+                            int i = entityMapper.saveOrUpdate(chdwxx, chdwxx.getChdwxxid());
+                            if(i > 0){
+                                logger.info("************测绘单位入库成功");
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            //保存的数据
+            if (dchyXmglZxbjModel != null) {
+                String model = dchyXmglZxbjModel.getModel();//获取模式
+                if(StringUtils.isNotBlank(model)){
+                    if (StringUtils.equals(model, "onlineCompleteCheck")) {//办结前的成果状态审核
+                        Map<String, Object> data = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>();
+                        String chxmid = dchyXmglZxbjModel.getChxmid();
+                        map.put("chxmid", chxmid);
+                        data.putAll(map);
+                        /*办结前成果状态的检查*/
+                        Map<String, Object> checkMap = contractService.checkProjectArchStatus(data);
+                        Map resultMap = Maps.newHashMap();
+                        resultMap.put("chxmid", chxmid);
+                        resultMap.put("model", "onlineCompleteCheck");
+                        resultMap.put("data", checkMap);
+                        /*在线办结后的结果推到线上*/
+                        pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                    } else if (StringUtils.equals(model, "onlineComplete")) {//办结
+                        Map<String, Object> data = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>();
+                        String chxmid = dchyXmglZxbjModel.getChxmid();
+                        map.put("chxmid", chxmid);
+                        data.putAll(map);
+                        /*在线办结*/
+                        ResponseMessage message = new ResponseMessage();
+                        int result = contractService.projectComplete(data);
+                        if (result > 0) {
+                            message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+                            message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+                            Map<String, Object> map2 = new HashMap<>();
+                            map2.put("chxmid", chxmid);
+                            message.setData(map2);
+                        } else {
+                            message.getHead().setMsg(ResponseMessage.CODE.ONLINE_COMPLETE_FAIL.getMsg());
+                            message.getHead().setCode(ResponseMessage.CODE.ONLINE_COMPLETE_FAIL.getCode());
+                        }
+                        Map resultMap = Maps.newHashMap();
+                        resultMap.put("model", "onlineComplete");
+                        resultMap.put("data", message);
+                        /*在线办结后的结果推到线上*/
+                        pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                    } else if (StringUtils.equals(model, "onlineGcPreview")) {//在线成果预览
+                        String chgcid = dchyXmglZxbjModel.getChgcid();
+                        Map<String, Object> data = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>();
+                        String chxmid = dchyXmglZxbjModel.getChxmid();
+                        map.put("chxmid", chxmid);
+                        map.put("chgcid", chgcid);
+                        data.putAll(map);
+                        Map<String, Object> fileMap = contractService.viewattachments2(data);
+                        Map resultMap = Maps.newHashMap();
+                        resultMap.put("model", "onlineGcPreview");
+                        resultMap.put("chxmid", chxmid);
+                        resultMap.put("chgcid", chgcid);
+                        resultMap.put("data", fileMap);
+                        /*在线预览文件的数据推到线上*/
+                        pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                    } else if (StringUtils.equals(model, "onlineGcPreviewById")) {//在线成果预览子结点
+                        Map<String, Object> data = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>();
+                        String chxmid = dchyXmglZxbjModel.getChxmid();
+                        map.put("chxmid", chxmid);
+                        String chgcid = dchyXmglZxbjModel.getChgcid();
+                        String id = dchyXmglZxbjModel.getId();
+                        map.put("chgcid", chgcid);
+                        map.put("id", id);
+                        data.putAll(map);
+                        Map<String, Object> fileMap = contractService.viewChildAttachments(data);
+                        Map resultMap = Maps.newHashMap();
+                        resultMap.put("model", "onlineGcPreviewById");
+                        resultMap.put("chxmid", chxmid);
+                        resultMap.put("data", fileMap);
+                        /*在线预览文件的数据推到线上*/
+                        pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                    } else if (StringUtils.equals(model, "onlineFileView")) {//在线文件预览
+                        String wjzxid = dchyXmglZxbjModel.getWjzxid();
+                        String fileName = dchyXmglZxbjModel.getFileName();
+                        //fileUploadController.OnlinePreview(wjzxid,fileName,)
+                    } else if (StringUtils.equals(model, "onlineGetUploadFileNums")) {//线上下载前获取可下载文件数量
+                        String wjzxid = dchyXmglZxbjModel.getWjzxid();
+                        Map<String, Object> data = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("wjzxid", wjzxid);
+                        data.put("data", map);
+                        ResponseMessage uploadFileNums = fileUploadController.getUploadFileNums(data);
+                        Map<String, Object> resultMap = new HashMap<>();
+                        resultMap.put("model", "onlineGetUploadFileNums");
+                        resultMap.put("wjzxid", wjzxid);
+                        resultMap.put("data", uploadFileNums.getHead());
+                        /*在线办结后的结果推到线上*/
+                        pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                    } else if (StringUtils.equals(model, "onlineGcDownload")) {//线下下载成果包
+                        String wjzxid = dchyXmglZxbjModel.getWjzxid();
+                        /*获取文件名和文件字节数组*/
+                        Map<String, byte[]> fileMap = fileUploadController.downFileByteArrayByWjzxid(wjzxid + "sx");
+                        Iterator<Map.Entry<String, byte[]>> iterator = fileMap.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            Map.Entry<String, byte[]> next = iterator.next();
+                            String fileName = next.getKey();
+                            byte[] fileBytes = next.getValue();
+                            String fileBody = Base64.getEncoder().encodeToString(fileBytes);
+                            Map<String, Object> resultMap = new HashMap<>();
+                            resultMap.put("model", "onlineGcDownload");
+                            resultMap.put("wjzxid", wjzxid);
+                            resultMap.put("fileName", fileName);
+                            resultMap.put("fileBody", fileBody);
+                            /*线下查找到文件的字节数组推到线上*/
+                            pushDataToMqService.pushZxbjResultTo(JSONObject.toJSONString(resultMap));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+//            e.printStackTrace();
+            logger.error("接收失败", e);
+            dchyXmglMqCzrz.setSbyy(e.toString());
+//            mqMsgMapper.insertMqMsg(dchyXmglMqCzrz);
+            entityMapper.saveOrUpdate(dchyXmglMqCzrz, dchyXmglMqCzrz.getCzrzid());
+            throw new Exception(e);
+        }
+
+    }
+
+}

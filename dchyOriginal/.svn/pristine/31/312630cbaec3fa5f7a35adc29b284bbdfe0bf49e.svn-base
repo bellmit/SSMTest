@@ -1,0 +1,286 @@
+<template>
+  <div>
+    <div class="content-title">
+      <span>项目/工程名称: {{ gcmc }}</span>
+      <div>
+        <Button class="bdc-major-btn" type="primary" @click="viewFj()">附件查看</Button>
+        <Button class="btn-cancel margin-left-10" @click="returnToList()">返回</Button>
+      </div>
+    </div>
+    <Steps direction="vertical" class="step-items" style="width: 100%">
+      <Step
+        v-for="(item, index) in stepInfoList"
+        :key="item.id"
+        status="process"
+      >
+        <template v-if="item.dm" slot="title">
+          <div>第{{ currentStepList[index] }}阶段 {{ item.mc }}</div>
+        </template>
+        <template v-if="item.dm" slot="title">
+          <div class="table-content">
+            <Table
+              :id="'table' + item.id"
+              :cols="tableCols"
+              :data="stepDataList['step' + item.dm] || []"
+              :showPage="false"
+              :operation="operationList"
+              @view="viewDetail"
+            ></Table>
+          </div>
+        </template>
+      </Step>
+    </Steps>
+    <Modal
+      class="modal-base"
+      v-model="visible"
+      :title="'查看详情'"
+      width="1200"
+      :mask-closable="false"
+      :footer-hide="true"
+      closable
+    >
+        <div>
+            <Table
+              v-if="visible"
+              :id="'detailTable'"
+              :cols="detailCols"
+              :data="detailData"
+              :showPage="false"
+              :unShowTool="true"
+            ></Table>
+        </div>
+        <div class="submit-back">
+            <Button type="primary" class="btn-h-34 bdc-major-btn" @click="cancel()">关闭</Button>
+        </div>
+    </Modal>
+  </div>
+</template>
+<script>
+import moment from "moment";
+import { getStepTable, getStepDictInfo, getProjectClsxInfo } from "../../service/manage";
+import _ from "loadsh";
+export default {
+  data() {
+    return {
+        recordRule: {},
+        totalNum: 0,
+        visible: false,
+        titleList: {
+            stepFirstTitle: "",
+        },
+        stepDataList: {},
+        operationList: ["view"],
+        detailCols: [
+            {
+                field: "CLSX",
+                title: "测绘事项",
+                align: "center",
+                width: 150
+            },
+            {
+                field: "TJSJ",
+                title: "提交时间",
+                align: "center",
+            },
+            {
+                field: "SHZT",
+                title: "审核结果",
+                align: "center",
+            },
+            {
+                field: "SHYJ",
+                title: "审核意见",
+                align: "center",
+            },
+            {
+                field: "SHR",
+                title: "审核人（角色）",
+                align: "center",
+                templet: function(d){
+                  let shr = d.ROLENAME ? d.ROLENAME.join('/') : ""
+                  return d.SHRMC ? d.SHRMC + "（" + shr + "）" : ""
+                }
+            },
+            {
+                field: "SHSJ",
+                title: "审核时间",
+                align: "center",
+            },
+            {
+                field: "TJR",
+                title: "提交人",
+                align: "center",
+            },
+            {
+                field: "ZRSJ",
+                title: "转发时间",
+                align: "center",
+            },
+        ],
+        detailData: [],
+        xmmc: "test",
+        tableCols: [
+            {
+                field: "CLSXMC",
+                title: "测绘事项",
+                align: "center",
+            },
+            {
+                field: "CHDWMC",
+                title: "测绘单位",
+                align: "center",
+            },
+            {
+                field: "DJSJ",
+                title: "委托/登记日期",
+                align: "center",
+            },
+            {
+                field: "YJJFSJ",
+                title: "预计交付日期",
+                align: "center",
+                templet: function (d) {
+                    return d.YJJFSJ ? moment(d.YJJFSJ).format("YYYY-MM-DD") : "";
+                },
+            },
+            {
+                field: "SJJFSJ",
+                title: "实际交付日期",
+                align: "center",
+                templet: function (d) {
+                    return d.SJJFSJ ? moment(d.SJJFSJ).format("YYYY-MM-DD") : "";
+                },
+            },
+            {
+                field: "CGJFQK",
+                title: "成果交付情况",
+                align: "center",
+            },
+            {
+                title: "操作",
+                align: "center",
+                minWidth: 180,
+                toolbar: "#operation",
+            },
+        ],
+        currentStepList: ["一", "二", "三", "四", "五", "六", "七", "八", "九"],
+        stepInfoList: [],
+        clsxid: "",
+        chgcid: "",
+        gcmc: "",
+        gcbh: "",
+    };
+  },
+  mounted() {
+    if (this.$route.query.clsxid) {
+      this.clsxid = this.$route.query.clsxid;
+    }
+    if (this.$route.query.chgcid) {
+      this.chgcid = this.$route.query.chgcid;
+    }
+    if (this.$route.query.gcmc) {
+      this.gcmc = this.$route.query.gcmc;
+    }
+    if(this.$route.query.gcbh) {
+      this.gcbh = this.$route.query.gcbh;
+    }
+    this.getStepDictInfo();
+  },
+  methods: {
+    // 获取字典项
+    getStepDictInfo() {
+      let params = {
+        zdlx: ["CLSX"],
+      };
+      this.$loading.show("加载中...");
+      getStepDictInfo(params).then((res) => {
+        this.$loading.close();
+        res.data.dataList.forEach((data) => {
+          data.sort = Number(data.dm);
+        });
+        this.stepInfoList = res.data.dataList;
+        this.stepInfoList = _.orderBy(this.stepInfoList, ["sort"], ["asc"]);
+        this.stepInfoList.push({});
+        this.getStepTable();
+      });
+    },
+    // 附件查看
+    viewFj() {
+      const { href } = this.$router.resolve({
+        path: "/review/fj",
+        query: {chgcid: this.$route.query.chgcid}
+      });
+      window.open(href);
+    },
+    // 获取详情
+    viewDetail(data){
+        this.visible = true;
+        this.$loading.show("加载中...");
+        let params = {
+            gcbh: this.$route.query.gcbh,
+            // gcbh:"YSMY0108",
+            clsx: data.CLSX
+        };
+        getProjectClsxInfo(params).then(res => {
+          this.$loading.close();
+          this.detailData = res.data.dataList;
+        })
+    },
+    returnToList() {
+      this.$router.push("/manage/chsldj");
+    },
+    // 获取详情进度步骤条
+    getStepTable() {
+        this.$loading.show("加载中...");
+        let params = {
+            chgcid: this.$route.query.chgcid,
+        };
+        getStepTable(params).then((res) => {
+            this.$loading.close();
+            let data = res.data.dataList || [];
+            let stepDataList = {};
+            this.stepInfoList.forEach((step, index) => {
+            stepDataList["step" + step.dm] = [];
+            data.forEach((d) => {
+                if (d.PCLSX == step.dm) {
+                stepDataList["step" + step.dm].push(d);
+                }
+            });
+            });
+            this.stepDataList = stepDataList;
+        });
+    },
+    cancel(){
+        this.visible = false;
+    },
+  },
+};
+</script>
+<style lang="less" scoped>
+.content-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.table-title {
+  font-size: 14px;
+}
+.table-content {
+  margin-left: 10px;
+}
+</style>
+<style scoped>
+.step-items >>> .ivu-steps-title {
+  width: 100%;
+}
+.step-items >>> .ivu-steps-title {
+  font-weight: 500;
+  color: #333;
+}
+.step-items >>> .ivu-steps-item:nth-child(5) .ivu-steps-head {
+  display: none;
+}
+.step-items >>> .ivu-steps-head-inner {
+  margin-right: 10px;
+}
+</style>

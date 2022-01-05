@@ -1,0 +1,27 @@
+
+]
+java:S1192E"GDefine a constant instead of duplicating this literal "HTXXID" 3 times.(ÈÆ•
+m
+java:S3776V"RRefactor this method to reduce its Cognitive Complexity from 80 to the 15 allowed.(ìä¿éüÿÿÿÿ
+]
+java:S1192¸"FDefine a constant instead of duplicating this literal "SJRMC" 3 times.(÷Ú‘š
+`
+java:S1192Å"IDefine a constant instead of duplicating this literal "CLSXLIST" 8 times.(Ñ¯–Å
+W
+java:S3457o"AFormat specifiers should be used instead of string concatenation.(¾•˜´
+`
+java:S1192j"JDefine a constant instead of duplicating this literal "SJCLPZID" 16 times.(˜‰Ğ
+M
+java:S2629o"7Use the built-in formatting to construct this argument.(¾•˜´
+W	java:S125ø"<This block of commented-out lines of code should be removed.(–îşúÿÿÿÿ
+W	java:S125Õ"<This block of commented-out lines of code should be removed.(–îşúÿÿÿÿ
+W	java:S125·"<This block of commented-out lines of code should be removed.(–îşúÿÿÿÿ
+n
+java:S3776½"RRefactor this method to reduce its Cognitive Complexity from 47 to the 15 allowed.(ÎÁ²ìıÿÿÿÿ
+^
+java:S1192Ù"GDefine a constant instead of duplicating this literal "CLLXID" 4 times.(²¸‰ê
+]
+java:S1192"GDefine a constant instead of duplicating this literal "SJCLID" 3 times.(‹ô¡Â
+f
+java:S1192˜"HDefine a constant instead of duplicating this literal "clsxStr" 3 times.(¶—×8ûæ§‡š/
+K	java:S108")Either remove or fill this block of code.(²‰®’üÿÿÿÿ8ûæ§‡š/

@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*地图样式*/
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.leaflet-bar.map-text a {
+    color: #79BD8F;
+    display: inline;
+}
+
+
+.layui-table-tool {
+    line-height: 38px
+}
+
+/*属性识别表头工具条*/
+.layui-table-tool,
+.layui-table-tool-temp {
+    padding-right: 0;
+}
+
+.table-container-layer-select-tool-item {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    float: left;
+}
+
+.table-container-layer-select-tool-item.title {
+    width: 48px
+}
+
+.table-container-layer-select-tool-item.select {
+    width: calc(100% - 80px); /*select宽度填充剩余部分*/
+}
+
+.table-container-layer-select-tool-item.updown {
+    width: 32px;
+    float: right; /*上下按钮浮动在右侧*/
+    line-height: 38px;
+    display: flex; /*采用flex布局*/
+    flex-direction: column; /*子元素垂直布局*/
+}
+
+#previousFeature,
+#nextFeature {
+    line-height: 19px;
+    text-align: center; /*字体图标居中对齐*/
+}
+
+#previousFeature:hover,
+#nextFeature:hover {
+    color: cornflowerblue;
+    cursor: pointer;
+}
+
+
+/*属性识别表格容器*/
+
+.table-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 2000;
+    overflow-y: hidden; /*不显示滚动条*/
+}
+
+.layui-table-box {
+    overflow-y: auto
+}
+
+.layui-table-body.layui-table-main {
+    overflow-x: hidden; /*隐藏表格内部横向滚动条*/
+}
+
+/*右上角属性识别、添加错误按钮*/
+
+.leaflet-control-add-error,
+.leaflet-control-identify {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+    background: #fff;
+    border-radius: 5px;
+    width: 36px;
+    height: 36px;
+}
+
+/*属性识别、添加错误图标img元素*/
+
+.leaflet-add-error,
+.leaflet-identify {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+}
+
+
+/*左下角比例尺及坐标控件样式*/
+
+.leaflet-coords,
+.leaflet-scaleBar {
+    font-size: 1em;
+    padding: 7px 10px;
+    border: none !important;
+    font-weight: 600;
+    background: #dee3e8;
+    border-radius: 0 !important;
+}
+
+.leaflet-control {
+    clear: none; /*默认横向排列*/
+}
+
+.leaflet-control-full-map {
+    clear: both; /*纵向排列*/
+}
+
+.leaflet-control-coords.leaflet-control,
+.leaflet-control-scaleBar.leaflet-control {
+    margin-left: 0;
+}
+
+
+/*全图显示*/
+.leaflet-full-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    margin-left: -13px;
+    margin-top: -13px;
+}
+
+.leaflet-control-full-map {
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    border-radius: 4px;
+    background-color: #fff;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+/*图层控制样式*/
+
+.leaflet-control-layer-control {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+    background: #fff;
+    border-radius: 5px;
+}
+
+.leaflet-control-layer-control-toggle {
+    background-image: url(../src/img/LayerControl.png);
+    width: 35px;
+    height: 35px;
+}
+
+.leaflet-retina .leaflet-control-layer-control-toggle {
+    background-image: url(../src/img/LayerControl.png);
+    background-size: 30px 30px;
+}
+
+.leaflet-touch .leaflet-control-layer-control-toggle {
+    width: 35px;
+    height: 35px;
+}
+
+.leaflet-control-layer-control .leaflet-control-layer-control-list,
+.leaflet-control-layer-control-expanded .leaflet-control-layer-control-toggle {
+    display: none;
+}
+
+.leaflet-control-layer-control-expanded .leaflet-control-layer-control-list {
+    display: block;
+    position: relative;
+}
+
+.leaflet-control-layer-control-expanded {
+    padding: 6px 10px 6px 6px;
+    color: #333;
+    background: #fff;
+}
+
+.leaflet-control-layer-control-scrollbar {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 5px;
+}
+
+.leaflet-control-layer-control-selector {
+    margin-top: 2px;
+    position: relative;
+    top: 1px;
+}
+
+.leaflet-control-layer-control label {
+    display: block;
+}
+
+.leaflet-control-layer-control-separator {
+    height: 0;
+    border-top: 1px solid #ddd;
+    margin: 5px -10px 5px -6px;
+}
+
+.leaflet-control-layer-control-toggle {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.leaflet-touch .leaflet-control-layer-control {
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.leaflet-touch .leaflet-control-layer-control {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+}
+
+.leaflet-oldie .leaflet-control-layer-control {
+    border: 1px solid #999;
+}

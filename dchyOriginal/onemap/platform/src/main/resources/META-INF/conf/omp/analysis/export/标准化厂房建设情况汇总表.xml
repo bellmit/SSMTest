@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Created>2006-09-16T00:00:00Z</Created>
+  <LastSaved>2015-09-10T09:20:33Z</LastSaved>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+  <RemovePersonalInformation/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8010</WindowHeight>
+  <WindowWidth>14805</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>105</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="m49548148">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s69">
+   <Alignment ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s71">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"
+    ss:Bold="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="1000" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:Index="9" ss:Width="66"/>
+   <Column ss:Width="78"/>
+   <Column ss:AutoFitWidth="0" ss:Width="73.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="24.75">
+    <Cell ss:MergeAcross="11" ss:StyleID="s71"><Data ss:Type="String">标准化厂房建设情况汇总表</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">建设情况</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">序号</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">区域</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">年度</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">投资主体</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">项目位置</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">占地面积</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">厂房面积</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">已使用面积</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">项目建设状态</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">楼层</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">目前状态</Data></Cell>
+   </Row>
+   <#list data?keys as key>
+       <#assign list=data[key]!/>
+   <#assign first=list[0]/>
+       <Row>
+           <Cell ss:MergeDown="${list?size-1}" ss:StyleID="m49548148"><Data ss:Type="String">${key!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">1</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.XZQ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.ND!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.TZZT!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.XMWZ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.ZDMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.CFMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.YSYMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.JSZT!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.LC!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${first.MQZT!}</Data></Cell>
+        </Row>
+       <#list list [1..] as item>
+       <Row>
+           <Cell ss:Index="2" ss:StyleID="s69"><Data ss:Type="String">${item_index+2}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.XZQ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.ND!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.TZZT!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.XMWZ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.ZDMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.CFMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.YSYMJ!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.JSZT!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.LC!}</Data></Cell>
+           <Cell ss:StyleID="s69"><Data ss:Type="String">${item.MQZT!}</Data></Cell>
+       </Row>
+       </#list>
+   </#list>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>2</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

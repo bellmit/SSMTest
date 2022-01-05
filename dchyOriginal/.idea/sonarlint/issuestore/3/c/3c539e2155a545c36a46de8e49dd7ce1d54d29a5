@@ -1,0 +1,19 @@
+
+p
+java:S1128"ZRemove this unused import 'cn.gtmap.msurveyplat.serviceol.core.service.DchyXmglZdService'.(õ»
+p
+java:S1128"ZRemove this unused import 'cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChxmMapper'.(¾ÎÙ½
+h
+java:S3776X"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(Ë¾Ğœ
+j
+java:S4042‘"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ
+V	java:S899‘";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ
+]	java:S899“"BDo something with the "boolean" value returned by "createNewFile".(Ğ’Íùÿÿÿÿ
+S
+java:S1854Ç"7Remove this useless assignment to local variable "slr".(¥–¤Ğıÿÿÿÿ
+R	java:S125Ï"<This block of commented-out lines of code should be removed.(Ñˆë
+R	java:S125Ñ"<This block of commented-out lines of code should be removed.(¸‚åé
+D
+java:S1481Ç"(Remove this unused "slr" local variable.(¥–¤Ğıÿÿÿÿ
+A
+java:S1068.",Remove this unused "simsunbf" private field.(êºz

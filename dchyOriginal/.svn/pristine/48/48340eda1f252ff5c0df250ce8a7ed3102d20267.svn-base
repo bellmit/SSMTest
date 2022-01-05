@@ -1,0 +1,493 @@
+<template>
+    <div class="submit-cg">
+        <div class="form-title">
+            <div class="list-title">文件上传</div>
+            <div>
+                <!-- <Button class="btn-cancel" @click="goBack">返回</Button> -->
+            </div>
+        </div>
+        <div class="upload-body">
+            <Form class="form-edit" :label-width="180">
+                <FormItem label="请选择要提交的成果包：">
+                    <Input v-model="fileName" style="width:400px" readonly/>
+                    <Upload action="" accept="application/x-zip-compressed,application/x-rar-compressed" :beforeUpload="handlerBeforeUpload">
+                        <Button type="primary" :disabled="uploadFirst" class="btn-cancel">选择</Button>
+                    </Upload>
+                </FormItem>
+                <FormItem>
+                    <Button :disabled="uploadFirst" :class="uploadFirst?'':'bdc-major-btn'" @click="firstSubmit" type="primary">上传</Button>
+                </FormItem>
+            </Form>
+        </div>
+        <div class="line-dashed"></div>
+        <div class="form-title margin-top-10">
+            <div class="list-title">文件上传信息提示</div>
+        </div>
+        <div>
+            <div class="error-header">
+                <div>
+                    <span v-if="hasError"><i class="fa fa-exclamation-triangle color-unfinish" style="margin-right: 10px" aria-hidden="true"></i>上传的文件检测出以下错误，是否确认提交？</span>
+                    <span v-if="uploadFirst&&!hasError&&hasYxClsx"><i class="fa fa-question-circle color-finish" style="margin-right: 10px;font-size: 16px;vertical-align:middle" aria-hidden="true"></i><span style="line-height: 16px">成果包校验无误，是否确认提交?</span></span>
+                    <span v-if="!hasYxClsx"><i class="fa fa-question-circle color-unfinish" style="margin-right: 10px;font-size: 16px;vertical-align:middle" aria-hidden="true"></i><span style="line-height: 16px">提交的成果都未备案，已为您直接过滤，是否重新上传?</span></span>
+                </div>
+                <div>
+                    <Button v-if="uploadFirst&&!hasError&&hasYxClsx" type="primary" class="bdc-major-btn" @click="submit">确认提交</Button>
+                    <Button v-if="hasError" type="primary" class="bdc-major-btn" @click="submit">是，仍要提交</Button>
+                    <Button v-if="hasError" class="btn-cancel margin-left-10" @click="cancelSubmit">否，重新上传</Button>
+                    <Button v-if="!hasYxClsx" class="btn-cancel margin-left-10" @click="cancelSubmit">重新上传</Button>
+                </div>
+            </div>
+            <div>
+                <!-- @deleteOpr="deleteOpr" -->
+                <Table
+                    :showPage="false"
+                    :cols="tableCols"
+                    :tool="tool"
+                    :data="uploadErrorList"
+                    :operation="operationList"
+                    @cover="coverData"
+                    @uncover="unCoverData"
+                    @btn1="coverAll"
+                    @btn2="unCoverAll"
+                    @check="checkErrorFile"
+                ></Table>
+            </div>
+        </div>
+        <Modal
+            class="modal-base"
+            v-model="visible"
+            :title="'成果已提交，请确认成果转发人员'"
+            width="800"
+            :mask-closable="false"
+            :footer-hide="true"
+            closable
+        >
+            <Table
+                v-if="visible"
+                :unShowTool="true"
+                :id="'cgryTable'"
+                :showPage="false"
+                :cols="cgryCols"
+                :data="cgryData"
+                @select="selectCyr"
+                @check="checkCgry"
+            ></Table>
+            <div style="margin-top: 30px">
+                <Form>
+                    <FormItem :label-width="60" label="备注：">
+                        <Input v-model="cgryBz" type="textarea"/>
+                    </FormItem>
+                </Form>
+            </div>
+            <div class="submit-back" >
+                <Button type="primary" class="btn-h-34 bdc-major-btn" @click="transfer()">转发</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel()">取消</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script>
+import { checkZipFile, uploadZipFile, deleteSqxx, initCgtj } from "../../../service/result-manage"
+import { getDictInfo } from "../../../service/manage"
+import util from "../../../service/util"
+import _ from "lodash";
+export default {
+    data() {
+        const _self = this
+        return {
+            hasError: false,
+            visible: false,
+            cgryCols: [
+                {
+                    type: "checkbox",
+                    align: "center",
+                    width: 70,
+                    fixed: "left",
+                    LAY_CHECKED: true
+                },
+                {
+                    field: "clsx",
+                    title: "测绘事项",
+                    align: "center",
+                },
+                {
+                    field: "cyjs",
+                    title: "参与角色",
+                    align: "center",
+                },
+                {
+                    field: "cyr",
+                    title: "参与人",
+                    align: "center",
+                    templet: function(d){
+                        let option = "";
+                        _self.ryNum.forEach(ry => {
+                            option += "<option label="+ry.lable+">"+ry.name+"</option>"
+                        })
+                        return "<select lay-filter='select' id='select'>"+
+                            option
+                        +"</select>"
+                    }
+                },
+            ],
+            ryNum: [],
+            cgryData: [
+                {
+                    CLSX: "测试"
+                },
+                {
+                    CLSX: "测试"
+                },
+                {
+                    CLSX: "测试"
+                }
+            ],
+            cgryBz: "",
+            selectCgryData: [],
+            tableCols: [
+                // {
+                //     type: "checkbox",
+                //     align: "center",
+                //     width: 70,
+                //     fixed: "left"
+                // },
+                {
+                    field: "clsx",
+                    title: "测绘事项",
+                    align: "center",
+                },
+                {
+                    field: "wjmc",
+                    title: "文件名称",
+                    align: "center",
+                },
+                {
+                    field: "mlmc",
+                    title: "目录名称",
+                    align: "center",
+                },
+                {
+                    field: "msxx",
+                    title: "描述信息",
+                    align: "center",
+                },
+                // {
+                //     title: "操作",
+                //     align: "center",
+                //     minWidth: 180,
+                //     toolbar: "#operation"
+                // }
+            ],
+            tool: '',
+            uploadErrorList: [],
+            selectErrorList: [],
+            operationList: [],
+            errorInfoModels: [],
+            selectFile: null,
+            fileName: "",
+            hasRepeatFile: false,
+            uploadFirst: false,
+            sqxxid: "",
+            gzlslid: "",
+            hasYxClsx: true,
+            sftj: "0",
+            shztList: []
+        }
+    },
+    mounted() {
+        this.sqxxid = util.getSearchParams("xmid") || this.$route.query.xmid
+        this.gzlslid = util.getSearchParams("gzlslid")
+        this.initCgtj();
+        this.getDictInfo();
+    },
+    methods: {
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["SHZT"]
+            }
+            getDictInfo(params).then(res => {
+                this.shztList = res.data.dataList;
+            })
+        },
+        // 初始化成果提交信息，获取上次提交的成果
+        initCgtj(){
+            let params = {
+                xmid: this.sqxxid
+            }
+            initCgtj(params).then(res => {
+                if(res.data.data && res.data.data.clsxList){
+                    window.parent.sendFilters = res.data.data.clsxList.join(",")
+                }
+                if(res.data.data && res.data.data.sftj){
+                    this.uploadFirst = true;
+                    this.fileName = res.data.data.gcbh
+                    this.checkFileData(res.data.data)
+                }
+                if(res.data.data && res.data.data.sftj === "1") {
+                    this.uploadFirst = false;
+                    this.hasError = false;
+                    this.tableCols.splice(this.tableCols.length-1,1)
+                }
+            })
+        },
+        goBack(){
+            this.$loading.show("加载中...")
+            deleteSqxx({sqxxid: this.sqxxid}).then(res => {
+                this.$loading.close();
+                this.$router.push("/manage/chsldj");
+            })
+        },
+        // 选择参与人
+        selectCyr(arg){
+            this.cgryData[arg.index].CYR = arg.value;
+        },
+        // 选择转发人
+        checkCgry(data){
+            if(data.length){
+                this.selectCgryData = _.cloneDeep(data)
+            }
+        },
+        // 处理校验的文件信息，
+        checkFileData(result){
+            let wjcfList = result.wjcfList || [];
+            this.errorInfoModels = [...wjcfList];
+            let wjqsList = result.wjqsList || [];
+            let gdwwyqwjList = result.gdwwyqwjList || [];
+            let gscwList = result.gscwList || [];
+            let allMsxxList = result ? [...wjcfList,...wjqsList,...gdwwyqwjList,...gscwList] : []
+            let msxxList = [];
+            if(result.wbaClsxList){
+                let wbaClsxList = result.wbaClsxList
+                allMsxxList.forEach(msxx => {
+                    if(!wbaClsxList.includes(msxx.clsx)){
+                        msxxList.push(msxx)
+                    }
+                })
+            } else {
+                msxxList = allMsxxList
+            }
+            let clsxList = result.clsx || []
+            if(!clsxList.length){
+                this.hasYxClsx = false;
+            }
+            window.parent.sendFilters = clsxList.join(",")
+            if(msxxList && msxxList.length){
+                this.hasError = true;
+            } else {
+                return
+            }
+            // if(wjcfList.length&&result.sftj == "0"){
+            //     this.hasRepeatFile = true;
+            //     this.tool = '<div>' +
+            //         '<span class="layui-btn main-btn-a" lay-event="btn1">全部覆盖</span>' +
+            //         '<span class="layui-btn btn-default margin-left-10" lay-event="btn2">全部不覆盖</span>' +
+            //     '</div>'
+            // }
+            // msxxList.forEach(msxx => {
+            //     let coverZt = "可覆盖"
+            //     let find = this.shztList.find(shzt => shzt.DM == msxx.wjzt)
+            //     let wjztMc = find ? find.MC : "";
+            //     if(msxx.wjzt == '99' || msxx.wjzt == '2'){
+            //         coverZt = "不可覆盖"
+            //     }
+            //     if(msxx.wjzt == '99'){
+            //         wjztMc = "已入库"
+            //     }
+            //     msxx.msxxDetail = msxx.msxx == "文件重复" ? coverZt == '不可覆盖'? "文件" + wjztMc + coverZt : msxx.msxx + coverZt : msxx.msxx
+            // })
+            this.uploadErrorList = _.cloneDeep(msxxList)
+        },
+        // 上传
+        firstSubmit(){
+            if(!this.selectFile){
+                layer.msg("请先上传成果包");
+                return;
+            }
+            let formData = new FormData();
+            this.$loading.show("上传中...")
+            formData.append("files", this.selectFile)
+            formData.append("sqxxid", this.sqxxid)
+            checkZipFile(formData).then(res => {
+                this.$loading.close();
+                this.uploadFirst = true;
+                let wbaClsxList = res.data.data.wbaClsxList || [];
+                if(wbaClsxList.length){
+                    let wbaClsx = wbaClsxList.join("、")
+                    layer.alert("测绘事项  " + wbaClsx + "  尚未备案，成果将被过滤", (index) => {
+                        layer.close(index)
+                        this.checkFileData(res.data.data)
+                    })
+                } else {
+                    this.checkFileData(res.data.data)
+                }
+            })
+            
+        },
+        handlerBeforeUpload(file){
+            let type = file.name.split(".")[1]
+            let acceptType = ['zip']
+            if(!acceptType.includes(type)){
+                layer.msg("选择的文件类型错误，请重新选择")
+                return false
+            }
+            this.selectFile = file
+            this.fileName = file.name
+            return false
+        },
+        // 设置需要多选操作的list
+        deleteOpr(){
+            this.uploadErrorList.forEach((list, index) => {
+                if (list.msxx != "文件重复" || list.wjzt == "99" || list.wjzt == "2") {
+                    list.disabled = true;
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").next().remove();
+                    $(".layui-table tr[data-index="+index+"] input[type='checkbox']").remove();
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='cover']").remove();
+                    $(".layui-table:eq(1) tr:eq(" + index + ")").find("td").last().find("span[lay-event='uncover']").remove();
+                } 
+            });
+        },
+        // 表格覆盖
+        coverData(data){
+            if(data.disabled){
+                return
+            }
+            layer.confirm("确认覆盖该数据？",(index) => {
+                layer.close(index)
+                this.deleteErrorData(data)
+            })
+        },
+        // 不覆盖上传
+        unCoverData(data){
+            if(data.disabled){
+                return
+            }
+            layer.confirm("确认不覆盖该数据？",(index) => {
+                layer.close(index)
+                this.errorInfoModels.push(data);
+                this.deleteErrorData(data);
+            })
+        },
+        // 删除已经操作的选项
+        deleteErrorData(data){
+            let uploadErrorList = _.cloneDeep(this.uploadErrorList)
+            let selectIndex;
+            uploadErrorList.forEach((error,index) => {
+                if((error.wjmc === data.wjmc)&&(error.mlmc === data.mlmc)){
+                    selectIndex = index
+                }
+            })
+            uploadErrorList.splice(selectIndex,1)
+            this.uploadErrorList = _.cloneDeep(uploadErrorList)
+        },
+        // 全部覆盖操作
+        coverAll(){
+            if(!this.selectErrorList.length){
+                layer.msg("请先选择需要覆盖的文件")
+                return;
+            }
+            layer.confirm("确认要全部覆盖吗?",(index) => {
+                layer.close(index)
+                this.selectErrorList.forEach(error => {
+                    this.deleteErrorData(error)
+                })
+            })
+        },
+        // 全部不覆盖
+        unCoverAll(){
+            if(!this.selectErrorList.length){
+                layer.msg("请先选择不覆盖的文件")
+                return;
+            }
+            layer.confirm("确认全部不覆盖吗?",(index) => {
+                layer.close(index)
+                this.errorInfoModels = [...this.errorInfoModels,...this.selectErrorList];
+                this.selectErrorList.forEach(error => {
+                    this.deleteErrorData(error)
+                })
+            })
+        },
+        // 选择错误信息
+        checkErrorFile(data){
+            this.selectErrorList = []
+            data.forEach(d => {
+                if(!d.disabled){
+                    this.selectErrorList.push(d)
+                }
+            })
+        },
+        // 转发
+        transfer(){},
+        cancel(){
+            this.visible = false;
+        },
+        // 确认提交
+        submit(){
+            let hasRepeatFile = false
+            // this.uploadErrorList.forEach(error => {
+            //     if(error.msxxDetail == "文件重复可覆盖"){
+            //         hasRepeatFile = true
+            //     }
+            // })
+            if(hasRepeatFile){
+                layer.alert("存在重复提交的测绘成果，请先处理完成后再提交")
+            } else {
+                let params = {
+                    sqxxid: this.sqxxid,
+                    gzlslid: this.gzlslid,
+                    errorInfoModels: this.errorInfoModels
+                }
+                this.$loading.show("加载中...")
+                uploadZipFile(params).then(res => {
+                    this.$loading.close();
+                    layer.msg("文件上传成功")
+                    this.hasError = false;
+                    this.uploadFirst = false;
+                    setTimeout(() => {
+                        window.parent.close();
+                    },1500)
+                    
+                })
+            }
+        },
+        // 取消提交
+        cancelSubmit(){
+            this.uploadFirst = false;
+            this.hasError = false;
+            this.hasYxClsx = true;
+            this.tool = "";
+            this.uploadErrorList = [];
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .submit-cg {
+        min-height: 100vh;
+        padding: 10px;
+        background-color: #fff;
+    }
+    .upload-body {
+        margin-bottom: 80px;
+    }
+    .error-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .form-edit >>> .ivu-upload {
+        display: inline;
+    }
+    .modal-base >>> .layui-table-box,
+    .modal-base >>> .layui-table-body,
+    .modal-base >>> .layui-table-cell {
+        overflow: visible;
+        overflow-x: visible;
+    }
+    .modal-base >>> .ivu-input {
+        border-radius: 0;
+    }
+</style>

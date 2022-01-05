@@ -1,0 +1,24 @@
+<div class="loc-result-wrapper">
+    <fieldset>
+        <legend>地块列表</legend>
+    </fieldset>
+    <div class="loc-result-list">
+    </div>
+    <!--<fieldset>-->
+        <!--<legend>功能列表</legend>-->
+    <!--</fieldset>-->
+    <ul class="loc-func-list">
+        <!--<li>-->
+            <!--<i class="iconfont text-muted">&#xe620;</i>&nbsp;<abbr title="现状分析,配置信息取自模板">分析</abbr>-->
+            <!--<a href="#" class="btn btn-info btn-xs pull-right" data-type="analysis">执行</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<i class="iconfont text-muted">&#xe625;</i>&nbsp;<abbr title="对当前批次报件进行面积检查">报件</abbr>-->
+            <!--<a href="#" class="btn btn-info btn-xs pull-right" data-type="report">执行</a>-->
+        <!--</li>-->
+        <li>
+            <i class="iconfont text-muted">&#xe60f;</i>&nbsp;<abbr title="导出当前定位地块">导出</abbr>
+            <a href="#" class="btn btn-info btn-xs pull-right" data-type="export">执行</a>
+        </li>
+    </ul>
+</div>

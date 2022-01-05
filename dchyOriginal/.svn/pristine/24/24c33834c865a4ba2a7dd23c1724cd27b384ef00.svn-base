@@ -1,0 +1,461 @@
+package cn.gtmap.msurveyplat.serviceol.web.main;
+
+import cn.gtmap.msurveyplat.common.annotion.CheckInterfaceAuth;
+import cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglChgc;
+import cn.gtmap.msurveyplat.common.dto.ResponseMessage;
+import cn.gtmap.msurveyplat.common.util.CommonUtil;
+import cn.gtmap.msurveyplat.common.util.DataSecurityUtil;
+import cn.gtmap.msurveyplat.common.util.ResponseUtil;
+import cn.gtmap.msurveyplat.serviceol.core.mapper.DchyXmglChgcMapper;
+import cn.gtmap.msurveyplat.serviceol.core.service.DchyXmglZdService;
+import cn.gtmap.msurveyplat.serviceol.core.xsbfmapper.XsbfDchyXmglChgcMapper;
+import cn.gtmap.msurveyplat.serviceol.service.ChdwXmcxService;
+import cn.gtmap.msurveyplat.serviceol.service.JsdwFbxqglService;
+import cn.gtmap.msurveyplat.serviceol.utils.Constants;
+import cn.gtmap.msurveyplat.serviceol.utils.UserUtil;
+import cn.gtmap.msurveyplat.serviceol.web.util.FileDownoadUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
+
+/**
+ * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+ * @version 1.o, 2020-12-01
+ * description
+ */
+@Controller
+@RequestMapping("/jsdwFbxqgl")
+public class JsdwFbxqglController {
+
+    @Autowired
+    DchyXmglChgcMapper dchyXmglChgcMapper;
+    @Autowired
+    JsdwFbxqglService jsdwFbxqglService;
+    @Autowired
+    ChdwXmcxService chdwXmcxService;
+    @Autowired
+    DchyXmglZdService dchyXmglZdService;
+    @Autowired
+    XsbfDchyXmglChgcMapper xsbfDchyXmglChgcMapper;
+
+    private Logger logger = LoggerFactory.getLogger(JsdwFbxqglController.class);
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 建设单位查看发布的需求
+     */
+    @PostMapping(value = "/jsdwCkxq")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object getJsdwCkxqList(@RequestBody Map map) {
+        ResponseMessage responseMessage;
+        try {
+            map.put("userid", UserUtil.getCurrentUserId());
+            Page<Map<String, Object>> dataList = jsdwFbxqglService.getJsdwCkxqList(map);
+            DataSecurityUtil.decryptMapList(dataList.getContent());
+            responseMessage = ResponseUtil.wrapResponseBodyByPage(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage = ResponseUtil.wrapResponseBodyByMsgCode(e.getMessage(), ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    @GetMapping(value = "/initJsdwFbxq")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object initJsdwFbxq() {
+        ResponseMessage responseMessage;
+        try {
+            Map<String, Object> resultMap = jsdwFbxqglService.initJsdwFbxq();
+            responseMessage = ResponseUtil.wrapSuccessResponse();
+            responseMessage.getData().putAll(resultMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage = ResponseUtil.wrapResponseBodyByMsgCode(e.getMessage(), ResponseMessage.CODE.UPLOAD_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    @PostMapping(value = "/deleteJsdwFbxq")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object deleteJsdwFbxq(@RequestBody Map map) {
+        ResponseMessage responseMessage;
+        try {
+            Map<String, Object> resultMap = jsdwFbxqglService.deleteJsdwFbxqByChxmid(map);
+            responseMessage = ResponseUtil.wrapSuccessResponse();
+            responseMessage.getHead().setMsg(MapUtils.getString(resultMap, "msg"));
+            responseMessage.getHead().setCode(MapUtils.getString(resultMap, "code"));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage = ResponseUtil.wrapResponseBodyByMsgCode(e.getMessage(), ResponseMessage.CODE.UPLOAD_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 建设单位发布需求
+     */
+    @PostMapping(value = "/saveJsdwFbxq")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object saveJsdwFbxq(@RequestBody Map map) {
+        ResponseMessage responseMessage;
+        try {
+            jsdwFbxqglService.saveChgcxx(map);
+            responseMessage = ResponseUtil.wrapSuccessResponse();
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage = ResponseUtil.wrapResponseBodyByMsgCode(e.getMessage(), ResponseMessage.CODE.UPLOAD_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 建设单位发布需求, 检测工程编号是否存在
+     */
+    @PostMapping(value = "/queryGcmcByGcbh")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryGcmcByGcbh(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            DchyXmglChgc dchyXmglChgc = jsdwFbxqglService.queryGcmcByGcbh(map);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+            if (null != dchyXmglChgc) {
+                responseMessage.getData().put("gcbh", dchyXmglChgc.getGcbh());
+                responseMessage.getData().put("gcmc", dchyXmglChgc.getGcmc());
+                responseMessage.getData().put("gcdzs", dchyXmglChgc.getGcdzs());
+                responseMessage.getData().put("gcdzss", dchyXmglChgc.getGcdzss());
+                responseMessage.getData().put("gcdzxx", dchyXmglChgc.getGcdzxx());
+                responseMessage.getData().put("gcdzqx", dchyXmglChgc.getGcdzqx());
+            }
+        } catch (Exception e) {
+            responseMessage.getHead().setMsg(Constants.FAIL_MSG);
+            responseMessage.getHead().setCode(Constants.FAIL);
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 建设单位查看我的项目
+     */
+    @RequestMapping(value = "/jsdwCkxm")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object getJsdwCkxmList(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            Page<Map<String, Object>> dataList = jsdwFbxqglService.getJsdwCkxmList(map);
+            if(dataList != null){
+                DataSecurityUtil.decryptMapList(dataList.getContent());
+            }
+            responseMessage = ResponseUtil.wrapResponseBodyByPage(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 建设单位委托信息
+     */
+    @RequestMapping(value = "/queryWtxxByChdwxxid")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryWtxxByChxmid(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> dataList = jsdwFbxqglService.queryWtxxByChdwxxid(map);
+            responseMessage = ResponseUtil.wrapResponseBodyByList(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 测绘单位办理信息
+     */
+    @RequestMapping(value = "/queryChdwxxByChdwxxid")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryChdwxxByChxmid(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> dataList = jsdwFbxqglService.queryChdwxxByChdwxxid(map);
+            responseMessage = ResponseUtil.wrapResponseBodyByList(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 委托单位办理信息
+     */
+    @RequestMapping(value = "/queryQtblxxByChxmid")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryQtblxxByChxmid(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> dataList = jsdwFbxqglService.queryQtblxxByChxmid(map);
+            responseMessage = ResponseUtil.wrapResponseBodyByList(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 点击查看详情
+     */
+    @RequestMapping(value = "/queryChxmxxByChxmid")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryChxmxxByChxmid(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> dataList = jsdwFbxqglService.queryChxmxxByChxmid(map);
+            responseMessage = ResponseUtil.wrapResponseBodyByList(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @author <a href="mailto:lijingmo@gtmap.cn">lijingmo</a>
+     * @description 点击查看详情, 获取clsx
+     */
+    @RequestMapping(value = "/queryClsxByChxmid")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public Object queryChxmxxByChbh(@RequestBody Map map) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try {
+            List<Map<String, Object>> dataList = jsdwFbxqglService.queryClsxByChxmid(map);
+            responseMessage = ResponseUtil.wrapResponseBodyByList(dataList);
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getCode());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            responseMessage.getHead().setMsg(ResponseMessage.CODE.QUERY_FAIL.getMsg());
+            responseMessage.getHead().setCode(ResponseMessage.CODE.QUERY_FAIL.getCode());
+        }
+        return responseMessage;
+    }
+
+    /**
+     * @return
+     * @parammap
+     * @description 2020/12/10 建设单位  我的项目   合同下载
+     * @author <a href="mailto:liuqiang@gtmap.cn">liuqiang</a>
+     */
+    @RequestMapping(value = "/jsdwHtDownload")
+    @ResponseBody
+    @CheckInterfaceAuth
+    public ResponseMessage jsdwHtDownload(@RequestBody Map map) {
+        ResponseMessage message = new ResponseMessage();
+
+        Map<String, Object> data = (Map<String, Object>) map.get("data");
+        String chxmid = CommonUtil.formatEmptyValue(data.get("chxmid"));
+        String chdwxxid = CommonUtil.formatEmptyValue(data.get("chdwxxid"));
+        Map<String,Object> paramMap = Maps.newHashMap();
+        paramMap.put("chxmid",chxmid);
+        paramMap.put("chdwxxid",chdwxxid);
+
+        List<String> wjzxidList = jsdwFbxqglService.queryHtxxByChxmid(paramMap);
+        if (CollectionUtils.isNotEmpty(wjzxidList)) {
+            Map<String, Object> result = Maps.newHashMap();
+            for (String wjzxidLists : wjzxidList) {
+                result.put("WJZXID", wjzxidLists);
+            }
+            message.getHead().setMsg(ResponseMessage.CODE.SUCCESS.getMsg());
+            message.getHead().setCode(ResponseMessage.CODE.SUCCESS.getCode());
+            message.setData(result);
+        } else {
+            message.getHead().setCode(ResponseMessage.CODE.FILENOTFOUND_FAIL.getCode());
+            message.getHead().setMsg(ResponseMessage.CODE.FILENOTFOUND_FAIL.getMsg());
+        }
+
+        return message;
+
+    }
+
+    @RequestMapping("/download")
+    @ResponseBody
+    public ResponseEntity<byte[]> download(HttpServletRequest httpServletRequest, HttpServletResponse response) {
+        List<String> wjzxidList = Lists.newArrayList();
+        String dwlx = httpServletRequest.getParameter("dwlx");
+        // 建设单位1 测绘单位2
+        if(StringUtils.equals(dwlx,Constants.DWLX_JSDW)){
+            String chxmid = httpServletRequest.getParameter("chxmid");
+            String chdwxxid = httpServletRequest.getParameter("chdwxxid");
+            Map<String,Object> paramMap = Maps.newHashMap();
+            paramMap.put("chxmid",chxmid);
+            paramMap.put("chdwxxid",chdwxxid);
+            wjzxidList = jsdwFbxqglService.queryHtxxByChxmid(paramMap);
+        }else if(StringUtils.equals(dwlx,Constants.DWLX_CHDW)){
+            String chxmid = httpServletRequest.getParameter("chxmid");
+            String mlkid = httpServletRequest.getParameter("mlkid");
+            wjzxidList = chdwXmcxService.queryHtxxByChxmidAndHtxxid(chxmid,mlkid);
+        }
+
+        if (CollectionUtils.isNotEmpty(wjzxidList)) {
+            // 构建响应
+            ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.ok();
+
+            // 二进制数据流
+            bodyBuilder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+
+
+            String fileName = "材料.zip";
+            response.reset();//清空缓存区，防止存在某些字符使得下载的文件格式错误
+            response.setContentType("application/octet-stream");
+
+            ZipOutputStream zos = null;
+            HttpStatus httpState = null;
+            byte[] body = null;
+            ByteArrayOutputStream byteArrayOutputStream = null;
+            try {
+                int num = 0;
+                for (String wjzxid : wjzxidList) {
+                    int nodeId = Integer.parseInt(wjzxid);
+                    num += FileDownoadUtil.getFileNumberByNodeId(nodeId);
+                }
+                Map<String, Object> wjxzMap = Maps.newHashMap();
+                if (num == 1) {
+                    for (String wjzxid : wjzxidList) {
+                        int nodeId = Integer.parseInt(wjzxid);
+                        int numTemp = FileDownoadUtil.getFileNumberByNodeId(nodeId);
+                        if (numTemp == 1) {
+                            wjxzMap.putAll(FileDownoadUtil.downLoadFile(nodeId));
+                            if (MapUtils.isNotEmpty(wjxzMap)) {
+                                fileName = MapUtils.getString(wjxzMap, "wjmc");
+                                body = (byte[]) wjxzMap.get("wjnr");
+                            }
+                        } else {
+                            continue;
+                        }
+                        fileName = FileDownoadUtil.encodeFileName(httpServletRequest, fileName);
+//                        response.setHeader("Content-Disposition", "attachment;" + fileName);
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+                        headers.add("Content-Disposition", "attachment; " + fileName);
+                        headers.add("Pragma", "no-cache");
+                        headers.add("Expires", "0");
+                        headers.add("Last-Modified", new Date().toString());
+                        headers.add("ETag", String.valueOf(System.currentTimeMillis()));
+                        return ResponseEntity
+                                .ok()
+                                .headers(headers)
+                                .contentLength(body.length)
+                                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                                .body(body);
+
+                    }
+                } else {
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    zos = new ZipOutputStream(byteArrayOutputStream);
+                    for (String wjzxid : wjzxidList) {
+                        int nodeId = Integer.parseInt(wjzxid);
+                        FileDownoadUtil.downLoadZip(zos, nodeId, null);
+                    }
+                    zos.finish();
+                    body = byteArrayOutputStream.toByteArray();
+                    fileName = "材料.zip";
+                    fileName = FileDownoadUtil.encodeFileName(httpServletRequest, fileName);
+//                    response.setHeader("Content-Disposition", "attachment;" + fileName);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+                    headers.add("Content-Disposition", "attachment; " + fileName);
+                    headers.add("Pragma", "no-cache");
+                    headers.add("Expires", "0");
+                    headers.add("Last-Modified", new Date().toString());
+                    headers.add("ETag", String.valueOf(System.currentTimeMillis()));
+                    return ResponseEntity
+                            .ok()
+                            .headers(headers)
+                            .contentLength(body.length)
+                            .contentType(MediaType.parseMediaType("application/octet-stream"))
+                            .body(body);
+
+                }
+            } catch (Exception e) {
+                httpState = HttpStatus.EXPECTATION_FAILED;
+                logger.error("错误信息:{}", e);
+            } finally {
+                // 关闭流
+                try {
+                    if (null != zos) {
+                        zos.flush();
+                        zos.close();
+                    }
+                    if (null != byteArrayOutputStream) {
+                        byteArrayOutputStream.flush();
+                        byteArrayOutputStream.close();
+                    }
+                } catch (IOException e) {
+                    logger.error("错误信息:{}", e);
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+    }
+}

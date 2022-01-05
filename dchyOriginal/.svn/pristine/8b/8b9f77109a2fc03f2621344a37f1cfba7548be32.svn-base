@@ -1,0 +1,35 @@
+package cn.gtmap.msurveyplat.serviceol.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:zhaobiqiang@gtmap.cn">zhaobiqiang</a>
+ * @version 1.0, 2021/4/22
+ * @description
+ */
+public interface DchyTjfxFromXmglMapper {
+
+
+    List<Map> getXmslByqxList(Map<String, Object> data);
+
+    List<Map> getXmslByqxlysList(Map<String, Object> data);
+
+
+    List<Map> getXmslByYear(Map<String, Object> data);
+
+    List<Map> getXmslByMouth(Map<String, Object> data);
+
+    List<Map> getXmslByWtzt(Map<String, Object> data);
+
+    List<Map> getXmslByQxmcAndChjd(Map<String, Object> data);
+
+    List<Map> getXmslByChjd(Map<String, Object> data);
+
+    List<Map> getJsdw();
+
+    List<Map> getChdw();
+
+    List<Map> getWtjlByPage(Map<String, Object> data);
+
+}

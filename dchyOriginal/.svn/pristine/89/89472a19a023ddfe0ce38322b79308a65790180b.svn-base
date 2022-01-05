@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gtmap.msurveyplat.promanage.core.mapper.DchyXmglClcgMapper">
+
+    <!--根据chgcbh,clsx查询审核信息-->
+    <select id="queryShxxByChgcbhAndClsx" parameterType="map" resultType="map">
+        SELECT z.chgcbh,z.shyj,z.shsj,z.tjsj,z.zrsj,z.shr,
+        (SELECT mc FROM dchy_xmgl_zd WHERE zdlx='SHZT' AND dm =z.shzt ) shzt,
+        (SELECT mc FROM dchy_xmgl_zd WHERE zdlx='CLSX' AND dm =z.clsx ) clsx,
+        (SELECT user_name FROM pf_user WHERE user_id=z.shr) shrmc,
+        (SELECT user_name FROM pf_user WHERE user_id=z.tjr) tjr
+        FROM
+        (SELECT g.sqxxid,g.chgcbh,l.shyj,l.shsj,g.tjsj,l.zrsj,l.shzt,g.clsx,l.shr,g.tjr,ROW_NUMBER() OVER(PARTITION BY
+        g.sqxxid,l.shjdmc,g.clsx ORDER BY g.tjsj DESC) rowss1
+        FROM dchy_xmgl_clcg_shjl l
+        LEFT JOIN dchy_xmgl_clcg g
+        ON l.clcgid=g.clcgid
+        ) z
+        <where>
+            AND z.rowss1='1'
+            <if test="chgcbh != null and chgcbh !=''">
+                AND z.chgcbh = #{chgcbh}
+            </if>
+            <if test="clsx != null and clsx !=''">
+                AND z.clsx = #{clsx}
+            </if>
+        </where>
+    </select>
+
+    <!--根据测绘项目编号查询成果提交信息-->
+    <select id="queryClcgByChxmid" parameterType="map" resultType="map">
+        SELECT Distinct cg.chxmid,cg.clsx,cg.rksj,cg.tjrmc AS tjr
+        FROM DCHY_XMGL_CLCG cg
+        <where>
+            AND cg.rksj IS NOT NULL
+            <if test="chxmid != null and chxmid !=''">
+                AND cg.chxmid = #{chxmid}
+            </if>
+        </where>
+        ORDER BY cg.rksj DESC NULLS LAST
+    </select>
+
+    <!--根据userid获取审核人角色-->
+    <select id="queryRoleByUserid" parameterType="String" resultType="map">
+        SELECT r.user_id AS userid,l.role_name AS rolename FROM pf_user_role_rel r
+        INNER JOIN pf_role l ON r.role_id = l.role_id
+        <where>
+            <if test="userid != null and userid !=''">
+                AND r.user_id = #{userid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryClcgmcByChxmidAndClsxAndRksj" resultType="cn.gtmap.msurveyplat.common.domain.dchyxmgl.DchyXmglClcg"
+            parameterType="map">
+        SELECT g.clcgmc
+        FROM DCHY_XMGL_CLCG g
+        <where>
+            <if test="chxmid != null and chxmid !=''">
+                AND g.chxmid = #{chxmid}
+            </if>
+            <if test="clsx != null and clsx !=''">
+                AND g.clsx = #{clsx}
+            </if>
+            <if test="rksj !=null and rksj !=''">
+                AND g.rksj <![CDATA[>=]]> to_date(#{rksj},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+
+            <if test="rksj !=null and rksj !=''">
+                AND g.rksj <![CDATA[<=]]> to_date(#{rksj},'yyyy-mm-dd hh24:mi:ss') + 1
+            </if>
+        </where>
+    </select>
+
+    <select id="queryClcgBysqxxidAndClcgmc" resultType="string"
+            parameterType="string">
+        SELECT DISTINCT clsx
+        FROM DCHY_XMGL_CLCG g
+        <where>
+            <if test="sqxxid != null and sqxxid !=''">
+                AND g.sqxxid = #{sqxxid}
+            </if>
+            <if test="clcgmc != null and clcgmc !=''">
+                AND g.clcgmc = #{clcgmc}
+            </if>
+        </where>
+    </select>
+</mapper>

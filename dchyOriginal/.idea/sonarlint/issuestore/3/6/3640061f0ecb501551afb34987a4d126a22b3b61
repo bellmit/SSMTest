@@ -1,0 +1,9 @@
+
+[
+java:S32520"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(ª½±ª
+h
+java:S3776$"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(üÊ²Ÿ
+[
+java:S32525"EUse static access with "com.alibaba.fastjson.JSON" for "parseObject".(Êð¿¤
+x
+java:S1128	"[Remove this unused import 'cn.gtmap.msurveyplat.promanage.web.main.DchyXmglCzrzController'.(ïØ©“8íä§‡š/

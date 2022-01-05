@@ -1,0 +1,450 @@
+<template>
+    <div>
+        <div class="form-title">
+            <div class="list-title">需求基本信息</div>
+            <div>
+                <Button type="primary" class="btn-h-34 bdc-major-btn" v-if="!readonly" @click="submit()">确定</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="cancel">返回</Button>
+            </div>
+        </div>
+        <Form class="form-edit" @on-validate="validateChecked" ref="demand-form" :model="demandForm" :rules="ruleInline" :label-width="114">
+            <Row>
+                <FormItem v-model="demandForm.gcmc" :class="{'requireStar': btxyzList.includes('gcmc')}" prop="gcmc" label="工程名称">
+                    <Input :readonly="readonly" maxlength="200" show-word-limit v-model="demandForm.gcmc"/>
+                </FormItem>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.gcbh" :class="{'requireStar': btxyzList.includes('gcbh')}" prop="gcbh" label="项目代码">
+                        <Input :readonly="readonly" placeholder="填写示例: 2019-320412-78-01-570112" v-model="demandForm.gcbh"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.xqfbbh" prop="xqfbbh" label="需求发布编号">
+                        <Input disabled v-model="demandForm.xqfbbh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.lxr" :class="{'requireStar': btxyzList.includes('lxr')}" prop="lxr" label="联系人">
+                        <Input :readonly="readonly" v-model="demandForm.lxr"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.lxdh" :class="{'requireStar': btxyzList.includes('lxdh')}" prop="lxdh" label="联系电话">
+                        <Input :readonly="readonly" v-model="demandForm.lxdh"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+             <Row>
+                <i-col span="12">
+                    <FormItem  v-model="demandForm.gcdzs" :class="{'requireStar': btxyzList.includes('gcdzs')}" prop="gcdzs" label="地点">
+                        <Row>
+                            <i-col span="16">
+                                <Row>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="demandForm.gcdzs" @on-select="selectGcdzs" placeholder="">
+                                            <Option v-for="(item,index) in gcdzsList" :key="index" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="demandForm.gcdzss" @on-select="selectGcdzss" placeholder="">
+                                            <Option v-for="(item,index) in gcdzssList" :key="index" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                    <i-col span="8">
+                                        <Select :disabled="readonly" v-model="demandForm.gcdzqx" placeholder="">
+                                            <Option v-for="(item,index) in gcdzqxList" :key="index" :value="item.DM">{{item.MC}}</Option>
+                                        </Select>
+                                    </i-col>
+                                </Row>
+                            </i-col>
+                            <i-col span="8">
+                                <Input :readonly="readonly" style="margin-left: 5px;" v-model="demandForm.gcdzxx"/>  
+                            </i-col>  
+                        </Row>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem  v-model="demandForm.cgjfrq" :class="{'requireStar': btxyzList.includes('cgjfrq')}" prop="cgjfrq" label="成果交付期">
+                        <DatePicker :disabled="readonly" style="width: 100%" @on-change="kssjChange" type="date" placeholder="请选择" v-model="demandForm.cgjfrq" ></DatePicker>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row v-if="readonly">
+                <i-col span="12">
+                    <FormItem v-model="demandForm.fbsj" prop="fbsj" label="发布时间">
+                        <Input :readonly="readonly" v-model="demandForm.fbsj"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.xqfbdw" prop="xqfbdw" label="需求发布单位">
+                        <Input :readonly="readonly" v-model="demandForm.xqfbdw"/>
+                    </FormItem>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.cgfs" :class="{'requireStar': btxyzList.includes('cgfs')}" prop="cgfs" label="采购方式">
+                        <Input :readonly="readonly" v-model="demandForm.cgfs"/>
+                    </FormItem>
+                </i-col>
+                <i-col span="12">
+                    <FormItem v-model="demandForm.zgyq" :class="{'requireStar': btxyzList.includes('zgyq')}" prop="zgyq" label="承揽人资格要求">
+                        <Input :readonly="readonly" v-model="demandForm.zgyq"  type="textarea" />
+                    </FormItem>
+                </i-col>
+            </Row>
+
+            <Row class="margin-top-20">
+                <FormItem v-model="demandForm.clsx" :class="{'requireStar': btxyzList.includes('clsx')}" prop="clsx" label="测绘事项">
+                    <Row class="select-row-tree">
+                       <div v-for="(tree,index) in treeList" :key="index">
+                            <Tree @on-check-change="checkChange" :data="tree" show-checkbox></Tree>
+                       </div>
+                    </Row>
+                </FormItem>
+            </Row>
+        </Form>
+        <div class="line-dashed margin-bottom-10"></div>
+        <div class="form-title">
+            <div class="list-title">可供下载的附件</div>
+        </div>
+        <uploadFile
+            v-if="!readonly"
+            :glsxid="chxmid"
+            ref="upload-file"
+            :ssmkid="ssmkid"
+        ></uploadFile>
+        <uploadFileInfo
+            v-if="readonly"
+            :glsxid="chxmid"
+            :ssmkid="ssmkid"
+        ></uploadFileInfo>
+    </div>
+</template>
+<script>
+import { publishProject, queryPublishDetail, checkGcbh, getSelectClsx, initPublish, deleteInitInfo } from "../../../service/publish"
+import { getDictInfo } from "../../../service/mlk"
+import moment from "moment"
+import uploadFile from "../../../components/survey/upload-file"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import _ from "loadsh"
+import yz_mixins from "../../../service/yz_mixins"
+export default {
+    mixins: [yz_mixins],
+    components: {
+        uploadFile,
+        uploadFileInfo
+    },
+    data() {
+        return {
+            demandForm: {
+                gcmc: "",
+                gcbh: ""
+            },
+            gcdzsList: [],
+            gcdzssList: [],
+            gcdzqxList: [],
+            treeList: [],
+            uploadFile: {},
+            ssmkid: "6",
+            bdid: "6",
+            ruleInline: {
+                gcmc: {
+                    message: "必填项不能为空"
+                },
+                gcbh: {
+                    trigger: "blur",
+                    validator: (rule, value, callback) => {
+                        if((!value || !value.trim())){
+                            callback("必填项不能为空")
+                        }else if(!this.readonly){
+                            checkGcbh({gcbh: value}).then(res => {
+                                if(res.data&&res.data.gcmc){
+                                    this.demandForm.gcmc = res.data.gcmc;
+                                    this.demandForm.gcdzqx = res.data.gcdzqx;
+                                    this.demandForm.gcdzs = res.data.gcdzs;
+                                    this.demandForm.gcdzss = res.data.gcdzss;
+                                    this.demandForm.gcdzxx = res.data.gcdzxx;
+                                    this.selectGcdzs({value:this.demandForm.gcdzs})
+                                    this.selectGcdzss({value: this.demandForm.gcdzss})
+                                    callback()
+                                }else {
+                                    callback()
+                                }
+                            }).catch(err => {
+                                callback()
+                            })
+                        }else {
+                            callback()
+                        }
+                    }
+                },
+                gcdzs: {
+                    message: "必填项不能为空"
+                },
+                xqfbbh: {
+                    required: false
+                },
+                lxr: {
+                    message: "必填项不能为空"
+                },
+                lxdh: {
+                    validator: (rule,value,callback) => {
+                        if((!value || !value.trim())&& this.btxyzList.includes("lxdh")){
+                            callback("必填项不能为空")
+                        } else if(value && !(/^([0-9]{3,4}-)?[0-9]{7,8}$/).test(value)&&!(/^1\d{10}$/.test(value))){
+                            callback("联系电话格式错误")
+                        }
+                        callback();
+                    },
+                    trigger: "blur"
+                },
+                cgjfrq: {
+                    required: false,
+                    message: "必填项不能为空"
+                },
+                cgfs: {
+                    message: "必填项不能为空"
+                },
+                zgyq: {
+                    message: "必填项不能为空"
+                }
+            },
+            dictionaryInfo: [],
+            selectedClsx: [],
+            checkedClsxList: [],
+            placeData: [
+                {
+                    value: 'beijing',
+                    label: '北京',
+                    children: [],
+                    loading: false
+                },
+                {
+                    value: 'zhejiang',
+                    label: '浙江',
+                    children: [],
+                    loading:false
+                }
+            ],
+            gcbh: "",
+            readonly: false,
+            chgcid: "",
+            chxmid: "",
+            type: ""
+        }
+    },
+    mounted() {
+        if(this.$route.query.chxmid){
+            this.chxmid = this.$route.query.chxmid
+        }
+        if(this.$route.query.xqfbbh){
+            this.demandForm.xqfbbh = this.$route.query.xqfbbh
+        }
+        if(this.$route.query.type == "add"){
+            this.getDictInfo();
+        }
+        if(this.$route.query.type == "view"){
+            this.readonly = true
+            this.gcbh = this.$route.query.gcbh;
+            this.getDetail()
+        }
+        if(this.$route.query.type == "edit"){
+            this.type = "edit"
+            this.gcbh = this.$route.query.gcbh;
+            this.getDetail()
+        }
+    },
+    methods: {
+        // 删除初始化信息
+        deleteInitInfo(){
+            let params = {
+                chxmid: this.chxmid
+            }
+            this.$loading.show("加载中...")
+            deleteInitInfo(params).then(res => {
+                this.$loading.close();
+                this.$router.push("/construction/publish")
+            }).catch(err => {
+                this.$router.push("/construction/publish")
+            })
+        },
+        // 获取发布详情
+        getDetail(){
+            let params = {
+               gcbh: this.gcbh,
+               chxmid: this.chxmid
+            }
+            this.$loading.show("加载中...")
+            queryPublishDetail(params).then(res => {
+                this.$loading.close();
+                let demandForm = {}
+                let data = res.data.dataList && res.data.dataList.length ? res.data.dataList[0] : {}
+                for(let key in data){
+                    demandForm[_.toLower(key)] = data[key]
+                }
+                demandForm.cgjfrq = demandForm.cgjfrq ? moment(demandForm.cgjfrq).format("YYYY-MM-DD") : ""
+                this.chxmid = demandForm.chxmid
+                this.demandForm = {...demandForm}
+                this.getSelectClsx(this.demandForm.chxmid);
+            })
+        },
+        // 获取选中的测绘事项
+        getSelectClsx(chxmid){
+            getSelectClsx({chxmid}).then(res => {
+                if(res.data.dataList){
+                    this.checkedClsxList = res.data.dataList;
+                    res.data.dataList.forEach(list => {
+                        this.selectedClsx.push({id: list})
+                    })
+                    this.demandForm.clsx = this.checkedClsxList.join(";")
+                }
+                this.getDictInfo();
+            })
+        },
+        // 获取字典项
+        getDictInfo(){
+            let params = {
+                zdlx: ["CLSX","GCDZ"]
+            }
+            getDictInfo(params).then(res => {
+                let clsxList = res.data.dataList;
+                let treeList = []
+                this.dictionaryInfo = res.data.dataList;
+                this.selectGcdzs({value: this.demandForm.gcdzs})
+                this.selectGcdzss({value: this.demandForm.gcdzss})
+                clsxList.forEach(list => {
+                    if(!list.FDM&&list.ZDLX=="CLSX"){
+                        treeList.push({title: list.MC, dm: Number(list.DM),disabled:this.readonly, expand: true,id: list.DM, children: []})
+                    }else if(!list.FDM&&list.ZDLX=="GCDZ"){
+                        this.gcdzsList.push(list)
+                    }
+                })
+                clsxList.forEach(list => {
+                    if(list.FDM&&list.ZDLX=="CLSX"){
+                        treeList.forEach(tree => {
+                            if(tree.id == list.FDM){
+                                tree.children.push({title: list.MC, checked: this.checkedClsxList.includes(list.DM), disabled:this.readonly, id: list.DM})
+                            }
+                        })
+                    }
+                })
+                treeList = _.orderBy(treeList,['dm'],['asc'])
+                treeList.forEach(tree => {
+                    this.treeList.push([tree])
+                })
+            })
+        },
+        // 选择省
+        selectGcdzs(select){
+            let gcdzssList = []
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value) && dict.ZDLX=="GCDZ"){
+                    gcdzssList.push(dict)
+                }
+            })
+            this.gcdzqxList = [];
+            this.gcdzssList = [...gcdzssList]
+        },
+        // 选择市
+        selectGcdzss(select){
+            var gcdzqxList = [];
+            this.dictionaryInfo.forEach(dict => {
+                if((dict.FDM == select.value)&& dict.ZDLX=="GCDZ"){
+                    gcdzqxList.push(dict)
+                }
+            })
+            this.gcdzqxList = [...gcdzqxList]
+        },
+        // 选择测绘事项
+        checkChange(selected,item){
+            if(item.checked){
+                selected.forEach(s => {
+                    let find = this.selectedClsx.find(clsx => clsx.id == s.id);
+                    if(!find&&s.nodeKey!=0){
+                        this.selectedClsx.push(s)
+                    }
+                })
+            } else {
+                this.selectedClsx.forEach((select,index) => {
+                    if(select.id == item.id){
+                        this.selectedClsx.splice(index,1)
+                    }
+                })
+                if(item.children){
+                    item.children.forEach(d => {
+                        this.selectedClsx.forEach((select,index) => {
+                            if(select.id == d.id){
+                                this.selectedClsx.splice(index,1)
+                            }
+                        })
+                    })
+                }
+            }
+            let selectedDm = this.selectedClsx.map(s => s.id);
+            this.demandForm.clsx = selectedDm.join(";");
+        },
+        // 取消发布
+        cancel(){
+            // this.$router.push("/construction/publish")
+            if(this.$route.query.type == 'add'){
+                this.deleteInitInfo();
+            } else {
+                this.$router.go(-1)
+            }
+        },
+        kssjChange(select){
+            this.demandForm.cgjfrq = moment(select).format("YYYY-MM-DD");
+        },
+        // 提交发布
+        submit(){
+            this.unLastSubmit = false;
+            this.demandForm.cgjfrq = moment(this.demandForm.cgjfrq).format("YYYY-MM-DD")
+            this.$refs["demand-form"].validate(valid => {
+                this.unLastSubmit = true;
+                if(valid){
+                    if((!this.demandForm.gcdzss || !this.demandForm.gcdzqx || !this.demandForm.gcdzxx)){
+                        this.$error.show("填写完整的地点信息")
+                        return
+                    }
+                    if(this.btxyzList.includes("clsx")&&!this.demandForm.clsx){
+                        this.$error.show("测绘事项不能为空")
+                        return;
+                    }
+                    let validate = this.$refs["upload-file"].validate();
+                    if(validate){
+                        return;
+                    }
+                    this.demandForm.chxmid = this.chxmid;
+                    this.$loading.show("保存中...")
+                    publishProject(this.demandForm).then(res => {
+                        layer.msg("保存成功")
+                        this.$loading.close()
+                        this.$router.push("/construction/publish")
+                    })
+                }
+            })
+            
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-row-tree >>> .ivu-tree-arrow {
+        display: none;
+    }
+    .select-row-tree {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .select-row-tree >>> .ivu-tree {
+        margin-right: 10px;
+    }
+</style>

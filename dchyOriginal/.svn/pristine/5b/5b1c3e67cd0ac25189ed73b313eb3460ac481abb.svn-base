@@ -1,0 +1,393 @@
+<template>
+    <div>
+        <div v-if="sfyc=='是'" class="line-height-32 apply-tip margin-bottom-20" >
+            <div class="mlkrz-tip">
+                <img src="static/images/message-tip.png" style="vertical-align:middle" alt="">
+            </div>
+            <div class="margin-left-20 font-size-16 sh-pass-tip">
+                <div>您好，您的统一社会信用代码为：<span class="font-color-red">{{tyshxydm}}</span> 的测绘单位已被{{type == 'zx'? '注销':'移出名录库'}}</div>
+                <div><span>{{type == 'zx' ? '注销原因':'移出原因' }}：<span class="font-color-red">{{ycyy}}</span></span></div>
+                <span>
+                    <span>{{type == 'zx' ? '注销时间':'移出时间' }}：<span>{{ycsj}}</span></span>
+                </span>
+            </div>
+        </div>
+        <div v-if="!shtg" class="line-height-32 apply-tip margin-bottom-20" >
+            <div class="mlkrz-tip">
+                <img src="static/images/message-tip.png" style="vertical-align:middle" alt="">
+            </div>
+            <div class="margin-left-20 font-size-16 sh-pass-tip">
+                <div>您好，您的统一社会信用代码为：<span class="font-color-red">{{tyshxydm}}</span> 的测绘单位{{type == 'zx'? '注销':'移出名录库'}}审核中</div>
+                <div><span>{{type == 'zx' ? '注销原因':'移出原因' }}：<span class="font-color-red">{{ycyy}}</span></span></div>
+                <span>
+                    <span>{{type == 'zx' ? '注销时间':'移出时间' }}：<span>{{ycsj}}</span></span>
+                </span>
+            </div>
+        </div>
+        <div v-if="sfyc=='是' || !shtg" class="line-dashed"></div>
+        <div class="form-title mlk-top">
+            <div class="list-title"><span v-if="status == 'edit'">填写</span>机构基本信息</div>
+            <div v-if="status=='edit'&&shtg">
+                <Button type="primary" class="btn-h-34 bdc-major-btn" @click="save()">保存</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="save(true)" v-if="flag=='true'">入驻</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="save(true)" v-else>提交</Button>
+                <Button v-if="showBack" class="btn-h-34 btn-cancel margin-left-10" @click="goback(true)">返回</Button>
+            </div>
+            <div v-if="status=='draft'&&shtg">
+                <span class="font-color-999 font-weight-bold" v-if="thyj">退回意见: <span class="font-color-tip">{{thyj}}</span></span>
+                <Button type="primary" @click="edit()" class="margin-left-20 btn-h-34 bdc-major-btn">修改</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="save(true)" v-if="flag=='true'">入驻</Button>
+                <Button class="btn-h-34 btn-cancel margin-left-10" @click="save(true)" v-else>提交</Button>
+                <Button v-if="showBack" class="btn-h-34 btn-cancel margin-left-10" @click="goback(true)">返回</Button>
+            </div>
+        </div>
+        <agencyInfo 
+            :ssmkid="ssmkid" 
+            :bdid="bdid" 
+            :mlkid="mlkid" 
+            :editorable="readonly?false:true"
+            ref="agencyInfo" 
+            :agencyInfoData="agencyInfoData" 
+            :readonly="readonly"
+            :status="status"
+            @img-change="imgChange"
+        ></agencyInfo>
+        <div class="line-dashed margin-top-10"></div>
+        <div class="form-title margin-top-10">
+            <div class="list-title"><span>附件材料</span></div>
+        </div>
+        <uploadFile 
+            ref="upload-file"
+            v-if="status == 'edit'" 
+            :showDefaultTool="true"
+            :ssmkid="ssmkid"
+            :glsxid="mlkid"
+        ></uploadFile>
+        <uploadFileInfo 
+            v-else 
+            ref="upload-file-info"
+            :ssmkid="ssmkid" 
+            :glsxid="mlkid" 
+        ></uploadFileInfo>
+        <div id="promise-btn" class="message-tip" v-if="flag=='true'&&shtg">
+            <div class="list-tips">
+                <span class="font-color-red">*</span><span class="font-color-major margin-left-10" style="font-size: 18px">申请人承诺</span>
+            </div>  
+            <div class="list-tips margin-left-20"> 
+                <Checkbox v-model="disabled" size="large"></Checkbox>
+                <span>本人保证以上所填内容真实，若有弄虚作假，愿接受相应的行政纪律处分并承担由此产生的一切法律责任。</span>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import agencyInfo from "../../../components/survey/agency-info"
+import uploadFile from "../../../components/survey/upload-file"
+import uploadFileInfo from "../../../components/survey/upload-file-info"
+import _ from "lodash"
+import moment from "moment"
+import util from "../../../service/util"
+import { saveMlkData, uploadMlkImg, submitSqxx, yzYwlj, getinitmlkparam, queryReviewConfig } from "../../../service/mlk"
+import { reviewCheck } from "../../../service/review"
+
+export default {
+    components: {
+        agencyInfo,
+        uploadFile,
+        uploadFileInfo
+    },
+    data() {
+        return {
+            agencyInfoData: {},
+            readonly: false,
+            status: "edit",
+            mlkid: "",
+            sqid: "",
+            flag: "",
+            sqrid: "",
+            thyj: "",
+            ssmkid: "1",
+            bdid: "1",
+            isSubmit: false,
+            shtg: true,
+            type: "",
+            sfyc: "",
+            ycyy: "",
+            ycsj: "",
+            tyshxydm: "",
+            showBack: false,
+            disabled: false,
+            file: "",
+            logoPreview: "",
+            imgFile: ""
+        }
+    },
+    created(){
+        if(sessionStorage.getItem("mlkid")){
+            this.mlkid = sessionStorage.getItem("mlkid");
+        } else {
+            this.mlkid = util.createUUID();
+            sessionStorage.setItem("mlkid",this.mlkid);
+        }
+        if(sessionStorage.getItem("sqid")){
+            this.sqid = sessionStorage.getItem("sqid")
+        }
+        if(sessionStorage.getItem("thyj")){
+            this.thyj = sessionStorage.getItem("thyj")
+        }
+        if(sessionStorage.getItem("sfshz")){
+            this.shtg = sessionStorage.getItem("sfshz") == "是" ? false : true;
+        }
+        this.sfyc = this.$route.query.sfyc
+        this.ycyy = this.$route.query.ycyy
+        this.ycsj = this.$route.query.ycsj
+        this.type = this.$route.query.blsx == "6" ? "": "zx"
+        this.queryReviewConfig();
+    },
+    mounted() {
+        if(sessionStorage.getItem("userInfo")){
+            this.sqrid = JSON.parse(sessionStorage.getItem("userInfo")).id
+        }
+        if(this.$route.query.toPath){
+            this.showBack = true
+        }
+        if(this.$route.query.type == "draft"){
+            this.status = "draft"
+            this.readonly = true
+            this.getMlkInfo();
+        } else if(this.$route.query.type == "edit"){
+            this.status = "edit"
+            this.readonly = false
+            this.getMlkparam();
+        }
+        if(sessionStorage.getItem("cyrynum")){
+            this.agencyInfoData.cyrynum = sessionStorage.getItem("cyrynum")
+        }
+    },
+    methods: {
+        // 获取是否需要审核的配置项
+        queryReviewConfig(){
+            queryReviewConfig().then(res => {
+                this.flag = res.data.flag
+            })
+        },
+        // 获取名录库信息
+        getMlkInfo(){
+            this.$loading.show("加载中...")
+            reviewCheck({mlkid: this.mlkid}).then(res => {
+                this.$loading.close();
+                if(res.data.dataList && res.data.dataList.length){
+                    let info = res.data.dataList[0];
+                    for(let key in info){
+                        info[_.toLower(key)] = info[key];
+                        delete info[key]
+                    }
+                    this.tyshxydm = info.tyshxydm
+                    info.yxqksrq = moment(info.yxqksrq).format("YYYY-MM-DD")
+                    info.yxqjsrq = moment(info.yxqjsrq).format("YYYY-MM-DD")
+                    let clsxList = []
+                    if(info.clsxdms){
+                        clsxList = info.clsxdms.split(";");
+                        this.$refs["agencyInfo"].setClsxList(clsxList)
+                    }
+                    info.clsx = clsxList.join(",")
+                    this.agencyInfoData = {...info}
+                    if(info.sqxxid){
+                        this.sqid = info.sqxxid;
+                    }
+                    this.status = "draft";
+                    this.readonly = true;
+                }
+            })
+        },
+        // 修改头像图片
+        imgChange(_base64){
+            this.agencyInfoData = {
+                ...this.agencyInfoData,
+                mlktp: _base64
+            }
+        },
+        goback(){
+            this.$router.push(this.$route.query.toPath)
+        },
+        // 保存名录库
+        save(isSubmit){
+            if(this.flag =='true' && !this.disabled && isSubmit){
+                $("html, body").animate({
+                    scrollTop: $("#promise-btn").offset().top + "px"
+                }, {
+                    duration: 500,
+                    easing: "swing"
+                });
+                this.$error.show('请勾选 “申请人承诺”')
+                return
+            }
+            this.isSubmit = isSubmit || false;
+            let uploadList =  this.$refs["upload-file"] ? this.$refs["upload-file"].queryUploadList() : [];
+            uploadList =  this.$refs["upload-file-info"] ? this.$refs["upload-file-info"].queryUploadList() : uploadList;
+            this.agencyInfoData.yxqksrq = this.agencyInfoData.yxqksrq ? moment(this.agencyInfoData.yxqksrq).format("YYYY-MM-DD") : "";
+            this.agencyInfoData.yxqjsrq = this.agencyInfoData.yxqjsrq ? moment(this.agencyInfoData.yxqjsrq).format("YYYY-MM-DD") : "";
+            this.agencyInfoData.sqxxid = this.sqid;
+            this.agencyInfoData.mlkid = this.mlkid;
+            this.agencyInfoData.uploadList = uploadList;
+            // this.agencyInfoData.mlktp = this.agencyInfoData.mlktp ? this.agencyInfoData.mlktp.split("base64,")[1] : "";
+            this.$loading.show("加载中...")
+            saveMlkData(this.agencyInfoData).then(res => {
+                this.$loading.close();
+                if(res.data){
+                    sessionStorage.removeItem("thyj");
+                    sessionStorage.removeItem("sfdj");
+                    this.$root.$data.setMlkInfo()
+                    if(this.isSubmit){
+                        this.submit();
+                    }else {
+                        layer.msg("保存成功")
+                        this.readonly = true;
+                        this.status = "draft";
+                        this.agencyInfoData.yxsj = this.agencyInfoData.yxqksrq + "至" + this.agencyInfoData.yxqjsrq
+                        this.$nextTick(() => {
+                            this.$refs["agencyInfo"].renderClsxList();
+                        })
+                    }
+                }
+            })
+        },
+        submitMlkData(){
+            this.$loading.show("加载中...")
+            let params = {
+                sqrid: this.sqrid,
+                sqxxid: this.sqid  
+            }
+            submitSqxx(params).then(res => {
+                this.$loading.close()
+                layer.msg("提交成功")
+                this.$router.push({path: "/survey/application/view",query:{type: "view", mlkid: this.mlkid}})
+            })
+        },
+        // 编辑名录库
+        edit(){
+            this.readonly = false;
+            this.status = "edit";
+            this.$nextTick(() => {
+                this.$refs["agencyInfo"].renderClsxList();
+            })
+        },
+        // 提交名录库
+        submit(){
+            let valid = this.$refs["agencyInfo"].validate();
+            let ywljyzList = this.$refs["agencyInfo"].getYwljYzList();
+            if(valid){
+                let params = {
+                    data: {...this.agencyInfoData},
+                    yzsxid: ywljyzList,
+                    ssmkid: this.ssmkid,
+                    bdid: this.bdid
+                }
+                if(!this.agencyInfoData.clsx){
+                    this.$error.show("可承接测绘阶段不能为空")
+                    return
+                }
+                if(!this.readonly){
+                    let validate = this.$refs["upload-file"].validate();
+                    if(validate){
+                        return;
+                    }
+                } else {
+                    let validate = this.$refs["upload-file-info"].validate();
+                    if(validate){
+                        return;
+                    }
+                }
+                this.$loading.show("加载中...")
+                yzYwlj(params).then(res => {
+                    this.$loading.close();
+                    if(res.data.yzjg){
+                        this.submitMlkData()
+                    } else {
+                        if(res.data.yzms == "2"){
+                            layer.msg(res.data.yztsxx)
+                        }else if(res.data.yzms == "1"){
+                            layer.confirm(res.data.yztsxx + ",是否确认继续保存?",() => {
+                                this.submitMlkData()
+                            })
+                        }
+                    }
+                })
+            }
+        },
+        getMlkparam(){
+            this.$loading.show("加载中...")
+            getinitmlkparam().then(res => {
+                this.$loading.close();
+                if(res.data){
+                    let info = res.data;
+                    for(let key in info){
+                        info[_.toLower(key)]= info[key];
+                        delete info[key]
+                    }
+                    this.agencyInfoData = {...info}
+                    this.readonly = false;
+                    if(this.$root.$data.getMlkInfo()){
+                        let mlkInfo = this.$root.$data.getMlkInfo()
+                        this.agencyInfoData = {...info,...mlkInfo}
+                        if(sessionStorage.getItem("cyrynum")){
+                            this.agencyInfoData.cyrynum = sessionStorage.getItem("cyrynum")
+                        }
+                        if(mlkInfo.clsx){
+                            let clsxList = mlkInfo.clsx.split(",")
+                            this.$refs["agencyInfo"].setClsxList(clsxList)
+                        }
+                    }
+                }
+            })
+        },
+        onClickHander(){
+            if(this.disabled){
+                this.disabled = false
+            }else{
+                this.disabled = true
+            }
+        }
+    },
+}
+</script>
+<style scoped>
+    .form-edit {
+        padding: 20px;
+    }
+    .form-title >>> .ivu-upload {
+        display: inline-block;
+    }
+    .mlk-top {
+        display: flex;
+        justify-content: space-between;
+    }
+    .apply-tip {
+        margin-bottom: 10px;
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .apply-enter {
+        font-weight: 700;
+        font-style: normal;
+        font-size: 18px;
+        color: rgba(29, 135, 209, 0.8);
+    }
+    .sh-pass-tip {
+        line-height: 28px;
+    }
+    .list-tips {
+        text-align: left;
+    }
+    .list-tips:nth-last-child(1) {
+        margin-top: 5px;
+    }
+    .message-tip {
+        width: 100%;
+        margin-top: 20px;
+        padding: 5px;
+        background-color: #fff5e6;
+        border: 1px solid #ffe2da;
+    }
+</style>

@@ -1,0 +1,822 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>VIPUSER</Author>
+  <LastAuthor>alex</LastAuthor>
+  <Created>2015-06-12T00:59:46Z</Created>
+  <LastSaved>2015-07-06T02:19:15Z</LastSaved>
+  <Company>CHINA</Company>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>7770</WindowHeight>
+  <WindowWidth>20355</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>30</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s149" ss:Name="常规 2">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="m51497152">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m51497172">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m51497192">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m51497212">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m51497232">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000064">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m86000084">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m86000104">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m86000124">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m86000144">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000164">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000184">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000204">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000224">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m86000244">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m85999840">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m85999860">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m85999880">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m85999900">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m85999920">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m85999940">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490528">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490548">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490568">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490588">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490608">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490628">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490304">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"/>
+   <Interior ss:Color="#FDE9D9" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m51490324">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490344">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490364">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490384">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m51490404">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m67099936">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="12" ss:Color="#333333"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m67099956">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m67099976">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m67099996">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m67100016">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m67100036">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="m67100056">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="m67100076">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s65">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s66">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s67">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"/>
+  </Style>
+  <Style ss:ID="s133">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s145">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="11" ss:Color="#000000"
+    ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s164" ss:Parent="s149">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s165" ss:Parent="s149">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="11" ss:Color="#333333"/>
+   <Interior ss:Color="#DAEEF3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s183">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="宋体" x:CharSet="134" ss:Size="16" ss:Color="#000000"/>
+  </Style>
+ </Styles>
+    <#macro abs val><#if val &gt;0>${val!?string(fixed)}<#else >${(val*(-1))!?string(fixed)}</#if></#macro>
+    <#assign fixed>
+     <#switch unit>
+        <#case 'SQUARE'>0.##<#break>
+        <#case 'ACRES'>0.####<#break>
+        <#case 'HECTARE'>0.####<#break>
+        <#default>0.##
+     </#switch>
+    </#assign>
+<#if totalResult??>
+    <#assign tot=totalResult.categoryB/>
+</#if>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="8" ss:ExpandedRowCount="26" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+   <Column ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:AutoFitWidth="0" ss:Width="53.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="69.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="99.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="66.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="71.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="60.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="60"/>
+   <Row ss:AutoFitHeight="0" ss:Height="27.75">
+    <Cell ss:MergeAcross="7" ss:StyleID="s183"><Data ss:Type="String">土地权属地类面积审核信息</Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s145"><Data ss:Type="String">上报总面积</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">${report.rArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="String">分析总面积</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">${totalResult.sumArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s145"><Data ss:Type="String">国有面积</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">${totalResult.sumAreaGy!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s145"><Data ss:Type="String">集体面积</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">${totalResult.sumAreaJt!?string(fixed)}</Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:MergeAcross="1" ss:StyleID="m67100036"><Data ss:Type="String">结果</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String"><#if (report.sumResult &gt;0)>
+        多&nbsp;<#elseif (report.sumResult &lt;0)>
+        少&nbsp;</#if><@abs report.sumResult/>㎡</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m67100036"><Data ss:Type="String">误差</Data></Cell>
+    <Cell ss:MergeAcross="2" ss:StyleID="m67100056"><Data ss:Type="String"><@abs report.sumMistake/></Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="24">
+    <Cell ss:MergeAcross="2" ss:StyleID="m67099936"><Data ss:Type="String">农用地</Data></Cell>
+    <Cell ss:MergeAcross="4" ss:StyleID="m51490304"><Data ss:Type="String">详细地类面积</Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">上报总面积</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m67100016"><Data ss:Type="String">${report.rNydArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">地类名称</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">合计面积</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">国有面积</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51490324"><Data ss:Type="String">集体面积</Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">结果</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000144"><Data ss:Type="String"><#if (report.nydResult &gt;0)>多<#elseif (report.nydResult &lt;0)>少</#if><@abs report.nydResult/> ㎡</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">农用地</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("农用地")>${tot["农用地"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("农用地_gy")>${tot["农用地_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("农用地_jt")>${tot["农用地_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">误差</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000164"><Data ss:Type="String"><@abs report.nydMistake/></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">耕地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("01")>${tot["01"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("01_gy")>${tot["01_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("01_jt")>${tot["01_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:MergeAcross="2" ss:StyleID="m67099956"><ss:Data ss:Type="String"
+      xmlns="http://www.w3.org/TR/REC-html40"><Font html:Face="宋体" x:CharSet="134"
+       html:Color="#333333">其中：耕地</Font></ss:Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">园地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("02")>${tot["02"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("02_gy")>${tot["02_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("02_jt")>${tot["02_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">上报总面积</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000224"><Data ss:Type="String">${report.rGdArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">林地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("03")>${tot["03"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("03_gy")>${tot["03_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("03_jt")>${tot["03_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">结果</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000184"><Data ss:Type="String"><#if (report.gdResult &gt;0)>多<#elseif (report.gdResult &lt;0)>少</#if><@abs report.gdResult/> ㎡</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">天然牧草地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("041")>${tot["041"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("041_gy")>${tot["041_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("041_jt")>${tot["041_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">误差</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000204"><Data ss:Type="String"><@abs report.gdMistake/></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">人工牧草地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("042")>${tot["042"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("042_gy")>${tot["042_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("042_jt")>${tot["042_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:MergeAcross="2" ss:StyleID="m67099976"><ss:Data ss:Type="String"
+      xmlns="http://www.w3.org/TR/REC-html40"><Font html:Face="宋体" x:CharSet="134"
+       html:Color="#333333">建设用地</Font></ss:Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">农村道路</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("104")>${tot["104"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("104_gy")>${tot["104_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("104_jt")>${tot["104_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">上报总面积</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m86000244"><Data ss:Type="String">${report.rJsydArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">坑塘水面</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("114")>${tot["114"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("114_gy")>${tot["114_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("114_jt")>${tot["114_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">结果</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51497152"><Data ss:Type="String"><#if (report.jsydResult &gt;0)>多<#else >少</#if><@abs report.jsydResult/> ㎡</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">沟渠</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("117")>${tot["117"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("117_gy")>${tot["117_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("117_jt")>${tot["117_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">误差</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51497172"><Data ss:Type="String"><@abs report.jsydMistake/></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">设施农用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("122")>${tot["122"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("122_gy")>${tot["122_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("122_jt")>${tot["122_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:MergeAcross="2" ss:StyleID="m67099996"><ss:Data ss:Type="String"
+      xmlns="http://www.w3.org/TR/REC-html40"><Font html:Face="宋体" x:CharSet="134"
+       html:Color="#000000">未利用地</Font></ss:Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">田坎</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("123")>${tot["123"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("123_gy")>${tot["123_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("123_jt")>${tot["123_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">上报总面积</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51497192"><Data ss:Type="String">${report.rWlydArea!?string(fixed)}</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">建设用地</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地")>${tot["建设用地"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地_gy")>${tot["建设用地_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("建设用地_jt")>${tot["建设用地_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">结果</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51497212"><Data ss:Type="String"><#if (report.wlydResult &gt;0)>多<#elseif (report.wlydResult &lt;0)>少</#if><@abs report.wlydResult/> ㎡</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">城镇村及工矿用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("20")>${tot["20"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("20_gy")>${tot["20_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("20_jt")>${tot["20_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:StyleID="s133"><Data ss:Type="String">误差</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m51497232"><Data ss:Type="String"><@abs report.wlydMistake/></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">铁路用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("101")>${tot["101"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("101_gy")>${tot["101_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("101_jt")>${tot["101_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">公路用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("102")>${tot["102"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("102_gy")>${tot["102_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("102_jt")>${tot["102_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">机场用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("105")>${tot["105"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("105_gy")>${tot["105_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("105_jt")>${tot["105_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">港口码头用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("106")>${tot["106"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("106_gy")>${tot["106_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("106_jt")>${tot["106_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">管道运输用地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("107")>${tot["107"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("107_gy")>${tot["107_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("107_jt")>${tot["107_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s65"><Data ss:Type="String">未利用地</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地")>${tot["未利用地"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地_gy")>${tot["未利用地_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s65"><Data ss:Type="String"><#if tot?keys?seq_contains("未利用地_jt")>${tot["未利用地_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">沙地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("126")>${tot["126"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("126_gy")>${tot["126_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("126_jt")>${tot["126_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+   <Row ss:Height="15">
+    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">裸地</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("127")>${tot["127"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("127_gy")>${tot["127_gy"]!?string(fixed)}</#if></Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="s67"><Data ss:Type="String"><#if tot?keys?seq_contains("127_jt")>${tot["127_jt"]!?string(fixed)}</#if></Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>12</ActiveRow>
+     <ActiveCol>5</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet2">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Sheet3">
+  <Table ss:ExpandedColumnCount="1" ss:ExpandedRowCount="1" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="13.5">
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

@@ -1,0 +1,183 @@
+layui.use(['form', 'layer', 'jquery', 'table'], function () {
+    var form = layui.form,
+        layer = layui.layer,
+        table = layui.table,
+        $ = layui.jquery;
+
+
+    var tableParam = {
+        "data": {
+            page: 1,
+            pageSize: 10,
+            babh: "",
+            gcbh: "",
+            gcmc: "",
+            chdwmc: "",
+            xmzt: "99"
+        }
+    }
+
+    var detailParam = {
+        "data": {
+            chxmid: ""
+        }
+    }
+
+    //初始化加载方法
+    $(function () {
+        loadTable(tableParam)
+    })
+
+
+    //加载数据表格
+    function loadTable(tableParam) {
+        $.ajax({
+            type: "post",
+            url: getContextPath() + "/msurveyplat-promanage/management/queryResultsManagement",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify(tableParam),
+            contentType: "application/json",
+            success: function (res) {
+                if (res.data.dataList !== undefined) {
+                    table.render({
+                        elem: "#LAY_table_XmxxList",
+                        data: res.data.dataList,
+                        limit: tableParam.data.pageSize,
+                        cols: [[
+                            {field: "ROWNUM_", title: "序号", align: "center", width: 70, fixed: "left"},
+                            {field: "SLBH", title: "备案编号", align: "center"},
+                            {field: "GCBH", title: "项目代码", align: "center"},
+                            {field: "GCMC", title: "工程名称", align: "center"},
+                            {field: "CHDWMC", title: "测绘单位", align: "center"},
+                            {field: "RKSJ", title: "入库时间", align: "center", width: 200},
+                            {title: "操作", align: "center", minWidth: 250, fixed: "right", toolbar: "#operation"}
+                        ]],
+                        done: function () {
+                            layui.laypage.render({
+                                elem: 'LAY_table_Xmxx_page',
+                                limits: [10, 20, 30], //10,20,30
+                                count: res.data.totalNum,  //显示总条数
+                                curr: tableParam.data.page,
+                                limit: tableParam.data.pageSize,
+                                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+                                jump: function (obj, first) {
+                                    if (!first) {
+                                        tableParam.data.page = obj.curr;
+                                        tableParam.data.pageSize = obj.limit;
+                                        loadTable(tableParam)
+                                    }
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    table.render({
+                        elem: "#LAY_table_XmxxList",
+                        data: [],
+                        cols: [[
+                            {field: "ROWNUM_", title: "序号", align: "center", width: 70, fixed: "left"},
+                            {field: "SLBH", title: "备案编号", align: "center"},
+                            {field: "GCBH", title: "项目代码", align: "center"},
+                            {field: "GCMC", title: "工程名称", align: "center"},
+                            {field: "CHDWMC", title: "测绘单位", align: "center"},
+                            {field: "RKSJ", title: "入库时间", align: "center", width: 200},
+                            {title: "操作", align: "center", minWidth: 250, fixed: "right", toolbar: "#operation"}
+                        ]],
+                        done: function () {
+                            layui.laypage.render({
+                                elem: 'LAY_table_Xmxx_page',
+                                limits: [10, 20, 30], //10,20,30
+                                count: 0,  //显示总条数
+                                curr: 1,
+                                limit: 10,
+                                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                            })
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+
+    //查看按钮
+    $("#search").on('click', function () {
+        tableParam.data.babh = $("#babh").val();
+        tableParam.data.gcbh = $("#gcbh").val();
+        tableParam.data.gcmc = $("#gcmc").val();
+        tableParam.data.chdwmc = $("#chdwmc").val();
+        loadTable(tableParam);
+    })
+
+    //重置按钮
+    $("#reset").on('click', function () {
+        tableParam.data.babh = '';
+        tableParam.data.gcbh = '';
+        tableParam.data.gcmc = '';
+        tableParam.data.chdwmc = '';
+        $("#babh").val("");
+        $("#gcbh").val("");
+        $("#gcmc").val("");
+        $("#chdwmc").val("");
+        form.render();
+    })
+
+    //监听操作按钮
+    table.on('tool(LAY_table_XmxxList)', function (obj) {
+        var event = obj.event;
+        detailParam.data.chxmid = obj.data.CHXMID;
+        if (event === "detail") {
+            layer.open({
+                type: 1,//类型
+                title: "查看详情",
+                area: ['1000px', '400px'],
+                btnAlign: 'c',
+                shade: 0.3,
+                content: $('#cgtjModal').html(),//打开的内容
+                btn: ['确定'],
+                success: function () {
+                    $.ajax({
+                        type: "post",
+                        url: getContextPath() + "/msurveyplat-promanage/contractfile/getprojectinfo",
+                        dataType: 'json',
+                        data: JSON.stringify(detailParam),
+                        contentType: "application/json",
+                        success: function (res) {
+                            if (res.data.dataList !== undefined) {
+                                table.render({
+                                    elem: '#LAY_table_cgtj',
+                                    data: res.data.dataList,
+                                    cols: [[
+                                        {type: 'numbers', title: '序号', fixed: 'left'},
+                                        {field: "RKSJ", title: "入库时间", align: "center",},
+                                        {field: "TJR", title: "入库人", align: "center"},
+                                        {field: "CLSXMC", title: "测绘事项", align: "center"},
+                                        {field: "CLCGMC", title: "材料名称", align: "center"}
+                                    ]]
+                                })
+                            } else {
+                                table.render({
+                                    elem: '#LAY_table_cgtj',
+                                    data: [],
+                                    cols: [[
+                                        {type: 'numbers', title: '序号', fixed: 'left'},
+                                        {field: "RKSJ", title: "入库时间", align: "center",},
+                                        {field: "TJR", title: "入库人", align: "center"},
+                                        {field: "CLSXMC", title: "测绘事项", align: "center"},
+                                        {field: "CLCGMC", title: "材料名称", align: "center"}
+                                    ]]
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        } else if (event === "browse") {
+            var chgcid = obj.data.CHGCID;
+            var chxmid = obj.data.CHXMID;
+            var url = getContextPath() + "/msurveyplat-promanage/#/review/fj?chgcid=" + chgcid + "&chxmid=" + chxmid;
+            window.open(url)
+        }
+    })
+})

@@ -1,0 +1,21 @@
+
+\
+java:S38787"ADisambiguate this call by either casting as "Class" or "Class[]".(ç­èŸûÿÿÿÿ
+1
+java:S38788"Remove this array creation.(ú‹æí
+[	java:S112u"FDefine and throw a dedicated exception instead of using a generic one.(ƒÈ·ÿ
+s
+java:S14888"]Immediately return this expression instead of assigning it to the temporary variable "value".(ú‹æí
+H
+java:S3011",This accessibility update should be removed.(Í”úÆùÿÿÿÿ
+G
+java:S3011c",This accessibility update should be removed.(ê¥ÍÔıÿÿÿÿ
+B
+java:S3011‚",This accessibility bypass should be removed.(¶©·
+B
+java:S3011d",This accessibility bypass should be removed.(–Êµµ
+>	java:S108h")Either remove or fill this block of code.(”ı¾
+U
+java:S1118":Add a private constructor to hide the implicit public one.(ÂÁîûÿÿÿÿ
+B
+java:S3011",This accessibility update should be removed.(˜ÂÓ˜

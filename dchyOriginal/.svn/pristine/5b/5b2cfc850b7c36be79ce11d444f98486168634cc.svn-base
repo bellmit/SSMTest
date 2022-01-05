@@ -1,0 +1,26 @@
+<!--分析操作-->
+<div class="a-opt-container" id="{{id}}">
+    <div class="analysisBtnPanel">
+    <a class="btn btn-primary btn-sm" data-opt="draw"><i class="iconfont">&#xe615;</i> 手绘</a>
+    <a href="javascript:;" class="btn btn-warning btn-sm file">
+        <i class="iconfont">&#xe632;</i> 导入
+        <input type="file" name="file" id="analysis-file-input-{{id}}">
+    </a>
+    <a class="btn btn-success btn-sm" data-opt="analysis"><i class="iconfont">&#xe619;</i> 分析</a>
+    <a class="btn btn-primary btn-sm" data-opt="template"  style="display: none;"><i class="iconfont">&#xe617;</i> 模板</a>
+    <a class="btn btn-info btn-sm" data-opt="clear" style="display: none;"><i class="iconfont">&#xe605;</i> 清除</a>
+        <div id="colorPicker" style="display: none" class="input-group colorpicker-component colorpicker-element" data-color="rgb(255, 0, 0)" >
+            <input type="text" class="form-control input-lg" style="display: none"><span class="input-group-addon"><i></i></span></div>
+    </div>
+</div>
+<!--list展示-->
+<div class="a-list-container" id="{{listId}}">
+
+</div>
+<!--&lt;!&ndash;选择区域&ndash;&gt;-->
+<!--{{#if queryModeOn}}-->
+<!--<div class="a-draw-content" id="select_{{id}}">-->
+    <!--<a class="analysis-point-select" data-type="point" title="点选"></a>-->
+    <!--<a class="analysis-extent-select" data-type="extent" title="框选"></a>-->
+<!--</div>-->
+<!--{{/if}}-->
